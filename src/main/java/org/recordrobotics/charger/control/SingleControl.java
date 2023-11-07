@@ -23,60 +23,8 @@ public class SingleControl implements IControlInput {
 	}
 
 	@Override
-	public int getClawTurn() {
-		if (_gamepad.getLeftTriggerAxis() > _TRIGGER_THRESHOLD) {
-			return -1;
-		} else if (_gamepad.getRightTriggerAxis() > _TRIGGER_THRESHOLD) {
-			return 1;
-		} else {
-			return 0;
-		}
+	public double getSpin() {
+		return _gamepad.getRightX();
 	}
 
-	@Override
-	public String toString() {
-		return "Single";
-	}
-
-	@Override
-	public SpeedState speedState() {
-		if (_gamepad.getLeftBumper()) {
-			return SpeedState.SLOW;
-		}
-		return SpeedState.NEUTRAL;
-	}
-
-	@Override
-	public boolean canTurn() {
-		return !_gamepad.getRightBumper();
-	}
-
-	private int booleanToInt(boolean b) {
-		return b ? 1 : 0;
-	}
-
-	@Override
-	public ArmPosition getArmPosition() {
-		boolean multiplePressed = (booleanToInt(_gamepad.getYButton())
-			+ booleanToInt(_gamepad.getXButton())
-			+ booleanToInt(_gamepad.getAButton())
-			+ booleanToInt(_gamepad.getBButton()))
-		> 1;
-		if (multiplePressed) {
-			return ArmPosition.NEUTRAL;
-		}
-		if (_gamepad.getYButton()) {
-			return ArmPosition.THIRD;
-		}
-		if (_gamepad.getXButton()) {
-			return ArmPosition.SECOND;
-		}
-		if (_gamepad.getBButton()) {
-			return ArmPosition.SUBSTATION;
-		}
-		if (_gamepad.getAButton()) {
-			return ArmPosition.GROUND;
-		}
-		return ArmPosition.NEUTRAL;
-	}
 }

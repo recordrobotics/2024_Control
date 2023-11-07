@@ -40,8 +40,23 @@ public class RobotMap {
 	}
 
 	public class Claw {
-		public static final int LIMIT_SWITCH = 9;//the pwm port is port 9
+		public static final int LIMIT_SWITCH = 9;// the pwm port is port 9
 
-		public static final int MOTOR_PORT = 2;//was 9
+		public static final int MOTOR_PORT = 2;// was 9
+	}
+
+	public static class swerve {
+		public static final int[] SPEED_MOTORS = {
+				1,
+				2,
+				3,
+				4
+		};
+		public static final int[] DIRECTION_MOTORS = {
+				1,
+				2,
+				3,
+				4
+		};
 	}
 }
