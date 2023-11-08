@@ -10,6 +10,7 @@ package org.recordrobotics.charger;
 public final class Constants {
 	public static final String COMMANDS_TAB = "commands";
 	public static final String DATA_TAB = "data";
+
 	/**
 	 * Control ports (PC USB)
 	 */
@@ -21,6 +22,13 @@ public final class Constants {
 		public static final int DOUBLE_GAMEPAD_1 = 0;
 		public static final int DOUBLE_GAMEPAD_2 = 1;
 
+	}
+
+	public class Swerve {
+		public static final double WHEEL = 6;
+		public static final double GEAR_RATIO = 6;
+		public final static double MOD_WIDTH = 0.762;
+		public final static double MOD_LENGTH = 0.762;
 	}
 
 }

@@ -82,4 +82,8 @@ public class RobotContainer {
 	public void resetCommands() {
 		CommandScheduler.getInstance().cancelAll();
 	}
+
+	public Command getAutonomousCommand() {
+		return null;
+	}
 }

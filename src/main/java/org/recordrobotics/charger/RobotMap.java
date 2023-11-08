@@ -58,5 +58,32 @@ public class RobotMap {
 				3,
 				4
 		};
+		public static final int[] ENCODERS = {
+				1,
+				2,
+				3,
+				4
+		};
+
+		public static class PID {
+			public static final int[] P = {
+					1,
+					2,
+					3,
+					4
+			};
+			public static final int[] I = {
+					1,
+					2,
+					3,
+					4
+			};
+			public static final int[] D = {
+					1,
+					2,
+					3,
+					4
+			};
+		}
 	}
 }
