@@ -2,18 +2,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.control.IControlInput;
-import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Climbers;
 
-public class ManualAcquisition extends CommandBase{
-    @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-    private Acquisition _acquisition;
+public class ManualClimbers extends CommandBase{
+
+    private Climbers _climbers;
     private IControlInput _controls;
 
-
-     public ManualAcquisition(Acquisition acquisition, IControlInput controls) {
-        _acquisition = acquisition;
+     public ManualClimbers(Climbers climbers, IControlInput controls) {
+        _climbers = climbers;
         _controls = controls;
-        addRequirements(acquisition);
+        addRequirements(climbers);
     }
 
     // Called when the command is initially scheduled.
@@ -38,4 +37,3 @@ public class ManualAcquisition extends CommandBase{
     return false;
   }
 }
- 

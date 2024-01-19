@@ -36,4 +36,6 @@ public class SingleControl implements IControlInput {
 			return input * speedModifier;
 		return 0;
 	}
+
+	// TODO functions to get climbers and aquisition 
 }
