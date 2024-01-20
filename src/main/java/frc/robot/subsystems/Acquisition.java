@@ -6,15 +6,26 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
 public class Acquisition extends SubsystemBase{
 
-    //TODO create motor
+    private TalonFX lower = new TalonFX(RobotMap.Aquisition.lower);
+    private TalonFX upper = new TalonFX(RobotMap.Aquisition.upper);
 
     public Acquisition() {
-        // TODO reset stuff
+        stop();
     }
 
-    // TODO write function to run motor
+    // TODO change to correct speeds
+    public void run() {
+        lower.set(0.3);
+        upper.set(0.1);
+    }
+
+    public void stop() {
+        lower.set(0);
+        upper.set(0);
+    }
     
 }

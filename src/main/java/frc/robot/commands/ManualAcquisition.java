@@ -24,7 +24,8 @@ public class ManualAcquisition extends CommandBase{
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // TODO call functions to toggle solenoids
+    if(_controls.getAcquisition()) _acquisition.run();
+    else _acquisition.stop();
   }
 
   // Called once the command ends or is interrupted.

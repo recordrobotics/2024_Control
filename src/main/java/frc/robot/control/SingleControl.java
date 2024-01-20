@@ -38,4 +38,12 @@ public class SingleControl implements IControlInput {
 	}
 
 	// TODO functions to get climbers and aquisition 
+
+	public boolean getAcquisition() {
+		return _gamepad.getTrigger();
+	}
+
+	public boolean toggleClimbers() {
+		return _gamepad.getTriggerPressed();
+	}
 }

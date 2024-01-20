@@ -1,6 +1,17 @@
 package frc.robot;
 
 public final class RobotMap {
+
+    public static final class Aquisition {
+        public static final int lower = 0;
+        public static final int upper = 0;
+    }
+
+    public static final class Climbers {
+        public static final int left = 0;
+        public static final int right = 0;
+    }
+
     public static final class swerve {
         // todo change to correct ports
         public static final int[] SPEED_MOTORS = { 4, 2, 6, 8 };

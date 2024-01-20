@@ -9,12 +9,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climbers extends SubsystemBase{
 
-    //TODO create solenoids
+    private Solenoid left = new Solenoid(CTREPCM, RobotMap.Climbers.left);
+    private Solenoid right = new Solenoid(CTREPCM, RobotMap.Climbers.right);
 
     public Climbers() {
-
+        left.close();
+        right.close();
     }
 
-    // TODO write functions to run solenoids
+    void toggle(){
+        left.toggle();
+        right.toggle();
+    }
     
 }
