@@ -46,4 +46,8 @@ public class SingleControl implements IControlInput {
 	public boolean toggleClimbers() {
 		return _gamepad.getTriggerPressed();
 	}
+
+	public boolean spinFlywheel() {
+		return _gamepad.getTrigger();
+	}
 }

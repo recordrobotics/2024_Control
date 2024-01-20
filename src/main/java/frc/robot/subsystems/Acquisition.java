@@ -13,14 +13,17 @@ public class Acquisition extends SubsystemBase{
     private TalonFX lower = new TalonFX(RobotMap.Aquisition.lower);
     private TalonFX upper = new TalonFX(RobotMap.Aquisition.upper);
 
+    private static final LOW_SPEED = 0.3;
+    private static final UPPER_SPEED = 0.1;
+
     public Acquisition() {
         stop();
     }
 
     // TODO change to correct speeds
     public void run() {
-        lower.set(0.3);
-        upper.set(0.1);
+        lower.set(LOW_SPEED);
+        upper.set(UPPER_SPEED);
     }
 
     public void stop() {
