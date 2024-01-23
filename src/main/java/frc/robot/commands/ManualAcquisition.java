@@ -1,10 +1,10 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.control.IControlInput;
 import frc.robot.subsystems.Acquisition;
 
-public class ManualAcquisition extends CommandBase{
+public class ManualAcquisition extends Command{
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
     private Acquisition _acquisition;
     private IControlInput _controls;

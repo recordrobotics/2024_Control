@@ -1,15 +1,15 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.control.IControlInput;
 import frc.robot.subsystems.Shooter;
 
-public class ManualShooter extends CommandBase{
+public class ManualShooter extends Command{
 
-    private CShooter _shooter;
+    private Shooter _shooter;
     private IControlInput _controls;
 
-     public ManualClimbers(Shooter shooter, IControlInput controls) {
+     public ManualShooter(Shooter shooter, IControlInput controls) {
         _shooter = shooter;
         _controls = controls;
         addRequirements(shooter);

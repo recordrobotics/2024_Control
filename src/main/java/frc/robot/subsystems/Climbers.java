@@ -5,12 +5,15 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
 public class Climbers extends SubsystemBase{
 
-    private Solenoid left = new Solenoid(CTREPCM, RobotMap.Climbers.left);
-    private Solenoid right = new Solenoid(CTREPCM, RobotMap.Climbers.right);
+    private Solenoid left = new Solenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.left);
+    private Solenoid right = new Solenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.right);
 
     public Climbers() {
         left.close();

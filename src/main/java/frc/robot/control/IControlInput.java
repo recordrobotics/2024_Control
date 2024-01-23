@@ -10,4 +10,10 @@ public interface IControlInput {
 	double getY();
 
 	double setSpin();
+
+    boolean toggleClimbers();
+
+    boolean spinFlywheel();
+
+    boolean getAcquisition();
 }

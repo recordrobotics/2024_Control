@@ -5,16 +5,17 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class Acquisition extends SubsystemBase{
 
-    private TalonFX lower = new TalonFX(RobotMap.Aquisition.lower);
-    private TalonFX upper = new TalonFX(RobotMap.Aquisition.upper);
+    private Spark lower = new Spark(RobotMap.Aquisition.lower);
+    private Spark upper = new Spark(RobotMap.Aquisition.upper);
 
-    private static final LOW_SPEED = 0.3;
-    private static final UPPER_SPEED = 0.1;
+    private static final double LOW_SPEED = 0.3;
+    private static final double UPPER_SPEED = 0.1;
 
     public Acquisition() {
         stop();

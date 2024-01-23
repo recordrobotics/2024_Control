@@ -12,6 +12,10 @@ public final class RobotMap {
         public static final int right = 0;
     }
 
+    public static final class Shooter {
+        public static final int flywheel = 0;
+    }
+
     public static final class swerve {
         // todo change to correct ports
         public static final int[] SPEED_MOTORS = { 4, 2, 6, 8 };
