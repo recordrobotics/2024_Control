@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -27,8 +27,8 @@ public class Swerve extends SubsystemBase {
         private final double ABS_AT_ZERO[] = {0.411, 0.126, 0.864, 0.194};
         private final int numMotors = Constants.Swerve.NUM_SWERVE_MODS;
         
-        private TalonFX[] speedMotors = new TalonFX[numMotors];
-        private TalonFX[] directionMotors = new TalonFX[numMotors];
+        private BaseTalon[] speedMotors = new BaseTalon[numMotors];
+        private BaseTalon[] directionMotors = new BaseTalon[numMotors];
         private DutyCycleEncoder[] encoders = new DutyCycleEncoder[numMotors];
         private PIDController[] dPID = new PIDController[numMotors];
         private SwerveModuleState[] modTargets = new SwerveModuleState[numMotors];
@@ -68,8 +68,8 @@ public class Swerve extends SubsystemBase {
                 // Init Motors
                 for (int i = 0; i < numMotors; i++) {
                         // motors
-                        speedMotors[i] = new TalonFX(RobotMap.swerve.SPEED_MOTORS[i]);
-                        directionMotors[i] = new TalonFX(RobotMap.swerve.DIRECTION_MOTORS[i]);
+                        speedMotors[i] = new BaseTalon(RobotMap.swerve.SPEED_MOTORS[i], "TalonFX");
+                        directionMotors[i] = new BaseTalon(RobotMap.swerve.DIRECTION_MOTORS[i], "TalonFX");
                         // absolute encoders
                         encoders[i] = new DutyCycleEncoder(RobotMap.swerve.DEVICE_NUMBER[i]);
                         // PID
