@@ -20,7 +20,7 @@ public class Climbers extends SubsystemBase{
         right.close();
     }
 
-    void toggle(){
+    public void toggle(){
         left.toggle();
         right.toggle();
     }

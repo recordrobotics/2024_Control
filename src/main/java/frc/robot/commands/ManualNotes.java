@@ -23,8 +23,9 @@ public class ManualShooter extends Command{
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(_controls.spinFlywheel()) _shooter.shoot();
-    else _shooter.stop();
+    if(_controls.spinFlywheel()) _shooter.shoot(3);
+    else if(_controls.getAcquisition()) _shooter.shoot(2);
+    else _shooter.shoot(1);
   }
 
   // Called once the command ends or is interrupted.
