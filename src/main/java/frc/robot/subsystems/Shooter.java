@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class Notes extends SubsystemBase{
+public class Shooter extends SubsystemBase{
 
     private Spark flywheel = new Spark(RobotMap.Shooter.flywheel);
     private Spark lower = new Spark(RobotMap.Aquisition.lower);
@@ -18,7 +18,7 @@ public class Notes extends SubsystemBase{
     private static final double LOWER_SPEED = 0.3;
     private static final double UPPER_SPEED = 0.1;
 
-    public Notes() {
+    public Shooter() {
         shoot(0);
     }
 
