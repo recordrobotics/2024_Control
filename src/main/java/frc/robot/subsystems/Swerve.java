@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -23,13 +23,21 @@ public class Swerve extends SubsystemBase {
         // TODO: Add commment explaining how you got these constants.
         private final double moduleWidth = 0.762;
         private final double moduleLength = 0.762;
-        // TODO: Add commment explaining how you got these constants.
+
+        /**
+         * Offsets for Absolute encoder
+         * @apiNote
+         * Almost certainly junk as they are for a different robot, keeping them as their current values for now but we need to delete them when we build our new frame
+         */
         private final double ABS_AT_ZERO[] = {0.411, 0.126, 0.864, 0.194};
+
         private final int numMotors = Constants.Swerve.NUM_SWERVE_MODS;
-        
-        private BaseTalon[] speedMotors = new BaseTalon[numMotors];
-        private BaseTalon[] directionMotors = new BaseTalon[numMotors];
+        /*Turn Wheels*/
+        private TalonFX[] speedMotors = new TalonFX[numMotors];
+        /* Change the angle of the wheels*/ 
+        private TalonFX[] directionMotors = new TalonFX[numMotors];
         private DutyCycleEncoder[] encoders = new DutyCycleEncoder[numMotors];
+        
         private PIDController[] dPID = new PIDController[numMotors];
         private SwerveModuleState[] modTargets = new SwerveModuleState[numMotors];
         private AHRS _nav = new AHRS(edu.wpi.first.wpilibj.I2C.Port.kMXP);
@@ -68,8 +76,8 @@ public class Swerve extends SubsystemBase {
                 // Init Motors
                 for (int i = 0; i < numMotors; i++) {
                         // motors
-                        speedMotors[i] = new BaseTalon(RobotMap.swerve.SPEED_MOTORS[i], "TalonFX");
-                        directionMotors[i] = new BaseTalon(RobotMap.swerve.DIRECTION_MOTORS[i], "TalonFX");
+                        speedMotors[i] = new TalonFX(RobotMap.swerve.SPEED_MOTORS[i]);
+                        directionMotors[i] = new TalonFX(RobotMap.swerve.DIRECTION_MOTORS[i]);
                         // absolute encoders
                         encoders[i] = new DutyCycleEncoder(RobotMap.swerve.DEVICE_NUMBER[i]);
                         // PID
@@ -84,8 +92,8 @@ public class Swerve extends SubsystemBase {
                 for (int i = 0; i < numMotors; i++) {
                         SmartDashboard.putNumber("Init Abs" + i, encoders[i].getAbsolutePosition());
                         directionMotors[i].configNeutralDeadband(0.001);
-                        speedMotors[i].set(ControlMode.PercentOutput, 0);
-                        directionMotors[i].set(ControlMode.PercentOutput, 0);
+                        speedMotors[i].set(0);
+                        directionMotors[i].set( 0);
                         final double curAbsPos = getOffsetAbs(i);
                         final double curRelPos = -curAbsPos * Constants.Swerve.RELATIVE_ENCODER_RATIO
                                         * Constants.Swerve.DIRECTION_GEAR_RATIO;
@@ -108,15 +116,22 @@ public class Swerve extends SubsystemBase {
                 return new Rotation2d((_nav.getCompassHeading() - compassOffset) / 180 * Math.PI);
         }
 
+        private double getDirectionMotorRotations(int motorNum) {
+                return directionMotors[motorNum].getRotorPosition().getValue();
+        }
+
         /**
          * 
          * @param motorNum index of motor in array
          * @return Relative encoder in rotations
          */
         private double getRelInRotations(int motorNum) {
-                return (directionMotors[motorNum].getSelectedSensorPosition() / Constants.Swerve.RELATIVE_ENCODER_RATIO)
+                double numRotations  = getDirectionMotorRotations(motorNum);
+                return (numRotations / Constants.Swerve.RELATIVE_ENCODER_RATIO)
                                 / Constants.Swerve.DIRECTION_GEAR_RATIO;
         }
+
+
 
         /**
          * gets current module states
@@ -132,7 +147,7 @@ public class Swerve extends SubsystemBase {
                                                         / Constants.Swerve.RELATIVE_ENCODER_RATIO
                                                         * (0.05 * 2 * Math.PI),
                                         new Rotation2d(
-                                                        directionMotors[i].getSelectedSensorPosition()
+                                                        getDirectionMotorRotations(i)
                                                                         / Constants.Swerve.RELATIVE_ENCODER_RATIO
                                                                         * 2 * Math.PI
                                                                         / Constants.Swerve.DIRECTION_GEAR_RATIO));
@@ -159,7 +174,7 @@ public class Swerve extends SubsystemBase {
                         // position PIDs
                         dPID[i].setSetpoint(modTargets[i].angle.getRotations());
                         // sets speed/position of the motors
-                        speedMotors[i].set(ControlMode.PercentOutput, modTargets[i].speedMetersPerSecond);
+                        speedMotors[i].set(ControlMode.PercentOutput, MOD_TARGETS[i].speedMetersPerSecond);
                         double simpleRelativeEncoderVal = ((directionMotors[i].getSelectedSensorPosition()
                                         / Constants.Swerve.RELATIVE_ENCODER_RATIO)
                                         / Constants.Swerve.DIRECTION_GEAR_RATIO);
