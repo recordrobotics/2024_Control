@@ -30,7 +30,7 @@ public class SingleControl implements IControlInput {
 		return 0;
 	}
 
-	public double setSpin() {
+	public double getSpin() {
 		double input = _gamepad.getTwist();
 		if (input >= 0.1 || input <= -0.1)
 			return input * speedModifier;

@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.control.IControlInput;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.NavSensor;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class ManualSwerve extends Command {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private Swerve _swerve;
+  private NavSensor _nav;
   private IControlInput _controls;
 
   public ChassisSpeeds target;
@@ -41,7 +43,7 @@ public class ManualSwerve extends Command {
      * Target Velocity and Angle
      */
     _swerve.setTarget(ChassisSpeeds.fromFieldRelativeSpeeds(
-        _controls.getX() * SPEED, _controls.getY() * SPEED, _controls.setSpin(), _swerve.getAngle()));
+        _controls.getX() * SPEED, _controls.getY() * SPEED, _controls.getSpin(), _nav.getAngle()));
   }
 
   // Called once the command ends or is interrupted.

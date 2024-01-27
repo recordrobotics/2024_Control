@@ -2,37 +2,41 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class NavSensor extends SubsystemBase {
-	AHRS _nav;
 
-	
-	//public AHRS _nav = new AHRS(SerialPort.Port.kUSB1);
-
-	//public NavSensor(){
-	//	ShuffleboardTab tab = Shuffleboard.getTab(Constants.DATA_TAB);
-	//	tab.add("Pitch", _nav.getPitch());
-
-	//
-
-	//System.out.println(_nav.getPitch(), _nav.getRoll(), _nav.getYaw());
+	AHRS _nav; // Initiliazes AHRS object _nav
+	private double referenceAngle; // variable to keep track of a reference angle whenever you reset
 
 	public NavSensor() {
 
 		//_nav = new AHRS(I2C.Port.kMXP);
 		_nav = new AHRS(SerialPort.Port.kUSB1);
 
+		// Resets the navsensor
 		_nav.reset();
 		_nav.resetDisplacement();
+		referenceAngle = _nav.getAngle();
 
-		//_nav.enableBoardlevelYawReset​(true);
 	}
 
+	// stores the reference angle as whatever the angle is currently measured to be
+	public void relativeResetAngle() {
+		referenceAngle = _nav.getAngle();
+	}
+
+	// Gets the angle minus the reference angle
+	public Rotation2d getAngle() {
+                return new Rotation2d(-(_nav.getAngle() - referenceAngle) / 180 * Math.PI);
+        }
+
+
+	/* 
 	public double getPitch() {
-		//System.out.println("pitch: " + _nav.getRoll());
 		double pitch = _nav.getRoll();
 		return Units.degreesToRadians(pitch);
 	}
@@ -46,7 +50,7 @@ public class NavSensor extends SubsystemBase {
 		double yaw = _nav.getYaw();
 		return Units.degreesToRadians(-1*yaw);
 	}
-
+	
 	//None of the below are guarenteed to work (weird axis changes)
 
 	public double getDisplacementX() {
@@ -61,7 +65,7 @@ public class NavSensor extends SubsystemBase {
 		return _nav.getDisplacementZ();
 	}
 
-	void resetAngle() {
+	void sensorResetAngle() {
 		_nav.reset();
 	}
 
@@ -70,7 +74,9 @@ public class NavSensor extends SubsystemBase {
 	}
 
 	void resetAll(){
-		resetAngle();
-		resetDisplacement();
+		sensorResetAngle();
+		resetDisplacement(); 
+		
 	}
+	*/
 }
