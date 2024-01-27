@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 //import com.ctre.phoenix6.motorcontrol.ControlMode;
@@ -107,6 +108,7 @@ public class Swerve extends SubsystemBase {
                 for (int i = 0; i < numMotors; i++) {
                         SmartDashboard.putNumber("Init Abs" + i, encoders[i].getAbsolutePosition());
                         //directionMotors[i].configNeutralDeadband(0.001);
+
                         speedMotors[i].set(0);
                         directionMotors[i].set( 0);
                         final double curAbsPos = getOffsetAbs(i);
@@ -128,13 +130,15 @@ public class Swerve extends SubsystemBase {
         }
 
         public Rotation2d getAngle() {
-                return new Rotation2d((_nav.getCompassHeading() /*- compassOffset*/) / 180 * Math.PI);
+                return new Rotation2d(-(_nav.getAngle() - angle0) / 180 * Math.PI);
         }
 
+        /* 
         public double getCompassHeading() {
                 System.out.println(_nav.getCompassHeading());
                 return (double) _nav.getCompassHeading();
         }
+        */
 
         private double getDirectionMotorRotations(int motorNum) {
                 return directionMotors[motorNum].getRotorPosition().getValue();
@@ -194,7 +198,7 @@ public class Swerve extends SubsystemBase {
                 SmartDashboard.putBoolean("Nav connected", _nav.isConnected());
                 SmartDashboard.putBoolean("Nav Cal", _nav.isCalibrating());
                 SmartDashboard.putNumber("getAngle()", (double) _nav.getAngle());
-                SmartDashboard.putNumber("Compass", getCompassHeading());
+                //SmartDashboard.putNumber("Compass", getCompassHeading());
                 // converts target speeds to swerve module angle and rotations
                 modTargets = kinematics.toSwerveModuleStates(target);
                 for (int i = 0; i < numMotors; i++) {
