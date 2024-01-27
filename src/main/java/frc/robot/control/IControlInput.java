@@ -9,7 +9,7 @@ public interface IControlInput {
 
 	double getY();
 
-	double setSpin();
+	double getSpin();
 
     boolean toggleClimbers();
 
