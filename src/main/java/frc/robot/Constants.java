@@ -24,6 +24,11 @@ public final class Constants {
         public static final double INPUT_SENSITIVITY = 0.3;
 
         /**
+         * Joystick spin sensitivity
+         */
+        public static final double SPIN_INPUT_SENSITIVITY = 0.5;
+
+        /**
          * Joystick X input absolute threshold
          */
         public static final double INPUT_X_THRESHOLD = 0.1;
