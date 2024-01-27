@@ -203,7 +203,11 @@ public class Swerve extends SubsystemBase {
                 modTargets = kinematics.toSwerveModuleStates(target);
                 for (int i = 0; i < numMotors; i++) {
                         // Optimize before using values
-                        modTargets[i] = SwerveModuleState.optimize(modTargets[i], getAngle());
+                        modTargets[i] = SwerveModuleState.optimize(modTargets[i], new Rotation2d(
+                                                        getDirectionMotorRotations(i)
+                                                                        / Constants.Swerve.RELATIVE_ENCODER_RATIO
+                                                                        * 2 * Math.PI
+                                                                        / Constants.Swerve.DIRECTION_GEAR_RATIO));
                         
                         SmartDashboard.putNumber("Abs Encoder " + i, encoders[i].getAbsolutePosition());
                         SmartDashboard.putNumber("Offset Abs Encoder" + i, getOffsetAbs(i));
