@@ -17,6 +17,28 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public final class Control {
+        /**
+         * Joystick sensitivity
+         */
+        public static final double INPUT_SENSITIVITY = 0.3;
+
+        /**
+         * Joystick X input absolute threshold
+         */
+        public static final double INPUT_X_THRESHOLD = 0.1;
+
+        /**
+         * Joystick Y input absolute threshold
+         */
+        public static final double INPUT_Y_THRESHOLD = 0.1;
+
+        /**
+         * Joystick spin input absolute threshold
+         */
+        public static final double INPUT_SPIN_THRESHOLD = 0.2;
+    }
+
     public final class Swerve {
         public static final double SPEED_GEAR_RATIO = 1;
         public static final double DIRECTION_GEAR_RATIO = 15.43;

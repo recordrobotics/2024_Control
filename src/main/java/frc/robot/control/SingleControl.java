@@ -1,12 +1,11 @@
 package frc.robot.control;
 
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.Constants;
 
 public class SingleControl implements IControlInput {
 
 	private Joystick _gamepad;
-
-	private static final double speedModifier = 0.3;
 
 	public SingleControl(int port) {
 		_gamepad = new Joystick(port);
@@ -15,8 +14,8 @@ public class SingleControl implements IControlInput {
 	public double getX() {
 		// Robot and Joystick axises are flipped
 		double input = _gamepad.getY();
-		if (input >= 0.1 || input <= -0.1) {
-			return input * speedModifier;
+		if (input >= Constants.Control.INPUT_X_THRESHOLD || input <= -Constants.Control.INPUT_X_THRESHOLD) {
+			return input * Constants.Control.INPUT_SENSITIVITY;
 		}
 		return 0;
 	}
@@ -24,20 +23,20 @@ public class SingleControl implements IControlInput {
 	public double getY() {
 		// Robot and Joystick axises are flipped
 		double input = _gamepad.getX();
-		if (input >= 0.1 || input <= -0.1) {
-			return input * speedModifier;
+		if (input >= Constants.Control.INPUT_Y_THRESHOLD || input <= -Constants.Control.INPUT_Y_THRESHOLD) {
+			return input * Constants.Control.INPUT_SENSITIVITY;
 		}
 		return 0;
 	}
 
 	public double getSpin() {
 		double input = _gamepad.getTwist();
-		if (input >= 0.1 || input <= -0.1)
-			return input * speedModifier;
+		if (input >= Constants.Control.INPUT_SPIN_THRESHOLD || input <= -Constants.Control.INPUT_SPIN_THRESHOLD)
+			return input * Constants.Control.INPUT_SENSITIVITY;
 		return 0;
 	}
 
-	// TODO functions to get climbers and aquisition 
+	// TODO functions to get climbers and aquisition
 
 	public boolean getAcquisition() {
 		return _gamepad.getTrigger();
