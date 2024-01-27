@@ -78,7 +78,7 @@ public class Swerve extends SubsystemBase {
         ChassisSpeeds target = new ChassisSpeeds();
 
         public Swerve() {
-                _nav.calibrate();
+                // Does this need to be calibrated?
                 _nav.reset();
                 _nav.resetDisplacement();
                 angle0 = _nav.getAngle();
