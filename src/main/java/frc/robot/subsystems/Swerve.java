@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -112,7 +113,7 @@ public class Swerve extends SubsystemBase {
                         speedMotors[i].set(0);
                         directionMotors[i].set( 0);
                         final double curAbsPos = getOffsetAbs(i);
-                        final double curRelPos = -curAbsPos * Constants.Swerve.RELATIVE_ENCODER_RATIO
+                        final double curRelPos = -curAbsPos
                                         * Constants.Swerve.DIRECTION_GEAR_RATIO;
                         directionMotors[i].setPosition(curRelPos);
                         dPID[i].enableContinuousInput(-0.5, 0.5);
@@ -195,35 +196,42 @@ public class Swerve extends SubsystemBase {
 
         @Override
         public void periodic() {
-                SmartDashboard.putBoolean("Nav connected", _nav.isConnected());
-                SmartDashboard.putBoolean("Nav Cal", _nav.isCalibrating());
-                SmartDashboard.putNumber("getAngle()", (double) _nav.getAngle());
+                //SmartDashboard.putBoolean("Nav connected", _nav.isConnected());
+                //SmartDashboard.putBoolean("Nav Cal", _nav.isCalibrating());
+                //SmartDashboard.putNumber("getAngle()", (double) _nav.getAngle());
                 //SmartDashboard.putNumber("Compass", getCompassHeading());
                 // converts target speeds to swerve module angle and rotations
                 modTargets = kinematics.toSwerveModuleStates(target);
                 SwerveModuleState[] currentState = modState();
                 for (int i = 0; i < numMotors; i++) {
                         // Optimize before using values
-                        modTargets[i] = SwerveModuleState.optimize(modTargets[i], currentState[i].angle);
+                        //modTargets[i] = SwerveModuleState.optimize(modTargets[i], currentState[i].angle);
                         
-                        SmartDashboard.putNumber("Abs Encoder " + i, encoders[i].getAbsolutePosition());
-                        SmartDashboard.putNumber("Offset Abs Encoder" + i, getOffsetAbs(i));
-                        SmartDashboard.putNumber("M" + i, modTargets[i].angle.getRotations());
-                        SmartDashboard.putNumber("Relative " + i, getRelInRotations(i));
+                        //SmartDashboard.putNumber("Abs Encoder " + i, encoders[i].getAbsolutePosition());
+                        //SmartDashboard.putNumber("Offset Abs Encoder" + i, getOffsetAbs(i));
+                        //SmartDashboard.putNumber("M" + i, modTargets[i].angle.getRotations());
+                        //SmartDashboard.putNumber("Relative " + i, getRelInRotations(i));
                         // position PIDs
                         dPID[i].setSetpoint(modTargets[i].angle.getRotations());
                         sPID[i].setSetpoint(modTargets[i].speedMetersPerSecond);
                         // sets speed/position of the motors
-                        speedMotors[i].set(Math.max(-0.2,Math.min(0.2,sPID[i].calculate(speedMotors[i].getVelocity().getValue()
-                                                        / Constants.Swerve.RELATIVE_ENCODER_RATIO
-                                                        / Constants.Swerve.SPEED_GEAR_RATIO * 0.6383716272))));
+                        /*speedMotors[i].set(Math.max(-0.2,Math.min(0.2,sPID[i].calculate(speedMotors[i].getVelocity().getValue()
+                                                        // / Constants.Swerve.RELATIVE_ENCODER_RATIO
+                                                        / Constants.Swerve.SPEED_GEAR_RATIO * 0.6383716272))));*/
+                        double currentVelocityMPS = speedMotors[i].getVelocity().getValue()
+                                                        / Constants.Swerve.SPEED_GEAR_RATIO * 0.638371627;
+                        double pidCalc = sPID[i].calculate(currentVelocityMPS);
+                        SmartDashboard.putNumber("sPID "+i, pidCalc);
+                        SmartDashboard.putNumber("speed "+i, modTargets[i].speedMetersPerSecond);
+                        
+                        speedMotors[i].set(Math.max(-0.8,Math.min(0.8,modTargets[i].speedMetersPerSecond)));
+
                         double simpleRelativeEncoderVal = getRelInRotations(i);
                         double calc = dPID[i].calculate(simpleRelativeEncoderVal);
-                        SmartDashboard.putNumber("calc "+i, calc); 
-                        SmartDashboard.putNumber("rel "+i, getRelInRotations(i));
-                         SmartDashboard.putNumber("pos "+i, directionMotors[i].getPosition().getValue());
+                        SmartDashboard.putNumber("dPID "+i, calc); 
+                        //SmartDashboard.putNumber("pos "+i, directionMotors[i].getPosition().getValue());
 
-                        directionMotors[i].set(Math.max(-0.8, Math.min(0.8,calc)));
+                        directionMotors[i].set(calc);
                 }
         }
 
