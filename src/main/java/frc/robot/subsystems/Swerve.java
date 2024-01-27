@@ -78,7 +78,7 @@ public class Swerve extends SubsystemBase {
         ChassisSpeeds target = new ChassisSpeeds();
 
         public Swerve() {
-                _nav.calibrate();
+                //_nav.calibrate();
                 _nav.reset();
                 _nav.resetDisplacement();
                 angle0 = _nav.getAngle();
@@ -105,13 +105,13 @@ public class Swerve extends SubsystemBase {
                 // motor + PID settings
                 for (int i = 0; i < numMotors; i++) {
                         SmartDashboard.putNumber("Init Abs" + i, encoders[i].getAbsolutePosition());
-                        directionMotors[i].configNeutralDeadband(0.001);
+                        //directionMotors[i].configNeutralDeadband(0.001);
                         speedMotors[i].set(0);
                         directionMotors[i].set( 0);
                         final double curAbsPos = getOffsetAbs(i);
                         final double curRelPos = -curAbsPos * Constants.Swerve.RELATIVE_ENCODER_RATIO
                                         * Constants.Swerve.DIRECTION_GEAR_RATIO;
-                        directionMotors[i].setSelectedSensorPosition(curRelPos);
+                        directionMotors[i].setPosition(curRelPos);
                         dPID[i].enableContinuousInput(-0.5, 0.5);
                 }
 
@@ -127,7 +127,7 @@ public class Swerve extends SubsystemBase {
         }
 
         public Rotation2d getAngle() {
-                return new Rotation2d((_nav.getCompassHeading() - compassOffset) / 180 * Math.PI);
+                return new Rotation2d((_nav.getCompassHeading() /*- compassOffset*/) / 180 * Math.PI);
         }
 
         public double getCompassHeading() {
@@ -162,7 +162,7 @@ public class Swerve extends SubsystemBase {
                                         // TODO: Both of these parameters have a fair amount of math going on,
                                         // it would be better to factor them out and have clear comments
                                         // explaining what the conversion is doing.
-                                        speedMotors[i].getSelectedSensorVelocity() * 10
+                                        speedMotors[i].getVelocity().getValue() * 10
                                                         / Constants.Swerve.RELATIVE_ENCODER_RATIO
                                                         * (0.05 * 2 * Math.PI),
                                         new Rotation2d(
@@ -205,13 +205,11 @@ public class Swerve extends SubsystemBase {
                         dPID[i].setSetpoint(modTargets[i].angle.getRotations());
                         sPID[i].setSetpoint(modTargets[i].speedMetersPerSecond);
                         // sets speed/position of the motors
-                        speedMotors[i].set(ControlMode.PercentOutput,
-                                        sPID[i].calculate(speedMotors[i].getSelectedSensorVelocity()
+                        speedMotors[i].set(sPID[i].calculate(speedMotors[i].getVelocity().getValue()
                                                         / Constants.Swerve.RELATIVE_ENCODER_RATIO
                                                         / Constants.Swerve.SPEED_GEAR_RATIO * 0.6383716272));
                         double simpleRelativeEncoderVal = getRelInRotations(i);
-                        directionMotors[i].set(ControlMode.PercentOutput,
-                                        dPID[i].calculate(simpleRelativeEncoderVal));
+                        directionMotors[i].set(dPID[i].calculate(simpleRelativeEncoderVal));
                 }
         }
 
