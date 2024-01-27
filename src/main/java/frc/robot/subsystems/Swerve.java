@@ -5,7 +5,11 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.motorcontrol.ControlMode;
+
+//import com.ctre.phoenix6.motorcontrol.ControlMode;
+
+//import com.ctre.phoenix6.
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.PIDController;
