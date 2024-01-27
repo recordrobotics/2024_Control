@@ -26,8 +26,13 @@ public final class Constants {
         public static final double RELATIVE_ENCODER_RATIO = 2048;
         public static final int NUM_SWERVE_MODS = 4;
 
+        // Absolute motor limit value (0 to 1)
+        // Default is 1.0
+        public static final double MOTOR_LIMIT = 0.8;
+        
+        // Limits the motor speed (value) between -MOTOR_LIMIT and MOTOR_LIMIT
         public static double LimitMotor(double value){
-            return Math.max(-0.8,Math.min(0.8, value));
+            return Math.max(-MOTOR_LIMIT,Math.min(MOTOR_LIMIT, value));
         }
     }
 }
