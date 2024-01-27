@@ -25,9 +25,10 @@ public class ManualSwerve extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ManualSwerve(Swerve swerve, IControlInput controls) {
+  public ManualSwerve(Swerve swerve, NavSensor nav, IControlInput controls) {
     _swerve = swerve;
     _controls = controls;
+    _nav = nav;
     addRequirements(swerve);
   }
 
@@ -43,7 +44,7 @@ public class ManualSwerve extends Command {
      * Target Velocity and Angle
      */
     _swerve.setTargetChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(
-        _controls.getX() * SPEED, _controls.getY() * SPEED, _controls.getSpin(), _nav.getAngle()));
+        _controls.getX() * SPEED, _controls.getY() * SPEED, _controls.getSpin(), _nav.getAdjustedAngle()));
   }
 
   // Called once the command ends or is interrupted.

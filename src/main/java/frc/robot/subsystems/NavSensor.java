@@ -1,20 +1,22 @@
 package frc.robot.subsystems;
 
+// AHRS Import
 import com.kauailabs.navx.frc.AHRS;
-
+// Other imports
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// Smartdashboard
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NavSensor extends SubsystemBase {
 
-	AHRS _nav; // Initiliazes AHRS object _nav
+	private AHRS _nav = new AHRS(SerialPort.Port.kUSB1);
 	private double referenceAngle; // variable to keep track of a reference angle whenever you reset
 
 	public NavSensor() {
 
 		// _nav = new AHRS(I2C.Port.kMXP);
-		_nav = new AHRS(SerialPort.Port.kUSB1);
 
 		// Resets the navsensor
 		_nav.reset();
@@ -29,11 +31,24 @@ public class NavSensor extends SubsystemBase {
 	}
 
 	// Gets the angle minus the reference angle
-	public Rotation2d getAngle() {
+	public Rotation2d getAdjustedAngle() {
 		return new Rotation2d(-(_nav.getAngle() - referenceAngle) / 180 * Math.PI);
 	}
 
+	@Override
+	public void periodic() {
+		SmartDashboard.putBoolean("Nav connected", _nav.isConnected());
+		SmartDashboard.putBoolean("Nav Cal", _nav.isCalibrating());
+		SmartDashboard.putNumber("getAngle()", _nav.getAngle());
+	}
+
 	/*
+	 * public double getPitch() {
+	 * double pitch = _nav.getRoll();
+	 * return Units.degreesToRadians(pitch);
+	 * }
+	 * 
+	 * /*
 	 * public double getPitch() {
 	 * double pitch = _nav.getRoll();
 	 * return Units.degreesToRadians(pitch);
