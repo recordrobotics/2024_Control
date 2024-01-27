@@ -196,21 +196,21 @@ public class Swerve extends SubsystemBase {
 
         @Override
         public void periodic() {
-                //SmartDashboard.putBoolean("Nav connected", _nav.isConnected());
-                //SmartDashboard.putBoolean("Nav Cal", _nav.isCalibrating());
-                //SmartDashboard.putNumber("getAngle()", (double) _nav.getAngle());
+                SmartDashboard.putBoolean("Nav connected", _nav.isConnected());
+                SmartDashboard.putBoolean("Nav Cal", _nav.isCalibrating());
+                SmartDashboard.putNumber("getAngle()", (double) _nav.getAngle());
                 //SmartDashboard.putNumber("Compass", getCompassHeading());
                 // converts target speeds to swerve module angle and rotations
                 modTargets = kinematics.toSwerveModuleStates(target);
                 SwerveModuleState[] currentState = modState();
                 for (int i = 0; i < numMotors; i++) {
                         // Optimize before using values
-                        //modTargets[i] = SwerveModuleState.optimize(modTargets[i], currentState[i].angle);
+                        modTargets[i] = SwerveModuleState.optimize(modTargets[i], currentState[i].angle);
                         
-                        //SmartDashboard.putNumber("Abs Encoder " + i, encoders[i].getAbsolutePosition());
-                        //SmartDashboard.putNumber("Offset Abs Encoder" + i, getOffsetAbs(i));
-                        //SmartDashboard.putNumber("M" + i, modTargets[i].angle.getRotations());
-                        //SmartDashboard.putNumber("Relative " + i, getRelInRotations(i));
+                        SmartDashboard.putNumber("Abs Encoder " + i, encoders[i].getAbsolutePosition());
+                        SmartDashboard.putNumber("Offset Abs Encoder" + i, getOffsetAbs(i));
+                        SmartDashboard.putNumber("M" + i, modTargets[i].angle.getRotations());
+                        SmartDashboard.putNumber("Relative " + i, getRelInRotations(i));
                         // position PIDs
                         dPID[i].setSetpoint(modTargets[i].angle.getRotations());
                         sPID[i].setSetpoint(modTargets[i].speedMetersPerSecond);
@@ -218,20 +218,14 @@ public class Swerve extends SubsystemBase {
                         /*speedMotors[i].set(Math.max(-0.2,Math.min(0.2,sPID[i].calculate(speedMotors[i].getVelocity().getValue()
                                                         // / Constants.Swerve.RELATIVE_ENCODER_RATIO
                                                         / Constants.Swerve.SPEED_GEAR_RATIO * 0.6383716272))));*/
-                        double currentVelocityMPS = speedMotors[i].getVelocity().getValue()
-                                                        / Constants.Swerve.SPEED_GEAR_RATIO * 0.638371627;
-                        double pidCalc = sPID[i].calculate(currentVelocityMPS);
-                        SmartDashboard.putNumber("sPID "+i, pidCalc);
-                        SmartDashboard.putNumber("speed "+i, modTargets[i].speedMetersPerSecond);
-                        
-                        speedMotors[i].set(Math.max(-0.8,Math.min(0.8,modTargets[i].speedMetersPerSecond)));
+                        // double currentVelocityMPS = speedMotors[i].getVelocity().getValue()
+                        //                                 / Constants.Swerve.SPEED_GEAR_RATIO * 0.638371627;
+
+                        speedMotors[i].set(Constants.Swerve.LimitMotor(modTargets[i].speedMetersPerSecond));
 
                         double simpleRelativeEncoderVal = getRelInRotations(i);
-                        double calc = dPID[i].calculate(simpleRelativeEncoderVal);
-                        SmartDashboard.putNumber("dPID "+i, calc); 
-                        //SmartDashboard.putNumber("pos "+i, directionMotors[i].getPosition().getValue());
-
-                        directionMotors[i].set(calc);
+                        double dpidCalc = dPID[i].calculate(simpleRelativeEncoderVal);
+                        directionMotors[i].set(dpidCalc);
                 }
         }
 
