@@ -27,9 +27,6 @@ import frc.robot.Constants;
 import frc.robot.RobotMap;
 
 public class Swerve extends SubsystemBase {
-        // TODO: Add commment explaining how you got these constants.
-        private final double moduleWidth = 0.762;
-        private final double moduleLength = 0.762;
 
         /**
          * Offsets for Absolute encoder
@@ -52,16 +49,20 @@ public class Swerve extends SubsystemBase {
         private AHRS _nav = new AHRS(SerialPort.Port.kUSB1);
         private double angle0;
 
-        // TODO: Add commment explaining what this is doing.
+        // TODO: Add commment explaining how you got these constants.
+        private final double moduleWidth = 0.762;
+        private final double moduleLength = 0.762;
         Translation2d[] locations = {
                         new Translation2d(moduleWidth / 2, moduleLength / 2),
                         new Translation2d(moduleWidth / 2, -(moduleLength / 2)),
                         new Translation2d(-(moduleWidth / 2), moduleLength / 2),
                         new Translation2d(-(moduleWidth / 2), -(moduleLength / 2)),
         };
-
-        SwerveDriveKinematics kinematics = new SwerveDriveKinematics(locations[0], locations[1],
-                        locations[2], locations[3]);
+        SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
+                        locations[0], 
+                        locations[1],
+                        locations[2], 
+                        locations[3]);
 
         /*
          * private static final SwerveModulePosition[] startPos = {
@@ -97,7 +98,6 @@ public class Swerve extends SubsystemBase {
                         encoders[i] = new DutyCycleEncoder(RobotMap.swerve.DEVICE_NUMBER[i]);
                         // PID
                         dPID[i] = new PIDController(Constants.Swerve.kp, Constants.Swerve.ki, Constants.Swerve.kd);
-                        sPID[i] = new PIDController(0.1, 0, 0);
 
                         modTargets[i] = new SwerveModuleState();
                 }

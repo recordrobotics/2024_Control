@@ -28,7 +28,7 @@ public final class Constants {
 
         // Absolute motor limit value (0 to 1)
         // Default is 1.0
-        public static final double MOTOR_LIMIT = 0.8;
+        public static final double MOTOR_LIMIT = 1.0; //0.8;
         
         // Limits the motor speed (value) between -MOTOR_LIMIT and MOTOR_LIMIT
         public static double LimitMotor(double value){
