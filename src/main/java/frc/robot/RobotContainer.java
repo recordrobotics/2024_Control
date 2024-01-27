@@ -10,7 +10,6 @@ import java.util.List;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.RobotMap.swerve;
 import frc.robot.commands.ManualSwerve;
 import frc.robot.control.IControlInput;
 import frc.robot.control.SingleControl;
@@ -54,12 +53,10 @@ public class RobotContainer {
   }
 
   public void teleopInit() {
-		for (Pair<Subsystem, Command> c : _teleopPairs) {
-			c.getFirst().setDefaultCommand(c.getSecond());
-		}
-	}
-
-
+    for (Pair<Subsystem, Command> c : _teleopPairs) {
+      c.getFirst().setDefaultCommand(c.getSecond());
+    }
+  }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -71,8 +68,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
   }
-
-  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

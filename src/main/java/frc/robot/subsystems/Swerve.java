@@ -164,10 +164,10 @@ public class Swerve extends SubsystemBase {
         /**
          * Gets the current wheel states (speed and rotation in radians)
          */
-        public SwerveModuleState[] modState() {
-                SwerveModuleState[] LFState = new SwerveModuleState[wheelCount];
+        public SwerveModuleState[] getCurrentSwerveState() {
+                SwerveModuleState[] states = new SwerveModuleState[wheelCount];
                 for (int i = 0; i < wheelCount; i++) {
-                        LFState[i] = new SwerveModuleState(
+                        states[i] = new SwerveModuleState(
                                         // Current speed in meters per second
                                         speedMotors[i].getVelocity().getValue() * 10
                                                         / Constants.Swerve.RELATIVE_ENCODER_RATIO
@@ -179,7 +179,7 @@ public class Swerve extends SubsystemBase {
                                                                         * 2 * Math.PI
                                                                         / Constants.Swerve.DIRECTION_GEAR_RATIO));
                 }
-                return LFState;
+                return states;
         }
 
         /**
@@ -193,21 +193,23 @@ public class Swerve extends SubsystemBase {
         public void periodic() {
                 // Run kinematics to convert target speeds to swerve wheel angle and rotations
                 targetStates = kinematics.toSwerveModuleStates(targetChassisSpeed);
-                //
-                SwerveModuleState[] currentState = modState();
+                // Get current swerve wheel states
+                SwerveModuleState[] currentStates = getCurrentSwerveState();
 
                 for (int i = 0; i < wheelCount; i++) {
-                        // Optimize before using values
-                        targetStates[i] = SwerveModuleState.optimize(targetStates[i], currentState[i].angle);
+                        // Optimize rotation and speed before using values
+                        targetStates[i] = SwerveModuleState.optimize(targetStates[i], currentStates[i].angle);
 
                         SmartDashboard.putNumber("Abs Encoder " + i, encoders[i].getAbsolutePosition());
                         SmartDashboard.putNumber("Offset Abs Encoder" + i, getEncoderPosition(i));
 
-                        // position PIDs
+                        // Set target wheel rotations for the PID
                         directionPID[i].setSetpoint(targetStates[i].angle.getRotations());
 
+                        // Set speed motor speed (-1 to 1)
                         speedMotors[i].set(Constants.Swerve.LimitMotor(targetStates[i].speedMetersPerSecond));
 
+                        // Set direction motor speed based on feedback from PID controller
                         double wheelRotations = getDirectionWheelRotations(i);
                         double dpidCalculation = directionPID[i].calculate(wheelRotations);
                         directionMotors[i].set(dpidCalculation);

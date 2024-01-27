@@ -42,7 +42,7 @@ public class ManualSwerve extends Command {
     /**
      * Target Velocity and Angle
      */
-    _swerve.setTarget(ChassisSpeeds.fromFieldRelativeSpeeds(
+    _swerve.setTargetChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(
         _controls.getX() * SPEED, _controls.getY() * SPEED, _controls.getSpin(), _nav.getAngle()));
   }
 
