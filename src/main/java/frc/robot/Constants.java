@@ -20,19 +20,19 @@ public final class Constants {
     public final class Swerve {
         public static final double SPEED_GEAR_RATIO = 1;
         public static final double DIRECTION_GEAR_RATIO = 15.43;
-        public static final double kp = 3;
-        public static final double ki = 0;
-        public static final double kd = 0;
+        public static final double DIRECTION_KP = 3;
+        public static final double DIRECTION_KI = 0;
+        public static final double DIRECTION_KD = 0;
         public static final double RELATIVE_ENCODER_RATIO = 2048;
-        public static final int NUM_SWERVE_MODS = 4;
+        public static final int SWERVE_WHEEL_COUNT = 4;
 
         // Absolute motor limit value (0 to 1)
         // Default is 1.0
-        public static final double MOTOR_LIMIT = 1.0; //0.8;
-        
+        public static final double MOTOR_LIMIT = 1.0; // 0.8;
+
         // Limits the motor speed (value) between -MOTOR_LIMIT and MOTOR_LIMIT
-        public static double LimitMotor(double value){
-            return Math.max(-MOTOR_LIMIT,Math.min(MOTOR_LIMIT, value));
+        public static double LimitMotor(double value) {
+            return Math.max(-MOTOR_LIMIT, Math.min(MOTOR_LIMIT, value));
         }
     }
 }
