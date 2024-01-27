@@ -14,6 +14,7 @@ import frc.robot.RobotMap.swerve;
 import frc.robot.commands.ManualSwerve;
 import frc.robot.control.IControlInput;
 import frc.robot.control.SingleControl;
+import frc.robot.subsystems.NavSensor;
 import frc.robot.subsystems.Swerve;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -30,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private Swerve _swerve;
+  private NavSensor _nav;
   private List<Pair<Subsystem, Command>> _teleopPairs;
 
   private ManualSwerve _manualSwerve;
@@ -43,12 +45,13 @@ public class RobotContainer {
     // Configure the button bindings
     _controlInput = new SingleControl(RobotMap.Control.SINGLE_GAMEPAD);
     _swerve = new Swerve();
+    _nav = new NavSensor();
     configureButtonBindings();
     initTeleopCommands();
   }
 
   private void initTeleopCommands() {
-    _manualSwerve = new ManualSwerve(_swerve, _controlInput);
+    _manualSwerve = new ManualSwerve(_swerve, _nav, _controlInput);
     _teleopPairs = new ArrayList<>();
     _teleopPairs.add(new Pair<Subsystem, Command>(_swerve, _manualSwerve));
   }
