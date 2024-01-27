@@ -55,26 +55,18 @@ public class Swerve extends SubsystemBase {
          */
         private SwerveModuleState[] targetStates = new SwerveModuleState[wheelCount];
 
-        // TODO: Add commment explaining how you got these constants.
-
-        /**
-         * Robot frame width. Used for the locations of the wheels on the robot
-         */
-        private final double frameWidth = 0.762;
-
-        /**
-         * Robot frame length. Used for the locations of the wheels on the robot
-         */
-        private final double frameLength = 0.762;
-
         /**
          * Locations of the wheels on the robot frame.
          */
         Translation2d[] wheelLocations = {
-                        new Translation2d(frameWidth / 2, frameLength / 2),
-                        new Translation2d(frameWidth / 2, -(frameLength / 2)),
-                        new Translation2d(-(frameWidth / 2), frameLength / 2),
-                        new Translation2d(-(frameWidth / 2), -(frameLength / 2)),
+                        new Translation2d(Constants.Swerve.ROBOT_WHEEL_DISTANCE_WIDTH / 2,
+                                        Constants.Swerve.ROBOT_WHEEL_DISTANCE_LENGTH / 2),
+                        new Translation2d(Constants.Swerve.ROBOT_WHEEL_DISTANCE_WIDTH / 2,
+                                        -(Constants.Swerve.ROBOT_WHEEL_DISTANCE_LENGTH / 2)),
+                        new Translation2d(-(Constants.Swerve.ROBOT_WHEEL_DISTANCE_WIDTH / 2),
+                                        Constants.Swerve.ROBOT_WHEEL_DISTANCE_LENGTH / 2),
+                        new Translation2d(-(Constants.Swerve.ROBOT_WHEEL_DISTANCE_WIDTH / 2),
+                                        -(Constants.Swerve.ROBOT_WHEEL_DISTANCE_LENGTH / 2)),
         };
 
         /**

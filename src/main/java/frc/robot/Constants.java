@@ -26,6 +26,18 @@ public final class Constants {
         public static final double RELATIVE_ENCODER_RATIO = 2048;
         public static final int SWERVE_WHEEL_COUNT = 4;
 
+        /**
+         * Distance between wheels (width). Used for the locations of the wheels on the
+         * robot
+         */
+        public static final double ROBOT_WHEEL_DISTANCE_WIDTH = 0.59;
+
+        /**
+         * Distance between wheels (length). Used for the locations of the wheels on the
+         * robot
+         */
+        public static final double ROBOT_WHEEL_DISTANCE_LENGTH = 0.59;
+
         // Absolute motor limit value (0 to 1)
         // Default is 1.0
         public static final double MOTOR_LIMIT = 1.0; // 0.8;
