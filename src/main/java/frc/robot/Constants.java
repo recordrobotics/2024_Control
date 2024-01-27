@@ -41,7 +41,7 @@ public final class Constants {
         /**
          * Joystick spin input absolute threshold
          */
-        public static final double INPUT_SPIN_THRESHOLD = 0.2;
+        public static final double INPUT_SPIN_THRESHOLD = 0.3;
     }
 
     public final class Swerve {
