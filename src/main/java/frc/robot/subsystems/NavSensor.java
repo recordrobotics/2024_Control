@@ -50,11 +50,8 @@ public class NavSensor extends SubsystemBase {
 		double yaw = _nav.getYaw();
 		return Units.degreesToRadians(-1*yaw);
 	}
-	*/
-
+	
 	//None of the below are guarenteed to work (weird axis changes)
-
-	/*
 
 	public double getDisplacementX() {
 		return _nav.getDisplacementX();
