@@ -198,6 +198,9 @@ public class Swerve extends SubsystemBase {
                 // converts target speeds to swerve module angle and rotations
                 modTargets = kinematics.toSwerveModuleStates(target);
                 for (int i = 0; i < numMotors; i++) {
+                        // Optimize before using values
+                        modTargets[i] = SwerveModuleState.optimize(modTargets[i], getAngle());
+                        
                         SmartDashboard.putNumber("Abs Encoder " + i, encoders[i].getAbsolutePosition());
                         SmartDashboard.putNumber("Offset Abs Encoder" + i, getOffsetAbs(i));
                         SmartDashboard.putNumber("M" + i, modTargets[i].angle.getRotations());
