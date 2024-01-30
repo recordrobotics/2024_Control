@@ -52,6 +52,10 @@ public class ManualSwerve extends Command {
     SmartDashboard.putNumber("F X", swerve_position.getX());
     SmartDashboard.putNumber("F Y", swerve_position.getY());
 
+    if (_controls.getResetPressed()) {
+      _swerve.resetPose();
+    }
+
     _swerve.setTargetChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(
         _controls.getX(),
         _controls.getY(),

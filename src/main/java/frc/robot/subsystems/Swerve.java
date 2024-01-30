@@ -219,6 +219,16 @@ public class Swerve extends SubsystemBase {
                                 new Rotation2d(getDirectionWheelRotations(i) * 2 * Math.PI));
         }
 
+        public void resetPose() {
+                _nav.relativeResetAngle();
+                for (int i = 0; i < wheelCount; i++) {
+                        speedMotors[i].setPosition(0);
+                }
+                poseFilter.resetPosition(_nav.getAdjustedAngle(), new SwerveModulePosition[] {
+                                getPosition(0), getPosition(1), getPosition(2), getPosition(3) },
+                                new Pose2d(0, 0, new Rotation2d(0)));
+        }
+
         @Override
         public void periodic() {
 

@@ -49,4 +49,8 @@ public class SingleControl implements IControlInput {
 	public boolean spinFlywheel() {
 		return _gamepad.getTrigger();
 	}
+
+	public boolean getResetPressed() {
+		return _gamepad.getRawButtonPressed(2);
+	}
 }

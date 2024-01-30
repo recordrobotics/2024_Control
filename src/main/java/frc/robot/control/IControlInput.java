@@ -5,15 +5,17 @@ package frc.robot.control;
  */
 public interface IControlInput {
 
-	double getX();
+    double getX();
 
-	double getY();
+    double getY();
 
-	double getSpin();
+    double getSpin();
 
     boolean toggleClimbers();
 
     boolean spinFlywheel();
 
     boolean getAcquisition();
+
+    boolean getResetPressed();
 }
