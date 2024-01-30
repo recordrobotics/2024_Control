@@ -43,8 +43,15 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     _controlInput = new SingleControl(RobotMap.Control.SINGLE_GAMEPAD);
+
+    // Init Swerve
     _swerve = new Swerve();
+
+    // Init Nav
     _nav = new NavSensor();
+    NavSensor.initNav();
+
+    // Bindings and Teleop
     configureButtonBindings();
     initTeleopCommands();
   }

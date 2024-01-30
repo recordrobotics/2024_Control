@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -52,6 +54,7 @@ public final class Constants {
         public static final double DIRECTION_KD = 0;
         public static final double RELATIVE_ENCODER_RATIO = 2048;
         public static final int SWERVE_WHEEL_COUNT = 4;
+        public static final double SWERVE_WHEEL_DIAMETER = Units.inchesToMeters(4);
 
         /**
          * Distance between wheels (width). Used for the locations of the wheels on the

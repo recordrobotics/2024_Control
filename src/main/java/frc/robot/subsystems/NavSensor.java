@@ -12,16 +12,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class NavSensor extends SubsystemBase {
 
 	private static AHRS _nav = new AHRS(SerialPort.Port.kUSB1);
-	private double referenceAngle; // variable to keep track of a reference angle whenever you reset
+	private static double referenceAngle; // variable to keep track of a reference angle whenever you reset
 
-	public NavSensor() {
-
-		// _nav = new AHRS(I2C.Port.kMXP);
-		// Resets the navsensor
+	public static void initNav() {
 		_nav.reset();
 		_nav.resetDisplacement();
 		referenceAngle = _nav.getAngle();
+	}
 
+	// Instance (I think I know what that means)
+	public NavSensor() {
 	}
 
 	// stores the reference angle as whatever the angle is currently measured to be

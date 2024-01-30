@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
@@ -84,6 +86,16 @@ public class Swerve extends SubsystemBase {
          */
         ChassisSpeeds targetChassisSpeed = new ChassisSpeeds();
 
+        // Nav
+        private NavSensor _nav = new NavSensor();
+
+        // Creates swerve post estimation filter
+        public SwerveDrivePoseEstimator poseFilter = new SwerveDrivePoseEstimator(kinematics, _nav.getAdjustedAngle(),
+                        new SwerveModulePosition[] {
+                                        getPosition(0), getPosition(1), getPosition(2), getPosition(3) },
+                        new Pose2d(0, 0, new Rotation2d(0)));// TODO: currently using default standard deviations, get
+                                                             // accurate values
+
         public Swerve() {
                 // Create motor objects
                 for (int i = 0; i < wheelCount; i++) {
@@ -154,6 +166,19 @@ public class Swerve extends SubsystemBase {
         }
 
         /**
+         * Gets the distance (in meters) travelled by the speed wheel
+         * 
+         * @param motorId index of motor in array
+         */
+        private double getSpeedWheelDistanceMeters(int motorId) {
+                double numRotationsMotor = speedMotors[motorId].getPosition().getValue();
+                double numRotationsWheel = numRotationsMotor / Constants.Swerve.SPEED_GEAR_RATIO;
+                double speedWheelDistanceMeters = numRotationsWheel * Math.PI * Constants.Swerve.SWERVE_WHEEL_DIAMETER;
+
+                return speedWheelDistanceMeters;
+        }
+
+        /**
          * Gets the current wheel states (speed and rotation in radians)
          */
         public SwerveModuleState[] getCurrentSwerveState() {
@@ -181,8 +206,22 @@ public class Swerve extends SubsystemBase {
                 targetChassisSpeed = _target;
         }
 
+        // returns a SwerveModulePosition object for use in the SwerveDrivePoseEstimator
+        public SwerveModulePosition getPosition(int i) {
+                return new SwerveModulePosition(
+                                // TODO: I have no idea if these values are the correct ones. See
+                                // https://github.com/wpilibsuite/allwpilib/blob/main/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/swervebot/SwerveModule.java
+                                getSpeedWheelDistanceMeters(i),
+                                new Rotation2d(getDirectionWheelRotations(i) * 2 * Math.PI));
+        }
+
         @Override
         public void periodic() {
+
+                // Updates poseFilter
+                poseFilter.update(_nav.getAdjustedAngle(), new SwerveModulePosition[] {
+                                getPosition(0), getPosition(1), getPosition(2), getPosition(3) });
+
                 // Run kinematics to convert target speeds to swerve wheel angle and rotations
                 targetStates = kinematics.toSwerveModuleStates(targetChassisSpeed);
                 // Get current swerve wheel states
@@ -206,6 +245,7 @@ public class Swerve extends SubsystemBase {
                         double dpidCalculation = directionPID[i].calculate(wheelRotations);
                         directionMotors[i].set(dpidCalculation);
                 }
+
         }
 
         @Override

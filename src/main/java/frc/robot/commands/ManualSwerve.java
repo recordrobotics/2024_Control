@@ -7,14 +7,16 @@ package frc.robot.commands;
 import frc.robot.control.IControlInput;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.NavSensor;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** An example command that uses an example subsystem. */
 public class ManualSwerve extends Command {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private Swerve _swerve;
-  private NavSensor _nav;
   private IControlInput _controls;
 
   public ChassisSpeeds target;
@@ -27,7 +29,6 @@ public class ManualSwerve extends Command {
   public ManualSwerve(Swerve swerve, NavSensor nav, IControlInput controls) {
     _swerve = swerve;
     _controls = controls;
-    _nav = nav;
     addRequirements(swerve);
   }
 
@@ -42,11 +43,20 @@ public class ManualSwerve extends Command {
     /**
      * Target Velocity and Angle
      */
+
+    // Gets swerve position
+    Pose2d swerve_position = _swerve.poseFilter.getEstimatedPosition();
+
+    // Puts on shuffleboard
+    SmartDashboard.putNumber("F rot", swerve_position.getRotation().getDegrees());
+    SmartDashboard.putNumber("F X", swerve_position.getX());
+    SmartDashboard.putNumber("F Y", swerve_position.getY());
+
     _swerve.setTargetChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(
-        _controls.getX(), 
-        _controls.getY(), 
-        _controls.getSpin(), 
-        _nav.getAdjustedAngle()));
+        _controls.getX(),
+        _controls.getY(),
+        _controls.getSpin(),
+        swerve_position.getRotation()));
   }
 
   // Called once the command ends or is interrupted.
