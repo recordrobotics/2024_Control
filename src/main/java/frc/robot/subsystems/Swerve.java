@@ -90,11 +90,8 @@ public class Swerve extends SubsystemBase {
         private NavSensor _nav = new NavSensor();
 
         // Creates swerve post estimation filter
-        public SwerveDrivePoseEstimator poseFilter = new SwerveDrivePoseEstimator(kinematics, _nav.getAdjustedAngle(),
-                        new SwerveModulePosition[] {
-                                        getPosition(0), getPosition(1), getPosition(2), getPosition(3) },
-                        new Pose2d(0, 0, new Rotation2d(0)));// TODO: currently using default standard deviations, get
-                                                             // accurate values
+        public SwerveDrivePoseEstimator poseFilter;
+        // accurate values
 
         public Swerve() {
                 // Create motor objects
@@ -131,6 +128,13 @@ public class Swerve extends SubsystemBase {
                         directionMotors[i].setPosition(encoderValueWithRatio);
                         directionPID[i].enableContinuousInput(-0.5, 0.5);
                 }
+
+                // gives poseFilter value
+                poseFilter = new SwerveDrivePoseEstimator(kinematics, _nav.getAdjustedAngle(),
+                                new SwerveModulePosition[] {
+                                                getPosition(0), getPosition(1), getPosition(2), getPosition(3) },
+                                new Pose2d(0, 0, new Rotation2d(0)));// TODO: currently using default standard
+                                                                     // deviations, get
 
         }
 
