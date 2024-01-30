@@ -58,8 +58,8 @@ public class ManualSwerve extends Command {
 
     _swerve.setTargetChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(
         _controls.getX(),
-        _controls.getY(),
-        _controls.getSpin(),
+        -_controls.getY(),
+        -_controls.getSpin(),
         swerve_position.getRotation()));
   }
 
