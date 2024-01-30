@@ -31,12 +31,12 @@ public final class Constants {
         /**
          * Joystick X input absolute threshold
          */
-        public static final double INPUT_X_THRESHOLD = 0.1;
+        public static final double INPUT_X_THRESHOLD = 0.15;
 
         /**
          * Joystick Y input absolute threshold
          */
-        public static final double INPUT_Y_THRESHOLD = 0.1;
+        public static final double INPUT_Y_THRESHOLD = 0.15;
 
         /**
          * Joystick spin input absolute threshold
