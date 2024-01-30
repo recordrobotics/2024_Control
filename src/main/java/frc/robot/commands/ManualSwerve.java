@@ -10,7 +10,7 @@ import frc.robot.subsystems.NavSensor;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** An example command that uses an example subsystem. */
@@ -18,6 +18,8 @@ public class ManualSwerve extends Command {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private Swerve _swerve;
   private IControlInput _controls;
+
+  private Field2d m_field = new Field2d();
 
   public ChassisSpeeds target;
 
@@ -30,6 +32,8 @@ public class ManualSwerve extends Command {
     _swerve = swerve;
     _controls = controls;
     addRequirements(swerve);
+
+    SmartDashboard.putData("Field", m_field);
   }
 
   // Called when the command is initially scheduled.
@@ -47,10 +51,14 @@ public class ManualSwerve extends Command {
     // Gets swerve position
     Pose2d swerve_position = _swerve.poseFilter.getEstimatedPosition();
 
+    m_field.setRobotPose(swerve_position);
+
     // Puts on shuffleboard
     SmartDashboard.putNumber("F rot", swerve_position.getRotation().getDegrees());
     SmartDashboard.putNumber("F X", swerve_position.getX());
     SmartDashboard.putNumber("F Y", swerve_position.getY());
+
+    
 
     if (_controls.getResetPressed()) {
       _swerve.resetPose();

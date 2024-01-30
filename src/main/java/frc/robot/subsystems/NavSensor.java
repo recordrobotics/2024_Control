@@ -37,7 +37,7 @@ public class NavSensor extends SubsystemBase {
 	@Override
 	public void periodic() {
 		SmartDashboard.putBoolean("Nav connected", _nav.isConnected());
-		SmartDashboard.putBoolean("Nav Cal", _nav.isCalibrating());
+		//SmartDashboard.putBoolean("Nav Cal", _nav.isCalibrating());
 		SmartDashboard.putNumber("getAngle()", _nav.getAngle());
 	}
 

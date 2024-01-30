@@ -114,7 +114,7 @@ public class Swerve extends SubsystemBase {
 
                 // Init the motor and PID values
                 for (int i = 0; i < wheelCount; i++) {
-                        SmartDashboard.putNumber("Init Abs" + i, encoders[i].getAbsolutePosition());
+                        //SmartDashboard.putNumber("Init Abs" + i, encoders[i].getAbsolutePosition());
 
                         // Reset motor speed
                         speedMotors[i].set(0);
@@ -245,8 +245,8 @@ public class Swerve extends SubsystemBase {
                         // Optimize rotation and speed before using values
                         targetStates[i] = SwerveModuleState.optimize(targetStates[i], currentStates[i].angle);
 
-                        SmartDashboard.putNumber("Abs Encoder " + i, encoders[i].getAbsolutePosition());
-                        SmartDashboard.putNumber("Offset Abs Encoder" + i, getEncoderPosition(i));
+                        //SmartDashboard.putNumber("Abs Encoder " + i, encoders[i].getAbsolutePosition());
+                        //SmartDashboard.putNumber("Offset Abs Encoder" + i, getEncoderPosition(i));
 
                         // Set target wheel rotations for the PID
                         directionPID[i].setSetpoint(targetStates[i].angle.getRotations());
