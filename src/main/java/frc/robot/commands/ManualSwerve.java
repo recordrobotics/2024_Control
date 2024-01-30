@@ -18,7 +18,6 @@ public class ManualSwerve extends Command {
   private IControlInput _controls;
 
   public ChassisSpeeds target;
-  private static final double SPEED = 1;
 
   /**
    * Creates a new ExampleCommand.
@@ -44,7 +43,10 @@ public class ManualSwerve extends Command {
      * Target Velocity and Angle
      */
     _swerve.setTargetChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(
-        _controls.getX() * SPEED, _controls.getY() * SPEED, _controls.getSpin(), _nav.getAdjustedAngle()));
+        _controls.getX(), 
+        _controls.getY(), 
+        _controls.getSpin(), 
+        _nav.getAdjustedAngle()));
   }
 
   // Called once the command ends or is interrupted.

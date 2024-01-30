@@ -17,7 +17,6 @@ public class NavSensor extends SubsystemBase {
 	public NavSensor() {
 
 		// _nav = new AHRS(I2C.Port.kMXP);
-
 		// Resets the navsensor
 		_nav.reset();
 		_nav.resetDisplacement();
