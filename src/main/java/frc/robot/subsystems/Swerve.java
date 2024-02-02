@@ -14,7 +14,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -114,7 +113,7 @@ public class Swerve extends SubsystemBase {
 
                 // Init the motor and PID values
                 for (int i = 0; i < wheelCount; i++) {
-                        //SmartDashboard.putNumber("Init Abs" + i, encoders[i].getAbsolutePosition());
+                        // SmartDashboard.putNumber("Init Abs" + i, encoders[i].getAbsolutePosition());
 
                         // Reset motor speed
                         speedMotors[i].set(0);
@@ -245,8 +244,9 @@ public class Swerve extends SubsystemBase {
                         // Optimize rotation and speed before using values
                         targetStates[i] = SwerveModuleState.optimize(targetStates[i], currentStates[i].angle);
 
-                        //SmartDashboard.putNumber("Abs Encoder " + i, encoders[i].getAbsolutePosition());
-                        //SmartDashboard.putNumber("Offset Abs Encoder" + i, getEncoderPosition(i));
+                        // SmartDashboard.putNumber("Abs Encoder " + i,
+                        // encoders[i].getAbsolutePosition());
+                        // SmartDashboard.putNumber("Offset Abs Encoder" + i, getEncoderPosition(i));
 
                         // Set target wheel rotations for the PID
                         directionPID[i].setSetpoint(targetStates[i].angle.getRotations());
