@@ -12,8 +12,13 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+import edu.wpi.first.wpilibj.simulation.DutyCycleEncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -42,6 +47,8 @@ public class Swerve extends SubsystemBase {
          */
         private DutyCycleEncoder[] encoders = new DutyCycleEncoder[wheelCount];
 
+        private DutyCycleEncoderSim[] encoderSims = new DutyCycleEncoderSim[wheelCount];
+
         /**
          * Direction motor PIDs
          */
@@ -51,6 +58,15 @@ public class Swerve extends SubsystemBase {
          * Target swerve module states that are updated and optimized in periodic
          */
         private SwerveModuleState[] targetStates = new SwerveModuleState[wheelCount];
+
+        private DifferentialDrivetrainSim drivetrainSim = new DifferentialDrivetrainSim(
+                        DCMotor.getFalcon500(2), // 2 on each side
+                        Constants.Swerve.SPEED_GEAR_RATIO,
+                        7.5, // MOI of 7.5 kg m^2 (from CAD model).
+                        Units.lbsToKilograms(60.0), // The mass of the robot is 60 lbs.
+                        Constants.Swerve.SWERVE_WHEEL_DIAMETER / 2,
+                        Constants.Swerve.ROBOT_WHEEL_DISTANCE_WIDTH,
+                        null);
 
         /**
          * Locations of the wheels on the robot frame.
@@ -96,6 +112,7 @@ public class Swerve extends SubsystemBase {
                         directionMotors[i] = new TalonFX(RobotMap.swerve.DIRECTION_MOTOR_DEVICE_IDS[i]);
                         // Create new DutyCycleEncoder objects for each encoder
                         encoders[i] = new DutyCycleEncoder(RobotMap.swerve.ENCODER_DEVICE_IDS[i]);
+                        encoderSims[i] = new DutyCycleEncoderSim(encoders[i]);
                         // Create new PIDController objects for each direction motor
                         directionPID[i] = new PIDController(Constants.Swerve.DIRECTION_KP,
                                         Constants.Swerve.DIRECTION_KI,
@@ -147,11 +164,11 @@ public class Swerve extends SubsystemBase {
         }
 
         /**
-         * Gets the direction motor position in 2048 range no gear ratio factored in
+         * Gets the direction motor position in rotations
          * 
          * @param motorId index of motor in array
          */
-        private double getRawDirectionMotorPosition(int motorId) {
+        private double getRawDirectionMotorRotations(int motorId) {
                 return directionMotors[motorId].getPosition().getValue();
         }
 
@@ -162,8 +179,8 @@ public class Swerve extends SubsystemBase {
          * @param motorId index of motor in array
          */
         private double getDirectionWheelRotations(int motorId) {
-                double numRotations = getRawDirectionMotorPosition(motorId);
-                return (numRotations) / Constants.Swerve.RELATIVE_ENCODER_RATIO / Constants.Swerve.DIRECTION_GEAR_RATIO;
+                double numRotations = getRawDirectionMotorRotations(motorId);
+                return (numRotations) / Constants.Swerve.DIRECTION_GEAR_RATIO;
         }
 
         /**
@@ -192,7 +209,7 @@ public class Swerve extends SubsystemBase {
                                                         * (0.05 * 2 * Math.PI),
                                         // Current rotation in radians
                                         new Rotation2d(
-                                                        getRawDirectionMotorPosition(i)
+                                                        getRawDirectionMotorRotations(i)
 
                                                                         * 2 * Math.PI
                                                                         / Constants.Swerve.DIRECTION_GEAR_RATIO));
@@ -262,5 +279,28 @@ public class Swerve extends SubsystemBase {
         @Override
         public void simulationPeriodic() {
                 periodic();
+
+                // Broken drivetrain simulation
+                drivetrainSim.setInputs(speedMotors[0].get() * RobotController.getInputVoltage(),
+                                speedMotors[2].get() * RobotController.getInputVoltage());
+
+                drivetrainSim.update(0.02);
+
+                for (int i = 0; i < wheelCount; i++) {
+                        if (i < 2) {
+                                encoderSims[i].setDistance(drivetrainSim.getLeftPositionMeters());
+                                speedMotors[i].getSimState()
+                                                .setRawRotorPosition(drivetrainSim.getLeftPositionMeters() * 100);
+                                speedMotors[i].getSimState()
+                                                .setRotorVelocity(drivetrainSim.getLeftVelocityMetersPerSecond() * 100);
+                        } else {
+                                encoderSims[i].setDistance(drivetrainSim.getRightPositionMeters());
+                                speedMotors[i].getSimState()
+                                                .setRawRotorPosition(drivetrainSim.getRightPositionMeters() * 100);
+                                speedMotors[i].getSimState()
+                                                .setRotorVelocity(
+                                                                drivetrainSim.getRightVelocityMetersPerSecond() * 100);
+                        }
+                }
         }
 }
