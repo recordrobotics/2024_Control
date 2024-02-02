@@ -16,13 +16,17 @@ public class Climbers extends SubsystemBase{
     private Solenoid right = new Solenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.right);
 
     public Climbers() {
-        left.close();
-        right.close();
+        set(false);
     }
 
     public void toggle(){
         left.toggle();
         right.toggle();
+    }
+
+    public void set(boolean state) {
+        left.set(state);
+        right.set(state);
     }
     
 }
