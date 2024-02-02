@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class Shooter extends SubsystemBase{
+public class Shooter extends SubsystemBase {
 
     private Spark flywheel = new Spark(RobotMap.Shooter.flywheel);
     private Spark lower = new Spark(RobotMap.Aquisition.lower);
@@ -19,23 +19,32 @@ public class Shooter extends SubsystemBase{
     private static final double UPPER_SPEED = 0.1;
 
     public Shooter() {
-        shoot(0);
+        shoot(ShooterStates.STOP);
     }
 
-    public void shoot(int i){
-        if(i == 3){
-            flywheel.set(FLYWHEEL_SPEED);
-            lower.set(0);
-            upper.set(0);
-        } else if (i == 2) {
-            flywheel.set(0);
-            lower.set(LOWER_SPEED);
-            upper.set(UPPER_SPEED); 
-        } else {
-            flywheel.set(0);
-            lower.set(0);
-            upper.set(0);
+    public void shoot(ShooterStates state) {
+        switch (state) {
+            case FLYWHEEL:
+                flywheel.set(FLYWHEEL_SPEED);
+                lower.set(0);
+                upper.set(0);
+                break;
+            case AQUISITION:
+                flywheel.set(0);
+                lower.set(LOWER_SPEED);
+                upper.set(UPPER_SPEED);
+                break;
+            default:
+                flywheel.set(0);
+                lower.set(0);
+                upper.set(0);
+                break;
         }
     }
-    
+
+    public enum ShooterStates {
+        FLYWHEEL,
+        AQUISITION,
+        STOP
+    }
 }
