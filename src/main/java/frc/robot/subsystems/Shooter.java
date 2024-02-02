@@ -45,6 +45,6 @@ public class Shooter extends SubsystemBase {
     public enum ShooterStates {
         FLYWHEEL,
         AQUISITION,
-        STOP
+        STOP;
     }
 }
