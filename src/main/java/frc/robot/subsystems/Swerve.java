@@ -22,11 +22,6 @@ import frc.robot.RobotMap;
 public class Swerve extends SubsystemBase {
 
         /**
-         * Offsets for Absolute encoder
-         */
-        private final double ENCODER_OFFSETS[] = { 0.411, 0.126, 0.864, 0.194 };
-
-        /**
          * The number of wheels on the robot
          */
         private final int wheelCount = Constants.Swerve.SWERVE_WHEEL_COUNT;
@@ -114,7 +109,7 @@ public class Swerve extends SubsystemBase {
 
                 // Init the motor and PID values
                 for (int i = 0; i < wheelCount; i++) {
-                        //SmartDashboard.putNumber("Init Abs" + i, encoders[i].getAbsolutePosition());
+                        SmartDashboard.putNumber("Init Abs" + i, encoders[i].getAbsolutePosition());
 
                         // Reset motor speed
                         speedMotors[i].set(0);
@@ -122,8 +117,7 @@ public class Swerve extends SubsystemBase {
 
                         // Offset direction motor encoder position
                         final double encoderValue = getEncoderPosition(i);
-                        final double encoderValueWithRatio = -encoderValue
-                                        * Constants.Swerve.DIRECTION_GEAR_RATIO;
+                        final double encoderValueWithRatio = -encoderValue * Constants.Swerve.DIRECTION_GEAR_RATIO;
                         // Set direction motor position offset
                         directionMotors[i].setPosition(encoderValueWithRatio);
                         directionPID[i].enableContinuousInput(-0.5, 0.5);
@@ -135,7 +129,6 @@ public class Swerve extends SubsystemBase {
                                                 getPosition(0), getPosition(1), getPosition(2), getPosition(3) },
                                 new Pose2d(0, 0, new Rotation2d(0)));// TODO: currently using default standard
                                                                      // deviations, get
-
         }
 
         /**
@@ -145,15 +138,20 @@ public class Swerve extends SubsystemBase {
          * @return the absolute position of the encoder relative to our our robots zero
          */
         private double getEncoderPosition(int encoderIndex) {
-                return (encoders[encoderIndex].getAbsolutePosition() - ENCODER_OFFSETS[encoderIndex] + 1) % 1;
+                return (encoders[encoderIndex].getAbsolutePosition() - Constants.Swerve.ENCODER_OFFSETS[encoderIndex]
+                                + 1) % 1;
+        }
+
+        private double getSpeedMotorVelocity(int motorId) {
+                return speedMotors[motorId].getVelocity().getValue();
         }
 
         /**
-         * Gets the direction motor position in rotations
+         * Gets the direction motor position in 2048 range no gear ratio factored in
          * 
          * @param motorId index of motor in array
          */
-        private double getDirectionMotorRotations(int motorId) {
+        private double getRawDirectionMotorPosition(int motorId) {
                 return directionMotors[motorId].getPosition().getValue();
         }
 
@@ -164,9 +162,8 @@ public class Swerve extends SubsystemBase {
          * @param motorId index of motor in array
          */
         private double getDirectionWheelRotations(int motorId) {
-                double numRotations = getDirectionMotorRotations(motorId);
-                return (numRotations)
-                                / Constants.Swerve.DIRECTION_GEAR_RATIO;
+                double numRotations = getRawDirectionMotorPosition(motorId);
+                return (numRotations) / Constants.Swerve.RELATIVE_ENCODER_RATIO / Constants.Swerve.DIRECTION_GEAR_RATIO;
         }
 
         /**
@@ -190,12 +187,12 @@ public class Swerve extends SubsystemBase {
                 for (int i = 0; i < wheelCount; i++) {
                         states[i] = new SwerveModuleState(
                                         // Current speed in meters per second
-                                        speedMotors[i].getVelocity().getValue() * 10
+                                        getSpeedMotorVelocity(i) * 10
                                                         / Constants.Swerve.RELATIVE_ENCODER_RATIO
                                                         * (0.05 * 2 * Math.PI),
                                         // Current rotation in radians
                                         new Rotation2d(
-                                                        getDirectionMotorRotations(i)
+                                                        getRawDirectionMotorPosition(i)
 
                                                                         * 2 * Math.PI
                                                                         / Constants.Swerve.DIRECTION_GEAR_RATIO));
@@ -245,8 +242,8 @@ public class Swerve extends SubsystemBase {
                         // Optimize rotation and speed before using values
                         targetStates[i] = SwerveModuleState.optimize(targetStates[i], currentStates[i].angle);
 
-                        //SmartDashboard.putNumber("Abs Encoder " + i, encoders[i].getAbsolutePosition());
-                        //SmartDashboard.putNumber("Offset Abs Encoder" + i, getEncoderPosition(i));
+                        SmartDashboard.putNumber("Abs Encoder " + i, encoders[i].getAbsolutePosition());
+                        SmartDashboard.putNumber("Offset Abs Encoder" + i, getEncoderPosition(i));
 
                         // Set target wheel rotations for the PID
                         directionPID[i].setSetpoint(targetStates[i].angle.getRotations());
