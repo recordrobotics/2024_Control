@@ -58,6 +58,11 @@ public final class Constants {
         public static final double SWERVE_WHEEL_DIAMETER = Units.inchesToMeters(4);
 
         /**
+         * Offsets for Absolute encoder
+         */
+        public static final double ENCODER_OFFSETS[] = { 0.411, 0.126, 0.864, 0.194 };
+
+        /**
          * Distance between wheels (width). Used for the locations of the wheels on the
          * robot
          */
