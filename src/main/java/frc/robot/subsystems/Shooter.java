@@ -10,13 +10,10 @@ import frc.robot.RobotMap;
 
 public class Shooter extends SubsystemBase {
 
-    private Spark flywheel = new Spark(RobotMap.Shooter.flywheel);
-    private Spark lower = new Spark(RobotMap.Aquisition.lower);
-    private Spark upper = new Spark(RobotMap.Aquisition.upper);
-
+    private Spark flywheel = new Spark(RobotMap.Shooter.FLYWHEEL_MOTOR_ID);
+    private Acquisition acquisition = new Acquisition();
     private static final double FLYWHEEL_SPEED = 0.3;
-    private static final double LOWER_SPEED = 0.3;
-    private static final double UPPER_SPEED = 0.1;
+    
 
     public Shooter() {
         shoot(ShooterStates.STOP);
@@ -26,18 +23,15 @@ public class Shooter extends SubsystemBase {
         switch (state) {
             case FLYWHEEL:
                 flywheel.set(FLYWHEEL_SPEED);
-                lower.set(0);
-                upper.set(0);
+                acquisition.toggle(state);
                 break;
             case AQUISITION:
                 flywheel.set(0);
-                lower.set(LOWER_SPEED);
-                upper.set(UPPER_SPEED);
+                acquisition.toggle(state);
                 break;
             default:
                 flywheel.set(0);
-                lower.set(0);
-                upper.set(0);
+                acquisition.toggle(state);
                 break;
         }
     }
