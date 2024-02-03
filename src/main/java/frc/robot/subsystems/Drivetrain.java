@@ -13,7 +13,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotMap;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends SubsystemBase {
@@ -32,18 +31,10 @@ public class Drivetrain extends SubsystemBase {
 
     // TODO: make sure the encoder values actually follow: front left, front right,
     // back left, back right
-    private final SwerveModule m_frontLeft = new SwerveModule(RobotMap.swerve.SPEED_MOTOR_DEVICE_IDS[1],
-            RobotMap.swerve.DIRECTION_MOTOR_DEVICE_IDS[1], RobotMap.swerve.ENCODER_DEVICE_IDS[1],
-            Constants.Swerve.ENCODER_OFFSETS[1]);
-    private final SwerveModule m_frontRight = new SwerveModule(RobotMap.swerve.SPEED_MOTOR_DEVICE_IDS[0],
-            RobotMap.swerve.DIRECTION_MOTOR_DEVICE_IDS[0], RobotMap.swerve.ENCODER_DEVICE_IDS[0],
-            Constants.Swerve.ENCODER_OFFSETS[0]);
-    private final SwerveModule m_backLeft = new SwerveModule(RobotMap.swerve.SPEED_MOTOR_DEVICE_IDS[3],
-            RobotMap.swerve.DIRECTION_MOTOR_DEVICE_IDS[3], RobotMap.swerve.ENCODER_DEVICE_IDS[3],
-            Constants.Swerve.ENCODER_OFFSETS[3]);
-    private final SwerveModule m_backRight = new SwerveModule(RobotMap.swerve.SPEED_MOTOR_DEVICE_IDS[2],
-            RobotMap.swerve.DIRECTION_MOTOR_DEVICE_IDS[2], RobotMap.swerve.ENCODER_DEVICE_IDS[2],
-            Constants.Swerve.ENCODER_OFFSETS[2]);
+    private final SwerveModule m_frontLeft = new SwerveModule(2, 1, 2, 0.126);
+    private final SwerveModule m_frontRight = new SwerveModule(4, 3, 3, 0.411);
+    private final SwerveModule m_backLeft = new SwerveModule(8, 7, 5, 0.194);
+    private final SwerveModule m_backRight = new SwerveModule(6, 5, 4, 0.864);
 
     private final NavSensor _nav = new NavSensor();
 

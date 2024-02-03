@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 
 public class SwerveModule {
@@ -59,13 +60,17 @@ public class SwerveModule {
     absoluteTurningMotorEncoder = new DutyCycleEncoder(absoluteTurningMotorEncoderChannel);
     this.turningEncoderOffset = turningEncoderOffset;
 
+    Timer.delay(5);
+
+    m_driveMotor.set(0);
+    m_turningMotor.set(0);
+
     // Limit the PID Controller's input range between -0.5 and 0.5 and set the input
     // to be continuous.
     m_turningPIDController.enableContinuousInput(-0.5, 0.5);
 
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelOffset(absoluteTurningMotorEncoderChannel));
-
   }
 
   /**
