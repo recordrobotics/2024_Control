@@ -21,11 +21,8 @@ public class SwerveModule {
   // TODO: pretty sure this has to be 1 and 2, not pi and 2pi due to the way we
   // are inputting PID. Whatever, fix later
   // TODO: put in constants
-  private static final double kModuleMaxAngularVelocity = 0.5 * Constants.Swerve.DIRECTION_GEAR_RATIO; // Drivetrain.kMaxAngularSpeed;
-  private static final double kModuleMaxAngularAcceleration = 1 * Constants.Swerve.DIRECTION_GEAR_RATIO; // 2 * Math.PI;
-                                                                                                         // // radians
-                                                                                                         // per second
-                                                                                                         // squared
+  private static final double kModuleMaxAngularVelocity = 2; // Drivetrain.kMaxAngularSpeed;
+  private static final double kModuleMaxAngularAcceleration = 4; // 2 * Math.PI; // radians per second squared
 
   // Creates variables for motors and absolute encoders
   private final TalonFX m_driveMotor;
@@ -105,7 +102,7 @@ public class SwerveModule {
    * @return The raw rotations of the turning motor (rotation 2d object). NOT THE
    *         WHEEL. THE MOTOR.
    */
-  private Rotation2d getTurnMotorRotation2d() {
+  private Rotation2d getTurnWheelRotation2d() {
     double numMotorRotations = m_turningMotor.getPosition().getValue();
     Rotation2d motorRotation = new Rotation2d(numMotorRotations * 2 * Math.PI / Constants.Swerve.DIRECTION_GEAR_RATIO);
     return motorRotation;
@@ -135,7 +132,7 @@ public class SwerveModule {
    */
   public SwerveModuleState getModuleState() {
     return new SwerveModuleState(
-        getDriveWheelVelocity(), getTurnMotorRotation2d());
+        getDriveWheelVelocity(), getTurnWheelRotation2d());
   }
 
   /**
@@ -143,7 +140,7 @@ public class SwerveModule {
    */
   public SwerveModulePosition getModulePosition() {
     return new SwerveModulePosition(
-        getDriveWheelDistance(), getTurnMotorRotation2d());
+        getDriveWheelDistance(), getTurnWheelRotation2d());
   }
 
   /** resets drive motor position */
@@ -158,16 +155,16 @@ public class SwerveModule {
    */
   public void setDesiredState(SwerveModuleState desiredState) {
     // Optimize the reference state to avoid spinning further than 90 degrees
-    SwerveModuleState state = SwerveModuleState.optimize(desiredState, getTurnMotorRotation2d());
+    SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, getTurnWheelRotation2d());
 
     // Calculate the drive output from the drive PID controller then set drive
     // motor.
-    final double driveOutput = m_drivePIDController.calculate(getDriveWheelVelocity(), state.speedMetersPerSecond);
+    final double driveOutput = m_drivePIDController.calculate(getDriveWheelVelocity(), optimizedState.speedMetersPerSecond);
     m_driveMotor.set(driveOutput);
 
     // Calculate the turning motor output from the turning PID controller then set
     // turn motor.
-    final double turnOutput = m_turningPIDController.calculate(getTurnWheelRotations(), state.angle.getRotations());
+    final double turnOutput = m_turningPIDController.calculate(getTurnWheelRotations(), optimizedState.angle.getRotations());
     m_turningMotor.set(turnOutput);
 
   }
