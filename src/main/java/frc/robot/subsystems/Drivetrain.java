@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -31,10 +32,10 @@ public class Drivetrain extends SubsystemBase {
 
     // TODO: make sure the encoder values actually follow: front left, front right,
     // back left, back right
-    private final SwerveModule m_frontRight = new SwerveModule(2, 1, 2, 0.126);
-    private final SwerveModule m_frontLeft = new SwerveModule(4, 3, 3, 0.411);
-    private final SwerveModule m_backRight = new SwerveModule(8, 7, 5, 0.194);
-    private final SwerveModule m_backLeft = new SwerveModule(6, 5, 4, 0.864);
+    private final SwerveModule m_frontLeft = new SwerveModule(2, 1, 2, 0.126);
+    private final SwerveModule m_frontRight = new SwerveModule(4, 3, 3, 0.411);
+    private final SwerveModule m_backLeft = new SwerveModule(8, 7, 5, 0.194);
+    private final SwerveModule m_backRight = new SwerveModule(6, 5, 4, 0.864);
 
     private final NavSensor _nav = new NavSensor();
 
@@ -79,6 +80,11 @@ public class Drivetrain extends SubsystemBase {
                                 poseFilter.getEstimatedPosition().getRotation())
                         : new ChassisSpeeds(xSpeed, ySpeed, rot));
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, kMaxSpeed);
+        SmartDashboard.putNumber("r0", swerveModuleStates[0].angle.getDegrees());
+        SmartDashboard.putNumber("r1", swerveModuleStates[1].angle.getDegrees());
+        SmartDashboard.putNumber("r2", swerveModuleStates[2].angle.getDegrees());
+        SmartDashboard.putNumber("r3", swerveModuleStates[3].angle.getDegrees());
+
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_backLeft.setDesiredState(swerveModuleStates[2]);
