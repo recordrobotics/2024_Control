@@ -11,13 +11,54 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** An example command that uses an example subsystem. */
 public class ManualSwerve extends Command {
+  public static class ControlOptions {
+    private boolean xInverted;
+    private boolean yInverted;
+    private boolean spinInverted;
+
+    public ControlOptions(boolean xinverted, boolean yinverted, boolean spininverted) {
+      xInverted = xinverted;
+      yInverted = yinverted;
+      spinInverted = spininverted;
+    }
+
+    public boolean getXInverted() {
+      return xInverted;
+    }
+
+    public boolean getYInverted() {
+      return yInverted;
+    }
+
+    public boolean getSpinInverted() {
+      return spinInverted;
+    }
+
+    /**
+     * Returns a new default instance of the class if obj is null, otherwise returns
+     * obj
+     * 
+     * @param obj Instance or null
+     * @return Instance or default instance if obj is null
+     */
+    public static ControlOptions initNull(ControlOptions obj) {
+      if (obj == null)
+        return new ControlOptions(false, false, false);
+      else
+        return obj;
+    }
+  }
+
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private Swerve _swerve;
   private IControlInput _controls;
+
+  private SendableChooser<ControlOptions> controlOptions = new SendableChooser<ControlOptions>();
 
   private Field2d m_field = new Field2d();
 
@@ -33,7 +74,18 @@ public class ManualSwerve extends Command {
     _controls = controls;
     addRequirements(swerve);
 
+    controlOptions.setDefaultOption("N:XYS, I:none", new ControlOptions(false, false, false));
+    controlOptions.addOption("N:XYS, I:none", new ControlOptions(false, false, false));
+    controlOptions.addOption("N:YS, I:X", new ControlOptions(true, false, false));
+    controlOptions.addOption("N:XS, I:Y", new ControlOptions(false, true, false));
+    controlOptions.addOption("N:S, I:XY", new ControlOptions(true, true, false));
+    controlOptions.addOption("N:XY, I:S", new ControlOptions(false, false, true));
+    controlOptions.addOption("N:X, I:SY", new ControlOptions(false, true, true));
+    controlOptions.addOption("N:Y, I:SX", new ControlOptions(true, false, true));
+    controlOptions.addOption("N:none, I:XYS", new ControlOptions(true, true, true));
+
     SmartDashboard.putData("Field", m_field);
+    SmartDashboard.putData(controlOptions);
   }
 
   // Called when the command is initially scheduled.
@@ -58,16 +110,16 @@ public class ManualSwerve extends Command {
     SmartDashboard.putNumber("F X", swerve_position.getX());
     SmartDashboard.putNumber("F Y", swerve_position.getY());
 
-    
-
     if (_controls.getResetPressed()) {
       _swerve.resetPose();
     }
 
+    ControlOptions ctrlOpts = ControlOptions.initNull(controlOptions.getSelected());
+
     _swerve.setTargetChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(
-        _controls.getX(),
-        -_controls.getY(),
-        -_controls.getSpin(),
+        ctrlOpts.getXInverted() ? -_controls.getX() : _controls.getX(),
+        ctrlOpts.getYInverted() ? -_controls.getY() : _controls.getY(),
+        ctrlOpts.getSpinInverted() ? -_controls.getSpin() : _controls.getSpin(),
         swerve_position.getRotation()));
   }
 
