@@ -11,16 +11,23 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** An example command that uses an example subsystem. */
 public class ManualSwerve extends Command {
+
+  public enum FieldReferenceFrame {
+    Field,
+    Robot
+  }
 
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private Drivetrain _drivetrain;
   private IControlInput _controls;
 
   private Field2d m_field = new Field2d();
+  private SendableChooser<FieldReferenceFrame> fieldReference = new SendableChooser<FieldReferenceFrame>();
 
   public ChassisSpeeds target;
 
@@ -34,7 +41,12 @@ public class ManualSwerve extends Command {
     _controls = controls;
     addRequirements(drivetrain);
 
+    fieldReference.addOption("Field", FieldReferenceFrame.Field);
+    fieldReference.addOption("Robot", FieldReferenceFrame.Robot);
+    fieldReference.setDefaultOption("Field", FieldReferenceFrame.Field);
+
     SmartDashboard.putData("Field", m_field);
+    SmartDashboard.putData(fieldReference);
   }
 
   // Called when the command is initially scheduled.
@@ -71,7 +83,7 @@ public class ManualSwerve extends Command {
         _controls.getX() * speedMultiplier,
         _controls.getY() * speedMultiplier,
         _controls.getSpin(),
-        false);
+        fieldReference.getSelected() == FieldReferenceFrame.Field ? true : false);
   }
 
   // Called once the command ends or is interrupted.
