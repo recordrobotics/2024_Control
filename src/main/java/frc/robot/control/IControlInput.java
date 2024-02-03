@@ -18,4 +18,6 @@ public interface IControlInput {
     boolean getAcquisition();
 
     boolean getResetPressed();
+
+    double getSpeedLevel();
 }

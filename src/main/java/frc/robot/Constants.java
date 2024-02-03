@@ -84,9 +84,9 @@ public final class Constants {
         public static final double SPEED_GEAR_RATIO = 7.36; // https://web.archive.org/web/20230117081053/https://docs.wcproducts.com/wcp-swervex/general-info/ratio-options)
         public static final double DIRECTION_GEAR_RATIO = 15.43; // (source:
                                                                  // https://web.archive.org/web/20230117081053/https://docs.wcproducts.com/wcp-swervex/general-info/ratio-options)
-        public static final double DIRECTION_KP = 3;
+        public static final double DIRECTION_KP = 2;
         public static final double DIRECTION_KI = 0;
-        public static final double DIRECTION_KD = 0;
+        public static final double DIRECTION_KD = 0.001;
         public static final double RELATIVE_ENCODER_RATIO = 2048;
         public static final int SWERVE_WHEEL_COUNT = 4;
         public static final double SWERVE_WHEEL_DIAMETER = Units.inchesToMeters(4);

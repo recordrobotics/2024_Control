@@ -54,4 +54,8 @@ public class SingleControl implements IControlInput {
 	public boolean getResetPressed() {
 		return _gamepad.getRawButtonPressed(2);
 	}
+
+	public double getSpeedLevel() {
+		return (-_gamepad.getRawAxis(3) + 1.0) / 2.0;
+	}
 }

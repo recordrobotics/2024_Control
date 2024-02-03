@@ -110,6 +110,9 @@ public class ManualSwerve extends Command {
     SmartDashboard.putNumber("F X", swerve_position.getX());
     SmartDashboard.putNumber("F Y", swerve_position.getY());
 
+    double speedLevel = _controls.getSpeedLevel();
+    double speedMultiplier = speedLevel * (2 - 0.5) + 0.5;
+
     if (_controls.getResetPressed()) {
       _swerve.resetPose();
     }
@@ -117,8 +120,8 @@ public class ManualSwerve extends Command {
     ControlOptions ctrlOpts = ControlOptions.initNull(controlOptions.getSelected());
 
     _swerve.setTargetChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(
-        ctrlOpts.getXInverted() ? -_controls.getX() : _controls.getX(),
-        ctrlOpts.getYInverted() ? -_controls.getY() : _controls.getY(),
+        (ctrlOpts.getXInverted() ? -_controls.getX() : _controls.getX()) * speedMultiplier,
+        (ctrlOpts.getYInverted() ? -_controls.getY() : _controls.getY()) * speedMultiplier,
         ctrlOpts.getSpinInverted() ? -_controls.getSpin() : _controls.getSpin(),
         swerve_position.getRotation()));
   }
