@@ -74,7 +74,7 @@ public class ManualSwerve extends Command {
     _controls = controls;
     addRequirements(swerve);
 
-    controlOptions.setDefaultOption("N:XYS, I:none", new ControlOptions(false, false, false));
+    controlOptions.setDefaultOption("N:X, I:SY", new ControlOptions(false, true, true));
     controlOptions.addOption("N:XYS, I:none", new ControlOptions(false, false, false));
     controlOptions.addOption("N:YS, I:X", new ControlOptions(true, false, false));
     controlOptions.addOption("N:XS, I:Y", new ControlOptions(false, true, false));
