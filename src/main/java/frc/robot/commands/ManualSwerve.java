@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.control.IControlInput;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -55,7 +55,7 @@ public class ManualSwerve extends Command {
   }
 
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private Swerve _swerve;
+  private Drivetrain _drivetrain;
   private IControlInput _controls;
 
   private SendableChooser<ControlOptions> controlOptions = new SendableChooser<ControlOptions>();
@@ -69,10 +69,10 @@ public class ManualSwerve extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ManualSwerve(Swerve swerve, NavSensor nav, IControlInput controls) {
-    _swerve = swerve;
+  public ManualSwerve(Drivetrain drivetrain, NavSensor nav, IControlInput controls) {
+    _drivetrain = drivetrain;
     _controls = controls;
-    addRequirements(swerve);
+    addRequirements(drivetrain);
 
     controlOptions.setDefaultOption("N:X, I:SY", new ControlOptions(false, true, true));
     controlOptions.addOption("N:XYS, I:none", new ControlOptions(false, false, false));
@@ -101,7 +101,8 @@ public class ManualSwerve extends Command {
      */
 
     // Gets swerve position
-    Pose2d swerve_position = _swerve.poseFilter.getEstimatedPosition();
+    _drivetrain.updatePoseFilter();
+    Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
 
     m_field.setRobotPose(swerve_position);
 
@@ -114,16 +115,16 @@ public class ManualSwerve extends Command {
     double speedMultiplier = speedLevel * (2 - 0.5) + 0.5;
 
     if (_controls.getResetPressed()) {
-      _swerve.resetPose();
+      _drivetrain.resetPose();
     }
 
     ControlOptions ctrlOpts = ControlOptions.initNull(controlOptions.getSelected());
 
-    _swerve.setTargetChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(
+    _drivetrain.drive(
         (ctrlOpts.getXInverted() ? -_controls.getX() : _controls.getX()) * speedMultiplier,
         (ctrlOpts.getYInverted() ? -_controls.getY() : _controls.getY()) * speedMultiplier,
         ctrlOpts.getSpinInverted() ? -_controls.getSpin() : _controls.getSpin(),
-        swerve_position.getRotation()));
+        true);
   }
 
   // Called once the command ends or is interrupted.

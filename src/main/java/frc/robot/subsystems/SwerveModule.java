@@ -126,6 +126,12 @@ public class SwerveModule {
         getDriveWheelDistance(), getTurnMotorRotation2d());
   }
 
+  
+  /** resets drive motor position */
+  public void resetDriveMotorPosition() {
+    m_driveMotor.setPosition(0);
+  } 
+
   /**
    * Sets the desired state for the module.
    *

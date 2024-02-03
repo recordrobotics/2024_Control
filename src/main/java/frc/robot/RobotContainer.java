@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ManualSwerve;
 import frc.robot.control.IControlInput;
 import frc.robot.control.SingleControl;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
 import frc.robot.subsystems.Swerve;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,7 +30,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private Swerve _swerve;
+  private Drivetrain _drivetrain;
   private NavSensor _nav;
   private List<Pair<Subsystem, Command>> _teleopPairs;
 
@@ -45,7 +46,7 @@ public class RobotContainer {
     _controlInput = new SingleControl(RobotMap.Control.SINGLE_GAMEPAD);
 
     // Init Swerve
-    _swerve = new Swerve();
+    _drivetrain = new Drivetrain();
 
     // Init Nav
     _nav = new NavSensor();
@@ -57,9 +58,9 @@ public class RobotContainer {
   }
 
   private void initTeleopCommands() {
-    _manualSwerve = new ManualSwerve(_swerve, _nav, _controlInput);
+    _manualSwerve = new ManualSwerve(_drivetrain, _nav, _controlInput);
     _teleopPairs = new ArrayList<>();
-    _teleopPairs.add(new Pair<Subsystem, Command>(_swerve, _manualSwerve));
+    _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
   }
 
   public void teleopInit() {
