@@ -13,7 +13,7 @@ public class SingleControl implements IControlInput {
 
 	public double getX() {
 		// Robot and Joystick axises are flipped
-		double input = _gamepad.getY();
+		double input = -_gamepad.getY();
 		if (input >= Constants.Control.INPUT_X_THRESHOLD || input <= -Constants.Control.INPUT_X_THRESHOLD) {
 			return input * Constants.Control.INPUT_SENSITIVITY;
 		}
@@ -22,7 +22,7 @@ public class SingleControl implements IControlInput {
 
 	public double getY() {
 		// Robot and Joystick axises are flipped
-		double input = _gamepad.getX();
+		double input = -_gamepad.getX();
 		if (input >= Constants.Control.INPUT_Y_THRESHOLD || input <= -Constants.Control.INPUT_Y_THRESHOLD) {
 			return input * Constants.Control.INPUT_SENSITIVITY;
 		}
@@ -30,7 +30,7 @@ public class SingleControl implements IControlInput {
 	}
 
 	public double getSpin() {
-		double input = _gamepad.getTwist();
+		double input = -_gamepad.getTwist();
 		if (input >= Constants.Control.INPUT_SPIN_THRESHOLD || input <= -Constants.Control.INPUT_SPIN_THRESHOLD)
 			return Constants.RemapAbsoluteValue(input, Constants.Control.SPIN_INPUT_REMAP_LOW,
 					Constants.Control.SPIN_INPUT_REMAP_HIGH) * Constants.Control.SPIN_INPUT_SENSITIVITY;
