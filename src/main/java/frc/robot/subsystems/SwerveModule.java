@@ -18,8 +18,9 @@ import frc.robot.Constants;
 public class SwerveModule {
   
   // TODO: pretty sure this has to be 1 and 2, not pi and 2pi due to the way we are inputting PID. Whatever, fix later
-  private static final double kModuleMaxAngularVelocity = Drivetrain.kMaxAngularSpeed;
-  private static final double kModuleMaxAngularAcceleration = 2 * Math.PI; // radians per second squared
+  // TODO: put in constants
+  private static final double kModuleMaxAngularVelocity = 0.5; // Drivetrain.kMaxAngularSpeed;
+  private static final double kModuleMaxAngularAcceleration = 1; //2 * Math.PI; // radians per second squared
 
   // Creates variables for motors and absolute encoders
   private final TalonFX m_driveMotor;
@@ -143,12 +144,12 @@ public class SwerveModule {
 
     // Calculate the drive output from the drive PID controller then set drive motor.
     final double driveOutput =
-        m_drivePIDController.calculate(getDriveWheelDistance(), state.speedMetersPerSecond);
+        m_drivePIDController.calculate(getDriveWheelVelocity(), state.speedMetersPerSecond);
     m_driveMotor.set(driveOutput);
 
     // Calculate the turning motor output from the turning PID controller then set turn motor.
     final double turnOutput =
-        m_turningPIDController.calculate(getTurnWheelRotations(), state.angle.getRadians());
+        m_turningPIDController.calculate(getTurnWheelRotations(), state.angle.getRotations());
     m_turningMotor.set(turnOutput);
 
   }
