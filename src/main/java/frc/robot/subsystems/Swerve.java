@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.DutyCycleEncoderSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -131,18 +132,16 @@ public class Swerve extends SubsystemBase {
 
                         // Offset direction motor encoder position
                         final double encoderValue = getEncoderPosition(i);
-                        final double encoderValueWithRatio = -encoderValue * Constants.Swerve.DIRECTION_GEAR_RATIO;
+
+                        SmartDashboard.putNumber("AbsEnc:" + i, encoderValue);
+
+                        //final double encoderValueWithRatio = -encoderValue * Constants.Swerve.DIRECTION_GEAR_RATIO;
                         // Set direction motor position offset
-                        directionMotors[i].setPosition(encoderValueWithRatio);
-                        directionPID[i].enableContinuousInput(-0.5, 0.5);
+                        //directionMotors[i].setPosition(encoderValueWithRatio);
+                        //directionPID[i].enableContinuousInput(-0.5, 0.5);
                 }
 
-                // gives poseFilter value
-                poseFilter = new SwerveDrivePoseEstimator(kinematics, _nav.getAdjustedAngle(),
-                                new SwerveModulePosition[] {
-                                                getPosition(0), getPosition(1), getPosition(2), getPosition(3) },
-                                new Pose2d(0, 0, new Rotation2d(0)));// TODO: currently using default standard
-                                                                     // deviations, get
+                
         }
 
         /**
@@ -156,119 +155,29 @@ public class Swerve extends SubsystemBase {
                                 + 1) % 1;
         }
 
-        private double getSpeedMotorVelocity(int motorId) {
-                return speedMotors[motorId].getVelocity().getValue();
-        }
-
-        /**
-         * Gets the direction motor position in rotations
-         * 
-         * @param motorId index of motor in array
-         */
-        private double getRawDirectionMotorRotations(int motorId) {
-                return directionMotors[motorId].getPosition().getValue();
-        }
-
-        /**
-         * Gets the direction of the wheel in rotations (motor rotation with gear ratio
-         * taken into account)
-         * 
-         * @param motorId index of motor in array
-         */
-        private double getDirectionWheelRotations(int motorId) {
-                double numRotations = getRawDirectionMotorRotations(motorId);
-                return (numRotations) / Constants.Swerve.DIRECTION_GEAR_RATIO;
-        }
-
-        /**
-         * Gets the distance (in meters) travelled by the speed wheel
-         * 
-         * @param motorId index of motor in array
-         */
-        private double getSpeedWheelDistanceMeters(int motorId) {
-                double numRotationsMotor = speedMotors[motorId].getPosition().getValue();
-                double numRotationsWheel = numRotationsMotor / Constants.Swerve.SPEED_GEAR_RATIO;
-                double speedWheelDistanceMeters = numRotationsWheel * Math.PI * Constants.Swerve.SWERVE_WHEEL_DIAMETER;
-
-                return speedWheelDistanceMeters;
-        }
-
-        /**
-         * Gets the current wheel states (speed and rotation in radians)
-         */
-        public SwerveModuleState[] getCurrentSwerveState() {
-                SwerveModuleState[] states = new SwerveModuleState[wheelCount];
-                for (int i = 0; i < wheelCount; i++) {
-                        states[i] = new SwerveModuleState(
-                                        // Current speed in meters per second
-                                        getSpeedMotorVelocity(i) * 10
-                                                        / Constants.Swerve.RELATIVE_ENCODER_RATIO
-                                                        * (0.05 * 2 * Math.PI),
-                                        // Current rotation in radians
-                                        new Rotation2d(
-                                                        getRawDirectionMotorRotations(i)
-
-                                                                        * 2 * Math.PI
-                                                                        / Constants.Swerve.DIRECTION_GEAR_RATIO));
-                }
-                return states;
-        }
-
-        /**
-         * Sets the target chassis speed
-         */
-        public void setTargetChassisSpeed(ChassisSpeeds _target) {
-                targetChassisSpeed = _target;
-        }
-
-        // returns a SwerveModulePosition object for use in the SwerveDrivePoseEstimator
-        public SwerveModulePosition getPosition(int i) {
-                return new SwerveModulePosition(
-                                // TODO: I have no idea if these values are the correct ones. See
-                                // https://github.com/wpilibsuite/allwpilib/blob/main/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/swervebot/SwerveModule.java
-                                getSpeedWheelDistanceMeters(i),
-                                new Rotation2d(getDirectionWheelRotations(i) * 2 * Math.PI));
-        }
-
-        public void resetPose() {
-                _nav.relativeResetAngle();
-                for (int i = 0; i < wheelCount; i++) {
-                        speedMotors[i].setPosition(0);
-                }
-                poseFilter.resetPosition(_nav.getAdjustedAngle(), new SwerveModulePosition[] {
-                                getPosition(0), getPosition(1), getPosition(2), getPosition(3) },
-                                new Pose2d(0, 0, new Rotation2d(0)));
-        }
 
         @Override
         public void periodic() {
 
-                // Updates poseFilter
-                poseFilter.update(_nav.getAdjustedAngle(), new SwerveModulePosition[] {
-                                getPosition(0), getPosition(1), getPosition(2), getPosition(3) });
-
-                // Run kinematics to convert target speeds to swerve wheel angle and rotations
-                targetStates = kinematics.toSwerveModuleStates(targetChassisSpeed);
-                // Get current swerve wheel states
-                SwerveModuleState[] currentStates = getCurrentSwerveState();
-
                 for (int i = 0; i < wheelCount; i++) {
-                        // Optimize rotation and speed before using values
-                        targetStates[i] = SwerveModuleState.optimize(targetStates[i], currentStates[i].angle);
+                        // Reset motor speed
+                        speedMotors[i].set(0);
+                        directionMotors[i].set(0);
 
-                        // Set target wheel rotations for the PID
-                        directionPID[i].setSetpoint(targetStates[i].angle.getRotations());
+                        // Offset direction motor encoder position
+                        final double encoderValue = getEncoderPosition(i);
 
-                        // Set speed motor speed (-1 to 1)
-                        speedMotors[i].set(Constants.Swerve.LimitMotor(targetStates[i].speedMetersPerSecond));
+                        SmartDashboard.putNumber("AbsEnc:" + i, encoderValue);
 
-                        // Set direction motor speed based on feedback from PID controller
-                        double wheelRotations = getDirectionWheelRotations(i);
-                        double dpidCalculation = directionPID[i].calculate(wheelRotations);
-                        directionMotors[i].set(dpidCalculation);
+                        //final double encoderValueWithRatio = -encoderValue * Constants.Swerve.DIRECTION_GEAR_RATIO;
+                        // Set direction motor position offset
+                        //directionMotors[i].setPosition(encoderValueWithRatio);
+                        //directionPID[i].enableContinuousInput(-0.5, 0.5);
                 }
 
-        }
+                }
+
+        
 
         @Override
         public void simulationPeriodic() {

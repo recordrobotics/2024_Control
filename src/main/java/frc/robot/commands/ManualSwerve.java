@@ -99,31 +99,6 @@ public class ManualSwerve extends Command {
     /**
      * Target Velocity and Angle
      */
-
-    // Gets swerve position
-    Pose2d swerve_position = _swerve.poseFilter.getEstimatedPosition();
-
-    m_field.setRobotPose(swerve_position);
-
-    // Puts on shuffleboard
-    SmartDashboard.putNumber("F rot", swerve_position.getRotation().getDegrees());
-    SmartDashboard.putNumber("F X", swerve_position.getX());
-    SmartDashboard.putNumber("F Y", swerve_position.getY());
-
-    double speedLevel = _controls.getSpeedLevel();
-    double speedMultiplier = speedLevel * (2 - 0.5) + 0.5;
-
-    if (_controls.getResetPressed()) {
-      _swerve.resetPose();
-    }
-
-    ControlOptions ctrlOpts = ControlOptions.initNull(controlOptions.getSelected());
-
-    _swerve.setTargetChassisSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(
-        (ctrlOpts.getXInverted() ? -_controls.getX() : _controls.getX()) * speedMultiplier,
-        (ctrlOpts.getYInverted() ? -_controls.getY() : _controls.getY()) * speedMultiplier,
-        ctrlOpts.getSpinInverted() ? -_controls.getSpin() : _controls.getSpin(),
-        swerve_position.getRotation()));
   }
 
   // Called once the command ends or is interrupted.
