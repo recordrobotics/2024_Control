@@ -124,7 +124,7 @@ public class ManualSwerve extends Command {
         (ctrlOpts.getXInverted() ? -_controls.getX() : _controls.getX()) * speedMultiplier,
         (ctrlOpts.getYInverted() ? -_controls.getY() : _controls.getY()) * speedMultiplier,
         ctrlOpts.getSpinInverted() ? -_controls.getSpin() : _controls.getSpin(),
-        true);
+        false);
   }
 
   // Called once the command ends or is interrupted.

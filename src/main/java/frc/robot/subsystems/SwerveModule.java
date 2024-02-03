@@ -21,8 +21,11 @@ public class SwerveModule {
   // TODO: pretty sure this has to be 1 and 2, not pi and 2pi due to the way we
   // are inputting PID. Whatever, fix later
   // TODO: put in constants
-  private static final double kModuleMaxAngularVelocity = 0.5; // Drivetrain.kMaxAngularSpeed;
-  private static final double kModuleMaxAngularAcceleration = 1; // 2 * Math.PI; // radians per second squared
+  private static final double kModuleMaxAngularVelocity = 0.5 * Constants.Swerve.DIRECTION_GEAR_RATIO; // Drivetrain.kMaxAngularSpeed;
+  private static final double kModuleMaxAngularAcceleration = 1 * Constants.Swerve.DIRECTION_GEAR_RATIO; // 2 * Math.PI;
+                                                                                                         // // radians
+                                                                                                         // per second
+                                                                                                         // squared
 
   // Creates variables for motors and absolute encoders
   private final TalonFX m_driveMotor;
