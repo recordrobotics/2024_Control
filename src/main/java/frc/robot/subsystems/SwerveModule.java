@@ -88,16 +88,16 @@ public class SwerveModule {
     double numMotorRotations = m_turningMotor.getPosition().getValue();
     Rotation2d motorRotation = new Rotation2d(numMotorRotations * 2 * Math.PI / Constants.Swerve.DIRECTION_GEAR_RATIO);
     return motorRotation;
-}
+  }
 
   /**
-   * @return The rotations of the turning wheel (rotations)
+   * @return The number of rotations of the turning wheel (rotations)
    */
   private double getTurnWheelRotations() {
     double numMotorRotations = m_turningMotor.getPosition().getValue();
     double numWheelRotations = numMotorRotations / Constants.Swerve.DIRECTION_GEAR_RATIO;
     return numWheelRotations;
-}
+  }
 
   /**
    * @return The distance driven by the drive wheel (meters)
@@ -107,8 +107,7 @@ public class SwerveModule {
   double numRotationsWheel = numRotationsMotor / Constants.Swerve.SPEED_GEAR_RATIO;
   double speedWheelDistanceMeters = numRotationsWheel * Math.PI * Constants.Swerve.SWERVE_WHEEL_DIAMETER;
   return speedWheelDistanceMeters;
-}
-
+  }
 
   /**
    * @return The current state of the module.
