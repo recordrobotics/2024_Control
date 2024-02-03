@@ -32,7 +32,8 @@ public class SingleControl implements IControlInput {
 	public double getSpin() {
 		double input = _gamepad.getTwist();
 		if (input >= Constants.Control.INPUT_SPIN_THRESHOLD || input <= -Constants.Control.INPUT_SPIN_THRESHOLD)
-			return input * Constants.Control.SPIN_INPUT_SENSITIVITY;
+			return Constants.RemapAbsoluteValue(input, Constants.Control.SPIN_INPUT_REMAP_LOW,
+					Constants.Control.SPIN_INPUT_REMAP_HIGH) * Constants.Control.SPIN_INPUT_SENSITIVITY;
 		return 0;
 	}
 
