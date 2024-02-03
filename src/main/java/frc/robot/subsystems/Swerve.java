@@ -151,8 +151,7 @@ public class Swerve extends SubsystemBase {
          * @return the absolute position of the encoder relative to our our robots zero
          */
         private double getEncoderPosition(int encoderIndex) {
-                return (encoders[encoderIndex].getAbsolutePosition() - Constants.Swerve.ENCODER_OFFSETS[encoderIndex]
-                                + 1) % 1;
+                return encoders[encoderIndex].getAbsolutePosition();
         }
 
 
