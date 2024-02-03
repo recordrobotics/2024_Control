@@ -7,7 +7,10 @@ package frc.robot.commands;
 import frc.robot.control.IControlInput;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
+import frc.robot.utils.AutoOrient;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -28,6 +31,8 @@ public class ManualSwerve extends Command {
 
   private Field2d m_field = new Field2d();
   private SendableChooser<FieldReferenceFrame> fieldReference = new SendableChooser<FieldReferenceFrame>();
+
+  private PIDController anglePID = new PIDController(1, 0, 0);
 
   public ChassisSpeeds target;
 
@@ -79,10 +84,16 @@ public class ManualSwerve extends Command {
       _drivetrain.resetPose();
     }
 
+    double spin = anglePID.calculate(swerve_position.getRotation().getRadians(),
+        AutoOrient.rotationFacingTarget(swerve_position.getTranslation(), new Translation2d(0, 0)).getRadians());
+    if (!AutoOrient.shouldUpdateAngle(swerve_position.getTranslation(), new Translation2d(0, 0))) {
+      spin = 0;
+    }
+
     _drivetrain.drive(
         _controls.getX() * speedMultiplier,
         _controls.getY() * speedMultiplier,
-        _controls.getSpin(),
+        spin /* _controls.getSpin() */,
         fieldReference.getSelected() == FieldReferenceFrame.Field ? true : false);
   }
 
