@@ -32,10 +32,10 @@ public class Drivetrain extends SubsystemBase {
 
     // TODO: make sure the encoder values actually follow: front left, front right,
     // back left, back right
-    private final SwerveModule m_frontLeft = new SwerveModule(2, 1, 2, 0.125);
-    private final SwerveModule m_frontRight = new SwerveModule(4, 3, 3, 0.411);
-    private final SwerveModule m_backLeft = new SwerveModule(8, 7, 5, 0.193);
-    private final SwerveModule m_backRight = new SwerveModule(6, 5, 4, 0.876);
+    private final SwerveModule m_frontLeft = new SwerveModule(2, 1, 2, 0.411);
+    private final SwerveModule m_frontRight = new SwerveModule(4, 3, 3, 0.125);
+    private final SwerveModule m_backLeft = new SwerveModule(8, 7, 5, 0.876);
+    private final SwerveModule m_backRight = new SwerveModule(6, 5, 4, 0.193);
 
     private final NavSensor _nav = new NavSensor();
 
