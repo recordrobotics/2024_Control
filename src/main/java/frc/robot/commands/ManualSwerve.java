@@ -93,7 +93,7 @@ public class ManualSwerve extends Command {
     _drivetrain.drive(
         _controls.getX() * speedMultiplier,
         _controls.getY() * speedMultiplier,
-        spin /* _controls.getSpin() */,
+        _controls.getSpin(),
         fieldReference.getSelected() == FieldReferenceFrame.Field ? true : false);
   }
 
