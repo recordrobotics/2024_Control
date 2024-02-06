@@ -71,16 +71,16 @@ public class SwerveModule {
     m_turningPIDController.enableContinuousInput(-0.5, 0.5);
 
     // Corrects for offset in absolute motor position
-    //m_turningMotor.setPosition(getAbsWheelOffset());
+    m_turningMotor.setPosition(getAbsWheelOffset());
     SmartDashboard.putNumber("E" + Double.toString(absoluteTurningMotorEncoderChannel), absoluteTurningMotorEncoder.getAbsolutePosition());
-    m_turningMotor.setPosition(0);
   }
 
   /**
    * @return The current offset absolute position of the wheel's turn
    */
   private double getAbsWheelOffset() {
-    double absEncoderPosition = (absoluteTurningMotorEncoder.getAbsolutePosition() - turningEncoderOffset + 1) % 1;
+
+    double absEncoderPosition = absoluteTurningMotorEncoder.getAbsolutePosition() - turningEncoderOffset;
     // Inverts absEncoderPosition as the relative encoders and the absoulte encoders increase in different directions
     // so the offset needs to be inverted
     double absWheelPositionOffset = - absEncoderPosition * Constants.Swerve.DIRECTION_GEAR_RATIO; // TODO: investigate
