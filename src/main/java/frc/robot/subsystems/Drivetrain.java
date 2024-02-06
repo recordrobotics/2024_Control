@@ -37,22 +37,22 @@ public class Drivetrain extends SubsystemBase {
                         RobotMap.swerve.SPEED_MOTOR_FRONT_LEFT_DEVICE_ID,
                         RobotMap.swerve.DIRECTION_MOTOR_FRONT_LEFT_DEVICE_ID,
                         RobotMap.swerve.ENCODER_FRONT_LEFT_DEVICE_ID,
-                        0.125);
+                        0.411);
         private final SwerveModule m_frontRight = new SwerveModule(
                         RobotMap.swerve.SPEED_MOTOR_FRONT_RIGHT_DEVICE_ID,
                         RobotMap.swerve.DIRECTION_MOTOR_FRONT_RIGHT_DEVICE_ID,
                         RobotMap.swerve.ENCODER_FRONT_RIGHT_DEVICE_ID,
-                        0.411);
+                        0.125);
         private final SwerveModule m_backLeft = new SwerveModule(
                         RobotMap.swerve.SPEED_MOTOR_BACK_LEFT_DEVICE_ID,
                         RobotMap.swerve.DIRECTION_MOTOR_BACK_LEFT_DEVICE_ID,
                         RobotMap.swerve.ENCODER_BACK_LEFT_DEVICE_ID,
-                        0.193);
+                        0.876);
         private final SwerveModule m_backRight = new SwerveModule(
                         RobotMap.swerve.SPEED_MOTOR_BACK_RIGHT_DEVICE_ID,
                         RobotMap.swerve.DIRECTION_MOTOR_BACK_RIGHT_DEVICE_ID,
                         RobotMap.swerve.ENCODER_BACK_RIGHT_DEVICE_ID,
-                        0.876);
+                        0.193);
 
         private final NavSensor _nav = new NavSensor();
 
