@@ -34,6 +34,8 @@ public class ManualSwerve extends Command {
 
   private PIDController anglePID = new PIDController(1, 0, 0);
 
+  private Translation2d targetPos = new Translation2d(0, 0);
+
   public ChassisSpeeds target;
 
   /**
@@ -84,16 +86,20 @@ public class ManualSwerve extends Command {
       _drivetrain.resetPose();
     }
 
+    if (_controls.getPointPressed()) {
+      targetPos = swerve_position.getTranslation();
+    }
+
     double spin = anglePID.calculate(swerve_position.getRotation().getRadians(),
-        AutoOrient.rotationFacingTarget(swerve_position.getTranslation(), new Translation2d(0, 0)).getRadians());
-    if (!AutoOrient.shouldUpdateAngle(swerve_position.getTranslation(), new Translation2d(0, 0))) {
+        AutoOrient.rotationFacingTarget(swerve_position.getTranslation(), targetPos).getRadians());
+    if (!AutoOrient.shouldUpdateAngle(swerve_position.getTranslation(), targetPos)) {
       spin = 0;
     }
 
     _drivetrain.drive(
         _controls.getX() * speedMultiplier,
         _controls.getY() * speedMultiplier,
-        _controls.getSpin(),
+        _controls.spinFlywheel() ? _controls.getSpin() : Math.max(-0.5, Math.min(0.5, spin)),
         fieldReference.getSelected() == FieldReferenceFrame.Field ? true : false);
   }
 

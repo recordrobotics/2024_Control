@@ -19,5 +19,7 @@ public interface IControlInput {
 
     boolean getResetPressed();
 
+    boolean getPointPressed();
+
     double getSpeedLevel();
 }
