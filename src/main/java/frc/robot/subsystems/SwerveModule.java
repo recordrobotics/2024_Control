@@ -72,7 +72,7 @@ public class SwerveModule {
 
     // Corrects for offset in absolute motor position
     //m_turningMotor.setPosition(getAbsWheelOffset());
-    SmartDashboard.putNumber(Double.toString(absoluteTurningMotorEncoderChannel), getAbsWheelOffset());
+    SmartDashboard.putNumber("E" + Double.toString(absoluteTurningMotorEncoderChannel), absoluteTurningMotorEncoder.getAbsolutePosition());
     m_turningMotor.setPosition(0);
   }
 
@@ -158,6 +158,7 @@ public class SwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
+
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState,
         getTurnWheelRotation2d());
@@ -175,4 +176,5 @@ public class SwerveModule {
     m_turningMotor.set(turnOutput);
 
   }
+
 }
