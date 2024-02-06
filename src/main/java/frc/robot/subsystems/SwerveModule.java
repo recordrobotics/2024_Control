@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class SwerveModule {
@@ -70,7 +71,9 @@ public class SwerveModule {
     m_turningPIDController.enableContinuousInput(-0.5, 0.5);
 
     // Corrects for offset in absolute motor position
-    m_turningMotor.setPosition(getAbsWheelOffset());
+    //m_turningMotor.setPosition(getAbsWheelOffset());
+    SmartDashboard.putNumber(Double.toString(absoluteTurningMotorEncoderChannel), getAbsWheelOffset());
+    m_turningMotor.setPosition(0);
   }
 
   /**
@@ -80,7 +83,7 @@ public class SwerveModule {
     double absEncoderPosition = (absoluteTurningMotorEncoder.getAbsolutePosition() - turningEncoderOffset + 1) % 1;
     // Inverts absEncoderPosition as the relative encoders and the absoulte encoders increase in different directions
     // so the offset needs to be inverted
-    double absWheelPositionOffset = absEncoderPosition * Constants.Swerve.DIRECTION_GEAR_RATIO; // TODO: investigate
+    double absWheelPositionOffset = - absEncoderPosition * Constants.Swerve.DIRECTION_GEAR_RATIO; // TODO: investigate
                                                                                                  // the "-" sign in this
                                                                                                  // line. I think it's
                                                                                                  // fine, but just to be
