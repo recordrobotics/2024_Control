@@ -60,7 +60,7 @@ public class SwerveModule {
     absoluteTurningMotorEncoder = new DutyCycleEncoder(absoluteTurningMotorEncoderChannel);
     this.turningEncoderOffset = turningEncoderOffset;
 
-    Timer.delay(5);
+    Timer.delay(3);
 
     m_driveMotor.set(0);
     m_turningMotor.set(0);
@@ -70,22 +70,21 @@ public class SwerveModule {
     m_turningPIDController.enableContinuousInput(-0.5, 0.5);
 
     // Corrects for offset in absolute motor position
-    m_turningMotor.setPosition(getAbsWheelOffset(absoluteTurningMotorEncoderChannel));
+    m_turningMotor.setPosition(getAbsWheelOffset());
   }
 
   /**
    * @return The current offset absolute position of the wheel's turn
    */
-  private double getAbsWheelOffset(int absoluteTurningMotorEncoderChannel) {
-    double absEncoderPosition = (absoluteTurningMotorEncoder.getAbsolutePosition()
-        - turningEncoderOffset + 1) % 1;
+  private double getAbsWheelOffset() {
+    double absEncoderPosition = (absoluteTurningMotorEncoder.getAbsolutePosition() - turningEncoderOffset + 1) % 1;
     // Inverts absEncoderPosition as the relative encoders and the absoulte encoders increase in different directions
     // so the offset needs to be inverted
-    double absWheelPositionOffset = -absEncoderPosition * Constants.Swerve.DIRECTION_GEAR_RATIO; // TODO: investigate
+    double absWheelPositionOffset = absEncoderPosition * Constants.Swerve.DIRECTION_GEAR_RATIO; // TODO: investigate
                                                                                                  // the "-" sign in this
                                                                                                  // line. I think it's
                                                                                                  // fine, but just to be
-                                                                                                 // sure
+                                                                                                 // sure. (removed "-" sign)
     return absWheelPositionOffset;
   }
 

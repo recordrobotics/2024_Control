@@ -32,30 +32,14 @@ public class Drivetrain extends SubsystemBase {
         private final Translation2d m_backLeftLocation = new Translation2d(-wheelLocX, wheelLocY);
         private final Translation2d m_backRightLocation = new Translation2d(-wheelLocX, -wheelLocY);
 
-        // TODO: make sure the encoder values actually follow: front left, front right,
-        // back left, back right
-        private final SwerveModule m_frontLeft = new SwerveModule(
-                        RobotMap.swerve.SPEED_MOTOR_FRONT_LEFT_DEVICE_ID,
-                        RobotMap.swerve.DIRECTION_MOTOR_FRONT_LEFT_DEVICE_ID,
-                        RobotMap.swerve.ENCODER_FRONT_LEFT_DEVICE_ID,
-                        0.411);
-        private final SwerveModule m_frontRight = new SwerveModule(
-                        RobotMap.swerve.SPEED_MOTOR_FRONT_RIGHT_DEVICE_ID,
-                        RobotMap.swerve.DIRECTION_MOTOR_FRONT_RIGHT_DEVICE_ID,
-                        RobotMap.swerve.ENCODER_FRONT_RIGHT_DEVICE_ID,
-                        0.125);
-        private final SwerveModule m_backLeft = new SwerveModule(
-                        RobotMap.swerve.SPEED_MOTOR_BACK_LEFT_DEVICE_ID,
-                        RobotMap.swerve.DIRECTION_MOTOR_BACK_LEFT_DEVICE_ID,
-                        RobotMap.swerve.ENCODER_BACK_LEFT_DEVICE_ID,
-                        0.876);
-        private final SwerveModule m_backRight = new SwerveModule(
-                        RobotMap.swerve.SPEED_MOTOR_BACK_RIGHT_DEVICE_ID,
-                        RobotMap.swerve.DIRECTION_MOTOR_BACK_RIGHT_DEVICE_ID,
-                        RobotMap.swerve.ENCODER_BACK_RIGHT_DEVICE_ID,
-                        0.193);
+    // TODO: make sure the encoder values actually follow: front left, front right,
+    // back left, back right
+    private final SwerveModule m_frontLeft  = new SwerveModule(2, 1, 2, 0.125); //411
+    private final SwerveModule m_frontRight = new SwerveModule(4, 3, 3, 0.411); //125
+    private final SwerveModule m_backLeft   = new SwerveModule(8, 7, 5, 0.193); //876
+    private final SwerveModule m_backRight  = new SwerveModule(6, 5, 4, 0.876); //193
 
-        private final NavSensor _nav = new NavSensor();
+    private final NavSensor _nav = new NavSensor(); 
 
         private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
                         m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
