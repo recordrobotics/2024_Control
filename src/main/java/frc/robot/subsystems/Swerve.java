@@ -133,7 +133,6 @@ public class Swerve extends SubsystemBase {
                         // Offset direction motor encoder position
                         final double encoderValue = getEncoderPosition(i);
 
-                        SmartDashboard.putNumber("AbsEnc:" + i, encoderValue);
 
                         //final double encoderValueWithRatio = -encoderValue * Constants.Swerve.DIRECTION_GEAR_RATIO;
                         // Set direction motor position offset
@@ -166,7 +165,7 @@ public class Swerve extends SubsystemBase {
                         // Offset direction motor encoder position
                         final double encoderValue = getEncoderPosition(i);
 
-                        SmartDashboard.putNumber("AbsEnc:" + i, encoderValue);
+                        SmartDashboard.putNumber("AbEnc:" + RobotMap.swerve.ENCODER_DEVICE_IDS[i], encoderValue);
 
                         //final double encoderValueWithRatio = -encoderValue * Constants.Swerve.DIRECTION_GEAR_RATIO;
                         // Set direction motor position offset
