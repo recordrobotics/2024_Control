@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NavSensor extends SubsystemBase {
 
+	// Creates AHRS _nav object
 	private static AHRS _nav = new AHRS(SerialPort.Port.kUSB1);
 
-	private static double referenceAngle; // variable to keep track of a reference angle whenever you reset
+	// variable to keep track of a reference angle whenever you reset
+	private static double referenceAngle;
 
 	public static void initNav() {
 		_nav.reset();
