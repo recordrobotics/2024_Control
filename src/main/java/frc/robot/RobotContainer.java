@@ -10,11 +10,11 @@ import java.util.List;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.RobotMap.swerve;
 import frc.robot.commands.ManualSwerve;
 import frc.robot.control.IControlInput;
 import frc.robot.control.SingleControl;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.NavSensor;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -29,7 +29,8 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private Swerve _swerve;
+  private Drivetrain _drivetrain;
+  private NavSensor _nav;
   private List<Pair<Subsystem, Command>> _teleopPairs;
 
   private ManualSwerve _manualSwerve;
@@ -42,24 +43,30 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     _controlInput = new SingleControl(RobotMap.Control.SINGLE_GAMEPAD);
-    _swerve = new Swerve();
+
+    // Init Swerve
+    _drivetrain = new Drivetrain();
+
+    // Init Nav
+    _nav = new NavSensor();
+    NavSensor.initNav();
+
+    // Bindings and Teleop
     configureButtonBindings();
     initTeleopCommands();
   }
 
   private void initTeleopCommands() {
-    _manualSwerve = new ManualSwerve(_swerve, _controlInput);
+    _manualSwerve = new ManualSwerve(_drivetrain, _nav, _controlInput);
     _teleopPairs = new ArrayList<>();
-    _teleopPairs.add(new Pair<Subsystem, Command>(_swerve, _manualSwerve));
+    _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
   }
 
   public void teleopInit() {
-		for (Pair<Subsystem, Command> c : _teleopPairs) {
-			c.getFirst().setDefaultCommand(c.getSecond());
-		}
-	}
-
-
+    for (Pair<Subsystem, Command> c : _teleopPairs) {
+      c.getFirst().setDefaultCommand(c.getSecond());
+    }
+  }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -71,8 +78,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
   }
-
-  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

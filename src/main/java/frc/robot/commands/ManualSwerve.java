@@ -5,28 +5,53 @@
 package frc.robot.commands;
 
 import frc.robot.control.IControlInput;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.NavSensor;
+import frc.robot.utils.AutoOrient;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** An example command that uses an example subsystem. */
 public class ManualSwerve extends Command {
+
+  public enum FieldReferenceFrame {
+    Field,
+    Robot
+  }
+
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private Swerve _swerve;
+  private Drivetrain _drivetrain;
   private IControlInput _controls;
 
+  private Field2d m_field = new Field2d();
+  private SendableChooser<FieldReferenceFrame> fieldReference = new SendableChooser<FieldReferenceFrame>();
+
+  private PIDController anglePID = new PIDController(1, 0, 0);
+
   public ChassisSpeeds target;
-  private static final double SPEED = 1;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ManualSwerve(Swerve swerve, IControlInput controls) {
-    _swerve = swerve;
+  public ManualSwerve(Drivetrain drivetrain, NavSensor nav, IControlInput controls) {
+    _drivetrain = drivetrain;
     _controls = controls;
-    addRequirements(swerve);
+    addRequirements(drivetrain);
+
+    fieldReference.addOption("Field", FieldReferenceFrame.Field);
+    fieldReference.addOption("Robot", FieldReferenceFrame.Robot);
+    fieldReference.setDefaultOption("Field", FieldReferenceFrame.Field);
+
+    SmartDashboard.putData("Field", m_field);
+    SmartDashboard.putData(fieldReference);
   }
 
   // Called when the command is initially scheduled.
@@ -40,8 +65,36 @@ public class ManualSwerve extends Command {
     /**
      * Target Velocity and Angle
      */
-    _swerve.setTarget(ChassisSpeeds.fromFieldRelativeSpeeds(
-        _controls.getX() * SPEED, _controls.getY() * SPEED, _controls.setSpin(), _swerve.getAngle()));
+
+    // Gets swerve position
+    _drivetrain.updatePoseFilter();
+    Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
+
+    m_field.setRobotPose(swerve_position);
+
+    // Puts on shuffleboard
+    SmartDashboard.putNumber("F rot", swerve_position.getRotation().getDegrees());
+    SmartDashboard.putNumber("F X", swerve_position.getX());
+    SmartDashboard.putNumber("F Y", swerve_position.getY());
+
+    double speedLevel = _controls.getSpeedLevel();
+    double speedMultiplier = speedLevel * (2 - 0.5) + 0.5;
+
+    if (_controls.getResetPressed()) {
+      _drivetrain.resetPose();
+    }
+
+    double spin = anglePID.calculate(swerve_position.getRotation().getRadians(),
+        AutoOrient.rotationFacingTarget(swerve_position.getTranslation(), new Translation2d(0, 0)).getRadians());
+    if (!AutoOrient.shouldUpdateAngle(swerve_position.getTranslation(), new Translation2d(0, 0))) {
+      spin = 0;
+    }
+
+    _drivetrain.drive(
+        _controls.getX() * speedMultiplier,
+        _controls.getY() * speedMultiplier,
+        _controls.getSpin(),
+        fieldReference.getSelected() == FieldReferenceFrame.Field ? true : false);
   }
 
   // Called once the command ends or is interrupted.

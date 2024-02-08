@@ -10,10 +10,9 @@ import frc.robot.RobotMap;
 
 public class Shooter extends SubsystemBase {
 
-    private Spark flywheel = new Spark(RobotMap.Shooter.FLYWHEEL_MOTOR_ID);
+    private Spark flywheel = new Spark(RobotMap.Shooter.flywheel);
     private Acquisition acquisition = new Acquisition();
     private static final double FLYWHEEL_SPEED = 0.3;
-    
 
     public Shooter() {
         shoot(ShooterStates.STOP);
