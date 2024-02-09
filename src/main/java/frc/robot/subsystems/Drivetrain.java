@@ -15,7 +15,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotMap;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends SubsystemBase {
@@ -27,19 +26,19 @@ public class Drivetrain extends SubsystemBase {
         private static final double wheelLocX = Constants.Swerve.ROBOT_WHEEL_DISTANCE_WIDTH / 2;
         private static final double wheelLocY = Constants.Swerve.ROBOT_WHEEL_DISTANCE_LENGTH / 2;
 
-        private final Translation2d m_frontLeftLocation  = new Translation2d(wheelLocX, wheelLocY);
+        private final Translation2d m_frontLeftLocation = new Translation2d(wheelLocX, wheelLocY);
         private final Translation2d m_frontRightLocation = new Translation2d(wheelLocX, -wheelLocY);
-        private final Translation2d m_backLeftLocation   = new Translation2d(-wheelLocX, wheelLocY);
-        private final Translation2d m_backRightLocation  = new Translation2d(-wheelLocX, -wheelLocY);
+        private final Translation2d m_backLeftLocation = new Translation2d(-wheelLocX, wheelLocY);
+        private final Translation2d m_backRightLocation = new Translation2d(-wheelLocX, -wheelLocY);
 
-    // TODO: make sure the encoder values actually follow: front left, front right,
-    // back left, back right
-    private final SwerveModule m_frontLeft  = new SwerveModule(2, 1, 2, 0.628); //.411
-    private final SwerveModule m_frontRight = new SwerveModule(4, 3, 3, 0.917); //.125
-    private final SwerveModule m_backLeft   = new SwerveModule(8, 7, 5, 0.697); //.876
-    private final SwerveModule m_backRight  = new SwerveModule(6, 5, 4, 0.363); //.193
+        // TODO: make sure the encoder values actually follow: front left, front right,
+        // back left, back right
+        private final SwerveModule m_frontLeft = new SwerveModule(2, 1, 2, 0.628); // .411
+        private final SwerveModule m_frontRight = new SwerveModule(4, 3, 3, 0.917); // .125
+        private final SwerveModule m_backLeft = new SwerveModule(8, 7, 5, 0.697); // .876
+        private final SwerveModule m_backRight = new SwerveModule(6, 5, 4, 0.363); // .193
 
-    private final NavSensor _nav = new NavSensor();
+        private final NavSensor _nav = new NavSensor();
 
         private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
                         m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
@@ -77,7 +76,8 @@ public class Drivetrain extends SubsystemBase {
          */
         public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
 
-                // Calculates swerveModuleStates given optimal ChassisSpeeds given by control scheme
+                // Calculates swerveModuleStates given optimal ChassisSpeeds given by control
+                // scheme
                 SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
                                 fieldRelative
                                                 ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,
