@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -41,6 +44,16 @@ public final class Constants {
         } else {
             return 0;
         }
+    }
+
+    public final class FieldConstants {
+        public static final Translation2d TEAM_RED_SPEAKER = new Translation2d(16, 5.5);
+        public static final Translation2d TEAM_BLUE_SPEAKER = new Translation2d(0.6, 5.6);
+        public static final Translation2d TEAM_RED_AMP = new Translation2d(14.7, 8.5);
+        public static final Translation2d TEAM_BLUE_AMP = new Translation2d(1.88, 8.5);
+
+        public static final Pose2d TEAM_RED_STARTING_POSE = new Pose2d(16, 4.2, Rotation2d.fromDegrees(180));
+        public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(0.5, 4.2, Rotation2d.fromDegrees(0));
     }
 
     public final class Control {

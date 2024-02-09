@@ -5,16 +5,16 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.utils.DriverStationUtils;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends SubsystemBase {
@@ -49,10 +49,6 @@ public class Drivetrain extends SubsystemBase {
         public Drivetrain() {
                 _nav.relativeResetAngle();
 
-                // gives poseFilter value
-                // TODO: currently using default standard deviations, find actual values.
-                // TODO: currently sets starting pose to 0, 0. Input starting position once you
-                // begin accounting for thems
                 poseFilter = new SwerveDrivePoseEstimator(
                                 m_kinematics,
                                 _nav.getAdjustedAngle(),
@@ -62,7 +58,9 @@ public class Drivetrain extends SubsystemBase {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                new Pose2d(0, 0, new Rotation2d(0)));
+                                DriverStationUtils.getCurrentAlliance() == Alliance.Red
+                                                ? Constants.FieldConstants.TEAM_RED_STARTING_POSE
+                                                : Constants.FieldConstants.TEAM_BLUE_STARTING_POSE);
         }
 
         /**
@@ -127,7 +125,9 @@ public class Drivetrain extends SubsystemBase {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                new Pose2d(0, 0, new Rotation2d(0)));
+                                DriverStationUtils.getCurrentAlliance() == Alliance.Red
+                                                ? Constants.FieldConstants.TEAM_RED_STARTING_POSE
+                                                : Constants.FieldConstants.TEAM_BLUE_STARTING_POSE);
         }
 
 }

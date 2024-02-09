@@ -11,8 +11,7 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ManualSwerve;
-import frc.robot.control.IControlInput;
-import frc.robot.control.SingleControl;
+import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,14 +34,14 @@ public class RobotContainer {
 
   private ManualSwerve _manualSwerve;
 
-  private IControlInput _controlInput;
+  private DoubleControl _controlInput;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
-    _controlInput = new SingleControl(RobotMap.Control.SINGLE_GAMEPAD);
+    _controlInput = new DoubleControl(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.GAMEPAD_PORT);
 
     // Init Swerve
     _drivetrain = new Drivetrain();

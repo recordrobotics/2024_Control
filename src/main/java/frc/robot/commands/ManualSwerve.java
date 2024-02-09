@@ -4,15 +4,18 @@
 
 package frc.robot.commands;
 
-import frc.robot.control.IControlInput;
+import frc.robot.Constants;
+import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
 import frc.robot.utils.AutoOrient;
+import frc.robot.utils.DriverStationUtils;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,7 +30,7 @@ public class ManualSwerve extends Command {
 
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private Drivetrain _drivetrain;
-  private IControlInput _controls;
+  private DoubleControl _controls;
 
   private Field2d m_field = new Field2d();
   private SendableChooser<FieldReferenceFrame> fieldReference = new SendableChooser<FieldReferenceFrame>();
@@ -43,7 +46,7 @@ public class ManualSwerve extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ManualSwerve(Drivetrain drivetrain, NavSensor nav, IControlInput controls) {
+  public ManualSwerve(Drivetrain drivetrain, NavSensor nav, DoubleControl controls) {
     _drivetrain = drivetrain;
     _controls = controls;
     addRequirements(drivetrain);
@@ -88,20 +91,37 @@ public class ManualSwerve extends Command {
       _drivetrain.resetPose();
     }
 
-    if (_controls.getPointPressed()) {
-      targetPos = swerve_position.getTranslation();
+    boolean autoOrient = _controls.getAutoChain() || _controls.getAutoOrientSpeaker() || _controls.getAutoOrientAmp();
+
+    if (_controls.getAutoOrientAmp()) {
+      targetPos = DriverStationUtils.getCurrentAlliance() == Alliance.Red
+          ? Constants.FieldConstants.TEAM_RED_AMP
+          : Constants.FieldConstants.TEAM_BLUE_AMP;
+    } else if (_controls.getAutoOrientSpeaker()) {
+      targetPos = DriverStationUtils.getCurrentAlliance() == Alliance.Red
+          ? Constants.FieldConstants.TEAM_RED_SPEAKER
+          : Constants.FieldConstants.TEAM_BLUE_SPEAKER;
     }
 
-    double spin = anglePID.calculate(swerve_position.getRotation().getRadians(),
-        AutoOrient.rotationFacingTarget(swerve_position.getTranslation(), targetPos).getRadians());
-    if (!AutoOrient.shouldUpdateAngle(swerve_position.getTranslation(), targetPos)) {
+    if (_controls.getKillAuto()) {
+      // stop auto orient
+      autoOrient = false;
+    }
+
+    double spin;
+    if (autoOrient && AutoOrient.shouldUpdateAngle(swerve_position.getTranslation(), targetPos)) {
+      spin = anglePID.calculate(swerve_position.getRotation().getRadians(),
+          AutoOrient.rotationFacingTarget(swerve_position.getTranslation(), targetPos).getRadians());
+    } else if (autoOrient) {
       spin = 0;
+    } else {
+      spin = _controls.getSpin();
     }
 
     _drivetrain.drive(
         _controls.getX() * speedMultiplier,
         _controls.getY() * speedMultiplier,
-        !_controls.spinFlywheel() ? _controls.getSpin() : Math.max(-0.5, Math.min(0.5, spin)),
+        spin,
         fieldReference.getSelected() == FieldReferenceFrame.Field ? true : false);
   }
 
