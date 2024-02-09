@@ -3,17 +3,20 @@ package frc.robot;
 public final class RobotMap {
 
     public static final class Aquisition {
-        public static final int lower = 0;
-        public static final int upper = 0;
+        public static final int LOWER_ACQUISITION_MOTOR_ID = -1;
+        public static final int UPPER_ACQUISITION_MOTOR_ID = -1;
+
     }
 
     public static final class Climbers {
-        public static final int left = 0;
-        public static final int right = 0;
+        public static final int LEFT_FORWARD_PORT = -1;
+        public static final int LEFT_REVERSE_PORT = -1;
+        public static final int RIGHT_FORWARD_PORT = -1;
+        public static final int RIGHT_REVERSE_PORT = -1;
     }
 
     public static final class Shooter {
-        public static final int flywheel = 0;
+        public static final int flywheel = -1;
     }
 
     public static final class swerve {

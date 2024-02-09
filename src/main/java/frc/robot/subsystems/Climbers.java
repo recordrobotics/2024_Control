@@ -10,17 +10,20 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class Climbers extends SubsystemBase{
+public class Climbers extends SubsystemBase {
 
-    private DoubleSolenoid left = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.LEFT_FORWARD_PORT, RobotMap.Climbers.LEFT_FORWARD_PORT);
-    private DoubleSolenoid right = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.RIGHT_FORWARD_PORT, RobotMap.Climbers.RIGHT_REVERSE_PORT);
+    private DoubleSolenoid left = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.LEFT_FORWARD_PORT,
+            RobotMap.Climbers.LEFT_REVERSE_PORT);
+    private DoubleSolenoid right = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+            RobotMap.Climbers.RIGHT_FORWARD_PORT, RobotMap.Climbers.RIGHT_REVERSE_PORT);
 
     public Climbers() {
         set(DoubleSolenoid.Value.kOff);
     }
 
-    public void toggle(){
-        if(getState() == DoubleSolenoid.Value.kOff) set(DoubleSolenoid.Value.kReverse);
+    public void toggle() {
+        if (getState() == DoubleSolenoid.Value.kOff)
+            set(DoubleSolenoid.Value.kReverse);
         left.toggle();
         right.toggle();
     }
@@ -35,7 +38,7 @@ public class Climbers extends SubsystemBase{
      * @return State of Climber
      */
     private DoubleSolenoid.Value getState() {
-        if(left.get() != right.get()){
+        if (left.get() != right.get()) {
             right.set(left.get());
         }
         return left.get();
@@ -44,5 +47,5 @@ public class Climbers extends SubsystemBase{
     public void stop() {
         set(DoubleSolenoid.Value.kOff);
     }
-    
+
 }

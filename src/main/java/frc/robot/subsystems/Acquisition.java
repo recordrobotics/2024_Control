@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class Acquisition extends SubsystemBase {
-    private Spark lower = new Spark(RobotMap.Aquisition.LOWER_ACQUISTION__MOTOR_ID);
+    private Spark lower = new Spark(RobotMap.Aquisition.LOWER_ACQUISITION_MOTOR_ID);
     private Spark upper = new Spark(RobotMap.Aquisition.UPPER_ACQUISITION_MOTOR_ID);
     DigitalInput photosensor = new DigitalInput(0);
 
