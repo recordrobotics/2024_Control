@@ -19,8 +19,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SwerveModule {
 
   // TODO: put in constants
-  private static final double kModuleMaxAngularVelocity = 4; // Drivetrain.kMaxAngularSpeed;
-  private static final double kModuleMaxAngularAcceleration = 8; // 2 * Math.PI; // radians per second squared
+  private static final double kTurnMaxAngularVelocity = 5; // Drivetrain.kMaxAngularSpeed;
+  private static final double kTurnMaxAngularAcceleration = 10; // 2 * Math.PI; // radians per second squared
+  private static final double kMDriveMaxAngularVelocity = 10; // Drivetrain.kMaxAngularSpeed;
+  private static final double kDriveMaxAngularAcceleration = 20; // 2 * Math.PI; // radians per second squared
 
   // Creates variables for motors and absolute encoders
   private final TalonFX m_driveMotor;
@@ -37,20 +39,20 @@ public class SwerveModule {
    **/
 
   // Gains are for example purposes only - must be determined for your own robot!
-  private final ProfiledPIDController m_drivePIDController = new ProfiledPIDController(
+  private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(
       1,
       0,
       0,
       new TrapezoidProfile.Constraints(
-          kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
+          kTurnMaxAngularVelocity, kTurnMaxAngularAcceleration));
 
   // Gains are for example purposes only - must be determined for your own robot!
-  private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(
+  private final ProfiledPIDController m_drivePIDController = new ProfiledPIDController(
       3,
       0,
       0,
       new TrapezoidProfile.Constraints(
-          kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
+          kMDriveMaxAngularVelocity, kDriveMaxAngularAcceleration));
 
   /**
    * Constructs a SwerveModule with a drive motor, turning motor, and absolute

@@ -73,10 +73,9 @@ public class ManualSwerve extends Command {
      * Target Velocity and Angle
      */
 
-    // Gets swerve position
+    // Gets swerve position and sets to field position
     _drivetrain.updatePoseFilter();
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
-
     m_field.setRobotPose(swerve_position);
 
     // Puts on shuffleboard
@@ -84,9 +83,11 @@ public class ManualSwerve extends Command {
     SmartDashboard.putNumber("F X", swerve_position.getX());
     SmartDashboard.putNumber("F Y", swerve_position.getY());
 
+    // Gets speed level from controller
     double speedLevel = _controls.getSpeedLevel();
     double speedMultiplier = speedLevel * (2 - 0.5) + 0.5;
 
+    // Control to reset pose if reset button is pressed
     if (_controls.getResetPressed()) {
       _drivetrain.resetPose();
     }
@@ -118,6 +119,7 @@ public class ManualSwerve extends Command {
       spin = _controls.getSpin();
     }
 
+    // Drive command
     _drivetrain.drive(
         _controls.getX() * speedMultiplier,
         _controls.getY() * speedMultiplier,
