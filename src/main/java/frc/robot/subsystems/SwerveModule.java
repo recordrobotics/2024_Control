@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -13,9 +14,6 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 public class SwerveModule {
 
@@ -69,18 +67,17 @@ public class SwerveModule {
     m_driveMotor.set(0);
     m_turningMotor.set(0);
 
-    // Limit the PID Controller's input range between -0.5 and 0.5 and set the input to be continuous.
+    // Limit the PID Controller's input range between -0.5 and 0.5 and set the input
+    // to be continuous.
     m_turningPIDController.enableContinuousInput(-0.5, 0.5);
 
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelTurnOffset());
-    
-    //SmartDashboard.putNumber("E" + Double.toString(absoluteTurningMotorEncoderChannel), absoluteTurningMotorEncoder.getAbsolutePosition());
   }
-
 
   /**
    * custom function
+   * 
    * @return The current offset absolute position of the wheel's turn
    */
   private double getAbsWheelTurnOffset() {
@@ -90,20 +87,24 @@ public class SwerveModule {
   }
 
   /**
-   * TODO: figure out how this calculation works and make it more clear instead of having it all happen on one line
+   * TODO: figure out how this calculation works and make it more clear instead of
+   * having it all happen on one line
    * custom function
+   * 
    * @return The current velocity of the drive motor (meters per second)
    */
   private double getDriveWheelVelocity() {
     double driveMotorRotationsPerSecond = m_driveMotor.getVelocity().getValue();
     double driveWheelMetersPerSecond = driveMotorRotationsPerSecond * 10 / Constants.Swerve.RELATIVE_ENCODER_RATIO
-        * (Constants.Swerve.SWERVE_WHEEL_DIAMETER * Math.PI); 
+        * (Constants.Swerve.SWERVE_WHEEL_DIAMETER * Math.PI);
     return driveWheelMetersPerSecond;
   }
 
   /**
    * custom function
-   * @return The raw rotations of the turning motor (rotation 2d object). NOT THE WHEEL. THE MOTOR.
+   * 
+   * @return The raw rotations of the turning motor (rotation 2d object). NOT THE
+   *         WHEEL. THE MOTOR.
    */
   private Rotation2d getTurnWheelRotation2d() {
     double numMotorRotations = m_turningMotor.getPosition().getValue();
@@ -113,6 +114,7 @@ public class SwerveModule {
 
   /**
    * custom function
+   * 
    * @return The number of rotations of the turning wheel (rotations)
    */
   private double getTurnWheelRotations() {
@@ -123,6 +125,7 @@ public class SwerveModule {
 
   /**
    * custom function
+   * 
    * @return The distance driven by the drive wheel (meters)
    */
   private double getDriveWheelDistance() {
@@ -134,6 +137,7 @@ public class SwerveModule {
 
   /**
    * custom function
+   * 
    * @return The current state of the module.
    */
   public SwerveModuleState getModuleState() {
@@ -143,6 +147,7 @@ public class SwerveModule {
 
   /**
    * custom function
+   * 
    * @return The current position of the module as a SwerveModulePosition object.
    */
   public SwerveModulePosition getModulePosition() {
