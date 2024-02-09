@@ -48,6 +48,8 @@ public class ManualSwerve extends Command {
     _controls = controls;
     addRequirements(drivetrain);
 
+    anglePID.enableContinuousInput(-Math.PI, Math.PI);
+
     fieldReference.addOption("Field", FieldReferenceFrame.Field);
     fieldReference.addOption("Robot", FieldReferenceFrame.Robot);
     fieldReference.setDefaultOption("Field", FieldReferenceFrame.Field);
