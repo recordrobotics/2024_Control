@@ -39,6 +39,7 @@ public class SwerveModule {
    **/
 
   // Gains are for example purposes only - must be determined for your own robot!
+  // TODO: (check if new version works) + make turn PID in radians not rotations so that you can use getrotations.getrotations instead seperate function
   private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(
       1,
       0,
@@ -110,19 +111,6 @@ public class SwerveModule {
     return absWheelPositionOffset;
   }
 
-  /**
-   * TODO: figure out how this calculation works and make it more clear instead of
-   * having it all happen on one line
-   * custom function
-   * 
-   * @return The current velocity of the drive motor (meters per second)
-   */
-  private double getDriveWheelVelocity() {
-    double driveMotorRotationsPerSecond = m_driveMotor.getVelocity().getValue();
-    double driveWheelMetersPerSecond = driveMotorRotationsPerSecond * 10 / Constants.Swerve.RELATIVE_ENCODER_RATIO
-        * (Constants.Swerve.SWERVE_WHEEL_DIAMETER * Math.PI);
-    return driveWheelMetersPerSecond;
-  }
 
   /**
    * custom function
@@ -136,15 +124,19 @@ public class SwerveModule {
     return motorRotation;
   }
 
+
   /**
+   * TODO: figure out how this calculation works and make it more clear instead of
+   * having it all happen on one line
    * custom function
    * 
-   * @return The number of rotations of the turning wheel (rotations)
+   * @return The current velocity of the drive motor (meters per second)
    */
-  private double getTurnWheelRotations() {
-    double numMotorRotations = m_turningMotor.getPosition().getValue();
-    double numWheelRotations = numMotorRotations / Constants.Swerve.DIRECTION_GEAR_RATIO;
-    return numWheelRotations;
+  private double getDriveWheelVelocity() {
+    double driveMotorRotationsPerSecond = m_driveMotor.getVelocity().getValue();
+    double driveWheelMetersPerSecond = driveMotorRotationsPerSecond * 10 / Constants.Swerve.RELATIVE_ENCODER_RATIO
+        * (Constants.Swerve.SWERVE_WHEEL_DIAMETER * Math.PI);
+    return driveWheelMetersPerSecond;
   }
 
   /**
@@ -207,7 +199,7 @@ public class SwerveModule {
 
     // Calculate the turning motor output from the turning PID controller then set
     // turn motor.
-    final double turnOutput = m_turningPIDController.calculate(getTurnWheelRotations(),
+    final double turnOutput = m_turningPIDController.calculate(getTurnWheelRotation2d().getRotations(),
         optimizedState.angle.getRotations());
     m_turningMotor.set(turnOutput);
 
