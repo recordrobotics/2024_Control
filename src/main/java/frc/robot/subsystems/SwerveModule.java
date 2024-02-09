@@ -28,9 +28,21 @@ public class SwerveModule {
   private final TalonFX m_turningMotor;
   private final DutyCycleEncoder absoluteTurningMotorEncoder;
   private final double turningEncoderOffset;
+  private final int driveMotorChannel;
+  private final int turningMotorChannel; 
 
   // Gains are for example purposes only - must be determined for your own robot!
+  /*
   private final PIDController m_drivePIDController = new PIDController(1, 0, 0);
+  **/
+
+  // Gains are for example purposes only - must be determined for your own robot!
+  private final ProfiledPIDController m_drivePIDController = new ProfiledPIDController(
+      1,
+      0,
+      0,
+      new TrapezoidProfile.Constraints(
+          kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
 
   // Gains are for example purposes only - must be determined for your own robot!
   private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(
@@ -57,6 +69,10 @@ public class SwerveModule {
     // Creates TalonFX objects
     m_driveMotor = new TalonFX(driveMotorChannel);
     m_turningMotor = new TalonFX(turningMotorChannel);
+
+    // Encoder number var creation
+    this.driveMotorChannel = driveMotorChannel;
+    this.turningMotorChannel = turningMotorChannel;
 
     // Creates Motor Encoder object and gets offset
     absoluteTurningMotorEncoder = new DutyCycleEncoder(absoluteTurningMotorEncoderChannel);
@@ -161,6 +177,10 @@ public class SwerveModule {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
+
+    // Puts temps on SmartDashboard
+    SmartDashboard.putNumber("Temp turn " + turningMotorChannel, m_turningMotor.getDeviceTemp().getValueAsDouble());
+    SmartDashboard.putNumber("Temp drive " + turningMotorChannel, m_driveMotor.getDeviceTemp().getValueAsDouble());
 
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState,

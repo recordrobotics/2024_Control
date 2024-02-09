@@ -39,7 +39,7 @@ public class Drivetrain extends SubsystemBase {
     private final SwerveModule m_backLeft   = new SwerveModule(8, 7, 5, 0.697); //.876
     private final SwerveModule m_backRight  = new SwerveModule(6, 5, 4, 0.363); //.193
 
-    private final NavSensor _nav = new NavSensor(); 
+    private final NavSensor _nav = new NavSensor();
 
         private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
                         m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
