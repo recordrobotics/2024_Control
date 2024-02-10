@@ -15,7 +15,7 @@ public class DefaultDrive {
      * @return
      * DriveCommandData object with drive directions
      */
-    public DriveCommandData calculate(DoubleControl _controls, Pose2d swerve_position, boolean field_relative) {
+    public DriveCommandData calculate(DoubleControl _controls, double spin, Pose2d swerve_position, boolean field_relative) {
 
         // Gets speed level from controller
         double speedLevel = _controls.getSpeedLevel();
@@ -24,7 +24,7 @@ public class DefaultDrive {
         DriveCommandData driveCommandData = new DriveCommandData(
             _controls.getX() * speedLevel,
             _controls.getY() * speedLevel,
-            _controls.getSpin(),
+            spin,
             field_relative);
 
         // Returns

@@ -8,9 +8,13 @@ import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.subsystems.NavSensor;
+
 import frc.robot.utils.drivemodes.AutoOrient;
+import frc.robot.utils.drivemodes.DefaultSpin;
+
 import frc.robot.utils.drivemodes.DefaultDrive;
 import frc.robot.utils.drivemodes.TabletDrive;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -33,8 +37,10 @@ public class ManualSwerve extends Command {
   public enum DriveMode {Robot, Field, Tablet}
   private SendableChooser<DriveMode> driveMode = new SendableChooser<DriveMode>();
 
-  // Sets up variables for 
+  // Sets up spin modes
   public AutoOrient autoOrient = new AutoOrient();
+  public DefaultSpin defaultSpin = new DefaultSpin();
+  // Sets up move modes
   public DefaultDrive defaultDrive = new DefaultDrive();
   public TabletDrive tabletDrive = new TabletDrive();
 
@@ -54,7 +60,6 @@ public class ManualSwerve extends Command {
     driveMode.addOption("Field", DriveMode.Field);
     driveMode.addOption("Tablet", DriveMode.Tablet);
     driveMode.setDefaultOption("Field", DriveMode.Field);
-
 
     // puts 2d field data on Smartdashboard
     SmartDashboard.putData("Field", m_field);
@@ -80,7 +85,6 @@ public class ManualSwerve extends Command {
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
     m_field.setRobotPose(swerve_position);
 
-
     // Puts on shuffleboard
     SmartDashboard.putNumber("Rotation", swerve_position.getRotation().getDegrees());
     SmartDashboard.putNumber("X", swerve_position.getX());
@@ -92,27 +96,34 @@ public class ManualSwerve extends Command {
       _drivetrain.resetPose();
     }
 
+    // Sets up spin
+    double spin;
+    
+    // Auto-orient function
+    if (autoOrient.shouldExecute(_controls)) {
+      spin = autoOrient.calculate(_controls, swerve_position);
+    }
+
+    else {
+      spin = defaultSpin.calculate(_controls);
+    }
+
     // Sets up driveCommandData object
     DriveCommandData driveCommandData;
 
-    // Auto-orient function
-    if (autoOrient.shouldExecute(_controls)) {
-      driveCommandData = autoOrient.calculate(_controls, swerve_position);
-    }
-
     // Tablet Drive
-    else if (driveMode.getSelected() == DriveMode.Tablet) {
-      driveCommandData = tabletDrive.calculate(_controls, swerve_position);
+    if (driveMode.getSelected() == DriveMode.Tablet) {
+      driveCommandData = tabletDrive.calculate(_controls, spin, swerve_position, m_field);
     }
     
     // DefualtChassisRelative
     else if (driveMode.getSelected() == DriveMode.Robot) {
-      driveCommandData = defaultDrive.calculate(_controls, swerve_position, false);
+      driveCommandData = defaultDrive.calculate(_controls, spin, swerve_position, false);
     }
 
     // DefaultFieldRelative, which is also default
     else {
-      driveCommandData = defaultDrive.calculate(_controls, swerve_position, true);
+      driveCommandData = defaultDrive.calculate(_controls, spin, swerve_position, true);
     }
 
     // Drive command

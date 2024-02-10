@@ -51,7 +51,7 @@ public class AutoOrient {
      * @return
      * DriveCommandData object with drive directions
      */
-    public DriveCommandData calculate(DoubleControl _controls, Pose2d swerve_position) {
+    public double calculate(DoubleControl _controls, Pose2d swerve_position) {
 
         // Calculates target position
         Translation2d targetPos = new Translation2d(0,0);
@@ -73,18 +73,8 @@ public class AutoOrient {
         } else {
         spin = 0;
         }
-
-        // Gets speed level from controller
-        double speedLevel = _controls.getSpeedLevel();
-
-        // Gets information needed to drive
-        DriveCommandData driveCommandData = new DriveCommandData(
-          _controls.getX() * speedLevel,
-          _controls.getY() * speedLevel,
-          spin,
-          true);
-
-        // Returns
-        return driveCommandData;
+        
+        // Returns spin
+        return spin;
     }
 }
