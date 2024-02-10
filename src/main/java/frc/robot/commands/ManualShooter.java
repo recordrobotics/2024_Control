@@ -25,9 +25,9 @@ public class ManualShooter extends Command{
   @Override
   public void execute() {
     //
-    if(_controls.spinFlywheel()) {_shooter.toggle(ShooterStates.FLYWHEEL);}
-    else if (_controls.getAcquisition()) {_shooter.toggle(ShooterStates.AQUISITION);}
-    else {_shooter.toggle(ShooterStates.STOP);}
+    if(_controls.spinFlywheel()) _shooter.shoot(ShooterStates.FLYWHEEL);
+    else if(_controls.getAcquisition()) _shooter.shoot(ShooterStates.AQUISITION);
+    else _shooter.shoot(ShooterStates.STOP);
   }
 
   // Called once the command ends or is interrupted.

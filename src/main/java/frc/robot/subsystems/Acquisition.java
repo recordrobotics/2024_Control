@@ -5,39 +5,37 @@
 
 package frc.robot.subsystems;
 
-// import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 import frc.robot.RobotMap;
 
 public class Acquisition extends SubsystemBase {
-    private CANSparkMax acquisitionMotor = new CANSparkMax(RobotMap.Acquisition.ACQUISITION_MOTOR_ID, MotorType.kBrushed);
-    // DigitalInput photosensor = new DigitalInput(0);
+    private Spark lower = new Spark(RobotMap.Aquisition.LOWER_ACQUISITION_MOTOR_ID);
+    private Spark upper = new Spark(RobotMap.Aquisition.UPPER_ACQUISITION_MOTOR_ID);
+    DigitalInput photosensor = new DigitalInput(0);
 
-    private static final double acquisitionSpeed = 0.3;
+    private static final double LOWER_SPEED = 0.3;
+    private static final double UPPER_SPEED = 0.1;
 
     public Acquisition() {
-        toggle(AcquisitionStates.OFF);
+        toggle(Shooter.ShooterStates.STOP);
     }
 
-    public void toggle(AcquisitionStates state) {
+    public void toggle(Shooter.ShooterStates state) {
         switch (state) {
-            case IN:
-                acquisitionMotor.set(acquisitionSpeed);
+            case FLYWHEEL:
+                lower.set(0);
+                upper.set(UPPER_SPEED);
                 break;
-            case REVERSE:
-                acquisitionMotor.set(-acquisitionSpeed);
+            case AQUISITION:
+                lower.set(LOWER_SPEED);
+                upper.set(UPPER_SPEED);
                 break;
             default:
-                acquisitionMotor.set(0);
+                lower.set(0);
+                upper.set(0);
                 break;
         }
-    }
-
-    public enum AcquisitionStates {
-        IN,
-        REVERSE,
-        OFF;
     }
 }
