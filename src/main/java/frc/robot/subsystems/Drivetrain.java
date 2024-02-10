@@ -10,7 +10,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
@@ -94,10 +93,12 @@ public class Drivetrain extends SubsystemBase {
                 SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, kMaxSpeed);
 
                 // Adds rotations of each module to SmartDashboards
+                /*
                 SmartDashboard.putNumber("r0", swerveModuleStates[0].angle.getDegrees());
                 SmartDashboard.putNumber("r1", swerveModuleStates[1].angle.getDegrees());
                 SmartDashboard.putNumber("r2", swerveModuleStates[2].angle.getDegrees());
                 SmartDashboard.putNumber("r3", swerveModuleStates[3].angle.getDegrees());
+                 */
 
                 // Sets each module to desired state
                 m_frontLeft.setDesiredState(swerveModuleStates[0]);

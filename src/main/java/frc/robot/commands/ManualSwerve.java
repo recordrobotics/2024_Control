@@ -10,6 +10,7 @@ import frc.robot.utils.DriveCommandData;
 import frc.robot.subsystems.NavSensor;
 import frc.robot.utils.drivemodes.AutoOrient;
 import frc.robot.utils.drivemodes.DefaultDrive;
+import frc.robot.utils.drivemodes.TabletDrive;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -35,6 +36,7 @@ public class ManualSwerve extends Command {
   // Sets up variables for 
   public AutoOrient autoOrient = new AutoOrient();
   public DefaultDrive defaultDrive = new DefaultDrive();
+  public TabletDrive tabletDrive = new TabletDrive();
 
   /**
    * @param drivetrain
@@ -80,9 +82,9 @@ public class ManualSwerve extends Command {
 
 
     // Puts on shuffleboard
-    SmartDashboard.putNumber("F rot", swerve_position.getRotation().getDegrees());
-    SmartDashboard.putNumber("F X", swerve_position.getX());
-    SmartDashboard.putNumber("F Y", swerve_position.getY());
+    SmartDashboard.putNumber("Rotation", swerve_position.getRotation().getDegrees());
+    SmartDashboard.putNumber("X", swerve_position.getX());
+    SmartDashboard.putNumber("Y", swerve_position.getY());
 
 
     // Control to reset pose if reset button is pressed
@@ -96,6 +98,11 @@ public class ManualSwerve extends Command {
     // Auto-orient function
     if (autoOrient.shouldExecute(_controls)) {
       driveCommandData = autoOrient.calculate(_controls, swerve_position);
+    }
+
+    // Tablet Drive
+    else if (driveMode.getSelected() == DriveMode.Tablet) {
+      driveCommandData = tabletDrive.calculate(_controls, swerve_position);
     }
     
     // DefualtChassisRelative

@@ -185,8 +185,8 @@ public class SwerveModule {
   public void setDesiredState(SwerveModuleState desiredState) {
 
     // Puts temps on SmartDashboard
-    SmartDashboard.putNumber("Temp turn " + turningMotorChannel, m_turningMotor.getDeviceTemp().getValueAsDouble());
-    SmartDashboard.putNumber("Temp drive " + driveMotorChannel, m_driveMotor.getDeviceTemp().getValueAsDouble());
+    //SmartDashboard.putNumber("Temp turn " + turningMotorChannel, m_turningMotor.getDeviceTemp().getValueAsDouble());
+    //SmartDashboard.putNumber("Temp drive " + driveMotorChannel, m_driveMotor.getDeviceTemp().getValueAsDouble());
 
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState,

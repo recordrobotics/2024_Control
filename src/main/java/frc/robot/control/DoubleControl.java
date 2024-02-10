@@ -1,17 +1,17 @@
 package frc.robot.control;
 
 import edu.wpi.first.wpilibj.Joystick;
-
+import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 
 public class DoubleControl {
 
 	private Joystick stickpad;
-	private Joystick gamepad;
+	private XboxController xbox_controller;
 
 	public DoubleControl(int stickpadPort, int gamepadPort) {
 		stickpad = new Joystick(stickpadPort);
-		gamepad = new Joystick(gamepadPort);
+		xbox_controller = new XboxController(gamepadPort);
 	}
 
 	public double getX() {
@@ -49,11 +49,11 @@ public class DoubleControl {
 	}
 
 	public boolean getAutoOrientSpeaker() {
-		return stickpad.getRawButton(9) || gamepad.getRawButton(3);
+		return stickpad.getRawButton(9) || xbox_controller.getRawButton(3);
 	}
 
 	public boolean getAutoOrientAmp() {
-		return stickpad.getRawButton(11) || gamepad.getRawButton(4);
+		return stickpad.getRawButton(11) || xbox_controller.getRawButton(4);
 	}
 
 	public boolean getAutoChain() {
@@ -61,11 +61,11 @@ public class DoubleControl {
 	}
 
 	public boolean getAutoScoreSpeaker() {
-		return stickpad.getRawButtonPressed(10) || gamepad.getRawButtonPressed(1);
+		return stickpad.getRawButtonPressed(10) || xbox_controller.getRawButtonPressed(1);
 	}
 
 	public boolean getAutoScoreAmp() {
-		return stickpad.getRawButtonPressed(12) || gamepad.getRawButtonPressed(2);
+		return stickpad.getRawButtonPressed(12) || xbox_controller.getRawButtonPressed(2);
 	}
 
 	/**
@@ -84,26 +84,55 @@ public class DoubleControl {
 	}
 
 	public boolean getAcquireNormal() {
-		return gamepad.getRawAxis(2) > 0.3;
+		return xbox_controller.getRawAxis(2) > 0.3;
 	}
 
 	public boolean getAcquireReverse() {
-		return gamepad.getRawButton(5);
+		return xbox_controller.getRawButton(5);
 	}
 
 	public boolean getShoot() {
-		return gamepad.getRawAxis(3) > 0.3 || gamepad.getRawButton(6);
+		return xbox_controller.getRawAxis(3) > 0.3 || xbox_controller.getRawButton(6);
 	}
 
 	public boolean getChainUp() {
-		return gamepad.getRawAxis(1) < -0.5;
+		return xbox_controller.getRawAxis(1) < -0.5;
 	}
 
 	public boolean getChainDown() {
-		return gamepad.getRawAxis(1) > 0.5;
+		return xbox_controller.getRawAxis(1) > 0.5;
 	}
 
 	public boolean getKillAuto() {
-		return gamepad.getRawButton(8);
+		return xbox_controller.getRawButton(8);
+	}
+
+
+	/**
+	 * TABLET COMMANDS
+	 */
+
+	/**
+	 * @return x coordinate of the tablet (from -1 to 1)
+	 */
+	public double getTabletX() {
+		double x = xbox_controller.getRawAxis(0);
+		return x;
+	}
+
+	/**
+	 * @return y coordinate of the tablet (from -1 to 1)
+	 */
+	public double getTabletY() {
+		double y = xbox_controller.getRawAxis(1);
+		return y;
+	}
+
+	/**
+	 * @return whether or not tablet is pressed down
+	 */
+	public boolean getTabletPressed() {
+		double pressure = -1 * xbox_controller.getRawAxis(5); // Makes pressure positive (0 --> 1)
+		return pressure > 0.1; // If the pressure > 0.1, returns
 	}
 }
