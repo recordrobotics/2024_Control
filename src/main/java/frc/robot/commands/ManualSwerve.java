@@ -4,19 +4,14 @@
 
 package frc.robot.commands;
 
-import frc.robot.Constants;
 import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.subsystems.NavSensor;
-import frc.robot.utils.AutoOrient;
-import frc.robot.utils.DriverStationUtils;
-import edu.wpi.first.math.controller.PIDController;
+import frc.robot.utils.drivemodes.AutoOrient;
+import frc.robot.utils.drivemodes.DefaultDrive;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,16 +28,13 @@ public class ManualSwerve extends Command {
   // Creates field display var
   private Field2d m_field = new Field2d();
 
-  // Sets up sendable chooser for field reference frame
-  public enum FieldReferenceFrame {Field, Robot}
-  private SendableChooser<FieldReferenceFrame> fieldReference = new SendableChooser<FieldReferenceFrame>();
-
   // Sets up sendable chooser for drivemode
-  public enum DriveMode {AutoOrient, ChassisRelativeDefault, FieldRelativeDefault, Tablet}
+  public enum DriveMode {Robot, Field, Tablet}
   private SendableChooser<DriveMode> driveMode = new SendableChooser<DriveMode>();
 
   // Sets up variables for 
   public AutoOrient autoOrient = new AutoOrient();
+  public DefaultDrive defaultDrive = new DefaultDrive();
 
   /**
    * @param drivetrain
@@ -54,25 +46,18 @@ public class ManualSwerve extends Command {
     _controls = controls;
     addRequirements(drivetrain);
 
-
-    // Creates selector on SmartDashboard for field reference frame
-    fieldReference.addOption("Field", FieldReferenceFrame.Field);
-    fieldReference.addOption("Robot", FieldReferenceFrame.Robot);
-    fieldReference.setDefaultOption("Field", FieldReferenceFrame.Field);
-
-
     // Creates selector on SmartDashboard for drivemode
-    driveMode.addOption("AutoOrient", DriveMode.AutoOrient);
-    driveMode.addOption("ChassisRelativeDefault", DriveMode.ChassisRelativeDefault);
-    driveMode.addOption("FieldRelativeDefault", DriveMode.FieldRelativeDefault);
+    //driveMode.addOption("AutoOrient", DriveMode.AutoOrient);
+    driveMode.addOption("Robot", DriveMode.Robot);
+    driveMode.addOption("Field", DriveMode.Field);
     driveMode.addOption("Tablet", DriveMode.Tablet);
-    driveMode.setDefaultOption("FieldRelativeDefault", DriveMode.FieldRelativeDefault);
+    driveMode.setDefaultOption("Field", DriveMode.Field);
 
 
     // puts 2d field data on Smartdashboard
     SmartDashboard.putData("Field", m_field);
+    
     // puts selector data on Smartdashboard
-    SmartDashboard.putData(fieldReference);
     SmartDashboard.putData(driveMode);
   }
 
@@ -108,15 +93,19 @@ public class ManualSwerve extends Command {
     // Sets up driveCommandData object
     DriveCommandData driveCommandData;
 
-    /**
-     * Auto-orient function
-     */
+    // Auto-orient function
     if (autoOrient.shouldExecute(_controls)) {
       driveCommandData = autoOrient.calculate(_controls, swerve_position);
     }
+    
+    // DefualtChassisRelative
+    else if (driveMode.getSelected() == DriveMode.Robot) {
+      driveCommandData = defaultDrive.calculate(_controls, swerve_position, false);
+    }
 
-    else if () {
-      driveCommandData = new DriveCommandData(0, 0, 0, true);
+    // DefaultFieldRelative, which is also default
+    else {
+      driveCommandData = defaultDrive.calculate(_controls, swerve_position, true);
     }
 
     // Drive command

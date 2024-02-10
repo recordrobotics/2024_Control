@@ -68,8 +68,19 @@ public class DoubleControl {
 		return stickpad.getRawButtonPressed(12) || gamepad.getRawButtonPressed(2);
 	}
 
+	/**
+	 * Takes speedlevel slider on control input and remaps from -1-->1 to 0.5-->2
+	 * TODO: add to constants
+	 * @return
+	 * Speedlevel control from 0.5 --> 2
+	 */
 	public double getSpeedLevel() {
-		return (-stickpad.getRawAxis(3) + 1.0) / 2.0;
+		// Remap -1 --> 1 to 0 --> 1
+		double remap1 = (-stickpad.getRawAxis(3) + 1.0) / 2.0;
+		// Remap 0 --> 1 to 0.5 --> 2
+		double remap2 = remap1 * (2 - 0.5) + 0.5;
+		// Returns
+		return remap2;
 	}
 
 	public boolean getAcquireNormal() {

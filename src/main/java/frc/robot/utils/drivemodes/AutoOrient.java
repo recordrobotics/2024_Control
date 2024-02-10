@@ -1,20 +1,16 @@
-package frc.robot.utils;
+package frc.robot.utils.drivemodes;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants;
-import frc.robot.commands.ManualSwerve.FieldReferenceFrame;
 import frc.robot.control.DoubleControl;
+import frc.robot.utils.DriveCommandData;
+import frc.robot.utils.DriverStationUtils;
 
 public class AutoOrient {
-
-    // Constants
-    double SPEED_MULTIPLIER = (2 - 0.5) + 0.5;
-
 
     // Init variables
     private static PIDController anglePID = new PIDController(0.4, 0, 0);
@@ -80,12 +76,11 @@ public class AutoOrient {
 
         // Gets speed level from controller
         double speedLevel = _controls.getSpeedLevel();
-        double speedWithMultiplier = speedLevel * (2 - 0.5) + 0.5;
 
         // Gets information needed to drive
         DriveCommandData driveCommandData = new DriveCommandData(
-          _controls.getX() * speedWithMultiplier, 
-          _controls.getY() * speedWithMultiplier, 
+          _controls.getX() * speedLevel,
+          _controls.getY() * speedLevel,
           spin,
           true);
 
