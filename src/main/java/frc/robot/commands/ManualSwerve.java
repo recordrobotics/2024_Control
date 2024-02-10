@@ -35,7 +35,7 @@ public class ManualSwerve extends Command {
   private Field2d m_field = new Field2d();
   private SendableChooser<FieldReferenceFrame> fieldReference = new SendableChooser<FieldReferenceFrame>();
 
-  private PIDController anglePID = new PIDController(1, 0, 0);
+  private PIDController anglePID = new PIDController(0.4, 0, 0);
 
   private Translation2d targetPos = new Translation2d(0, 0);
 
@@ -111,8 +111,8 @@ public class ManualSwerve extends Command {
 
     double spin;
     if (autoOrient && AutoOrient.shouldUpdateAngle(swerve_position.getTranslation(), targetPos)) {
-      spin = anglePID.calculate(swerve_position.getRotation().getRadians(),
-          AutoOrient.rotationFacingTarget(swerve_position.getTranslation(), targetPos).getRadians());
+      spin = Math.max(-0.5, Math.min(0.5, anglePID.calculate(swerve_position.getRotation().getRadians(),
+          AutoOrient.rotationFacingTarget(swerve_position.getTranslation(), targetPos).getRadians())));
     } else if (autoOrient) {
       spin = 0;
     } else {
