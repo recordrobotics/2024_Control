@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -13,8 +12,10 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
 import frc.robot.utils.DriverStationUtils;
+
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends SubsystemBase {
@@ -72,10 +73,17 @@ public class Drivetrain extends SubsystemBase {
          * @param fieldRelative Whether the provided x and y speeds are relative to the
          *                      field.
          */
-        public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
 
-                // Calculates swerveModuleStates given optimal ChassisSpeeds given by control
-                // scheme
+
+        public void drive(DriveCommandData driveCommandData) {
+
+                // Data from driveCommandData
+                boolean fieldRelative = driveCommandData.fieldRelative;
+                double xSpeed = driveCommandData.xSpeed;
+                double ySpeed = driveCommandData.ySpeed;
+                double rot = driveCommandData.rot;
+
+                // Calculates swerveModuleStates given optimal ChassisSpeeds given by control scheme
                 SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
                                 fieldRelative
                                                 ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,
@@ -129,5 +137,6 @@ public class Drivetrain extends SubsystemBase {
                                                 ? Constants.FieldConstants.TEAM_RED_STARTING_POSE
                                                 : Constants.FieldConstants.TEAM_BLUE_STARTING_POSE);
         }
+
 
 }

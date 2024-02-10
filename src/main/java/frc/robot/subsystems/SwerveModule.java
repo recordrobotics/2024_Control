@@ -62,6 +62,7 @@ public class SwerveModule {
    * @param driveMotorChannel
    * @param turningMotorChannel
    * @param absoluteTurningMotorEncoderChannel
+   * @param turningEncoderOffset
    */
   public SwerveModule(
       int driveMotorChannel,

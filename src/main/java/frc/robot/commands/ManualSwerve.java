@@ -7,6 +7,7 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.utils.DriveCommandData;
 import frc.robot.subsystems.NavSensor;
 import frc.robot.utils.AutoOrient;
 import frc.robot.utils.DriverStationUtils;
@@ -23,42 +24,56 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /** An example command that uses an example subsystem. */
 public class ManualSwerve extends Command {
 
-  public enum FieldReferenceFrame {
-    Field,
-    Robot
-  }
-
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
+
+  // Creates Drivetrain and Controls variables
   private Drivetrain _drivetrain;
   private DoubleControl _controls;
 
+  // Creates field display var
   private Field2d m_field = new Field2d();
+
+  // Sets up sendable chooser for field reference frame
+  public enum FieldReferenceFrame {Field, Robot}
   private SendableChooser<FieldReferenceFrame> fieldReference = new SendableChooser<FieldReferenceFrame>();
 
-  private PIDController anglePID = new PIDController(0.4, 0, 0);
+  // Sets up sendable chooser for drivemode
+  public enum DriveMode {AutoOrient, ChassisRelativeDefault, FieldRelativeDefault, Tablet}
+  private SendableChooser<DriveMode> driveMode = new SendableChooser<DriveMode>();
 
-  private Translation2d targetPos = new Translation2d(0, 0);
-
-  public ChassisSpeeds target;
+  // Sets up variables for 
+  public AutoOrient autoOrient = new AutoOrient();
 
   /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
+   * @param drivetrain
    */
   public ManualSwerve(Drivetrain drivetrain, NavSensor nav, DoubleControl controls) {
+
+    // Init variables
     _drivetrain = drivetrain;
     _controls = controls;
     addRequirements(drivetrain);
 
-    anglePID.enableContinuousInput(-Math.PI, Math.PI);
 
+    // Creates selector on SmartDashboard for field reference frame
     fieldReference.addOption("Field", FieldReferenceFrame.Field);
     fieldReference.addOption("Robot", FieldReferenceFrame.Robot);
     fieldReference.setDefaultOption("Field", FieldReferenceFrame.Field);
 
+
+    // Creates selector on SmartDashboard for drivemode
+    driveMode.addOption("AutoOrient", DriveMode.AutoOrient);
+    driveMode.addOption("ChassisRelativeDefault", DriveMode.ChassisRelativeDefault);
+    driveMode.addOption("FieldRelativeDefault", DriveMode.FieldRelativeDefault);
+    driveMode.addOption("Tablet", DriveMode.Tablet);
+    driveMode.setDefaultOption("FieldRelativeDefault", DriveMode.FieldRelativeDefault);
+
+
+    // puts 2d field data on Smartdashboard
     SmartDashboard.putData("Field", m_field);
+    // puts selector data on Smartdashboard
     SmartDashboard.putData(fieldReference);
+    SmartDashboard.putData(driveMode);
   }
 
   // Called when the command is initially scheduled.
@@ -78,53 +93,34 @@ public class ManualSwerve extends Command {
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
     m_field.setRobotPose(swerve_position);
 
+
     // Puts on shuffleboard
     SmartDashboard.putNumber("F rot", swerve_position.getRotation().getDegrees());
     SmartDashboard.putNumber("F X", swerve_position.getX());
     SmartDashboard.putNumber("F Y", swerve_position.getY());
 
-    // Gets speed level from controller
-    double speedLevel = _controls.getSpeedLevel();
-    double speedMultiplier = speedLevel * (2 - 0.5) + 0.5;
 
     // Control to reset pose if reset button is pressed
     if (_controls.getResetPressed()) {
       _drivetrain.resetPose();
     }
 
-    boolean autoOrient = _controls.getAutoChain() || _controls.getAutoOrientSpeaker() || _controls.getAutoOrientAmp();
+    // Sets up driveCommandData object
+    DriveCommandData driveCommandData;
 
-    if (_controls.getAutoOrientAmp()) {
-      targetPos = DriverStationUtils.getCurrentAlliance() == Alliance.Red
-          ? Constants.FieldConstants.TEAM_RED_AMP
-          : Constants.FieldConstants.TEAM_BLUE_AMP;
-    } else if (_controls.getAutoOrientSpeaker()) {
-      targetPos = DriverStationUtils.getCurrentAlliance() == Alliance.Red
-          ? Constants.FieldConstants.TEAM_RED_SPEAKER
-          : Constants.FieldConstants.TEAM_BLUE_SPEAKER;
+    /**
+     * Auto-orient function
+     */
+    if (autoOrient.shouldExecute(_controls)) {
+      driveCommandData = autoOrient.calculate(_controls, swerve_position);
     }
 
-    if (_controls.getKillAuto()) {
-      // stop auto orient
-      autoOrient = false;
-    }
-
-    double spin;
-    if (autoOrient && AutoOrient.shouldUpdateAngle(swerve_position.getTranslation(), targetPos)) {
-      spin = Math.max(-0.5, Math.min(0.5, anglePID.calculate(swerve_position.getRotation().getRadians(),
-          AutoOrient.rotationFacingTarget(swerve_position.getTranslation(), targetPos).getRadians())));
-    } else if (autoOrient) {
-      spin = 0;
-    } else {
-      spin = _controls.getSpin();
+    else if () {
+      driveCommandData = new DriveCommandData(0, 0, 0, true);
     }
 
     // Drive command
-    _drivetrain.drive(
-        _controls.getX() * speedMultiplier,
-        _controls.getY() * speedMultiplier,
-        spin,
-        fieldReference.getSelected() == FieldReferenceFrame.Field ? true : false);
+    _drivetrain.drive(driveCommandData);
   }
 
   // Called once the command ends or is interrupted.
