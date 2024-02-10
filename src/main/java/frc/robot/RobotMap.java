@@ -2,10 +2,12 @@ package frc.robot;
 
 public final class RobotMap {
 
-    public static final class Aquisition {
-        public static final int LOWER_ACQUISITION_MOTOR_ID = -1;
-        public static final int UPPER_ACQUISITION_MOTOR_ID = -1;
+    public static final class Acquisition {
+        public static final int ACQUISITION_MOTOR_ID = -1;
+    }
 
+    public static final class Channel {
+        public static final int CHANNEL_MOTOR_ID = -1;
     }
 
     public static final class Climbers {
@@ -16,7 +18,8 @@ public final class RobotMap {
     }
 
     public static final class Shooter {
-        public static final int flywheel = -1;
+        public static final int flywheelL = -1;
+        public static final int flywheelR = -1;
     }
 
     public static final class swerve {
