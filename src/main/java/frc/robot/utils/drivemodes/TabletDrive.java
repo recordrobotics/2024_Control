@@ -70,9 +70,10 @@ public class TabletDrive {
         double CLAMP_DISTANCE = 0.5;
         double clamped_magnitude = Math.min(1, magnitude/CLAMP_DISTANCE);
 
-        // calculates x and y speeds from magnitude and diff
-        double x_speed = x_diff/magnitude * speed * 0.3 * clamped_magnitude;
-        double y_speed = y_diff/magnitude * speed * 0.3 * clamped_magnitude;
+        // Calculates x and y speeds from magnitude and diff
+        double SPEED_SCALING_FACTOR = 0.3;
+        double x_speed = x_diff/magnitude * speed * SPEED_SCALING_FACTOR * clamped_magnitude;
+        double y_speed = y_diff/magnitude * speed * SPEED_SCALING_FACTOR * clamped_magnitude;
 
         // Gets information needed to drive
         DriveCommandData driveCommandData = new DriveCommandData(

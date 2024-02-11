@@ -113,14 +113,12 @@ public final class Constants {
         public static final double SWERVE_WHEEL_DIAMETER = Units.inchesToMeters(4);
 
         /**
-         * Distance between wheels (width). Used for the locations of the wheels on the
-         * robot
+         * Distance between wheels (width). Used for the locations of the wheels on the robot
          */
         public static final double ROBOT_WHEEL_DISTANCE_WIDTH = 0.59;
 
         /**
-         * Distance between wheels (length). Used for the locations of the wheels on the
-         * robot
+         * Distance between wheels (length). Used for the locations of the wheels on the robot
          */
         public static final double ROBOT_WHEEL_DISTANCE_LENGTH = 0.59;
 
