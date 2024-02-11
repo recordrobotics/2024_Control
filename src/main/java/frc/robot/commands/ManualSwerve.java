@@ -76,14 +76,12 @@ public class ManualSwerve extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    /**
-     * Target Velocity and Angle
-     */
 
     // Gets swerve position and sets to field position
     _drivetrain.updatePoseFilter();
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
     m_field.setRobotPose(swerve_position);
+
 
     // Puts on shuffleboard
     SmartDashboard.putNumber("Rotation", swerve_position.getRotation().getDegrees());
@@ -103,7 +101,6 @@ public class ManualSwerve extends Command {
     if (autoOrient.shouldExecute(_controls)) {
       spin = autoOrient.calculate(_controls, swerve_position);
     }
-
     else {
       spin = defaultSpin.calculate(_controls);
     }

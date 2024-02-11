@@ -6,8 +6,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// Smartdashboard
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class NavSensor extends SubsystemBase {
 

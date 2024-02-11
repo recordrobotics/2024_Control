@@ -7,7 +7,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants;
 import frc.robot.control.DoubleControl;
-import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.DriverStationUtils;
 
 public class AutoOrient {
@@ -15,7 +14,6 @@ public class AutoOrient {
     // Init variables
     private static PIDController anglePID = new PIDController(0.4, 0, 0);
 
-    //
     public AutoOrient() {
         // Enables continious input for PID
         anglePID.enableContinuousInput(-Math.PI, Math.PI);

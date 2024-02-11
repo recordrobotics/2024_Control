@@ -2,8 +2,6 @@
 package frc.robot.utils.drivemodes;
 import frc.robot.Constants;
 
-import java.lang.reflect.Field;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -12,7 +10,6 @@ import frc.robot.control.DoubleControl;
 import frc.robot.utils.DriveCommandData;
 
 
-//
 public class TabletDrive {
 
     public TabletDrive() {
@@ -48,6 +45,7 @@ public class TabletDrive {
      */
     public DriveCommandData calculate(DoubleControl _controls, double spin, Pose2d swerve_position, Field2d m_field) {
 
+        // Puts raw tablet data on Smartdashboard
         SmartDashboard.putNumber("pressure", _controls.getTabletPressure());
         SmartDashboard.putNumber("tablet x", _controls.getTabletX());
         SmartDashboard.putNumber("tablet y", _controls.getTabletY());
