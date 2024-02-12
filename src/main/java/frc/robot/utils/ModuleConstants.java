@@ -31,7 +31,6 @@ public class ModuleConstants {
     public double DriveMaxAngularAcceleration;
 
     public double RELATIVE_ENCODER_RATIO;
-    public double MOTOR_LIMIT;
     public double WHEEL_DIAMETER;
 
     public ModuleConstants (
@@ -42,46 +41,59 @@ public class ModuleConstants {
         double turningEncoderOffset,
         Translation2d wheelLocation,
 
-        //TODO: FINISH
+        Boolean turnIsFalcon,
+        Boolean driveIsFalcon) {
 
-        Object motorType) {
-
+            // Encoder nums
             this.driveMotorChannel = driveMotorChannel;
             this.turningMotorChannel = turningMotorChannel;
             this.absoluteTurningMotorEncoderChannel = absoluteTurningMotorEncoderChannel;
             this.turningEncoderOffset = turningEncoderOffset;
+
+            // Wheel location
             this.wheelLocation = wheelLocation;
+            
+            // Max Angular Acceleration & Velocity
+            this.TurnMaxAngularVelocity = Constants.Swerve.TurnMaxAngularVelocity;
+            this.TurnMaxAngularAcceleration = Constants.Swerve.TurnMaxAngularAcceleration;
+            this.DriveMaxAngularVelocity = Constants.Swerve.DriveMaxAngularVelocity;
+            this.DriveMaxAngularAcceleration = Constants.Swerve.DriveMaxAngularAcceleration;
 
-            if (motorType == new Kraken()) {
-                this.TURN_KP = Constants.Swerve.KRAKEN_TURN_KD;
-                this.TURN_KI = Constants.Swerve.KRAKEN_TURN_KI;
-                this.TURN_KD = Constants.Swerve.KRAKEN_TURN_KD;
+            // Shared miscellaneous variables
+            this.RELATIVE_ENCODER_RATIO = Constants.Swerve.RELATIVE_ENCODER_RATIO;
+            this.WHEEL_DIAMETER = Constants.Swerve.WHEEL_DIAMETER;
 
-                this.DRIVE_KP = Constants.Swerve.KRAKEN_DRIVE_KD;
-                this.DRIVE_KI = Constants.Swerve.KRAKEN_DRIVE_KI;
-                this.DRIVE_KD = Constants.Swerve.KRAKEN_DRIVE_KD;
-
-                this.TURN_GEAR_RATIO = Constants.Swerve.KRAKEN_TURN_GEAR_RATIO;
-                this.DRIVE_GEAR_RATIO = Constants.Swerve.KRAKEN_DRIVE_GEAR_RATIO;
+            // Turn Motor Constants
+            if (turnIsFalcon) {
+                this.TURN_KP = Constants.Swerve.FALCON_TURN_KD;
+                this.TURN_KI = Constants.Swerve.FALCON_TURN_KI;
+                this.TURN_KD = Constants.Swerve.FALCON_TURN_KD;
+                this.TURN_GEAR_RATIO = Constants.Swerve.FALCON_TURN_GEAR_RATIO;
             }
 
             else {
                 this.TURN_KP = Constants.Swerve.KRAKEN_TURN_KD;
                 this.TURN_KI = Constants.Swerve.KRAKEN_TURN_KI;
                 this.TURN_KD = Constants.Swerve.KRAKEN_TURN_KD;
+                this.TURN_GEAR_RATIO = Constants.Swerve.KRAKEN_TURN_GEAR_RATIO;
+            }
 
+            // Drive Motor Constants
+            if (driveIsFalcon) {
+                this.DRIVE_KP = Constants.Swerve.FALCON_DRIVE_KD;
+                this.DRIVE_KI = Constants.Swerve.FALCON_DRIVE_KI;
+                this.DRIVE_KD = Constants.Swerve.FALCON_DRIVE_KD;
+                this.DRIVE_GEAR_RATIO = Constants.Swerve.FALCON_DRIVE_GEAR_RATIO;
+            }
+
+            else {
                 this.DRIVE_KP = Constants.Swerve.KRAKEN_DRIVE_KD;
                 this.DRIVE_KI = Constants.Swerve.KRAKEN_DRIVE_KI;
                 this.DRIVE_KD = Constants.Swerve.KRAKEN_DRIVE_KD;
-
-                this.TURN_GEAR_RATIO = Constants.Swerve.KRAKEN_TURN_GEAR_RATIO;
                 this.DRIVE_GEAR_RATIO = Constants.Swerve.KRAKEN_DRIVE_GEAR_RATIO;
             }
-
+                
 
     }
-
-    public class Falcon {}
-    public class Kraken {}
 
 }

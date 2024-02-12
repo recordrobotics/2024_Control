@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -19,33 +18,26 @@ import frc.robot.utils.DriverStationUtils;
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends SubsystemBase {
 
-        // TODO: Move the below values to Constants
-        public static final double kMaxSpeed = 3.0; // 3 meters per second
-        public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
-
-        private static final double absWheelLocX = Constants.Frame.ROBOT_WHEEL_DISTANCE_WIDTH / 2;
-        private static final double absWheelLocY = Constants.Frame.ROBOT_WHEEL_DISTANCE_LENGTH / 2;
-
-        private final Translation2d m_frontLeftLocation = new Translation2d(absWheelLocX, absWheelLocY);
-        private final Translation2d m_frontRightLocation = new Translation2d(absWheelLocX, -absWheelLocY);
-        private final Translation2d m_backLeftLocation = new Translation2d(-absWheelLocX, absWheelLocY);
-        private final Translation2d m_backRightLocation = new Translation2d(-absWheelLocX, -absWheelLocY);
-
-        // TODO: make sure the encoder values actually follow: front left, front right,
-        // back left, back right
-        private final SwerveModule m_frontLeft = new SwerveModule(2, 1, 2, 0.628); // .411
-        private final SwerveModule m_frontRight = new SwerveModule(4, 3, 3, 0.917); // .125
-        private final SwerveModule m_backLeft = new SwerveModule(8, 7, 5, 0.697); // .876
-        private final SwerveModule m_backRight = new SwerveModule(6, 5, 4, 0.363); // .193
-
+        // Creates Nav object
         private final NavSensor _nav = new NavSensor();
 
+        // Creates swerve module objects
+        private final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
+        private final SwerveModule m_frontRight = new SwerveModule(Constants.Swerve.frontRightConstants);
+        private final SwerveModule m_backLeft = new SwerveModule(Constants.Swerve.backLeftConstants);
+        private final SwerveModule m_backRight = new SwerveModule(Constants.Swerve.backRightConstants);
+
+        // Creates swerve kinematics
         private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
-                        m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
+                        Constants.Swerve.frontLeftConstants.wheelLocation,
+                        Constants.Swerve.frontRightConstants.wheelLocation,
+                        Constants.Swerve.backLeftConstants.wheelLocation,
+                        Constants.Swerve.backRightConstants.wheelLocation);
 
         // Creates swerve post estimation filter
         public SwerveDrivePoseEstimator poseFilter;
 
+        // Init drivetrain
         public Drivetrain() {
                 _nav.relativeResetAngle();
 
@@ -90,17 +82,9 @@ public class Drivetrain extends SubsystemBase {
                                                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
                 // Desaturates wheel speeds
-                SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, kMaxSpeed);
+                SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.robotMaxSpeed);
 
-                // Adds rotations of each module to SmartDashboards
-                /*
-                SmartDashboard.putNumber("r0", swerveModuleStates[0].angle.getDegrees());
-                SmartDashboard.putNumber("r1", swerveModuleStates[1].angle.getDegrees());
-                SmartDashboard.putNumber("r2", swerveModuleStates[2].angle.getDegrees());
-                SmartDashboard.putNumber("r3", swerveModuleStates[3].angle.getDegrees());
-                 */
-
-                // Sets each module to desired state
+                // Sets state for each module
                 m_frontLeft.setDesiredState(swerveModuleStates[0]);
                 m_frontRight.setDesiredState(swerveModuleStates[1]);
                 m_backLeft.setDesiredState(swerveModuleStates[2]);

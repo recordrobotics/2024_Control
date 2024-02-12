@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import frc.robot.utils.ModuleConstantsObject;
+import frc.robot.utils.ModuleConstants;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -92,11 +92,47 @@ public final class Constants {
 
     public final class Swerve {
 
+        // Works out module locations
+        private static final double locX = Constants.Frame.ROBOT_WHEEL_DISTANCE_WIDTH / 2;
+        private static final double locY = Constants.Frame.ROBOT_WHEEL_DISTANCE_LENGTH / 2;
+
+        private static final Translation2d frontLeftLocation = new Translation2d(locX, locY);
+        private static final Translation2d frontRightLocation = new Translation2d(locX, -locY);
+        private static final Translation2d backLeftLocation = new Translation2d(-locX, locY);
+        private static final Translation2d backRightLocation = new Translation2d(-locX, -locY);
+
         // Module Creation
-        //public ModuleConstantsObject frontLeftModuleConstants = new ModuleConstantsObject();
-
-        //public ModuleConstantsObject frontRightModuleConstants = 
-
+        public static final ModuleConstants frontLeftConstants = new ModuleConstants(
+            2, 
+            1, 
+            2,
+            0.628,
+            frontLeftLocation, 
+            true, true);
+        public static final ModuleConstants frontRightConstants = new ModuleConstants(
+            4, 
+            3,
+            3, 
+            0.917, 
+            frontRightLocation, 
+            true, 
+            true); 
+        public static final ModuleConstants backLeftConstants = new ModuleConstants(
+            8, 
+            7, 
+            5, 
+            0.697, 
+            backLeftLocation, 
+            true, 
+            true);
+        public static final ModuleConstants backRightConstants = new ModuleConstants(
+            6, 
+            5, 
+            4, 
+            0.363, 
+            backRightLocation, 
+            true, 
+            true);
 
         // Gear ratios for falcon and kraken
         public static final double KRAKEN_TURN_GEAR_RATIO = 1; //TODO: find these gear ratios
@@ -122,14 +158,17 @@ public final class Constants {
         public static final double KRAKEN_DRIVE_KI = 0;
         public static final double KRAKEN_DRIVE_KD = 0;
 
-        // Motor Limits
-        /** Absolute motor limit value (0 to 1), default is 1.0 */
-        public static final double FALCON_MOTOR_LIMIT = 1.0; // 0.8;
-        public static final double KRAKEN_MOTOR_LIMIT = 1.0; // 0.8;
-
         // Shared
         public static final double RELATIVE_ENCODER_RATIO = 2048; // Same between Falcon and Kraken since they share the same encoders
-        public static final double SWERVE_WHEEL_DIAMETER = Units.inchesToMeters(4);
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
+
+        public static final double TurnMaxAngularVelocity = 5; // Drivetrain.kMaxAngularSpeed;
+        public static final double TurnMaxAngularAcceleration = 10; // 2 * Math.PI; // radians per second squared
+        public static final double DriveMaxAngularVelocity = 10; // Drivetrain.kMaxAngularSpeed;
+        public static final double DriveMaxAngularAcceleration = 20; // 2 * Math.PI; // radians per second squared
+
+        /** The max speed the robot is allowed to travel */
+        public static final double robotMaxSpeed = 3.0;
     }
 
 
