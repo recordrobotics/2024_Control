@@ -4,6 +4,7 @@
 
 package frc.robot;
 import frc.robot.utils.ModuleConstants;
+import frc.robot.utils.MotorType;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -85,31 +86,32 @@ public final class Constants {
             2,
             0.628,
             frontLeftLocation, 
-            true, true);
+            MotorType.Falcon,
+            MotorType.Falcon);
         public static final ModuleConstants frontRightConstants = new ModuleConstants(
             4, 
             3,
             3, 
             0.917, 
             frontRightLocation, 
-            true, 
-            true); 
+            MotorType.Falcon, 
+            MotorType.Falcon); 
         public static final ModuleConstants backLeftConstants = new ModuleConstants(
             8, 
             7, 
             5, 
             0.697, 
             backLeftLocation, 
-            true, 
-            true);
+            MotorType.Falcon, 
+            MotorType.Falcon);
         public static final ModuleConstants backRightConstants = new ModuleConstants(
             6, 
             5, 
             4, 
             0.363, 
             backRightLocation, 
-            true, 
-            true);
+            MotorType.Falcon, 
+            MotorType.Falcon);
 
         // Gear ratios for falcon and kraken
         public static final double KRAKEN_TURN_GEAR_RATIO = 7.85; //TODO: make sure these values are good

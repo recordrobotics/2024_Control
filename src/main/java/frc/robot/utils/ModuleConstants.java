@@ -1,6 +1,7 @@
 package frc.robot.utils;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Constants;
+import frc.robot.utils.MotorType;
 
 public class ModuleConstants {
 
@@ -38,8 +39,8 @@ public class ModuleConstants {
      * @param absoluteTurningMotorEncoderChannel abs turn motor encoder port
      * @param turningEncoderOffset offset of the abs turn encoder at a set starting position (which we found through manually testing)
      * @param wheelLocation Translation2d object of where the wheel is relative to robot frame
-     * @param turnIsFalcon Whether or not the turn motor is a Falcon motor. If false, assumes that the turn motor is a Kraken
-     * @param driveIsFalcon Whether or not the drive motor is a Falcon motor. If false, assumes that the drive motor is a Kraken
+     * @param turnMotorType The type of the turn motor
+     * @param driveMotorType The type of the drive motor
      */
     public ModuleConstants (
 
@@ -49,8 +50,8 @@ public class ModuleConstants {
         double turningEncoderOffset,
         Translation2d wheelLocation,
 
-        Boolean turnIsFalcon,
-        Boolean driveIsFalcon) {
+        MotorType turnMotorType,
+        MotorType driveMotorType) {
 
             // Encoder nums
             this.driveMotorChannel = driveMotorChannel;
@@ -72,36 +73,36 @@ public class ModuleConstants {
             this.WHEEL_DIAMETER = Constants.Swerve.WHEEL_DIAMETER;
 
             // Turn Motor Constants
-            if (turnIsFalcon) {
-                this.TURN_KP = Constants.Swerve.FALCON_TURN_KD;
-                this.TURN_KI = Constants.Swerve.FALCON_TURN_KI;
-                this.TURN_KD = Constants.Swerve.FALCON_TURN_KD;
-                this.TURN_GEAR_RATIO = Constants.Swerve.FALCON_TURN_GEAR_RATIO;
-            }
-
-            else {
-                this.TURN_KP = Constants.Swerve.KRAKEN_TURN_KD;
-                this.TURN_KI = Constants.Swerve.KRAKEN_TURN_KI;
-                this.TURN_KD = Constants.Swerve.KRAKEN_TURN_KD;
-                this.TURN_GEAR_RATIO = Constants.Swerve.KRAKEN_TURN_GEAR_RATIO;
+            switch(turnMotorType){
+                case Falcon:
+                    this.TURN_KP = Constants.Swerve.FALCON_TURN_KP;
+                    this.TURN_KI = Constants.Swerve.FALCON_TURN_KI;
+                    this.TURN_KD = Constants.Swerve.FALCON_TURN_KD;
+                    this.TURN_GEAR_RATIO = Constants.Swerve.FALCON_TURN_GEAR_RATIO;
+                    break;
+                case Kraken:
+                    this.TURN_KP = Constants.Swerve.KRAKEN_TURN_KP;
+                    this.TURN_KI = Constants.Swerve.KRAKEN_TURN_KI;
+                    this.TURN_KD = Constants.Swerve.KRAKEN_TURN_KD;
+                    this.TURN_GEAR_RATIO = Constants.Swerve.KRAKEN_TURN_GEAR_RATIO;
+                    break;
             }
 
             // Drive Motor Constants
-            if (driveIsFalcon) {
-                this.DRIVE_KP = Constants.Swerve.FALCON_DRIVE_KD;
-                this.DRIVE_KI = Constants.Swerve.FALCON_DRIVE_KI;
-                this.DRIVE_KD = Constants.Swerve.FALCON_DRIVE_KD;
-                this.DRIVE_GEAR_RATIO = Constants.Swerve.FALCON_DRIVE_GEAR_RATIO;
+            switch(driveMotorType){
+                case Falcon:
+                    this.DRIVE_KP = Constants.Swerve.FALCON_DRIVE_KP;
+                    this.DRIVE_KI = Constants.Swerve.FALCON_DRIVE_KI;
+                    this.DRIVE_KD = Constants.Swerve.FALCON_DRIVE_KD;
+                    this.DRIVE_GEAR_RATIO = Constants.Swerve.FALCON_DRIVE_GEAR_RATIO;
+                    break;
+                case Kraken:
+                    this.DRIVE_KP = Constants.Swerve.KRAKEN_DRIVE_KP;
+                    this.DRIVE_KI = Constants.Swerve.KRAKEN_DRIVE_KI;
+                    this.DRIVE_KD = Constants.Swerve.KRAKEN_DRIVE_KD;
+                    this.DRIVE_GEAR_RATIO = Constants.Swerve.KRAKEN_DRIVE_GEAR_RATIO;
+                    break;
             }
-
-            else {
-                this.DRIVE_KP = Constants.Swerve.KRAKEN_DRIVE_KD;
-                this.DRIVE_KI = Constants.Swerve.KRAKEN_DRIVE_KI;
-                this.DRIVE_KD = Constants.Swerve.KRAKEN_DRIVE_KD;
-                this.DRIVE_GEAR_RATIO = Constants.Swerve.KRAKEN_DRIVE_GEAR_RATIO;
-            }
-                
-
     }
 
 }
