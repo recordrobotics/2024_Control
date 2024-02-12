@@ -74,7 +74,7 @@ public class Drivetrain extends SubsystemBase {
 
                 // Calculates swerveModuleStates given optimal ChassisSpeeds given by control scheme
                 SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
-                                fieldRelative
+                                        fieldRelative
                                                 ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,
                                                                 poseFilter.getEstimatedPosition().getRotation())
                                                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
