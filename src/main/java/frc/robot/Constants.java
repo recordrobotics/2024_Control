@@ -60,6 +60,11 @@ public final class Constants {
 
         /** Joystick spin input absolute threshold */
         public static final double INPUT_SPIN_THRESHOLD = 0.5;
+
+        // Tablet drive constants
+        public final class Tablet {
+            // Will fill in later, but for now it's convenient to have it in the TabletDrive file
+        }
     }
 
     public final class Swerve {
@@ -107,8 +112,8 @@ public final class Constants {
             true);
 
         // Gear ratios for falcon and kraken
-        public static final double KRAKEN_TURN_GEAR_RATIO = 1; //TODO: find these gear ratios
-        public static final double KRAKEN_DRIVE_GEAR_RATIO = 1;
+        public static final double KRAKEN_TURN_GEAR_RATIO = 7.85; //TODO: make sure these values are good
+        public static final double KRAKEN_DRIVE_GEAR_RATIO = 6.54;
 
         public static final double FALCON_TURN_GEAR_RATIO = 15.43; // (https://web.archive.org/web/20230117081053/https://docs.wcproducts.com/wcp-swervex/general-info/ratio-options)
         public static final double FALCON_DRIVE_GEAR_RATIO = 7.36; // (https://web.archive.org/web/20230117081053/https://docs.wcproducts.com/wcp-swervex/general-info/ratio-options)
