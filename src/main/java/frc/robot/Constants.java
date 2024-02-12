@@ -32,6 +32,7 @@ public final class Constants {
         public static final Translation2d TEAM_BLUE_AMP = new Translation2d(1.88, 8.5);
 
         // Field width and length
+        //TODO: Remove testing values
         //public static final double FIELD_X_DIMENSION = 16.54; // Length
         //public static final double FIELD_Y_DIMENSION = 8.21; // Width
         public static final double FIELD_X_DIMENSION = 4.5; // Length
@@ -39,6 +40,7 @@ public final class Constants {
 
 
         public static final Pose2d TEAM_RED_STARTING_POSE = new Pose2d(16, 4.2, Rotation2d.fromDegrees(180));
+        //TODO: Remove testing values
         //public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(0.5, 4.2, Rotation2d.fromDegrees(0));
         public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(FIELD_X_DIMENSION/2, FIELD_Y_DIMENSION/2, Rotation2d.fromDegrees(0));
     }   

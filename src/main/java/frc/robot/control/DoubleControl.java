@@ -122,6 +122,7 @@ public class DoubleControl {
 	 */
 
 	/**
+	 * Converts (-1, 1) to (0,1)
 	 * @return x coordinate of the tablet (from 0 to 1)
 	 */
 	public double getTabletX() {
@@ -130,6 +131,7 @@ public class DoubleControl {
 	}
 
 	/**
+	 * Converts (-1, 1) to (0,1)
 	 * @return y coordinate of the tablet (from 0 to 1)
 	 */
 	public double getTabletY() {
@@ -148,8 +150,5 @@ public class DoubleControl {
 			return -1 * xbox_controller.getRawAxis(5);
 		}
 		return 0;
-		/*
-		double pressure = -1 * xbox_controller.getRawAxis(5); // Makes pressure positive (0 --> 1)
-		return pressure > 0.1; // If the pressure > 0.1, returns  */
 	}
 }
