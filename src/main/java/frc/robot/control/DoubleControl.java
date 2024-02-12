@@ -33,11 +33,18 @@ public class DoubleControl {
 	}
 
 	public double getSpin() {
+		// Gets raw twist value
 		double input = -stickpad.getTwist();
-		if (input >= Constants.Control.INPUT_SPIN_THRESHOLD || input <= -Constants.Control.INPUT_SPIN_THRESHOLD)
-			return Constants.RemapAbsoluteValue(input, Constants.Control.SPIN_INPUT_REMAP_LOW,
-					Constants.Control.SPIN_INPUT_REMAP_HIGH) * Constants.Control.SPIN_INPUT_SENSITIVITY;
-		return 0;
+
+		// How much the input is above the threshold (absolute value)
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.INPUT_SPIN_THRESHOLD);
+		// What prortion threshold --> value is of threshold --> 1
+		double proportion = subtract_threshold/(1 - Constants.Control.INPUT_SPIN_THRESHOLD);
+		// Multiplies by spin sensitivity
+		double final_spin = proportion * Constants.Control.SPIN_INPUT_SENSITIVITY;
+
+		// Returns
+		return final_spin;
 	}
 
 	public boolean getResetPressed() {

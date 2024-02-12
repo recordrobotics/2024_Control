@@ -24,29 +24,6 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
-    /**
-     * Remaps value between min and max to 0 - 1
-     * Works with negative values: remap(x, min, max) = -remap(-x, min, max)
-     * 
-     * @implNote NOTE! DOES NOT CLAMP OUTPUT TO 0 - 1 RANGE.
-     * @param value  The value between absMin and absMax
-     * @param absMin Min value of the input (always positive, even if input is
-     *               negative)
-     * @param absMax Max value of the input (always positive, even if input is
-     *               negative)
-     * @return Returns a value between 0 and 1 or 0 and -1 depending on the sign of
-     *         the input value
-     */
-    public static double RemapAbsoluteValue(double value, double absMin, double absMax) {
-        if (value >= absMin) { // positive relative value
-            return (value - absMin) / (absMax - absMin);
-        } else if (value <= -absMin) { // negative relative value
-            return (value - absMin) / (absMax - absMin) + 2;
-        } else {
-            return 0;
-        }
-    }
-
     public final class FieldConstants {
 
         public static final Translation2d TEAM_RED_SPEAKER = new Translation2d(16, 5.5);
@@ -73,12 +50,6 @@ public final class Constants {
         /** Joystick spin sensitivity */
         public static final double SPIN_INPUT_SENSITIVITY = 0.5;
 
-        /** Joystick spin remap low value (remaps LOW-HIGH to 0-1) */
-        public static final double SPIN_INPUT_REMAP_LOW = 0.5;
-
-        /** Joystick spin remap high value (remaps LOW-HIGH to 0-1) */
-        public static final double SPIN_INPUT_REMAP_HIGH = 1;
-
         /** Joystick X input absolute threshold */
         public static final double INPUT_X_THRESHOLD = 0.15;
 
@@ -88,7 +59,6 @@ public final class Constants {
         /** Joystick spin input absolute threshold */
         public static final double INPUT_SPIN_THRESHOLD = 0.5;
     }
-
 
     public final class Swerve {
 
@@ -170,7 +140,6 @@ public final class Constants {
         /** The max speed the robot is allowed to travel */
         public static final double robotMaxSpeed = 3.0;
     }
-
 
     public final class Frame {
 
