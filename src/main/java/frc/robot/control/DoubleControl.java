@@ -6,14 +6,24 @@ import frc.robot.Constants;
 
 public class DoubleControl {
 
+	// Sets ups controller classes
 	private Joystick stickpad;
 	private XboxController xbox_controller;
 
+	// Constructor
 	public DoubleControl(int stickpadPort, int gamepadPort) {
 		stickpad = new Joystick(stickpadPort);
 		xbox_controller = new XboxController(gamepadPort);
 	}
 
+	/**
+	 * TODO: getX and getY currently do not subtract threshold from the final value. 
+	 * I think we should subtract threshold. We should talk about changing this. 
+	 */
+
+	/**
+	 * @return remapped joystick value x horizontal (sets a min threshold, multiplies by input sens)
+	 */
 	public double getX() {
 		// Robot and Joystick axises are flipped
 		double input = -stickpad.getY();
@@ -23,6 +33,9 @@ public class DoubleControl {
 		return 0;
 	}
 
+	/**
+	 * @return remapped joystick y value (sets a min threshold, multiplies by input sens)
+	 */
 	public double getY() {
 		// Robot and Joystick axises are flipped
 		double input = -stickpad.getX();
@@ -32,6 +45,9 @@ public class DoubleControl {
 		return 0;
 	}
 
+	/**
+	 * @return remapped joystick spin value (sets a min threshold, subtracts threshold, multiplied by input sens)
+	 */
 	public double getSpin() {
 		// Gets raw twist value
 		double input = -stickpad.getTwist();

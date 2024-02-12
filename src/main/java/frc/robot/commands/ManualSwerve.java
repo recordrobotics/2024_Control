@@ -7,7 +7,6 @@ package frc.robot.commands;
 import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
-import frc.robot.subsystems.NavSensor;
 
 import frc.robot.utils.drivemodes.AutoOrient;
 import frc.robot.utils.drivemodes.DefaultSpin;
@@ -47,7 +46,7 @@ public class ManualSwerve extends Command {
   /**
    * @param drivetrain
    */
-  public ManualSwerve(Drivetrain drivetrain, NavSensor nav, DoubleControl controls) {
+  public ManualSwerve(Drivetrain drivetrain, DoubleControl controls) {
 
     // Init variables
     _drivetrain = drivetrain;

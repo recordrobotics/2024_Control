@@ -27,27 +27,22 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+
+  // The robot's subsystems and commands are defined here
   private Drivetrain _drivetrain;
-  private NavSensor _nav;
   private List<Pair<Subsystem, Command>> _teleopPairs;
-
   private ManualSwerve _manualSwerve;
-
   private DoubleControl _controlInput;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
-    _controlInput = new DoubleControl(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.GAMEPAD_PORT);
 
     // Init Swerve
     _drivetrain = new Drivetrain();
 
     // Init Nav
-    _nav = new NavSensor();
     NavSensor.initNav();
 
     // Bindings and Teleop
@@ -56,8 +51,13 @@ public class RobotContainer {
   }
 
   private void initTeleopCommands() {
-    _manualSwerve = new ManualSwerve(_drivetrain, _nav, _controlInput);
+
+    // Creates teleopPairs object
     _teleopPairs = new ArrayList<>();
+
+    // Creates control input & manual swerve object, adds it to _teleopPairs
+    _controlInput = new DoubleControl(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.GAMEPAD_PORT);
+    _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
   }
 
