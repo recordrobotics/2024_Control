@@ -1,7 +1,6 @@
 package frc.robot.utils;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Constants;
-import frc.robot.utils.MotorType;
 
 public class ModuleConstants {
 
@@ -32,6 +31,9 @@ public class ModuleConstants {
     public double RELATIVE_ENCODER_RATIO;
     public double WHEEL_DIAMETER;
 
+    // Class to store types of motors
+    public enum MotorType {Falcon, Kraken}
+
     /**
      * essentially serves as a storage unit for one swerve module, storing every single constant that a module might want to use
      * @param driveMotorChannel drive motor port
@@ -42,6 +44,7 @@ public class ModuleConstants {
      * @param turnMotorType The type of the turn motor
      * @param driveMotorType The type of the drive motor
      */
+
     public ModuleConstants (
 
         int driveMotorChannel,

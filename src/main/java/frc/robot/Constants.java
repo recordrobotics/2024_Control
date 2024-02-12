@@ -4,7 +4,7 @@
 
 package frc.robot;
 import frc.robot.utils.ModuleConstants;
-import frc.robot.utils.MotorType;
+import frc.robot.utils.ModuleConstants.MotorType;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
