@@ -133,6 +133,8 @@ public class DoubleControl {
 	 */
 	public double getTabletPressure() {
 
+		// Checks that the Z axis (height of the pen) is below a certain amount 
+		// (If it isn't, the pressure reading is probably a hardware error)
 		if (xbox_controller.getRawAxis(4) > 0.03 && xbox_controller.getRawAxis(4) < 0.25) {
 			return -1 * xbox_controller.getRawAxis(5);
 		}

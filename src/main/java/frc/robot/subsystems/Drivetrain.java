@@ -23,13 +23,13 @@ public class Drivetrain extends SubsystemBase {
         public static final double kMaxSpeed = 3.0; // 3 meters per second
         public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
 
-        private static final double wheelLocX = Constants.Swerve.ROBOT_WHEEL_DISTANCE_WIDTH / 2;
-        private static final double wheelLocY = Constants.Swerve.ROBOT_WHEEL_DISTANCE_LENGTH / 2;
+        private static final double absWheelLocX = Constants.Frame.ROBOT_WHEEL_DISTANCE_WIDTH / 2;
+        private static final double absWheelLocY = Constants.Frame.ROBOT_WHEEL_DISTANCE_LENGTH / 2;
 
-        private final Translation2d m_frontLeftLocation = new Translation2d(wheelLocX, wheelLocY);
-        private final Translation2d m_frontRightLocation = new Translation2d(wheelLocX, -wheelLocY);
-        private final Translation2d m_backLeftLocation = new Translation2d(-wheelLocX, wheelLocY);
-        private final Translation2d m_backRightLocation = new Translation2d(-wheelLocX, -wheelLocY);
+        private final Translation2d m_frontLeftLocation = new Translation2d(absWheelLocX, absWheelLocY);
+        private final Translation2d m_frontRightLocation = new Translation2d(absWheelLocX, -absWheelLocY);
+        private final Translation2d m_backLeftLocation = new Translation2d(-absWheelLocX, absWheelLocY);
+        private final Translation2d m_backRightLocation = new Translation2d(-absWheelLocX, -absWheelLocY);
 
         // TODO: make sure the encoder values actually follow: front left, front right,
         // back left, back right

@@ -94,6 +94,8 @@ public class ManualSwerve extends Command {
       _drivetrain.resetPose();
     }
 
+
+
     // Sets up spin
     double spin;
     
@@ -104,6 +106,8 @@ public class ManualSwerve extends Command {
     else {
       spin = defaultSpin.calculate(_controls);
     }
+
+
 
     // Sets up driveCommandData object
     DriveCommandData driveCommandData;
@@ -123,6 +127,7 @@ public class ManualSwerve extends Command {
       driveCommandData = defaultDrive.calculate(_controls, spin, swerve_position, true);
     }
 
+    
     // Drive command
     _drivetrain.drive(driveCommandData);
   }

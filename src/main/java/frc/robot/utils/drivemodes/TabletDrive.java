@@ -38,6 +38,7 @@ public class TabletDrive {
         }
     }
 
+    //TODO: find a way to put the constants here in Constants.java
     /**
      * runs calculations for auto-orient
      * @return

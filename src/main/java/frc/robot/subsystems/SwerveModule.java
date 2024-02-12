@@ -19,10 +19,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SwerveModule {
 
   // TODO: put in constants
-  private static final double kTurnMaxAngularVelocity = 5; // Drivetrain.kMaxAngularSpeed;
-  private static final double kTurnMaxAngularAcceleration = 10; // 2 * Math.PI; // radians per second squared
-  private static final double kMDriveMaxAngularVelocity = 10; // Drivetrain.kMaxAngularSpeed;
-  private static final double kDriveMaxAngularAcceleration = 20; // 2 * Math.PI; // radians per second squared
+  private static final double TurnMaxAngularVelocity = 5; // Drivetrain.kMaxAngularSpeed;
+  private static final double TurnMaxAngularAcceleration = 10; // 2 * Math.PI; // radians per second squared
+  private static final double DriveMaxAngularVelocity = 10; // Drivetrain.kMaxAngularSpeed;
+  private static final double DriveMaxAngularAcceleration = 20; // 2 * Math.PI; // radians per second squared
 
   // Creates variables for motors and absolute encoders
   private final TalonFX m_driveMotor;
@@ -45,7 +45,7 @@ public class SwerveModule {
       0,
       0,
       new TrapezoidProfile.Constraints(
-          kTurnMaxAngularVelocity, kTurnMaxAngularAcceleration));
+          TurnMaxAngularVelocity, TurnMaxAngularAcceleration));
 
   // Gains are for example purposes only - must be determined for your own robot!
   private final ProfiledPIDController m_drivePIDController = new ProfiledPIDController(
@@ -53,7 +53,7 @@ public class SwerveModule {
       0,
       0,
       new TrapezoidProfile.Constraints(
-          kMDriveMaxAngularVelocity, kDriveMaxAngularAcceleration));
+          DriveMaxAngularVelocity, DriveMaxAngularAcceleration));
 
   /**
    * Constructs a SwerveModule with a drive motor, turning motor, and absolute
@@ -103,28 +103,23 @@ public class SwerveModule {
 
   /**
    * custom function
-   * 
    * @return The current offset absolute position of the wheel's turn
    */
   private double getAbsWheelTurnOffset() {
     double absEncoderPosition = (absoluteTurningMotorEncoder.getAbsolutePosition() - turningEncoderOffset + 1) % 1;
-    double absWheelPositionOffset = absEncoderPosition * Constants.Swerve.DIRECTION_GEAR_RATIO;
+    double absWheelPositionOffset = absEncoderPosition * Constants.Swerve.FALCON_TURN_GEAR_RATIO;
     return absWheelPositionOffset;
   }
 
-
   /**
    * custom function
-   * 
-   * @return The raw rotations of the turning motor (rotation 2d object). NOT THE
-   *         WHEEL. THE MOTOR.
+   * @return The raw rotations of the turning motor (rotation 2d object).
    */
   private Rotation2d getTurnWheelRotation2d() {
     double numMotorRotations = m_turningMotor.getPosition().getValue();
-    Rotation2d motorRotation = new Rotation2d(numMotorRotations * 2 * Math.PI / Constants.Swerve.DIRECTION_GEAR_RATIO);
+    Rotation2d motorRotation = new Rotation2d(numMotorRotations * 2 * Math.PI / Constants.Swerve.FALCON_TURN_GEAR_RATIO);
     return motorRotation;
   }
-
 
   /**
    * TODO: figure out how this calculation works and make it more clear instead of
@@ -142,19 +137,17 @@ public class SwerveModule {
 
   /**
    * custom function
-   * 
    * @return The distance driven by the drive wheel (meters)
    */
   private double getDriveWheelDistance() {
     double numRotationsDriveMotor = m_driveMotor.getPosition().getValue();
-    double numRotationsDriveWheel = numRotationsDriveMotor / Constants.Swerve.SPEED_GEAR_RATIO;
+    double numRotationsDriveWheel = numRotationsDriveMotor / Constants.Swerve.FALCON_DRIVE_GEAR_RATIO;
     double speedWheelDistanceMeters = numRotationsDriveWheel * Math.PI * Constants.Swerve.SWERVE_WHEEL_DIAMETER;
     return speedWheelDistanceMeters;
   }
 
   /**
    * custom function
-   * 
    * @return The current state of the module.
    */
   public SwerveModuleState getModuleState() {
@@ -164,7 +157,6 @@ public class SwerveModule {
 
   /**
    * custom function
-   * 
    * @return The current position of the module as a SwerveModulePosition object.
    */
   public SwerveModulePosition getModulePosition() {
