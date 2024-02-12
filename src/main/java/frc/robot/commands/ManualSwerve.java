@@ -81,8 +81,7 @@ public class ManualSwerve extends Command {
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
     m_field.setRobotPose(swerve_position);
 
-
-    // Puts on shuffleboard
+    // Puts robot position information on shuffleboard
     SmartDashboard.putNumber("Rotation", swerve_position.getRotation().getDegrees());
     SmartDashboard.putNumber("X", swerve_position.getX());
     SmartDashboard.putNumber("Y", swerve_position.getY());
@@ -94,10 +93,9 @@ public class ManualSwerve extends Command {
     }
 
 
-
     // Sets up spin
     double spin;
-    
+
     // Auto-orient function
     if (autoOrient.shouldExecute(_controls)) {
       spin = autoOrient.calculate(_controls, swerve_position);
@@ -105,7 +103,6 @@ public class ManualSwerve extends Command {
     else {
       spin = defaultSpin.calculate(_controls);
     }
-
 
 
     // Sets up driveCommandData object
@@ -125,7 +122,6 @@ public class ManualSwerve extends Command {
     else {
       driveCommandData = defaultDrive.calculate(_controls, spin, swerve_position, true);
     }
-
     
     // Drive command
     _drivetrain.drive(driveCommandData);

@@ -39,7 +39,7 @@ public class Drivetrain extends SubsystemBase {
 
         // Init drivetrain
         public Drivetrain() {
-                _nav.relativeResetAngle();
+                _nav.resetAngleAdjustment();
 
                 poseFilter = new SwerveDrivePoseEstimator(
                                 m_kinematics,
@@ -103,7 +103,7 @@ public class Drivetrain extends SubsystemBase {
 
         /** Resets the field relative position of the robot (mostly for testing). */
         public void resetPose() {
-                _nav.relativeResetAngle();
+                _nav.resetAngleAdjustment();
                 m_frontLeft.resetDriveMotorPosition();
                 m_frontRight.resetDriveMotorPosition();
                 m_backLeft.resetDriveMotorPosition();

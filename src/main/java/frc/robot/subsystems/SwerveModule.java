@@ -32,9 +32,9 @@ public class SwerveModule {
     private final double WHEEL_DIAMETER;
 
     /**
-     * Constructs a SwerveModule with a drive motor, turning motor, and absolute
-     * turning encoder.
-     * @param m - a ModuleConstants object that contains all constants relevant for creating a swerve module. Look at ModuleConstants.java for what variables are contained
+     * Constructs a SwerveModule with a drive motor, turning motor, and absolute turning encoder.
+     * @param m - a ModuleConstants object that contains all constants relevant for creating a swerve module. 
+     *            Look at ModuleConstants.java for what variables are contained
      */
     public SwerveModule(ModuleConstants m) {
 

@@ -10,6 +10,8 @@ import java.util.List;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ManualSwerve;
 import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Drivetrain;
@@ -76,6 +78,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    //TODO: look into command binding
+    /** 
+    CommandJoystick joystick = new CommandJoystick(RobotMap.Control.STICKPAD_PORT);
+		Trigger getReset = new Trigger(joystick.button(2));
+    getReset.onTrue(_drivetrain());
+     */
   }
 
   /**

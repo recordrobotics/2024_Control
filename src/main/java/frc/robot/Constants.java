@@ -47,7 +47,7 @@ public final class Constants {
 
     public final class Control {
         /** Joystick sensitivity */
-        public static final double INPUT_SENSITIVITY = 0.3;
+        public static final double INPUT_DIRECTIONAL_SENSITIVITY = 0.3;
 
         /** Joystick spin sensitivity */
         public static final double SPIN_INPUT_SENSITIVITY = 0.5;
@@ -93,7 +93,7 @@ public final class Constants {
             3, 
             0.917, 
             frontRightLocation, 
-            MotorType.Falcon, 
+            MotorType.Falcon,
             MotorType.Falcon); 
         public static final ModuleConstants backLeftConstants = new ModuleConstants(
             8, 
