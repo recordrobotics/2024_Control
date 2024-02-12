@@ -31,11 +31,10 @@ public class SwerveModule {
     private final double RELATIVE_ENCODER_RATIO;
     private final double WHEEL_DIAMETER;
 
-
     /**
      * Constructs a SwerveModule with a drive motor, turning motor, and absolute
      * turning encoder.
-     * @param moduleConstants an object that contains all constants relevant for creating a swerve module. Look at ModuleConstants.java for what variables are contained
+     * @param m - a ModuleConstants object that contains all constants relevant for creating a swerve module. Look at ModuleConstants.java for what variables are contained
      */
     public SwerveModule(ModuleConstants m) {
 
@@ -60,7 +59,7 @@ public class SwerveModule {
       m_driveMotor.set(0);
       m_turningMotor.set(0);
 
-      // Creates PID Controllers
+      // Creates PID Controllers //TODO: figure out if this works
       this.drivePIDController = new ProfiledPIDController(
         m.DRIVE_KP,
         m.DRIVE_KI,
@@ -70,8 +69,8 @@ public class SwerveModule {
 
       this.turningPIDController = new ProfiledPIDController(
         m.TURN_KP,
-        m.DRIVE_KI,
-        m.DRIVE_KD,
+        m.TURN_KI,
+        m.TURN_KD,
         new TrapezoidProfile.Constraints(
             m.TurnMaxAngularVelocity, m.TurnMaxAngularAcceleration));
 
@@ -83,7 +82,7 @@ public class SwerveModule {
     }
 
     /**
-     * custom function
+     * *custom function
      * @return The current offset absolute position of the wheel's turn
      */
     private double getAbsWheelTurnOffset() {
@@ -93,7 +92,7 @@ public class SwerveModule {
     }
 
     /**
-     * custom function
+     * *custom function
      * @return The raw rotations of the turning motor (rotation 2d object).
      */
     private Rotation2d getTurnWheelRotation2d() {
@@ -103,10 +102,8 @@ public class SwerveModule {
     }
 
     /**
-     * TODO: figure out how this calculation works and make it more clear instead of
-     * having it all happen on one line
-     * custom function
-     * 
+     * TODO: figure out how this calculation works and make it more clear instead of having it all happen on one line
+     * *custom function
      * @return The current velocity of the drive motor (meters per second)
      */
     private double getDriveWheelVelocity() {
@@ -116,7 +113,7 @@ public class SwerveModule {
     }
 
     /**
-     * custom function
+     * *custom function
      * @return The distance driven by the drive wheel (meters)
      */
     private double getDriveWheelDistance() {
@@ -127,7 +124,7 @@ public class SwerveModule {
     }
 
     /**
-     * custom function
+     * *custom function
      * @return The current state of the module.
      */
     public SwerveModuleState getModuleState() {
@@ -136,7 +133,7 @@ public class SwerveModule {
     }
 
     /**
-     * custom function
+     * *custom function
      * @return The current position of the module as a SwerveModulePosition object.
      */
     public SwerveModulePosition getModulePosition() {
@@ -156,22 +153,16 @@ public class SwerveModule {
      */
     public void setDesiredState(SwerveModuleState desiredState) {
 
-      // Puts temps on SmartDashboard
-      //SmartDashboard.putNumber("Temp turn " + turningMotorChannel, m_turningMotor.getDeviceTemp().getValueAsDouble());
-      //SmartDashboard.putNumber("Temp drive " + driveMotorChannel, m_driveMotor.getDeviceTemp().getValueAsDouble());
-
       // Optimize the reference state to avoid spinning further than 90 degrees
       SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState,
           getTurnWheelRotation2d());
 
-      // Calculate the drive output from the drive PID controller then set drive
-      // motor.
+      // Calculate the drive output from the drive PID controller then set drive motor.
       final double driveOutput = drivePIDController.calculate(getDriveWheelVelocity(),
           optimizedState.speedMetersPerSecond);
       m_driveMotor.set(driveOutput);
 
-      // Calculate the turning motor output from the turning PID controller then set
-      // turn motor.
+      // Calculate the turning motor output from the turning PID controller then set turn motor.
       final double turnOutput = turningPIDController.calculate(getTurnWheelRotation2d().getRotations(),
           optimizedState.angle.getRotations());
       m_turningMotor.set(turnOutput);

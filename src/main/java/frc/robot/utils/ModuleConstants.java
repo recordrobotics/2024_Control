@@ -1,7 +1,5 @@
 package frc.robot.utils;
-
 import edu.wpi.first.math.geometry.Translation2d;
-
 import frc.robot.Constants;
 
 public class ModuleConstants {
@@ -33,6 +31,16 @@ public class ModuleConstants {
     public double RELATIVE_ENCODER_RATIO;
     public double WHEEL_DIAMETER;
 
+    /**
+     * essentially serves as a storage unit for one swerve module, storing every single constant that a module might want to use
+     * @param driveMotorChannel drive motor port
+     * @param turningMotorChannel turn motor port
+     * @param absoluteTurningMotorEncoderChannel abs turn motor encoder port
+     * @param turningEncoderOffset offset of the abs turn encoder at a set starting position (which we found through manually testing)
+     * @param wheelLocation Translation2d object of where the wheel is relative to robot frame
+     * @param turnIsFalcon Whether or not the turn motor is a Falcon motor. If false, assumes that the turn motor is a Kraken
+     * @param driveIsFalcon Whether or not the drive motor is a Falcon motor. If false, assumes that the drive motor is a Kraken
+     */
     public ModuleConstants (
 
         int driveMotorChannel,

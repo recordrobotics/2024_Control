@@ -64,8 +64,6 @@ public class Drivetrain extends SubsystemBase {
          * @param fieldRelative Whether the provided x and y speeds are relative to the
          *                      field.
          */
-
-
         public void drive(DriveCommandData driveCommandData) {
 
                 // Data from driveCommandData

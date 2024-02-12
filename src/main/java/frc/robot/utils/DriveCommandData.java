@@ -7,7 +7,7 @@ package frc.robot.utils;
                 public double ySpeed; 
                 public double rot;
                 public boolean fieldRelative;
-                // Constructor
+                // Constructor for an object that contains all relevant information for the drivetrain to drive */
                 public DriveCommandData (
                         double xSpeed, 
                         double ySpeed, 
