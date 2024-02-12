@@ -36,12 +36,14 @@ public class DoubleControl {
 		// Gets raw twist value
 		double input = -stickpad.getTwist();
 
+		// Gets whether or not the spin input is negative or positive
+		double sign = Math.signum(input);
 		// How much the input is above the threshold (absolute value)
 		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.INPUT_SPIN_THRESHOLD);
-		// What prortion threshold --> value is of threshold --> 1
+		// What proportion (threshold to value) is of (threshold to 1)
 		double proportion = subtract_threshold/(1 - Constants.Control.INPUT_SPIN_THRESHOLD);
 		// Multiplies by spin sensitivity
-		double final_spin = proportion * Constants.Control.SPIN_INPUT_SENSITIVITY;
+		double final_spin = proportion * sign * Constants.Control.SPIN_INPUT_SENSITIVITY;
 
 		// Returns
 		return final_spin;
