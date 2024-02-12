@@ -73,14 +73,14 @@ public class ModuleConstants {
 
             // Turn Motor Constants
             if (turnIsFalcon) {
-                this.TURN_KP = Constants.Swerve.FALCON_TURN_KD;
+                this.TURN_KP = Constants.Swerve.FALCON_TURN_KP;
                 this.TURN_KI = Constants.Swerve.FALCON_TURN_KI;
                 this.TURN_KD = Constants.Swerve.FALCON_TURN_KD;
                 this.TURN_GEAR_RATIO = Constants.Swerve.FALCON_TURN_GEAR_RATIO;
             }
 
             else {
-                this.TURN_KP = Constants.Swerve.KRAKEN_TURN_KD;
+                this.TURN_KP = Constants.Swerve.KRAKEN_TURN_KP;
                 this.TURN_KI = Constants.Swerve.KRAKEN_TURN_KI;
                 this.TURN_KD = Constants.Swerve.KRAKEN_TURN_KD;
                 this.TURN_GEAR_RATIO = Constants.Swerve.KRAKEN_TURN_GEAR_RATIO;
@@ -88,14 +88,14 @@ public class ModuleConstants {
 
             // Drive Motor Constants
             if (driveIsFalcon) {
-                this.DRIVE_KP = Constants.Swerve.FALCON_DRIVE_KD;
+                this.DRIVE_KP = Constants.Swerve.FALCON_DRIVE_KP;
                 this.DRIVE_KI = Constants.Swerve.FALCON_DRIVE_KI;
                 this.DRIVE_KD = Constants.Swerve.FALCON_DRIVE_KD;
                 this.DRIVE_GEAR_RATIO = Constants.Swerve.FALCON_DRIVE_GEAR_RATIO;
             }
 
             else {
-                this.DRIVE_KP = Constants.Swerve.KRAKEN_DRIVE_KD;
+                this.DRIVE_KP = Constants.Swerve.KRAKEN_DRIVE_KP;
                 this.DRIVE_KI = Constants.Swerve.KRAKEN_DRIVE_KI;
                 this.DRIVE_KD = Constants.Swerve.KRAKEN_DRIVE_KD;
                 this.DRIVE_GEAR_RATIO = Constants.Swerve.KRAKEN_DRIVE_GEAR_RATIO;
