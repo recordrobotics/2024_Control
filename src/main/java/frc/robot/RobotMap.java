@@ -16,7 +16,8 @@ public final class RobotMap {
     }
 
     public static final class Shooter {
-        public static final int flywheel = -1;
+        public static final int FLYWHEEL_MOTOR_LEFT_DEVICE_ID = 9;
+        public static final int FLYWHEEL_MOTOR_RIGHT_DEVICE_ID = 10;
     }
 
     public static final class swerve {
