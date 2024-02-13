@@ -37,6 +37,7 @@ public class Drivetrain extends SubsystemBase {
         // Creates swerve post estimation filter
         public SwerveDrivePoseEstimator poseFilter;
 
+        
         // Init drivetrain
         public Drivetrain() {
                 _nav.resetAngleAdjustment();

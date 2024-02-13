@@ -59,13 +59,15 @@ public class RobotContainer {
 
     // Creates control input & manual swerve object, adds it to _teleopPairs
     _controlInput = new DoubleControl(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.GAMEPAD_PORT);
+
+    // Adds drivetrain & manual swerve to teleop commands
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
   }
 
   public void teleopInit() {
-    for (Pair<Subsystem, Command> c : _teleopPairs) {
-      c.getFirst().setDefaultCommand(c.getSecond());
+    for (Pair<Subsystem, Command> pair : _teleopPairs) {
+      pair.getFirst().setDefaultCommand(pair.getSecond());
     }
   }
 
