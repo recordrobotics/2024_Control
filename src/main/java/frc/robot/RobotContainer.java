@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import frc.robot.commands.ManualClimbers;
 import frc.robot.commands.ManualShooter;
 import frc.robot.subsystems.Shooter;
 
@@ -14,6 +16,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ManualSwerve;
 import frc.robot.control.DoubleControl;
+import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,12 +35,13 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private Drivetrain _drivetrain;
   private Shooter _shooter;
+  private Climbers _climbers;
   private NavSensor _nav;
   private List<Pair<Subsystem, Command>> _teleopPairs;
 
   private ManualSwerve _manualSwerve;
-
   private ManualShooter _manualShooter;
+  private ManualClimbers _manualClimbers;
 
   private DoubleControl _controlInput;
 
@@ -51,6 +55,7 @@ public class RobotContainer {
     // Init Swerve
     _drivetrain = new Drivetrain();
     _shooter = new Shooter();
+    _climbers = new Climbers();
 
     // Init Nav
     _nav = new NavSensor();
@@ -69,6 +74,9 @@ public class RobotContainer {
 
     _manualShooter = new ManualShooter(_shooter, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_shooter, _manualShooter));
+
+    _manualClimbers = new ManualClimbers(_climbers, _controlInput);
+    _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
   }
 
   public void teleopInit() {

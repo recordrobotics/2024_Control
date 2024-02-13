@@ -9,8 +9,8 @@ public final class RobotMap {
     }
 
     public static final class Climbers {
-        public static final int LEFT_FORWARD_PORT = -1;
-        public static final int LEFT_REVERSE_PORT = -1;
+        public static final int LEFT_FORWARD_PORT = 1;
+        public static final int LEFT_REVERSE_PORT = 0;
         public static final int RIGHT_FORWARD_PORT = -1;
         public static final int RIGHT_REVERSE_PORT = -1;
     }

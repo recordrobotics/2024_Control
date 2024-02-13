@@ -14,38 +14,23 @@ public class Climbers extends SubsystemBase {
 
     private DoubleSolenoid left = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.LEFT_FORWARD_PORT,
             RobotMap.Climbers.LEFT_REVERSE_PORT);
-    private DoubleSolenoid right = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
-            RobotMap.Climbers.RIGHT_FORWARD_PORT, RobotMap.Climbers.RIGHT_REVERSE_PORT);
+    // private DoubleSolenoid right = new
+    // DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+    // RobotMap.Climbers.RIGHT_FORWARD_PORT, RobotMap.Climbers.RIGHT_REVERSE_PORT);
 
     public Climbers() {
-        set(DoubleSolenoid.Value.kOff);
+        left.set(DoubleSolenoid.Value.kOff);
     }
 
-    public void toggle() {
-        if (getState() == DoubleSolenoid.Value.kOff)
-            set(DoubleSolenoid.Value.kReverse);
-        left.toggle();
-        right.toggle();
+    public void chainUp() {
+        left.set(DoubleSolenoid.Value.kForward);
     }
 
-    public void set(DoubleSolenoid.Value state) {
-        left.set(state);
-        right.set(state);
-    }
-
-    /**
-     * 
-     * @return State of Climber
-     */
-    private DoubleSolenoid.Value getState() {
-        if (left.get() != right.get()) {
-            right.set(left.get());
-        }
-        return left.get();
+    public void chainDown() {
+        left.set(DoubleSolenoid.Value.kReverse);
     }
 
     public void stop() {
-        set(DoubleSolenoid.Value.kOff);
+        left.set(DoubleSolenoid.Value.kOff);
     }
-
 }
