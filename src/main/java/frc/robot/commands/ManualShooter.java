@@ -1,15 +1,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.control.IControlInput;
+import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Shooter;
 
 public class ManualShooter extends Command {
 
   private Shooter _shooter;
-  private IControlInput _controls;
+  private DoubleControl _controls;
 
-  public ManualShooter(Shooter shooter, IControlInput controls) {
+  public ManualShooter(Shooter shooter, DoubleControl controls) {
     _shooter = shooter;
     _controls = controls;
     addRequirements(shooter);
@@ -24,7 +24,7 @@ public class ManualShooter extends Command {
   @Override
   public void execute() {
     //
-    if (_controls.spinFlywheel())
+    if (_controls.getShoot())
       _shooter.shoot();
     else
       _shooter.stop();

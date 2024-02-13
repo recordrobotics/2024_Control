@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import frc.robot.control.DoubleControl;
-import frc.robot.control.IControlInput;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
 import frc.robot.utils.AutoOrient;
