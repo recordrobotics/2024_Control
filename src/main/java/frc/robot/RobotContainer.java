@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.ArrayList;
 import java.util.List;
+import frc.robot.commands.ManualShooter;
+import frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -29,10 +31,13 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private Drivetrain _drivetrain;
+  private Shooter _shooter;
   private NavSensor _nav;
   private List<Pair<Subsystem, Command>> _teleopPairs;
 
   private ManualSwerve _manualSwerve;
+
+  private ManualShooter _manualShooter;
 
   private DoubleControl _controlInput;
 
@@ -45,6 +50,7 @@ public class RobotContainer {
 
     // Init Swerve
     _drivetrain = new Drivetrain();
+    _shooter = new Shooter();
 
     // Init Nav
     _nav = new NavSensor();
@@ -56,9 +62,12 @@ public class RobotContainer {
   }
 
   private void initTeleopCommands() {
-    _manualSwerve = new ManualSwerve(_drivetrain, _nav, _controlInput);
     _teleopPairs = new ArrayList<>();
+
+    _manualSwerve = new ManualSwerve(_drivetrain, _nav, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
+
+    _manualShooter = new ManualShooter(_shooter, _controlInput);
   }
 
   public void teleopInit() {
