@@ -1,6 +1,7 @@
 package frc.robot.control;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 
 public class SingleControl implements IControlInput {
