@@ -24,9 +24,6 @@ public class ManualShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    SmartDashboard.putBoolean("Shooter", _controls.getShoot());
-
     //
     if (_controls.getShoot())
       _shooter.shoot();

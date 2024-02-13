@@ -68,6 +68,7 @@ public class RobotContainer {
     _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
 
     _manualShooter = new ManualShooter(_shooter, _controlInput);
+    _teleopPairs.add(new Pair<Subsystem, Command>(_shooter, _manualShooter));
   }
 
   public void teleopInit() {
