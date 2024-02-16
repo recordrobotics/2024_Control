@@ -85,32 +85,32 @@ public final class Constants {
             2,
             0.597,
             frontLeftLocation, 
-            MotorType.Falcon,
-            MotorType.Falcon);
+            MotorType.Kraken,
+            MotorType.Kraken);
         public static final ModuleConstants frontRightConstants = new ModuleConstants(
             4, 
             3,
             3, 
             0.887, 
             frontRightLocation, 
-            MotorType.Falcon,
-            MotorType.Falcon); 
+            MotorType.Kraken,
+            MotorType.Kraken); 
         public static final ModuleConstants backLeftConstants = new ModuleConstants(
             8, 
             7, 
             1, 
             0.852,
             backLeftLocation, 
-            MotorType.Falcon, 
-            MotorType.Falcon);
+            MotorType.Kraken, 
+            MotorType.Kraken);
         public static final ModuleConstants backRightConstants = new ModuleConstants(
             6, 
             5, 
             4, 
             0.557,
             backRightLocation, 
-            MotorType.Falcon, 
-            MotorType.Falcon);
+            MotorType.Kraken, 
+            MotorType.Kraken);
 
         // Gear ratios for falcon and kraken
         public static final double KRAKEN_TURN_GEAR_RATIO = 7.85; //TODO: make sure these values are good
