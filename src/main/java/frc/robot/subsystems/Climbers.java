@@ -14,9 +14,6 @@ public class Climbers extends SubsystemBase {
 
     private DoubleSolenoid left = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.LEFT_FORWARD_PORT,
             RobotMap.Climbers.LEFT_REVERSE_PORT);
-    // private DoubleSolenoid right = new
-    // DoubleSolenoid(PneumaticsModuleType.CTREPCM,
-    // RobotMap.Climbers.RIGHT_FORWARD_PORT, RobotMap.Climbers.RIGHT_REVERSE_PORT);
 
     public Climbers() {
         left.set(DoubleSolenoid.Value.kOff);

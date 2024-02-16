@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import frc.robot.commands.ManualClimbers;
+import frc.robot.commands.ManualCrashbar;
 import frc.robot.commands.ManualShooter;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Crashbar;
 
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -35,6 +37,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private Drivetrain _drivetrain;
   private Shooter _shooter;
+  private Crashbar _crashbar;
   private Climbers _climbers;
   private NavSensor _nav;
   private List<Pair<Subsystem, Command>> _teleopPairs;
@@ -42,6 +45,7 @@ public class RobotContainer {
   private ManualSwerve _manualSwerve;
   private ManualShooter _manualShooter;
   private ManualClimbers _manualClimbers;
+  private ManualCrashbar _manualCrashbar;
 
   private DoubleControl _controlInput;
 
@@ -56,6 +60,7 @@ public class RobotContainer {
     _drivetrain = new Drivetrain();
     _shooter = new Shooter();
     _climbers = new Climbers();
+    _crashbar = new Crashbar();
 
     // Init Nav
     _nav = new NavSensor();
@@ -77,6 +82,9 @@ public class RobotContainer {
 
     _manualClimbers = new ManualClimbers(_climbers, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
+
+    _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
+    _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
   }
 
   public void teleopInit() {
