@@ -54,7 +54,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    _controlInput = new DoubleControl(1, 0);
+    _controlInput = new DoubleControl(0, 1);
 
     // Init Swerve
     _drivetrain = new Drivetrain();
