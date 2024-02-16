@@ -58,6 +58,17 @@ public final class Constants {
     }
 
     public final class Control {
+
+        //TODO: implement new spin remap. This is temporary
+
+        /** Joystick spin remap low value (remaps LOW-HIGH to 0-1) */
+        public static final double SPIN_INPUT_REMAP_LOW = 0.5;
+
+        /** Joystick spin remap high value (remaps LOW-HIGH to 0-1) */
+        public static final double SPIN_INPUT_REMAP_HIGH = 1;
+
+
+
         /** Joystick sensitivity */
         public static final double INPUT_DIRECTIONAL_SENSITIVITY = 0.3;
 

@@ -77,8 +77,8 @@ public class DoubleControl {
 
 		double input = -stickpad.getTwist();
 		if (input >= Constants.Control.INPUT_SPIN_THRESHOLD || input <= -Constants.Control.INPUT_SPIN_THRESHOLD)
-			return Constants.RemapAbsoluteValue(input, Constants.Control.INPUT_SPIN_THRESHOLD,
-					Constants.Control.INPUT_SPIN_THRESHOLD) * Constants.Control.SPIN_INPUT_SENSITIVITY;
+			return Constants.RemapAbsoluteValue(input, Constants.Control.SPIN_INPUT_REMAP_LOW,
+					Constants.Control.SPIN_INPUT_REMAP_HIGH) * Constants.Control.SPIN_INPUT_SENSITIVITY;
 		return 0;
 
 		/*
