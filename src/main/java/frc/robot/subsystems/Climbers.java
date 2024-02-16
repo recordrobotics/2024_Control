@@ -12,22 +12,25 @@ import frc.robot.RobotMap;
 
 public class Climbers extends SubsystemBase {
 
-    private DoubleSolenoid left = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.LEFT_FORWARD_PORT,
+    private DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.LEFT_FORWARD_PORT,
             RobotMap.Climbers.LEFT_REVERSE_PORT);
 
     public Climbers() {
-        left.set(DoubleSolenoid.Value.kOff);
+        solenoid.set(DoubleSolenoid.Value.kOff);
     }
 
     public void chainUp() {
-        left.set(DoubleSolenoid.Value.kForward);
+        solenoid.set(DoubleSolenoid.Value.kForward);
     }
 
     public void chainDown() {
-        left.set(DoubleSolenoid.Value.kReverse);
+        solenoid.set(DoubleSolenoid.Value.kReverse);
     }
 
+    /**
+     * Turns off solenoid, does not reverse it
+     */
     public void stop() {
-        left.set(DoubleSolenoid.Value.kOff);
+        solenoid.set(DoubleSolenoid.Value.kOff);
     }
 }
