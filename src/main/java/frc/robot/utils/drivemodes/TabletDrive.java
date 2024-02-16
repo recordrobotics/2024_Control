@@ -12,15 +12,12 @@ import frc.robot.utils.DriveCommandData;
 
 public class TabletDrive {
 
-    public TabletDrive() {
-    }
-
     /**
      * Finds how fast the robot should be moving given tablet pressure
      * @return
      * tablet pressure in m/s
      */
-    public double speedFromPressure (double tablet_pressure) {
+    private static double speedFromPressure (double tablet_pressure) {
 
         double PRESSURE_THRESHOLD = 0.2;
         double MIN_SPEED = 0.2;
@@ -44,7 +41,7 @@ public class TabletDrive {
      * @return
      * DriveCommandData object with drive directions
      */
-    public DriveCommandData calculate(DoubleControl _controls, double spin, Pose2d swerve_position, Field2d m_field) {
+    public static DriveCommandData calculate(DoubleControl _controls, double spin, Pose2d swerve_position, Field2d m_field) {
 
         // Puts raw tablet data on Smartdashboard
         SmartDashboard.putNumber("pressure", _controls.getTabletPressure());
