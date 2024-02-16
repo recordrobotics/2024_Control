@@ -25,6 +25,16 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+    public static double RemapAbsoluteValue(double value, double absMin, double absMax) {
+        if (value >= absMin) { // positive relative value
+            return (value - absMin) / (absMax - absMin);
+        } else if (value <= -absMin) { // negative relative value
+            return (value - absMin) / (absMax - absMin) + 2;
+        } else {
+            return 0;
+        }
+    }
+
     public final class FieldConstants {
 
         public static final Translation2d TEAM_RED_SPEAKER = new Translation2d(16, 5.5);

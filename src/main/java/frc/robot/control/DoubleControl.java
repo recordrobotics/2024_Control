@@ -74,6 +74,9 @@ public class DoubleControl {
 	 * @return remapped joystick spin value (sets a min threshold, subtracts threshold, multiplied by input sens)
 	 */
 	public double getSpin() {
+
+		
+
 		// Gets raw twist value
 		double input = -stickpad.getTwist();
 		// Gets whether or not the spin input is negative or positive
