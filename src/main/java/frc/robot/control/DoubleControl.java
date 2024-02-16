@@ -75,7 +75,13 @@ public class DoubleControl {
 	 */
 	public double getSpin() {
 
-		
+		double input = -stickpad.getTwist();
+		if (input >= Constants.Control.INPUT_SPIN_THRESHOLD || input <= -Constants.Control.INPUT_SPIN_THRESHOLD)
+			return Constants.RemapAbsoluteValue(input, Constants.Control.INPUT_SPIN_THRESHOLD,
+					Constants.Control.INPUT_SPIN_THRESHOLD) * Constants.Control.SPIN_INPUT_SENSITIVITY;
+		return 0;
+
+		/*
 
 		// Gets raw twist value
 		double input = -stickpad.getTwist();
@@ -90,6 +96,8 @@ public class DoubleControl {
 
 		// Returns
 		return final_spin;
+		
+		 */
 	}
 
 	public boolean getResetPressed() {
