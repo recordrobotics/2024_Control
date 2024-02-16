@@ -6,16 +6,13 @@ import frc.robot.utils.DriveCommandData;
 
 //
 public class DefaultDrive {
-
-    public DefaultDrive() {
-    }
-
+    
     /**
      * runs calculations for auto-orient
      * @return
      * DriveCommandData object with drive directions
      */
-    public DriveCommandData calculate(DoubleControl _controls, double spin, Pose2d swerve_position, boolean field_relative) {
+    public static DriveCommandData calculate(DoubleControl _controls, double spin, Pose2d swerve_position, boolean field_relative) {
 
         // Gets speed level from controller
         double speedLevel = _controls.getSpeedLevel();

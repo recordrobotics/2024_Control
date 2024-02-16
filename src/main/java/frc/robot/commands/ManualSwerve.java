@@ -33,15 +33,14 @@ public class ManualSwerve extends Command {
   private Field2d m_field = new Field2d();
 
   // Sets up sendable chooser for drivemode
-  public enum DriveMode {Robot, Field, Tablet}
+  public enum DriveMode {
+    Robot, Field, Tablet
+  }
+
   private SendableChooser<DriveMode> driveMode = new SendableChooser<DriveMode>();
 
   // Sets up spin modes
   public AutoOrient autoOrient = new AutoOrient();
-  public DefaultSpin defaultSpin = new DefaultSpin();
-  // Sets up move modes
-  public DefaultDrive defaultDrive = new DefaultDrive();
-  public TabletDrive tabletDrive = new TabletDrive();
 
   /**
    * @param drivetrain
@@ -54,7 +53,7 @@ public class ManualSwerve extends Command {
     addRequirements(drivetrain);
 
     // Creates selector on SmartDashboard for drivemode
-    //driveMode.addOption("AutoOrient", DriveMode.AutoOrient);
+    // driveMode.addOption("AutoOrient", DriveMode.AutoOrient);
     driveMode.addOption("Robot", DriveMode.Robot);
     driveMode.addOption("Field", DriveMode.Field);
     driveMode.addOption("Tablet", DriveMode.Tablet);
@@ -62,7 +61,7 @@ public class ManualSwerve extends Command {
 
     // puts 2d field data on Smartdashboard
     SmartDashboard.putData("Field", m_field);
-    
+
     // puts selector data on Smartdashboard
     SmartDashboard.putData(driveMode);
   }
@@ -86,12 +85,10 @@ public class ManualSwerve extends Command {
     SmartDashboard.putNumber("X", swerve_position.getX());
     SmartDashboard.putNumber("Y", swerve_position.getY());
 
-
     // Control to reset pose if reset button is pressed
     if (_controls.getResetPressed()) {
       _drivetrain.resetPose();
     }
-
 
     // Sets up spin
     double spin;
@@ -99,30 +96,25 @@ public class ManualSwerve extends Command {
     // Auto-orient function
     if (autoOrient.shouldExecute(_controls)) {
       spin = autoOrient.calculate(_controls, swerve_position);
+    } else {
+      spin = DefaultSpin.calculate(_controls);
     }
-    else {
-      spin = defaultSpin.calculate(_controls);
-    }
-
 
     // Sets up driveCommandData object
     DriveCommandData driveCommandData;
-
-    // Tablet Drive
-    if (driveMode.getSelected() == DriveMode.Tablet) {
-      driveCommandData = tabletDrive.calculate(_controls, spin, swerve_position, m_field);
-    }
     
-    // DefualtChassisRelative
-    else if (driveMode.getSelected() == DriveMode.Robot) {
-      driveCommandData = defaultDrive.calculate(_controls, spin, swerve_position, false);
+    switch (driveMode.getSelected()) {
+      case Tablet:
+        driveCommandData = TabletDrive.calculate(_controls, spin, swerve_position, m_field);
+        break;
+      case Robot:
+        driveCommandData = DefaultDrive.calculate(_controls, spin, swerve_position, false);
+        break;
+      default:
+        driveCommandData = DefaultDrive.calculate(_controls, spin, swerve_position, true);
+        break;
     }
 
-    // DefaultFieldRelative, which is also default
-    else {
-      driveCommandData = defaultDrive.calculate(_controls, spin, swerve_position, true);
-    }
-    
     // Drive command
     _drivetrain.drive(driveCommandData);
   }
