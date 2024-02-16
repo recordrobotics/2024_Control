@@ -91,7 +91,7 @@ public final class Constants {
             4, 
             3,
             3, 
-            0.887, 
+            0.886, 
             frontRightLocation, 
             MotorType.Kraken,
             MotorType.Kraken); 
@@ -99,7 +99,7 @@ public final class Constants {
             8, 
             7, 
             1, 
-            0.852,
+            0.857,
             backLeftLocation, 
             MotorType.Kraken, 
             MotorType.Kraken);
@@ -107,7 +107,7 @@ public final class Constants {
             6, 
             5, 
             4, 
-            0.557,
+            0.556,
             backRightLocation, 
             MotorType.Kraken, 
             MotorType.Kraken);

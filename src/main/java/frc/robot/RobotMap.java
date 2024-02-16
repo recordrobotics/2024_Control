@@ -33,7 +33,7 @@ public final class RobotMap {
 
         public static final int ABS_ENCODER_FRONT_LEFT_DEVICE_ID = 2;
         public static final int ABS_ENCODER_FRONT_RIGHT_DEVICE_ID = 3;
-        public static final int ABS_ENCODER_BACK_LEFT_DEVICE_ID = 5;
+        public static final int ABS_ENCODER_BACK_LEFT_DEVICE_ID = 1;
         public static final int ABS_ENCODER_BACK_RIGHT_DEVICE_ID = 4;
     }
 
