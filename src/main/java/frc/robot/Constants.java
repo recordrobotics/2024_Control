@@ -83,7 +83,7 @@ public final class Constants {
             2, 
             1, 
             2,
-            0.628,
+            0.597,
             frontLeftLocation, 
             MotorType.Falcon,
             MotorType.Falcon);
@@ -91,15 +91,15 @@ public final class Constants {
             4, 
             3,
             3, 
-            0.917, 
+            0.887, 
             frontRightLocation, 
             MotorType.Falcon,
             MotorType.Falcon); 
         public static final ModuleConstants backLeftConstants = new ModuleConstants(
             8, 
             7, 
-            5, 
-            0.697, 
+            1, 
+            0.852,
             backLeftLocation, 
             MotorType.Falcon, 
             MotorType.Falcon);
@@ -107,7 +107,7 @@ public final class Constants {
             6, 
             5, 
             4, 
-            0.363, 
+            0.557,
             backRightLocation, 
             MotorType.Falcon, 
             MotorType.Falcon);
