@@ -5,24 +5,32 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class Climbers extends SubsystemBase{
+public class Climbers extends SubsystemBase {
 
-    private Solenoid left = new Solenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.left);
-    private Solenoid right = new Solenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.right);
+    private DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.LEFT_FORWARD_PORT,
+            RobotMap.Climbers.LEFT_REVERSE_PORT);
 
     public Climbers() {
-        left.close();
-        right.close();
+        solenoid.set(DoubleSolenoid.Value.kOff);
     }
 
-    public void toggle(){
-        left.toggle();
-        right.toggle();
+    public void chainUp() {
+        solenoid.set(DoubleSolenoid.Value.kForward);
     }
-    
+
+    public void chainDown() {
+        solenoid.set(DoubleSolenoid.Value.kReverse);
+    }
+
+    /**
+     * Turns off solenoid, does not reverse it
+     */
+    public void stop() {
+        solenoid.set(DoubleSolenoid.Value.kOff);
+    }
 }

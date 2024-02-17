@@ -7,13 +7,18 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 
+import frc.robot.commands.ManualClimbers;
+import frc.robot.commands.ManualCrashbar;
+import frc.robot.commands.ManualShooter;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Crashbar;
+
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ManualSwerve;
 import frc.robot.control.DoubleControl;
+import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,8 +37,15 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here
   private Drivetrain _drivetrain;
+  private Shooter _shooter;
+  private Crashbar _crashbar;
+  private Climbers _climbers;
   private List<Pair<Subsystem, Command>> _teleopPairs;
   private ManualSwerve _manualSwerve;
+  private ManualShooter _manualShooter;
+  private ManualClimbers _manualClimbers;
+  private ManualCrashbar _manualCrashbar;
+
   private DoubleControl _controlInput;
 
   /**
@@ -43,6 +55,9 @@ public class RobotContainer {
 
     // Init Swerve
     _drivetrain = new Drivetrain();
+    _shooter = new Shooter();
+    _climbers = new Climbers();
+    _crashbar = new Crashbar();
 
     // Init Nav
     NavSensor.initNav();
@@ -63,6 +78,15 @@ public class RobotContainer {
     // Adds drivetrain & manual swerve to teleop commands
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
+
+    _manualShooter = new ManualShooter(_shooter, _controlInput);
+    _teleopPairs.add(new Pair<Subsystem, Command>(_shooter, _manualShooter));
+
+    _manualClimbers = new ManualClimbers(_climbers, _controlInput);
+    _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
+
+    _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
+    _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
   }
 
   public void teleopInit() {
@@ -81,11 +105,12 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    //TODO: look into command binding
-    /** 
-    CommandJoystick joystick = new CommandJoystick(RobotMap.Control.STICKPAD_PORT);
-		Trigger getReset = new Trigger(joystick.button(2));
-    getReset.onTrue(_drivetrain());
+    // TODO: look into command binding
+    /**
+     * CommandJoystick joystick = new
+     * CommandJoystick(RobotMap.Control.STICKPAD_PORT);
+     * Trigger getReset = new Trigger(joystick.button(2));
+     * getReset.onTrue(_drivetrain());
      */
   }
 
