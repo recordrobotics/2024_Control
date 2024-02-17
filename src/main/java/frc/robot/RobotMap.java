@@ -27,7 +27,6 @@ public final class RobotMap {
      * Maps the motors and encoders of each module to their correct IDs. Currently not used. 
      */
     public static final class Swerve {
-        /** TODO: Change to correct ports */
         public static final int DRIVE_MOTOR_FRONT_LEFT_DEVICE_ID = 2;
         public static final int DRIVE_MOTOR_FRONT_RIGHT_DEVICE_ID = 4;
         public static final int DRIVE_MOTOR_BACK_LEFT_DEVICE_ID = 8;

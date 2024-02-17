@@ -33,7 +33,7 @@ public class NavSensor extends SubsystemBase {
 
 	// Gets the angle minus the reference angle
 	public Rotation2d getAdjustedAngle() {
-		return new Rotation2d((_nav.getAngle() - referenceAngle) / 180 * Math.PI);
+		return Rotation2d.fromDegrees(_nav.getAngle() - referenceAngle);
 	}
 
 	@Override
