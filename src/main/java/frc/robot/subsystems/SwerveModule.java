@@ -96,7 +96,7 @@ public class SwerveModule {
      * @return The raw rotations of the turning motor (rotation 2d object).
      */
     private Rotation2d getTurnWheelRotation2d() {
-      double numMotorRotations = m_turningMotor.getPosition().getValue();
+      double numMotorRotations = m_turningMotor.getPosition().getValueAsDouble();
       Rotation2d motorRotation = new Rotation2d(numMotorRotations * 2 * Math.PI / TURN_GEAR_RATIO);
       return motorRotation;
     }
@@ -173,7 +173,6 @@ public class SwerveModule {
       final double turnOutput = turningPIDController.calculate(getTurnWheelRotation2d().getRotations(),
           optimizedState.angle.getRotations());
       m_turningMotor.set(turnOutput);
-
     }
 
   }

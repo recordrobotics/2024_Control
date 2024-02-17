@@ -49,30 +49,14 @@ public final class Constants {
 
     public final class Control {
 
-        //TODO: implement new spin remap. This is temporary
+        // Sensitivies for directional controls (XY) and spin (theta)
+        public static final double JOSYSTICK_DIRECTIONAL_SENSITIVITY = 0.3;
+        public static final double JOYSTICK_SPIN_SENSITIVITY = 0.5;
 
-        /** Joystick spin remap low value (remaps LOW-HIGH to 0-1) */
-        public static final double SPIN_INPUT_REMAP_LOW = 0.5;
-
-        /** Joystick spin remap high value (remaps LOW-HIGH to 0-1) */
-        public static final double SPIN_INPUT_REMAP_HIGH = 1;
-
-
-
-        /** Joystick sensitivity */
-        public static final double INPUT_DIRECTIONAL_SENSITIVITY = 0.3;
-
-        /** Joystick spin sensitivity */
-        public static final double SPIN_INPUT_SENSITIVITY = 0.5;
-
-        /** Joystick X input absolute threshold */
-        public static final double INPUT_X_THRESHOLD = 0.15;
-
-        /** Joystick Y input absolute threshold */
-        public static final double INPUT_Y_THRESHOLD = 0.15;
-
-        /** Joystick spin input absolute threshold */
-        public static final double INPUT_SPIN_THRESHOLD = 0.5;
+        // Thresholds for directional controls (XY) and spin (theta)
+        public static final double JOYSTICK_X_THRESHOLD = 0.15;
+        public static final double JOSYTICK_Y_THRESHOLD = 0.15;
+        public static final double JOYSTICK_SPIN_THRESHOLD = 0.5;
 
         // Tablet drive constants
         public final class Tablet {
@@ -108,7 +92,7 @@ public final class Constants {
         public static final double FALCON_DRIVE_KI = 0;
         public static final double FALCON_DRIVE_KD = 0;
 
-        public static final double KRAKEN_TURN_KP = 1;
+        public static final double KRAKEN_TURN_KP = 2.3;
         public static final double KRAKEN_TURN_KI = 0;
         public static final double KRAKEN_TURN_KD = 0;
 

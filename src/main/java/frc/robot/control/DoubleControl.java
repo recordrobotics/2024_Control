@@ -31,10 +31,10 @@ public class DoubleControl {
 		// Gets raw value
 		double input = -stickpad.getY();
 		// Gets whether or not the spin input is negative or positive
-		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.INPUT_X_THRESHOLD); // How much the input is above the threshold (absolute value)
-		double proportion = subtract_threshold/(1 - Constants.Control.INPUT_X_THRESHOLD); // What proportion (threshold to value) is of (threshold to 1)
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOYSTICK_X_THRESHOLD); // How much the input is above the threshold (absolute value)
+		double proportion = subtract_threshold/(1 - Constants.Control.JOYSTICK_X_THRESHOLD); // What proportion (threshold to value) is of (threshold to 1)
 		// Multiplies by spin sensitivity and returns
-		double final_x = Math.signum(input) * proportion * Constants.Control.INPUT_DIRECTIONAL_SENSITIVITY;
+		double final_x = Math.signum(input) * proportion * Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY;
 		return final_x;
 		
 	}
@@ -47,10 +47,10 @@ public class DoubleControl {
 		// Gets raw value
 		double input = -stickpad.getX();
 		// Gets whether or not the spin input is negative or positive
-		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.INPUT_Y_THRESHOLD); // How much the input is above the threshold (absolute value)
-		double proportion = subtract_threshold/(1 - Constants.Control.INPUT_Y_THRESHOLD); // What proportion (threshold to value) is of (threshold to 1)
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOSYTICK_Y_THRESHOLD); // How much the input is above the threshold (absolute value)
+		double proportion = subtract_threshold/(1 - Constants.Control.JOSYTICK_Y_THRESHOLD); // What proportion (threshold to value) is of (threshold to 1)
 		// Multiplies by spin sensitivity and returns
-		double final_y = Math.signum(input) * proportion * Constants.Control.INPUT_DIRECTIONAL_SENSITIVITY;
+		double final_y = Math.signum(input) * proportion * Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY;
 		return final_y;
 		
 	}
@@ -65,11 +65,11 @@ public class DoubleControl {
 		// Gets whether or not the spin input is negative or positive
 		double sign = Math.signum(input);
 		// How much the input is above the threshold (absolute value)
-		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.INPUT_SPIN_THRESHOLD);
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOYSTICK_SPIN_THRESHOLD);
 		// What proportion (threshold to value) is of (threshold to 1)
-		double proportion = subtract_threshold/(1 - Constants.Control.INPUT_SPIN_THRESHOLD);
+		double proportion = subtract_threshold/(1 - Constants.Control.JOYSTICK_SPIN_THRESHOLD);
 		// Multiplies by spin sensitivity
-		double final_spin = proportion * sign * Constants.Control.SPIN_INPUT_SENSITIVITY;
+		double final_spin = proportion * sign * Constants.Control.JOYSTICK_SPIN_SENSITIVITY;
 
 		// Returns
 		return final_spin;
