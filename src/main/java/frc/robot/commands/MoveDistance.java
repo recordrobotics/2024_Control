@@ -6,22 +6,44 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
 
-public class AutoDrive extends Command {
+public class MoveDistance extends Command {
 
-    private Drivetrain _drivetrain;
+    private final Drivetrain _drivetrain;
 
     private Translation2d target;
+    private final Translation2d distance;
 
-    public AutoDrive(Drivetrain drivetrain) {
+    private final double maxSpeed;
+    private final double slowdownDistance;
+    private final double isFinishedThreshold;
+
+    public MoveDistance(Drivetrain drivetrain, Translation2d distance) {
+        this(drivetrain, distance, 0.1);
+    }
+
+    public MoveDistance(Drivetrain drivetrain, Translation2d distance, double maxSpeed) {
+        this(drivetrain, distance, maxSpeed, 0.1);
+    }
+
+    public MoveDistance(Drivetrain drivetrain, Translation2d distance, double maxSpeed, double slowdownDistance) {
+        this(drivetrain, distance, maxSpeed, slowdownDistance, 0.05);
+    }
+
+    public MoveDistance(Drivetrain drivetrain, Translation2d distance, double maxSpeed, double slowdownDistance,
+            double isFinishedThreshold) {
         addRequirements(drivetrain);
         setSubsystem(drivetrain.getName());
         _drivetrain = drivetrain;
+        this.distance = distance;
+        this.maxSpeed = maxSpeed;
+        this.slowdownDistance = slowdownDistance;
+        this.isFinishedThreshold = isFinishedThreshold;
     }
 
     @Override
     public void initialize() {
         Pose2d pose = _drivetrain.poseFilter.getEstimatedPosition();
-        target = pose.getTranslation().plus(new Translation2d(1, 1));
+        target = pose.getTranslation().plus(distance);
     }
 
     @Override
@@ -34,13 +56,11 @@ public class AutoDrive extends Command {
 
         // Calculates magnitude
         double magnitude = Math.sqrt(x_diff * x_diff + y_diff * y_diff);
-        double CLAMP_DISTANCE = 0.5;
-        double clamped_magnitude = Math.min(1, magnitude / CLAMP_DISTANCE);
+        double clamped_magnitude = Math.min(1, magnitude / slowdownDistance);
 
         // Calculates x and y speeds from magnitude and diff
-        double speed = 0.1;
-        double x_speed = x_diff / magnitude * speed * clamped_magnitude;
-        double y_speed = y_diff / magnitude * speed * clamped_magnitude;
+        double x_speed = x_diff / magnitude * maxSpeed * clamped_magnitude;
+        double y_speed = y_diff / magnitude * maxSpeed * clamped_magnitude;
 
         // Gets information needed to drive
         DriveCommandData driveCommandData = new DriveCommandData(
@@ -67,7 +87,7 @@ public class AutoDrive extends Command {
         // Calculates magnitude
         double magnitude = Math.sqrt(x_diff * x_diff + y_diff * y_diff);
 
-        return magnitude < 0.05;
+        return magnitude < isFinishedThreshold;
     }
 
 }
