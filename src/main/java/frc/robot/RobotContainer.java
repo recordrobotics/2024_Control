@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import frc.robot.commands.MoveDistance;
+import frc.robot.commands.ComplexAuto;
 import frc.robot.commands.ManualClimbers;
 import frc.robot.commands.ManualCrashbar;
 import frc.robot.commands.ManualShooter;
@@ -122,7 +123,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new MoveDistance(_drivetrain, new Translation2d(1, 1)).andThen(() -> {
+    return new ComplexAuto(_drivetrain).andThen(() -> {
       System.out.println("AutoDrive completed");
     }, _drivetrain);
   }

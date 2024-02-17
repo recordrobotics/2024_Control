@@ -11,8 +11,8 @@ public class ComplexAuto extends SequentialCommandGroup {
     
     public ComplexAuto (Drivetrain _Drivetrain) {
         addCommands(
-            new AutoDrive(_drivetrain, new Translation2d(1, 0)),
-            new AutoDrive(_drivetrain, new Translation2d(0, 1))
+            new MoveDistance(_drivetrain, new Translation2d(1, 0)),
+            new MoveDistance(_drivetrain, new Translation2d(0, 1))
         );
     }
 
