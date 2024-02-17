@@ -34,7 +34,7 @@ public class Shooter extends SubsystemBase {
 
         // ... and try to not hit anyone!
         flywheelLeft.set(speed);
-        flywheelRight.set(speed);
+        flywheelRight.set(-speed);
     }
 
     public void stop() {
