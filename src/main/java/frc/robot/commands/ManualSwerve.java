@@ -63,7 +63,7 @@ public class ManualSwerve extends Command {
     SmartDashboard.putData("Field", m_field);
 
     // puts selector data on Smartdashboard
-    SmartDashboard.putData(driveMode);
+    SmartDashboard.putData("Drive Mode", driveMode);
   }
 
   // Called when the command is initially scheduled.
@@ -102,7 +102,7 @@ public class ManualSwerve extends Command {
 
     // Sets up driveCommandData object
     DriveCommandData driveCommandData;
-    
+
     switch (driveMode.getSelected()) {
       case Tablet:
         driveCommandData = TabletDrive.calculate(_controls, spin, swerve_position, m_field);
