@@ -9,14 +9,18 @@ public final class RobotMap {
     }
 
     public static final class Climbers {
-        public static final int LEFT_FORWARD_PORT = -1;
-        public static final int LEFT_REVERSE_PORT = -1;
-        public static final int RIGHT_FORWARD_PORT = -1;
-        public static final int RIGHT_REVERSE_PORT = -1;
+        public static final int LEFT_FORWARD_PORT = 1;
+        public static final int LEFT_REVERSE_PORT = 0;
+    }
+
+    public static final class Crashbar {
+        public static final int FORWARD_PORT = 3;
+        public static final int REVERSE_PORT = 2;
     }
 
     public static final class Shooter {
-        public static final int flywheel = -1;
+        public static final int FLYWHEEL_MOTOR_LEFT_DEVICE_ID = 9;
+        public static final int FLYWHEEL_MOTOR_RIGHT_DEVICE_ID = 10;
     }
 
     public static final class swerve {

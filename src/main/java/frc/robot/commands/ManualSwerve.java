@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import frc.robot.control.IControlInput;
+import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
 import frc.robot.utils.AutoOrient;
@@ -27,7 +27,7 @@ public class ManualSwerve extends Command {
 
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private Drivetrain _drivetrain;
-  private IControlInput _controls;
+  private DoubleControl _controls;
 
   private Field2d m_field = new Field2d();
   private SendableChooser<FieldReferenceFrame> fieldReference = new SendableChooser<FieldReferenceFrame>();
@@ -41,7 +41,7 @@ public class ManualSwerve extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ManualSwerve(Drivetrain drivetrain, NavSensor nav, IControlInput controls) {
+  public ManualSwerve(Drivetrain drivetrain, NavSensor nav, DoubleControl controls) {
     _drivetrain = drivetrain;
     _controls = controls;
     addRequirements(drivetrain);

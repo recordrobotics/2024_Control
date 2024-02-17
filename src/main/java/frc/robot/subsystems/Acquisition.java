@@ -19,23 +19,6 @@ public class Acquisition extends SubsystemBase {
     private static final double UPPER_SPEED = 0.1;
 
     public Acquisition() {
-        toggle(Shooter.ShooterStates.STOP);
-    }
 
-    public void toggle(Shooter.ShooterStates state) {
-        switch (state) {
-            case FLYWHEEL:
-                lower.set(0);
-                upper.set(UPPER_SPEED);
-                break;
-            case AQUISITION:
-                lower.set(LOWER_SPEED);
-                upper.set(UPPER_SPEED);
-                break;
-            default:
-                lower.set(0);
-                upper.set(0);
-                break;
-        }
     }
 }

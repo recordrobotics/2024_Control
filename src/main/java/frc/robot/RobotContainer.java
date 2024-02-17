@@ -7,12 +7,18 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 
+import frc.robot.commands.ManualClimbers;
+import frc.robot.commands.ManualCrashbar;
+import frc.robot.commands.ManualShooter;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Crashbar;
+
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ManualSwerve;
-import frc.robot.control.IControlInput;
-import frc.robot.control.SingleControl;
+import frc.robot.control.DoubleControl;
+import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,22 +36,31 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private Drivetrain _drivetrain;
+  private Shooter _shooter;
+  private Crashbar _crashbar;
+  private Climbers _climbers;
   private NavSensor _nav;
   private List<Pair<Subsystem, Command>> _teleopPairs;
 
   private ManualSwerve _manualSwerve;
+  private ManualShooter _manualShooter;
+  private ManualClimbers _manualClimbers;
+  private ManualCrashbar _manualCrashbar;
 
-  private IControlInput _controlInput;
+  private DoubleControl _controlInput;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
-    _controlInput = new SingleControl(RobotMap.Control.SINGLE_GAMEPAD);
+    _controlInput = new DoubleControl(0, 1);
 
     // Init Swerve
     _drivetrain = new Drivetrain();
+    _shooter = new Shooter();
+    _climbers = new Climbers();
+    _crashbar = new Crashbar();
 
     // Init Nav
     _nav = new NavSensor();
@@ -57,9 +72,19 @@ public class RobotContainer {
   }
 
   private void initTeleopCommands() {
-    _manualSwerve = new ManualSwerve(_drivetrain, _nav, _controlInput);
     _teleopPairs = new ArrayList<>();
+
+    _manualSwerve = new ManualSwerve(_drivetrain, _nav, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
+
+    _manualShooter = new ManualShooter(_shooter, _controlInput);
+    _teleopPairs.add(new Pair<Subsystem, Command>(_shooter, _manualShooter));
+
+    _manualClimbers = new ManualClimbers(_climbers, _controlInput);
+    _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
+
+    _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
+    _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
   }
 
   public void teleopInit() {

@@ -4,40 +4,32 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class Shooter extends SubsystemBase {
 
-    private Spark flywheel = new Spark(RobotMap.Shooter.flywheel);
-    private Acquisition acquisition = new Acquisition();
-    private static final double FLYWHEEL_SPEED = 0.3;
+    private CANSparkMax flywheelLeft = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID,
+            MotorType.kBrushless);
+    private CANSparkMax flywheelRight = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID,
+            MotorType.kBrushless);
 
     public Shooter() {
-        shoot(ShooterStates.STOP);
+        flywheelLeft.set(0);
+        flywheelRight.set(0);
     }
 
-    public void shoot(ShooterStates state) {
-        switch (state) {
-            case FLYWHEEL:
-                flywheel.set(FLYWHEEL_SPEED);
-                acquisition.toggle(state);
-                break;
-            case AQUISITION:
-                flywheel.set(0);
-                acquisition.toggle(state);
-                break;
-            default:
-                flywheel.set(0);
-                acquisition.toggle(state);
-                break;
-        }
+    public void shoot() {
+        flywheelLeft.set(0.1);
+        flywheelRight.set(0.1);
     }
 
-    public enum ShooterStates {
-        FLYWHEEL,
-        AQUISITION,
-        STOP;
+    public void stop() {
+        flywheelLeft.set(0);
+        flywheelRight.set(0);
     }
 }
