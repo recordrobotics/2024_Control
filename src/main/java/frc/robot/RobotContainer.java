@@ -7,7 +7,6 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 
-import frc.robot.commands.MoveDistance;
 import frc.robot.commands.ComplexAuto;
 import frc.robot.commands.ManualClimbers;
 import frc.robot.commands.ManualCrashbar;
@@ -16,7 +15,6 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Crashbar;
 
 import edu.wpi.first.math.Pair;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ManualSwerve;
@@ -124,7 +122,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return new ComplexAuto(_drivetrain).andThen(() -> {
-      System.out.println("AutoDrive completed");
+      System.out.println("ComplexAuto completed");
     }, _drivetrain);
   }
 

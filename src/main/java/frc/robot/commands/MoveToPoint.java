@@ -6,7 +6,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
-import frc.robot.utils.drivemodes.AutoOrient;
 
 public class MoveToPoint extends Command {
 
@@ -69,7 +68,8 @@ public class MoveToPoint extends Command {
         double x_speed = x_diff / magnitude * maxSpeed * clamped_magnitude;
         double y_speed = y_diff / magnitude * maxSpeed * clamped_magnitude;
 
-        double spin = Math.max(-0.5, Math.min(0.5, anglePID.calculate(pose.getRotation().getRadians(), target.getRotation().getRadians())));
+        double spin = Math.max(-0.5,
+                Math.min(0.5, anglePID.calculate(pose.getRotation().getRadians(), target.getRotation().getRadians())));
 
         // Gets information needed to drive
         DriveCommandData driveCommandData = new DriveCommandData(
