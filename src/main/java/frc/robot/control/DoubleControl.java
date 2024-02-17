@@ -106,7 +106,7 @@ public class DoubleControl {
 
 	/**
 	 * Takes speedlevel slider on control input and remaps from -1-->1 to 0.5-->2
-	 * TODO: add to constants
+	 * TODO: add to constants, make it not insanely fast
 	 * @return
 	 * Speedlevel control from 0.5 --> 2
 	 */
