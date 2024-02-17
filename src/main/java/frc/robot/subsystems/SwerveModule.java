@@ -54,7 +54,7 @@ public class SwerveModule {
     this.RELATIVE_ENCODER_RATIO = m.RELATIVE_ENCODER_RATIO;
     this.WHEEL_DIAMETER = m.WHEEL_DIAMETER;
 
-    // 3 Seconds delay per swerve module
+    // 1 Seconds delay per swerve module
     Timer.delay(3);
 
     // Sets motor speeds to 0
