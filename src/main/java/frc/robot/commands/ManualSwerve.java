@@ -17,7 +17,6 @@ import frc.robot.utils.drivemodes.TabletDrive;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -29,9 +28,6 @@ public class ManualSwerve extends Command {
   // Creates Drivetrain and Controls variables
   private Drivetrain _drivetrain;
   private DoubleControl _controls;
-
-  // Creates field display var
-  private Field2d m_field = new Field2d();
 
   // Sets up sendable chooser for drivemode
   public enum DriveMode {
@@ -65,9 +61,6 @@ public class ManualSwerve extends Command {
     joystickOrientation.addOption("Y Axis", JoystickOrientation.YAxisTowardsTrigger);
     joystickOrientation.setDefaultOption("X Axis", JoystickOrientation.XAxisTowardsTrigger);
 
-    // puts 2d field data on Smartdashboard
-    SmartDashboard.putData("Field", m_field);
-
     // puts selector data on Smartdashboard
     SmartDashboard.putData("Drive Mode", driveMode);
     SmartDashboard.putData("Joystick Orientation", joystickOrientation);
@@ -84,9 +77,7 @@ public class ManualSwerve extends Command {
 
     _controls.setJoystickOrientation(joystickOrientation.getSelected());
     // Gets swerve position and sets to field position
-    _drivetrain.updatePoseFilter();
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
-    m_field.setRobotPose(swerve_position);
 
     // Puts robot position information on shuffleboard
     SmartDashboard.putNumber("Rotation", swerve_position.getRotation().getDegrees());
@@ -113,7 +104,7 @@ public class ManualSwerve extends Command {
 
     switch (driveMode.getSelected()) {
       case Tablet:
-        driveCommandData = TabletDrive.calculate(_controls, spin, swerve_position, m_field);
+        driveCommandData = TabletDrive.calculate(_controls, spin, swerve_position);
         break;
       case Robot:
         driveCommandData = DefaultDrive.calculate(_controls, spin, swerve_position, false);

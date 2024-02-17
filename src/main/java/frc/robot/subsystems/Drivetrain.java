@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
 import frc.robot.utils.DriverStationUtils;
+import frc.robot.utils.ShuffleboardField;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends SubsystemBase {
@@ -90,8 +91,8 @@ public class Drivetrain extends SubsystemBase {
                 m_backRight.setDesiredState(swerveModuleStates[3]);
         }
 
-        /** Updates the field relative position of the robot. */
-        public void updatePoseFilter() {
+        @Override
+        public void periodic() {
                 poseFilter.update(
                                 _nav.getAdjustedAngle(),
                                 new SwerveModulePosition[] {
@@ -100,6 +101,7 @@ public class Drivetrain extends SubsystemBase {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 });
+                ShuffleboardField.setRobotPose(poseFilter.getEstimatedPosition());
         }
 
         /** Resets the field relative position of the robot (mostly for testing). */

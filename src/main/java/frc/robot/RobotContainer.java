@@ -7,6 +7,7 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 
+import frc.robot.commands.AutoDrive;
 import frc.robot.commands.ManualClimbers;
 import frc.robot.commands.ManualCrashbar;
 import frc.robot.commands.ManualShooter;
@@ -120,8 +121,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return _manualSwerve;
+    return new AutoDrive(_drivetrain);
   }
 
   public void testSwerve() {
