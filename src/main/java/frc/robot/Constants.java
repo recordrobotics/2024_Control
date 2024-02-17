@@ -106,10 +106,10 @@ public final class Constants {
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
         //public static final double WHEEL_DIAMETER = 0.1016;
 
-        public static final double TurnMaxAngularVelocity = 5; // Drivetrain.kMaxAngularSpeed;
-        public static final double TurnMaxAngularAcceleration = 10; // 2 * Math.PI; // radians per second squared
-        public static final double DriveMaxAngularVelocity = 10; // Drivetrain.kMaxAngularSpeed;
-        public static final double DriveMaxAngularAcceleration = 20; // 2 * Math.PI; // radians per second squared
+        public static final double TurnMaxAngularVelocity = 17; // Drivetrain.kMaxAngularSpeed;
+        public static final double TurnMaxAngularAcceleration = 34; // 2 * Math.PI; // radians per second squared
+        public static final double DriveMaxAngularVelocity = 15; // Drivetrain.kMaxAngularSpeed;
+        public static final double DriveMaxAngularAcceleration = 30; // 2 * Math.PI; // radians per second squared
 
         /** The max speed the robot is allowed to travel */
         public static final double robotMaxSpeed = 3.0;

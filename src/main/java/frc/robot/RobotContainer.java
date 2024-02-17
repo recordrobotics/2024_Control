@@ -122,7 +122,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return new ComplexAuto(_drivetrain).andThen(() -> {
-      System.out.println("ComplexAuto completed");
+      System.out.println("ContainerAuto End");
     }, _drivetrain);
   }
 

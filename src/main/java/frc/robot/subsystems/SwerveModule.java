@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -24,6 +26,9 @@ public class SwerveModule {
 
   private final ProfiledPIDController drivePIDController;
   private final ProfiledPIDController turningPIDController;
+
+  //private final PIDController drivePIDController;
+  //private final PIDController turningPIDController;
 
   private final double TURN_GEAR_RATIO;
   private final double DRIVE_GEAR_RATIO;

@@ -74,6 +74,7 @@ public class MoveDistance extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        _drivetrain.stop();
     }
 
     @Override

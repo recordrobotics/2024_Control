@@ -91,6 +91,10 @@ public class Drivetrain extends SubsystemBase {
                 m_backRight.setDesiredState(swerveModuleStates[3]);
         }
 
+        public void stop() {
+                drive(new DriveCommandData(0, 0, 0, false));
+        }
+
         @Override
         public void periodic() {
                 poseFilter.update(

@@ -83,6 +83,7 @@ public class MoveToPoint extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        _drivetrain.stop();
     }
 
     @Override
