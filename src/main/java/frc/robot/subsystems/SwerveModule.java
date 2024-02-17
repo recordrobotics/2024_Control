@@ -12,7 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.ModuleConstants;
 
 public class SwerveModule {
@@ -46,7 +46,7 @@ public class SwerveModule {
       absoluteTurningMotorEncoder = new DutyCycleEncoder(m.absoluteTurningMotorEncoderChannel);
       turningEncoderOffset = m.turningEncoderOffset;
 
-      // Creates other vars
+      // Creates other variables
       this.TURN_GEAR_RATIO = m.TURN_GEAR_RATIO;
       this.DRIVE_GEAR_RATIO = m.DRIVE_GEAR_RATIO;
       this.RELATIVE_ENCODER_RATIO = m.RELATIVE_ENCODER_RATIO;
@@ -107,7 +107,7 @@ public class SwerveModule {
      * @return The current velocity of the drive motor (meters per second)
      */
     private double getDriveWheelVelocity() {
-      double driveMotorRotationsPerSecond = m_driveMotor.getVelocity().getValue();
+      double driveMotorRotationsPerSecond = m_driveMotor.getVelocity().getValueAsDouble();
       double driveWheelMetersPerSecond = (driveMotorRotationsPerSecond * 10 / RELATIVE_ENCODER_RATIO) * (WHEEL_DIAMETER * Math.PI);
       return driveWheelMetersPerSecond;
     }
@@ -117,7 +117,7 @@ public class SwerveModule {
      * @return The distance driven by the drive wheel (meters)
      */
     private double getDriveWheelDistance() {
-      double numRotationsDriveMotor = m_driveMotor.getPosition().getValue(); // TODO: may have to multiply by relative encoder ratio
+      double numRotationsDriveMotor = m_driveMotor.getPosition().getValueAsDouble(); // TODO: may have to multiply by relative encoder ratio
       double numRotationsDriveWheel = numRotationsDriveMotor / DRIVE_GEAR_RATIO;
       double speedWheelDistanceMeters = numRotationsDriveWheel * Math.PI * WHEEL_DIAMETER;
       return speedWheelDistanceMeters;
@@ -152,6 +152,13 @@ public class SwerveModule {
      * @param desiredState Desired state with speed and angle.
      */
     public void setDesiredState(SwerveModuleState desiredState) {
+
+      // Put drive wheel distance on smartdashboard
+      /* 
+      int encoder_channel = m_driveMotor.getDeviceID();
+      SmartDashboard.putNumber("ROTOR " + encoder_channel, m_driveMotor.getRotorPosition().getValue());
+      SmartDashboard.putNumber("POSE " + encoder_channel, m_driveMotor.getPosition().getValue());
+      */
 
       // Optimize the reference state to avoid spinning further than 90 degrees
       SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState,

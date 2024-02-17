@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 
 public class DoubleControl {
 
@@ -28,14 +27,7 @@ public class DoubleControl {
 	 * @return remapped joystick value x horizontal (sets a min threshold, multiplies by input sens)
 	 */
 	public double getX() {
-		// Robot and Joystick axises are flipped
-		double input = -stickpad.getY();
-		if (input >= Constants.Control.INPUT_X_THRESHOLD || input <= -Constants.Control.INPUT_X_THRESHOLD) {
-			return input * Constants.Control.INPUT_DIRECTIONAL_SENSITIVITY;
-		}
-		return 0;
 
-		/** ALTERNATIVE CODE THAT SUBTRACTS THRESHOLD
 		// Gets raw value
 		double input = -stickpad.getY();
 		// Gets whether or not the spin input is negative or positive
@@ -44,21 +36,14 @@ public class DoubleControl {
 		// Multiplies by spin sensitivity and returns
 		double final_x = Math.signum(input) * proportion * Constants.Control.INPUT_DIRECTIONAL_SENSITIVITY;
 		return final_x;
-		 */
+		
 	}
 
 	/**
 	 * @return remapped joystick y value (sets a min threshold, multiplies by input sens)
 	 */
 	public double getY() {
-		// Robot and Joystick axises are flipped
-		double input = -stickpad.getX();
-		if (input >= Constants.Control.INPUT_Y_THRESHOLD || input <= -Constants.Control.INPUT_Y_THRESHOLD) {
-			return input * Constants.Control.INPUT_DIRECTIONAL_SENSITIVITY;
-		}
-		return 0;
-
-		/** ALTERNATIVE CODE THAT SUBTRACTS THRESHOLD
+		
 		// Gets raw value
 		double input = -stickpad.getX();
 		// Gets whether or not the spin input is negative or positive
@@ -67,21 +52,13 @@ public class DoubleControl {
 		// Multiplies by spin sensitivity and returns
 		double final_y = Math.signum(input) * proportion * Constants.Control.INPUT_DIRECTIONAL_SENSITIVITY;
 		return final_y;
-		 */
+		
 	}
 
 	/**
 	 * @return remapped joystick spin value (sets a min threshold, subtracts threshold, multiplied by input sens)
 	 */
 	public double getSpin() {
-
-		double input = -stickpad.getTwist();
-		if (input >= Constants.Control.INPUT_SPIN_THRESHOLD || input <= -Constants.Control.INPUT_SPIN_THRESHOLD)
-			return Constants.RemapAbsoluteValue(input, Constants.Control.SPIN_INPUT_REMAP_LOW,
-					Constants.Control.SPIN_INPUT_REMAP_HIGH) * Constants.Control.SPIN_INPUT_SENSITIVITY;
-		return 0;
-
-		/*
 
 		// Gets raw twist value
 		double input = -stickpad.getTwist();
@@ -97,7 +74,6 @@ public class DoubleControl {
 		// Returns
 		return final_spin;
 		
-		 */
 	}
 
 	public boolean getResetPressed() {

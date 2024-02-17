@@ -25,16 +25,6 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
-    public static double RemapAbsoluteValue(double value, double absMin, double absMax) {
-        if (value >= absMin) { // positive relative value
-            return (value - absMin) / (absMax - absMin);
-        } else if (value <= -absMin) { // negative relative value
-            return (value - absMin) / (absMax - absMin) + 2;
-        } else {
-            return 0;
-        }
-    }
-
     public final class FieldConstants {
 
         public static final Translation2d TEAM_RED_SPEAKER = new Translation2d(16, 5.5);
@@ -102,40 +92,6 @@ public final class Constants {
         private static final Translation2d backLeftLocation = new Translation2d(-locX, locY);
         private static final Translation2d backRightLocation = new Translation2d(-locX, -locY);
 
-        // Module Creation
-        public static final ModuleConstants frontLeftConstants = new ModuleConstants(
-                2,
-                1,
-                2,
-                0.597,
-                frontLeftLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
-        public static final ModuleConstants frontRightConstants = new ModuleConstants(
-                4,
-                3,
-                3,
-                0.886,
-                frontRightLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
-        public static final ModuleConstants backLeftConstants = new ModuleConstants(
-                8,
-                7,
-                1,
-                0.857,
-                backLeftLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
-        public static final ModuleConstants backRightConstants = new ModuleConstants(
-                6,
-                5,
-                4,
-                0.556,
-                backRightLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
-
         // Gear ratios for falcon and kraken
         public static final double KRAKEN_TURN_GEAR_RATIO = 13.3714;
         public static final double KRAKEN_DRIVE_GEAR_RATIO = 6.75; // X1 12 pinion
@@ -164,6 +120,7 @@ public final class Constants {
         public static final double RELATIVE_ENCODER_RATIO = 2048; // Same between Falcon and Kraken since they share the
                                                                   // same encoders
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
+        //public static final double WHEEL_DIAMETER = 0.1016;
 
         public static final double TurnMaxAngularVelocity = 5; // Drivetrain.kMaxAngularSpeed;
         public static final double TurnMaxAngularAcceleration = 10; // 2 * Math.PI; // radians per second squared
@@ -172,6 +129,41 @@ public final class Constants {
 
         /** The max speed the robot is allowed to travel */
         public static final double robotMaxSpeed = 3.0;
+
+
+        // Module Creation
+        public static final ModuleConstants frontLeftConstants = new ModuleConstants(
+                2,
+                1,
+                2,
+                0.597,
+                frontLeftLocation,
+                MotorType.Kraken,
+                MotorType.Kraken);
+        public static final ModuleConstants frontRightConstants = new ModuleConstants(
+                4,
+                3,
+                3,
+                0.886,
+                frontRightLocation,
+                MotorType.Kraken,
+                MotorType.Kraken);
+        public static final ModuleConstants backLeftConstants = new ModuleConstants(
+                8,
+                7,
+                1,
+                0.857,
+                backLeftLocation,
+                MotorType.Kraken,                                         
+                MotorType.Kraken);
+        public static final ModuleConstants backRightConstants = new ModuleConstants(
+                6,
+                5,
+                4,
+                0.556,
+                backRightLocation,
+                MotorType.Kraken,
+                MotorType.Kraken);
     }
 
     public final class Frame {
