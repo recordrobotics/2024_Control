@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.control.DoubleControl;
+import frc.robot.control.JoystickOrientation;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
 
@@ -38,6 +39,7 @@ public class ManualSwerve extends Command {
   }
 
   private SendableChooser<DriveMode> driveMode = new SendableChooser<DriveMode>();
+  private SendableChooser<JoystickOrientation> joystickOrientation = new SendableChooser<JoystickOrientation>();
 
   // Sets up spin modes
   public AutoOrient autoOrient = new AutoOrient();
@@ -59,11 +61,16 @@ public class ManualSwerve extends Command {
     driveMode.addOption("Tablet", DriveMode.Tablet);
     driveMode.setDefaultOption("Field", DriveMode.Field);
 
+    joystickOrientation.addOption("X Axis", JoystickOrientation.XAxisTowardsTrigger);
+    joystickOrientation.addOption("Y Axis", JoystickOrientation.YAxisTowardsTrigger);
+    joystickOrientation.setDefaultOption("X Axis", JoystickOrientation.XAxisTowardsTrigger);
+
     // puts 2d field data on Smartdashboard
     SmartDashboard.putData("Field", m_field);
 
     // puts selector data on Smartdashboard
     SmartDashboard.putData("Drive Mode", driveMode);
+    SmartDashboard.putData("Joystick Orientation", joystickOrientation);
   }
 
   // Called when the command is initially scheduled.
@@ -75,6 +82,7 @@ public class ManualSwerve extends Command {
   @Override
   public void execute() {
 
+    _controls.setJoystickOrientation(joystickOrientation.getSelected());
     // Gets swerve position and sets to field position
     _drivetrain.updatePoseFilter();
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();

@@ -2,9 +2,7 @@ package frc.robot.control;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
-import frc.robot.RobotMap;
 
 public class DoubleControl {
 
@@ -12,51 +10,96 @@ public class DoubleControl {
 	private Joystick stickpad;
 	private XboxController xbox_controller;
 
+	private JoystickOrientation joystickOrientation = JoystickOrientation.XAxisTowardsTrigger;
+
 	// Constructor
 	public DoubleControl(int stickpadPort, int gamepadPort) {
 		stickpad = new Joystick(stickpadPort);
 		xbox_controller = new XboxController(gamepadPort);
 	}
 
+	public void setJoystickOrientation(JoystickOrientation joystickOrientation) {
+		this.joystickOrientation = joystickOrientation;
+	}
+
 	/**
-	 * TODO: getX and getY currently do not subtract threshold from the final value. 
-	 * I think we should subtract threshold. We should talk about changing this. 
+	 * TODO: getX and getY currently do not subtract threshold from the final value.
+	 * I think we should subtract threshold. We should talk about changing this.
 	 */
 
 	/**
-	 * @return remapped joystick value x horizontal (sets a min threshold, multiplies by input sens)
+	 * @return remapped joystick value x horizontal (sets a min threshold,
+	 *         multiplies by input sens)
 	 */
 	public double getX() {
 
 		// Gets raw value
-		double input = -stickpad.getY();
+		double input;
+		switch (joystickOrientation) {
+			case XAxisTowardsTrigger:
+				input = -stickpad.getY();
+				break;
+			case YAxisTowardsTrigger:
+				input = stickpad.getX();
+				break;
+			default:
+				input = 0;
+				break;
+		}
 		// Gets whether or not the spin input is negative or positive
-		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.INPUT_X_THRESHOLD); // How much the input is above the threshold (absolute value)
-		double proportion = subtract_threshold/(1 - Constants.Control.INPUT_X_THRESHOLD); // What proportion (threshold to value) is of (threshold to 1)
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.INPUT_X_THRESHOLD); // How much the
+																										// input is
+																										// above the
+																										// threshold
+																										// (absolute
+																										// value)
+		double proportion = subtract_threshold / (1 - Constants.Control.INPUT_X_THRESHOLD); // What proportion
+																							// (threshold to value) is
+																							// of (threshold to 1)
 		// Multiplies by spin sensitivity and returns
 		double final_x = Math.signum(input) * proportion * Constants.Control.INPUT_DIRECTIONAL_SENSITIVITY;
 		return final_x;
-		
+
 	}
 
 	/**
-	 * @return remapped joystick y value (sets a min threshold, multiplies by input sens)
+	 * @return remapped joystick y value (sets a min threshold, multiplies by input
+	 *         sens)
 	 */
 	public double getY() {
-		
+
 		// Gets raw value
-		double input = -stickpad.getX();
+		double input;
+		switch (joystickOrientation) {
+			case XAxisTowardsTrigger:
+				input = -stickpad.getX();
+				break;
+			case YAxisTowardsTrigger:
+				input = -stickpad.getY();
+				break;
+			default:
+				input = 0;
+				break;
+		}
 		// Gets whether or not the spin input is negative or positive
-		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.INPUT_Y_THRESHOLD); // How much the input is above the threshold (absolute value)
-		double proportion = subtract_threshold/(1 - Constants.Control.INPUT_Y_THRESHOLD); // What proportion (threshold to value) is of (threshold to 1)
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.INPUT_Y_THRESHOLD); // How much the
+																										// input is
+																										// above the
+																										// threshold
+																										// (absolute
+																										// value)
+		double proportion = subtract_threshold / (1 - Constants.Control.INPUT_Y_THRESHOLD); // What proportion
+																							// (threshold to value) is
+																							// of (threshold to 1)
 		// Multiplies by spin sensitivity and returns
 		double final_y = Math.signum(input) * proportion * Constants.Control.INPUT_DIRECTIONAL_SENSITIVITY;
 		return final_y;
-		
+
 	}
 
 	/**
-	 * @return remapped joystick spin value (sets a min threshold, subtracts threshold, multiplied by input sens)
+	 * @return remapped joystick spin value (sets a min threshold, subtracts
+	 *         threshold, multiplied by input sens)
 	 */
 	public double getSpin() {
 
@@ -67,13 +110,13 @@ public class DoubleControl {
 		// How much the input is above the threshold (absolute value)
 		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.INPUT_SPIN_THRESHOLD);
 		// What proportion (threshold to value) is of (threshold to 1)
-		double proportion = subtract_threshold/(1 - Constants.Control.INPUT_SPIN_THRESHOLD);
+		double proportion = subtract_threshold / (1 - Constants.Control.INPUT_SPIN_THRESHOLD);
 		// Multiplies by spin sensitivity
 		double final_spin = proportion * sign * Constants.Control.SPIN_INPUT_SENSITIVITY;
 
 		// Returns
 		return final_spin;
-		
+
 	}
 
 	public boolean getResetPressed() {
@@ -107,8 +150,9 @@ public class DoubleControl {
 	/**
 	 * Takes speedlevel slider on control input and remaps from -1-->1 to 0.5-->2
 	 * TODO: add to constants
+	 * 
 	 * @return
-	 * Speedlevel control from 0.5 --> 2
+	 *         Speedlevel control from 0.5 --> 2
 	 */
 	public double getSpeedLevel() {
 		// Remap -1 --> 1 to 0 --> 1
@@ -143,26 +187,27 @@ public class DoubleControl {
 		return xbox_controller.getRawButton(8);
 	}
 
-
 	/**
 	 * TABLET COMMANDS
 	 */
 
 	/**
 	 * Converts (-1, 1) to (0,1)
+	 * 
 	 * @return x coordinate of the tablet (from 0 to 1)
 	 */
 	public double getTabletX() {
-		double x = (xbox_controller.getRawAxis(0) + 1)/2;
+		double x = (xbox_controller.getRawAxis(0) + 1) / 2;
 		return x;
 	}
 
 	/**
 	 * Converts (-1, 1) to (0,1)
+	 * 
 	 * @return y coordinate of the tablet (from 0 to 1)
 	 */
 	public double getTabletY() {
-		double y = (xbox_controller.getRawAxis(1) + 1)/2;
+		double y = (xbox_controller.getRawAxis(1) + 1) / 2;
 		return y;
 	}
 
@@ -171,7 +216,7 @@ public class DoubleControl {
 	 */
 	public double getTabletPressure() {
 
-		// Checks that the Z axis (height of the pen) is below a certain amount 
+		// Checks that the Z axis (height of the pen) is below a certain amount
 		// (If it isn't, the pressure reading is probably a hardware error)
 		if (xbox_controller.getRawAxis(4) > 0.03 && xbox_controller.getRawAxis(4) < 0.25) {
 			return -1 * xbox_controller.getRawAxis(5);
