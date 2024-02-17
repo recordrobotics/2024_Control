@@ -2,11 +2,7 @@ package frc.robot.control;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
-import frc.robot.RobotMap;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 
 public class DoubleControl {
 
@@ -14,10 +10,16 @@ public class DoubleControl {
 	private Joystick stickpad;
 	private XboxController xbox_controller;
 
+	private JoystickOrientation joystickOrientation = JoystickOrientation.XAxisTowardsTrigger;
+
 	// Constructor
 	public DoubleControl(int stickpadPort, int gamepadPort) {
 		stickpad = new Joystick(stickpadPort);
 		xbox_controller = new XboxController(gamepadPort);
+	}
+
+	public void setJoystickOrientation(JoystickOrientation joystickOrientation) {
+		this.joystickOrientation = joystickOrientation;
 	}
 
 	/**
@@ -30,29 +32,36 @@ public class DoubleControl {
 	 *         multiplies by input sens)
 	 */
 	public double getX() {
-		// Robot and Joystick axises are flipped
-		double input = -stickpad.getY();
-		if (input >= Constants.Control.INPUT_X_THRESHOLD || input <= -Constants.Control.INPUT_X_THRESHOLD) {
-			return input * Constants.Control.INPUT_SENSITIVITY;
-		}
-		return 0;
 
-		/**
-		 * ALTERNATIVE CODE THAT SUBTRACTS THRESHOLD
-		 * // Gets raw value
-		 * double input = -stickpad.getY();
-		 * // Gets whether or not the spin input is negative or positive
-		 * double subtract_threshold = Math.max(0, Math.abs(input) -
-		 * Constants.Control.INPUT_X_THRESHOLD); // How much the input is above the
-		 * threshold (absolute value)
-		 * double proportion = subtract_threshold/(1 -
-		 * Constants.Control.INPUT_X_THRESHOLD); // What proportion (threshold to value)
-		 * is of (threshold to 1)
-		 * // Multiplies by spin sensitivity and returns
-		 * final_x = Math.signum(input) * proportion *
-		 * Constants.Control.INPUT_DIRECTIONAL_SENSITIVITY;
-		 * return final_x
-		 */
+		// Gets raw value
+		double input;
+		switch (joystickOrientation) {
+			case XAxisTowardsTrigger:
+				input = -stickpad.getY();
+				break;
+			case YAxisTowardsTrigger:
+				input = stickpad.getX();
+				break;
+			default:
+				input = 0;
+				break;
+		}
+		// Gets whether or not the spin input is negative or positive
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOYSTICK_X_THRESHOLD); // How much
+																											// the input
+																											// is above
+																											// the
+																											// threshold
+																											// (absolute
+																											// value)
+		double proportion = subtract_threshold / (1 - Constants.Control.JOYSTICK_X_THRESHOLD); // What proportion
+																								// (threshold to value)
+																								// is of (threshold to
+																								// 1)
+		// Multiplies by spin sensitivity and returns
+		double final_x = Math.signum(input) * proportion * Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY;
+		return final_x;
+
 	}
 
 	/**
@@ -60,29 +69,36 @@ public class DoubleControl {
 	 *         sens)
 	 */
 	public double getY() {
-		// Robot and Joystick axises are flipped
-		double input = -stickpad.getX();
-		if (input >= Constants.Control.INPUT_Y_THRESHOLD || input <= -Constants.Control.INPUT_Y_THRESHOLD) {
-			return input * Constants.Control.INPUT_SENSITIVITY;
-		}
-		return 0;
 
-		/**
-		 * ALTERNATIVE CODE THAT SUBTRACTS THRESHOLD
-		 * // Gets raw value
-		 * double input = -stickpad.getX();
-		 * // Gets whether or not the spin input is negative or positive
-		 * double subtract_threshold = Math.max(0, Math.abs(input) -
-		 * Constants.Control.INPUT_Y_THRESHOLD); // How much the input is above the
-		 * threshold (absolute value)
-		 * double proportion = subtract_threshold/(1 -
-		 * Constants.Control.INPUT_Y_THRESHOLD); // What proportion (threshold to value)
-		 * is of (threshold to 1)
-		 * // Multiplies by spin sensitivity and returns
-		 * final_y = Math.signum(input) * proportion *
-		 * Constants.Control.INPUT_DIRECTIONAL_SENSITIVITY;
-		 * return final_y
-		 */
+		// Gets raw value
+		double input;
+		switch (joystickOrientation) {
+			case XAxisTowardsTrigger:
+				input = -stickpad.getX();
+				break;
+			case YAxisTowardsTrigger:
+				input = -stickpad.getY();
+				break;
+			default:
+				input = 0;
+				break;
+		}
+		// Gets whether or not the spin input is negative or positive
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOSYTICK_Y_THRESHOLD); // How much
+																											// the input
+																											// is above
+																											// the
+																											// threshold
+																											// (absolute
+																											// value)
+		double proportion = subtract_threshold / (1 - Constants.Control.JOSYTICK_Y_THRESHOLD); // What proportion
+																								// (threshold to value)
+																								// is of (threshold to
+																								// 1)
+		// Multiplies by spin sensitivity and returns
+		double final_y = Math.signum(input) * proportion * Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY;
+		return final_y;
+
 	}
 
 	/**
@@ -90,20 +106,21 @@ public class DoubleControl {
 	 *         threshold, multiplied by input sens)
 	 */
 	public double getSpin() {
+
 		// Gets raw twist value
 		double input = -stickpad.getTwist();
-
 		// Gets whether or not the spin input is negative or positive
 		double sign = Math.signum(input);
 		// How much the input is above the threshold (absolute value)
-		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.INPUT_SPIN_THRESHOLD);
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOYSTICK_SPIN_THRESHOLD);
 		// What proportion (threshold to value) is of (threshold to 1)
-		double proportion = subtract_threshold / (1 - Constants.Control.INPUT_SPIN_THRESHOLD);
+		double proportion = subtract_threshold / (1 - Constants.Control.JOYSTICK_SPIN_THRESHOLD);
 		// Multiplies by spin sensitivity
-		double final_spin = proportion * sign * Constants.Control.SPIN_INPUT_SENSITIVITY;
+		double final_spin = proportion * sign * Constants.Control.JOYSTICK_SPIN_SENSITIVITY;
 
 		// Returns
 		return final_spin;
+
 	}
 
 	public boolean getResetPressed() {
@@ -136,7 +153,7 @@ public class DoubleControl {
 
 	/**
 	 * Takes speedlevel slider on control input and remaps from -1-->1 to 0.5-->2
-	 * TODO: add to constants
+	 * TODO: add to constants, make it not insanely fast
 	 * 
 	 * @return
 	 *         Speedlevel control from 0.5 --> 2

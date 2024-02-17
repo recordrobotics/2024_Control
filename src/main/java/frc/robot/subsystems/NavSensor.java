@@ -6,8 +6,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// Smartdashboard
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class NavSensor extends SubsystemBase {
 
@@ -23,12 +22,12 @@ public class NavSensor extends SubsystemBase {
 		referenceAngle = _nav.getAngle();
 	}
 
-	// Instance (I think I know what that means)
+	// Navsensor Constructor, Create instance
 	public NavSensor() {
 	}
 
 	// stores the reference angle as whatever the angle is currently measured to be
-	public void relativeResetAngle() {
+	public void resetAngleAdjustment() {
 		referenceAngle = _nav.getAngle();
 	}
 
@@ -39,9 +38,8 @@ public class NavSensor extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putBoolean("Nav connected", _nav.isConnected());
-		// SmartDashboard.putBoolean("Nav Cal", _nav.isCalibrating());
-		SmartDashboard.putNumber("getAdjustedAngle()", getAdjustedAngle().getDegrees());
+		//SmartDashboard.putBoolean("Nav connected", _nav.isConnected());
+		//SmartDashboard.putBoolean("Nav Cal", _nav.isCalibrating());
 	}
 
 	/*

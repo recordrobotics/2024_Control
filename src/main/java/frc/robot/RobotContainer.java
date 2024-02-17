@@ -34,14 +34,13 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+
+  // The robot's subsystems and commands are defined here
   private Drivetrain _drivetrain;
   private Shooter _shooter;
   private Crashbar _crashbar;
   private Climbers _climbers;
-  private NavSensor _nav;
   private List<Pair<Subsystem, Command>> _teleopPairs;
-
   private ManualSwerve _manualSwerve;
   private ManualShooter _manualShooter;
   private ManualClimbers _manualClimbers;
@@ -53,8 +52,6 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
-    _controlInput = new DoubleControl(0, 1);
 
     // Init Swerve
     _drivetrain = new Drivetrain();
@@ -63,7 +60,6 @@ public class RobotContainer {
     _crashbar = new Crashbar();
 
     // Init Nav
-    _nav = new NavSensor();
     NavSensor.initNav();
 
     // Bindings and Teleop
@@ -72,9 +68,15 @@ public class RobotContainer {
   }
 
   private void initTeleopCommands() {
+
+    // Creates teleopPairs object
     _teleopPairs = new ArrayList<>();
 
-    _manualSwerve = new ManualSwerve(_drivetrain, _nav, _controlInput);
+    // Creates control input & manual swerve object, adds it to _teleopPairs
+    _controlInput = new DoubleControl(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.GAMEPAD_PORT);
+
+    // Adds drivetrain & manual swerve to teleop commands
+    _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
 
     _manualShooter = new ManualShooter(_shooter, _controlInput);
@@ -88,8 +90,8 @@ public class RobotContainer {
   }
 
   public void teleopInit() {
-    for (Pair<Subsystem, Command> c : _teleopPairs) {
-      c.getFirst().setDefaultCommand(c.getSecond());
+    for (Pair<Subsystem, Command> pair : _teleopPairs) {
+      pair.getFirst().setDefaultCommand(pair.getSecond());
     }
   }
 
@@ -102,6 +104,14 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    // TODO: look into command binding
+    /**
+     * CommandJoystick joystick = new
+     * CommandJoystick(RobotMap.Control.STICKPAD_PORT);
+     * Trigger getReset = new Trigger(joystick.button(2));
+     * getReset.onTrue(_drivetrain());
+     */
   }
 
   /**

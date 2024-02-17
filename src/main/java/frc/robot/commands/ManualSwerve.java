@@ -5,13 +5,17 @@
 package frc.robot.commands;
 
 import frc.robot.control.DoubleControl;
+import frc.robot.control.JoystickOrientation;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.NavSensor;
-import frc.robot.utils.AutoOrient;
-import edu.wpi.first.math.controller.PIDController;
+import frc.robot.utils.DriveCommandData;
+
+import frc.robot.utils.drivemodes.AutoOrient;
+import frc.robot.utils.drivemodes.DefaultSpin;
+
+import frc.robot.utils.drivemodes.DefaultDrive;
+import frc.robot.utils.drivemodes.TabletDrive;
+
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -20,38 +24,53 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /** An example command that uses an example subsystem. */
 public class ManualSwerve extends Command {
 
-  public enum FieldReferenceFrame {
-    Field,
-    Robot
-  }
-
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
+
+  // Creates Drivetrain and Controls variables
   private Drivetrain _drivetrain;
   private DoubleControl _controls;
 
+  // Creates field display var
   private Field2d m_field = new Field2d();
-  private SendableChooser<FieldReferenceFrame> fieldReference = new SendableChooser<FieldReferenceFrame>();
 
-  private PIDController anglePID = new PIDController(1, 0, 0);
+  // Sets up sendable chooser for drivemode
+  public enum DriveMode {
+    Robot, Field, Tablet
+  }
 
-  public ChassisSpeeds target;
+  private SendableChooser<DriveMode> driveMode = new SendableChooser<DriveMode>();
+  private SendableChooser<JoystickOrientation> joystickOrientation = new SendableChooser<JoystickOrientation>();
+
+  // Sets up spin modes
+  public AutoOrient autoOrient = new AutoOrient();
 
   /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
+   * @param drivetrain
    */
-  public ManualSwerve(Drivetrain drivetrain, NavSensor nav, DoubleControl controls) {
+  public ManualSwerve(Drivetrain drivetrain, DoubleControl controls) {
+
+    // Init variables
     _drivetrain = drivetrain;
     _controls = controls;
     addRequirements(drivetrain);
 
-    fieldReference.addOption("Field", FieldReferenceFrame.Field);
-    fieldReference.addOption("Robot", FieldReferenceFrame.Robot);
-    fieldReference.setDefaultOption("Field", FieldReferenceFrame.Field);
+    // Creates selector on SmartDashboard for drivemode
+    // driveMode.addOption("AutoOrient", DriveMode.AutoOrient);
+    driveMode.addOption("Robot", DriveMode.Robot);
+    driveMode.addOption("Field", DriveMode.Field);
+    driveMode.addOption("Tablet", DriveMode.Tablet);
+    driveMode.setDefaultOption("Field", DriveMode.Field);
 
+    joystickOrientation.addOption("X Axis", JoystickOrientation.XAxisTowardsTrigger);
+    joystickOrientation.addOption("Y Axis", JoystickOrientation.YAxisTowardsTrigger);
+    joystickOrientation.setDefaultOption("X Axis", JoystickOrientation.XAxisTowardsTrigger);
+
+    // puts 2d field data on Smartdashboard
     SmartDashboard.putData("Field", m_field);
-    SmartDashboard.putData(fieldReference);
+
+    // puts selector data on Smartdashboard
+    SmartDashboard.putData("Drive Mode", driveMode);
+    SmartDashboard.putData("Joystick Orientation", joystickOrientation);
   }
 
   // Called when the command is initially scheduled.
@@ -62,39 +81,50 @@ public class ManualSwerve extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    /**
-     * Target Velocity and Angle
-     */
 
-    // Gets swerve position
+    _controls.setJoystickOrientation(joystickOrientation.getSelected());
+    // Gets swerve position and sets to field position
     _drivetrain.updatePoseFilter();
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
-
     m_field.setRobotPose(swerve_position);
 
-    // Puts on shuffleboard
-    SmartDashboard.putNumber("F rot", swerve_position.getRotation().getDegrees());
-    SmartDashboard.putNumber("F X", swerve_position.getX());
-    SmartDashboard.putNumber("F Y", swerve_position.getY());
+    // Puts robot position information on shuffleboard
+    SmartDashboard.putNumber("Rotation", swerve_position.getRotation().getDegrees());
+    SmartDashboard.putNumber("X", swerve_position.getX());
+    SmartDashboard.putNumber("Y", swerve_position.getY());
 
-    double speedLevel = _controls.getSpeedLevel();
-    double speedMultiplier = speedLevel * (2 - 0.5) + 0.5;
-
+    // Control to reset pose if reset button is pressed
     if (_controls.getResetPressed()) {
       _drivetrain.resetPose();
     }
 
-    double spin = anglePID.calculate(swerve_position.getRotation().getRadians(),
-        AutoOrient.rotationFacingTarget(swerve_position.getTranslation(), new Translation2d(0, 0)).getRadians());
-    if (!AutoOrient.shouldUpdateAngle(swerve_position.getTranslation(), new Translation2d(0, 0))) {
-      spin = 0;
+    // Sets up spin
+    double spin;
+
+    // Auto-orient function
+    if (autoOrient.shouldExecute(_controls)) {
+      spin = autoOrient.calculate(_controls, swerve_position);
+    } else {
+      spin = DefaultSpin.calculate(_controls);
     }
 
-    _drivetrain.drive(
-        _controls.getX() * speedMultiplier,
-        _controls.getY() * speedMultiplier,
-        _controls.getSpin(),
-        fieldReference.getSelected() == FieldReferenceFrame.Field ? true : false);
+    // Sets up driveCommandData object
+    DriveCommandData driveCommandData;
+
+    switch (driveMode.getSelected()) {
+      case Tablet:
+        driveCommandData = TabletDrive.calculate(_controls, spin, swerve_position, m_field);
+        break;
+      case Robot:
+        driveCommandData = DefaultDrive.calculate(_controls, spin, swerve_position, false);
+        break;
+      default:
+        driveCommandData = DefaultDrive.calculate(_controls, spin, swerve_position, true);
+        break;
+    }
+
+    // Drive command
+    _drivetrain.drive(driveCommandData);
   }
 
   // Called once the command ends or is interrupted.

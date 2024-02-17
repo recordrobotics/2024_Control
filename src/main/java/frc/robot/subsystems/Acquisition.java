@@ -19,6 +19,6 @@ public class Acquisition extends SubsystemBase {
     private static final double UPPER_SPEED = 0.1;
 
     public Acquisition() {
-
+        
     }
 }
