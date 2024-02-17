@@ -114,7 +114,6 @@ public final class Constants {
         /** The max speed the robot is allowed to travel */
         public static final double robotMaxSpeed = 3.0;
 
-
         // Module Creation
         public static final ModuleConstants frontLeftConstants = new ModuleConstants(
                 2,
@@ -153,15 +152,10 @@ public final class Constants {
     public final class Frame {
 
         /**
-         * Distance between wheels (width aka between left and right).
+         * Distance between wheels (width aka between left and right and length aka between front and back).
          * Used for calculating wheel locations on the robot
          */
         public static final double ROBOT_WHEEL_DISTANCE_WIDTH = 0.59;
-
-        /**
-         * Distance between wheels (length aka between front and back).
-         * Used for calculating wheel locations on the robot
-         */
         public static final double ROBOT_WHEEL_DISTANCE_LENGTH = 0.59;
     }
 }
