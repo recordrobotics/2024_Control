@@ -19,6 +19,7 @@ import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
 import frc.robot.commands.manual.ManualSwerve;
 import frc.robot.control.DoubleControl;
+import frc.robot.subsystems.AutoPath;
 import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
@@ -37,10 +38,13 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here
-  private Drivetrain _drivetrain;
-  private Shooter _shooter;
-  private Crashbar _crashbar;
-  private Climbers _climbers;
+  private final Drivetrain _drivetrain;
+  private final Shooter _shooter;
+  private final Crashbar _crashbar;
+  private final Climbers _climbers;
+
+  private final AutoPath _autoPath;
+
   private List<Pair<Subsystem, Command>> _teleopPairs;
   private ManualSwerve _manualSwerve;
   private ManualShooter _manualShooter;
@@ -59,6 +63,9 @@ public class RobotContainer {
     _shooter = new Shooter();
     _climbers = new Climbers();
     _crashbar = new Crashbar();
+    _autoPath = new AutoPath(_drivetrain);
+
+    _autoPath.putAutoChooser();
 
     // Init Nav
     NavSensor.initNav();
@@ -121,7 +128,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new ComplexAuto(_drivetrain).andThen(() -> {
+    return new ComplexAuto(_drivetrain, _autoPath).andThen(() -> {
       System.out.println("ContainerAuto End");
     }, _drivetrain);
   }
