@@ -2,6 +2,7 @@ package frc.robot.control;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants;
 
 public class DoubleControl {
@@ -150,6 +151,11 @@ public class DoubleControl {
 	public boolean getAutoScoreAmp() {
 		return stickpad.getRawButtonPressed(12) || xbox_controller.getRawButtonPressed(2);
 	}
+
+	public boolean getTeleAutoStart() {
+		return stickpad.getRawButtonPressed(3);
+	}
+		
 
 	/**
 	 * Takes speedlevel slider on control input and remaps from -1-->1 to 0.5-->2
