@@ -15,6 +15,7 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.auto.ComplexAuto;
+import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.hybrid.ComplexTeleAuto;
 import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
@@ -134,7 +135,7 @@ public class RobotContainer {
     // Trigger teleAutoKillTrigger = new Trigger(getTeleAutoKill);
     // //teleAutoStartTrigger.onTrue(_complexTeleAuto);
     // teleAutoStartTrigger.negate()
-    
+
     teleAutoStartTrigger.toggleOnTrue(_complexAuto);
   }
 
@@ -144,7 +145,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new ComplexAuto(_drivetrain, _autoPath).andThen(() -> {
+    return new PlannedAuto(_drivetrain, _autoPath).andThen(() -> {
       System.out.println("ContainerAuto End");
     }, _drivetrain);
   }
