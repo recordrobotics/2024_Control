@@ -5,7 +5,6 @@ public final class RobotMap {
     public static final class Aquisition {
         public static final int LOWER_ACQUISITION_MOTOR_ID = -1;
         public static final int UPPER_ACQUISITION_MOTOR_ID = -1;
-
     }
 
     public static final class Climbers {
