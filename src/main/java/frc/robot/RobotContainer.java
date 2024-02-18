@@ -146,6 +146,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return new PlannedAuto(_drivetrain, _autoPath).andThen(() -> {
+      _drivetrain.stop();
       System.out.println("ContainerAuto End");
     }, _drivetrain);
   }
