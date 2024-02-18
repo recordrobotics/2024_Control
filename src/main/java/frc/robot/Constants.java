@@ -6,6 +6,11 @@ package frc.robot;
 
 import frc.robot.utils.ModuleConstants;
 import frc.robot.utils.ModuleConstants.MotorType;
+
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -43,8 +48,10 @@ public final class Constants {
         // TODO: Remove testing values
         // public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(0.5, 4.2,
         // Rotation2d.fromDegrees(0));
-        public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(FIELD_X_DIMENSION / 2, FIELD_Y_DIMENSION / 2,
-                Rotation2d.fromDegrees(0));
+        // public static final Pose2d TEAM_BLUE_STARTING_POSE = new
+        // Pose2d(FIELD_X_DIMENSION / 2, FIELD_Y_DIMENSION / 2,
+        // Rotation2d.fromDegrees(0));
+        public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(2, 2, Rotation2d.fromDegrees(0));
     }
 
     public final class Control {
@@ -70,6 +77,7 @@ public final class Constants {
         // Works out module locations
         private static final double locX = Constants.Frame.ROBOT_WHEEL_DISTANCE_WIDTH / 2;
         private static final double locY = Constants.Frame.ROBOT_WHEEL_DISTANCE_LENGTH / 2;
+        private static final double locDist = Math.sqrt(locX * locX + locY * locY);
 
         private static final Translation2d frontLeftLocation = new Translation2d(locX, locY);
         private static final Translation2d frontRightLocation = new Translation2d(locX, -locY);
@@ -104,7 +112,7 @@ public final class Constants {
         public static final double RELATIVE_ENCODER_RATIO = 2048; // Same between Falcon and Kraken since they share the
                                                                   // same encoders
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
-        //public static final double WHEEL_DIAMETER = 0.1016;
+        // public static final double WHEEL_DIAMETER = 0.1016;
 
         public static final double TurnMaxAngularVelocity = 17; // Drivetrain.kMaxAngularSpeed;
         public static final double TurnMaxAngularAcceleration = 34; // 2 * Math.PI; // radians per second squared
@@ -113,6 +121,14 @@ public final class Constants {
 
         /** The max speed the robot is allowed to travel */
         public static final double robotMaxSpeed = 3.0;
+
+        public static final HolonomicPathFollowerConfig PathFollowerConfig = new HolonomicPathFollowerConfig(
+                new PIDConstants(0.1, 0.0, 0.0), // Translation PID constants
+                new PIDConstants(0.1, 0.0, 0.0), // Rotation PID constants
+                0.1, // Max module speed, in m/s
+                locDist, // Drive base radius in meters. Distance from robot center to furthest module.
+                new ReplanningConfig() // Default path replanning config. See the API for the options here
+        );
 
         // Module Creation
         public static final ModuleConstants frontLeftConstants = new ModuleConstants(
@@ -137,7 +153,7 @@ public final class Constants {
                 1,
                 0.857,
                 backLeftLocation,
-                MotorType.Kraken,                                         
+                MotorType.Kraken,
                 MotorType.Kraken);
         public static final ModuleConstants backRightConstants = new ModuleConstants(
                 6,
@@ -152,7 +168,8 @@ public final class Constants {
     public final class Frame {
 
         /**
-         * Distance between wheels (width aka between left and right and length aka between front and back).
+         * Distance between wheels (width aka between left and right and length aka
+         * between front and back).
          * Used for calculating wheel locations on the robot
          */
         public static final double ROBOT_WHEEL_DISTANCE_WIDTH = 0.59;

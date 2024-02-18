@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -66,7 +67,6 @@ public class Drivetrain extends SubsystemBase {
          *                      field.
          */
         public void drive(DriveCommandData driveCommandData) {
-
                 // Data from driveCommandData
                 boolean fieldRelative = driveCommandData.fieldRelative;
                 double xSpeed = driveCommandData.xSpeed;
@@ -128,4 +128,27 @@ public class Drivetrain extends SubsystemBase {
                                                 : Constants.FieldConstants.TEAM_BLUE_STARTING_POSE);
         }
 
+        /**
+         * Returns the current robot relative chassis speeds of the swerve kinematics
+         */
+        public ChassisSpeeds getRobotRelativeSpeeds() {
+                return m_kinematics.toChassisSpeeds(
+                                m_frontLeft.getModuleState(),
+                                m_frontRight.getModuleState(),
+                                m_backLeft.getModuleState(),
+                                m_backRight.getModuleState());
+        }
+
+        /**
+         * Similar to resetPose but adds an argument for the initial pose
+         */
+        public void setToPose(Pose2d pose) {
+                poseFilter.resetPosition(_nav.getAdjustedAngle(),
+                                new SwerveModulePosition[] {
+                                                m_frontLeft.getModulePosition(),
+                                                m_frontRight.getModulePosition(),
+                                                m_backLeft.getModulePosition(),
+                                                m_backRight.getModulePosition()
+                                }, pose);
+        }
 }
