@@ -36,7 +36,7 @@ public class ComplexTeleAuto extends SequentialCommandGroup {
             new StopAndWait(_drivetrain, 0.2),
 
             new MoveToPoint(_drivetrain, new Pose2d(new Translation2d(0, 0).plus(current_pose), new Rotation2d(0)), 0.15),
-            new StopAndWait(_drivetrain, 0.2)
+            new StopAndWait(_drivetrain, 0.05)
         );
     }
 }

@@ -128,7 +128,7 @@ public class RobotContainer {
     // //teleAutoStartTrigger.onTrue(_complexTeleAuto);
     // teleAutoStartTrigger.negate()
     
-    teleAutoStartTrigger.toggleOnTrue(_complexAuto);
+    teleAutoStartTrigger.toggleOnTrue(_complexTeleAuto);
   }
 
   /**
