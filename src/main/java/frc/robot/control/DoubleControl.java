@@ -13,9 +13,9 @@ public class DoubleControl {
 	private JoystickOrientation joystickOrientation = JoystickOrientation.XAxisTowardsTrigger;
 
 	// Constructor
-	public DoubleControl(int stickpadPort, int gamepadPort) {
+	public DoubleControl(int stickpadPort, int xboxPort) {
 		stickpad = new Joystick(stickpadPort);
-		xbox_controller = new XboxController(gamepadPort);
+		xbox_controller = new XboxController(xboxPort);
 	}
 
 	public void setJoystickOrientation(JoystickOrientation joystickOrientation) {
@@ -161,8 +161,11 @@ public class DoubleControl {
 	public double getSpeedLevel() {
 		// Remap -1 --> 1 to 0 --> 1
 		double remap1 = (-stickpad.getRawAxis(3) + 1.0) / 2.0;
+		// SPEEDS
+		double LOW_SPEED = 0.1;
+		double HIGH_SPEED = 1.5;
 		// Remap 0 --> 1 to 0.5 --> 2
-		double remap2 = remap1 * (2 - 0.5) + 0.5;
+		double remap2 = (HIGH_SPEED - LOW_SPEED) * remap1 + LOW_SPEED;
 		// Returns
 		return remap2;
 	}

@@ -46,6 +46,6 @@ public final class RobotMap {
 
     public static class Control {
         public static final int STICKPAD_PORT = 0;
-        public static final int GAMEPAD_PORT = 1;
+        public static final int XBOX_PORT = 1;
     }
 }
