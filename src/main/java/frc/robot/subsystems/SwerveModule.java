@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.ModuleConstants;
 
 public class SwerveModule {
@@ -27,8 +28,8 @@ public class SwerveModule {
   private final ProfiledPIDController drivePIDController;
   private final ProfiledPIDController turningPIDController;
 
-  //private final PIDController drivePIDController;
-  //private final PIDController turningPIDController;
+  // private final PIDController drivePIDController;
+  // private final PIDController turningPIDController;
 
   private final double TURN_GEAR_RATIO;
   private final double DRIVE_GEAR_RATIO;
@@ -125,6 +126,13 @@ public class SwerveModule {
     return driveWheelMetersPerSecond;
   }
 
+  private double getDriveWheelVelocityCorrect() {
+    double driveMotorRotationsPerSecond = m_driveMotor.getVelocity().getValueAsDouble();
+    double driveWheelMetersPerSecond = (driveMotorRotationsPerSecond / DRIVE_GEAR_RATIO)
+        * (WHEEL_DIAMETER * Math.PI);
+    return driveWheelMetersPerSecond;
+  }
+
   /**
    * *custom function
    * 
@@ -163,6 +171,9 @@ public class SwerveModule {
     m_driveMotor.setPosition(0);
   }
 
+  double prevTime = Timer.getFPGATimestamp();
+  double prevDist = 0;
+
   /**
    * Sets the desired state for the module.
    *
@@ -188,6 +199,18 @@ public class SwerveModule {
     final double driveOutput = drivePIDController.calculate(getDriveWheelVelocity(),
         optimizedState.speedMetersPerSecond);
     m_driveMotor.set(driveOutput);
+
+    double time = Timer.getFPGATimestamp();
+    double deltaTime = time - prevTime;
+    prevTime = time;
+
+    double dist = getDriveWheelDistance();
+    double deltaDist = dist - prevDist;
+    prevDist = dist;
+
+    double velocity = deltaDist / deltaTime;
+    SmartDashboard.putNumber("vel " + m_driveMotor.getDeviceID(), getDriveWheelVelocityCorrect());
+    SmartDashboard.putNumber("vel_t " + m_driveMotor.getDeviceID(), velocity);
 
     // Calculate the turning motor output from the turning PID controller then set
     // turn motor.
