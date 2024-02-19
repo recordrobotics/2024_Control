@@ -11,6 +11,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
@@ -75,6 +76,7 @@ public class Drivetrain extends SubsystemBase {
 
                 // Calculates swerveModuleStates given optimal ChassisSpeeds given by control
                 // scheme
+                
                 SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
                                 fieldRelative
                                                 ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,

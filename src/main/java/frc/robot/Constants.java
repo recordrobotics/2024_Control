@@ -104,7 +104,7 @@ public final class Constants {
         public static final double KRAKEN_TURN_KI = 0;
         public static final double KRAKEN_TURN_KD = 0;
 
-        public static final double KRAKEN_DRIVE_KP = 3;
+        public static final double KRAKEN_DRIVE_KP = 0.5;
         public static final double KRAKEN_DRIVE_KI = 0;
         public static final double KRAKEN_DRIVE_KD = 0;
 

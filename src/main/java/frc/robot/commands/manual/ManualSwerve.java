@@ -114,8 +114,10 @@ public class ManualSwerve extends Command {
         break;
     }
 
+    DriveCommandData data = new DriveCommandData(1, 0, 0, false);
+
     // Drive command
-    _drivetrain.drive(driveCommandData);
+    _drivetrain.drive(data);
   }
 
   // Called once the command ends or is interrupted.
