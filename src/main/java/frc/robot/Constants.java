@@ -77,7 +77,7 @@ public final class Constants {
         // Works out module locations
         private static final double locX = Constants.Frame.ROBOT_WHEEL_DISTANCE_WIDTH / 2;
         private static final double locY = Constants.Frame.ROBOT_WHEEL_DISTANCE_LENGTH / 2;
-        private static final double locDist = Math.sqrt(locX * locX + locY * locY);
+        public static final double locDist = Math.sqrt(locX * locX + locY * locY);
 
         private static final Translation2d frontLeftLocation = new Translation2d(locX, locY);
         private static final Translation2d frontRightLocation = new Translation2d(locX, -locY);

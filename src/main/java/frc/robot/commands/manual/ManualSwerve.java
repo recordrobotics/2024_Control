@@ -4,6 +4,7 @@
 
 package frc.robot.commands.manual;
 
+import frc.robot.Constants;
 import frc.robot.control.DoubleControl;
 import frc.robot.control.JoystickOrientation;
 import frc.robot.subsystems.Drivetrain;
@@ -116,10 +117,11 @@ public class ManualSwerve extends Command {
         break;
     }
 
-    DriveCommandData data = new DriveCommandData(SmartDashboard.getNumber("tspeed", 0), 0, 0, false);
+    // double constish = SmartDashboard.getNumber("tspeed", 0)/(Constants.Swerve.locDist);
+    // driveCommandData = new DriveCommandData(0, 0, constish, false);
 
     // Drive command
-    _drivetrain.drive(data);
+    _drivetrain.drive(driveCommandData);
   }
 
   // Called once the command ends or is interrupted.
