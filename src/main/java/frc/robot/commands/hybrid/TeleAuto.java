@@ -1,7 +1,5 @@
 package frc.robot.commands.hybrid;
 
-import java.util.spi.CurrencyNameProvider;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -25,7 +23,6 @@ public class TeleAuto extends Command {
 
     private PIDController anglePID;
 
-
     public TeleAuto(Drivetrain drivetrain, DoubleControl controls) {
         addRequirements(drivetrain);
         setSubsystem(drivetrain.getName());
@@ -34,13 +31,13 @@ public class TeleAuto extends Command {
 
         // Init target
         Pose2d current_pose = _drivetrain.poseFilter.getEstimatedPosition();
-        Transform2d transform_pose = new Transform2d(new Translation2d(1,1), new Rotation2d(0));
+        Transform2d transform_pose = new Transform2d(new Translation2d(1, 1), new Rotation2d(0));
         target = current_pose.plus(transform_pose);
 
         // Sets up PID Controller
         anglePID = new PIDController(0.4, 0, 0);
         anglePID.enableContinuousInput(-Math.PI, Math.PI);
-    }   
+    }
 
     @Override
     public void initialize() {

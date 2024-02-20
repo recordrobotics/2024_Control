@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

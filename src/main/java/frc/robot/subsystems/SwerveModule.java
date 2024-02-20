@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -15,7 +14,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.ModuleConstants;
 
 public class SwerveModule {
@@ -68,11 +66,11 @@ public class SwerveModule {
     this.drivePIDController = new ProfiledPIDController(
         m.DRIVE_KP,
         m.DRIVE_KI,
-        m.DRIVE_KD, 
+        m.DRIVE_KD,
         new TrapezoidProfile.Constraints(m.DriveMaxAngularVelocity, m.DriveMaxAngularAcceleration));
 
     this.driveFeedForward = new SimpleMotorFeedforward(
-        m.DRIVE_FEEDFORWARD_KS, 
+        m.DRIVE_FEEDFORWARD_KS,
         m.DRIVE_FEEDFORWARD_KV);
 
     this.turningPIDController = new ProfiledPIDController(
@@ -81,7 +79,8 @@ public class SwerveModule {
         m.TURN_KD,
         new TrapezoidProfile.Constraints(m.TurnMaxAngularVelocity, m.TurnMaxAngularAcceleration));
 
-    // Limit the PID Controller's input range between -0.5 and 0.5 and set the input to be continuous.
+    // Limit the PID Controller's input range between -0.5 and 0.5 and set the input
+    // to be continuous.
     turningPIDController.enableContinuousInput(-0.5, 0.5);
 
     // Corrects for offset in absolute motor position
@@ -173,13 +172,15 @@ public class SwerveModule {
     SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState,
         getTurnWheelRotation2d());
 
-    // Calculate the drive output from the drive PID controller then set drive motor.
+    // Calculate the drive output from the drive PID controller then set drive
+    // motor.
     double driveOutput = drivePIDController.calculate(getDriveWheelVelocity(),
         optimizedState.speedMetersPerSecond);
     double driveFeedforwardOutput = driveFeedForward.calculate(optimizedState.speedMetersPerSecond);
     m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
 
-    // Calculate the turning motor output from the turning PID controller then set turn motor.
+    // Calculate the turning motor output from the turning PID controller then set
+    // turn motor.
     final double turnOutput = turningPIDController.calculate(getTurnWheelRotation2d().getRotations(),
         optimizedState.angle.getRotations());
     m_turningMotor.set(turnOutput);
