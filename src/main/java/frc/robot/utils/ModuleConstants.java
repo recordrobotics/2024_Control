@@ -22,6 +22,9 @@ public class ModuleConstants {
     public double DRIVE_KI;
     public double DRIVE_KD;
 
+    public double DRIVE_FEEDFORWARD_KS;
+    public double DRIVE_FEEDFORWARD_KV;
+
     public double TurnMaxAngularVelocity;
     public double TurnMaxAngularAcceleration; 
     
@@ -97,12 +100,16 @@ public class ModuleConstants {
                     this.DRIVE_KP = Constants.Swerve.FALCON_DRIVE_KP;
                     this.DRIVE_KI = Constants.Swerve.FALCON_DRIVE_KI;
                     this.DRIVE_KD = Constants.Swerve.FALCON_DRIVE_KD;
+                    this.DRIVE_FEEDFORWARD_KS = Constants.Swerve.FALCON_DRIVE_FEEDFORWARD_KS;
+                    this.DRIVE_FEEDFORWARD_KV = Constants.Swerve.FALCON_DRIVE_FEEDFORWARD_KV;
                     this.DRIVE_GEAR_RATIO = Constants.Swerve.FALCON_DRIVE_GEAR_RATIO;
                     break;
                 case Kraken:
                     this.DRIVE_KP = Constants.Swerve.KRAKEN_DRIVE_KP;
                     this.DRIVE_KI = Constants.Swerve.KRAKEN_DRIVE_KI;
                     this.DRIVE_KD = Constants.Swerve.KRAKEN_DRIVE_KD;
+                    this.DRIVE_FEEDFORWARD_KS = Constants.Swerve.KRAKEN_DRIVE_FEEDFORWARD_KS;
+                    this.DRIVE_FEEDFORWARD_KV = Constants.Swerve.KRAKEN_DRIVE_FEEDFORWARD_KV;
                     this.DRIVE_GEAR_RATIO = Constants.Swerve.KRAKEN_DRIVE_GEAR_RATIO;
                     break;
             }
