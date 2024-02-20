@@ -64,6 +64,8 @@ public class RobotContainer {
   private ComplexTeleAuto _complexTeleAuto;
   private ComplexAuto _complexAuto;
 
+  private Command autoCommand;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -84,6 +86,7 @@ public class RobotContainer {
     // Bindings and Teleop
     initTeleopCommands();
     configureButtonBindings();
+
   }
 
   private void initTeleopCommands() {
@@ -135,7 +138,7 @@ public class RobotContainer {
     // Trigger teleAutoKillTrigger = new Trigger(getTeleAutoKill);
     // //teleAutoStartTrigger.onTrue(_complexTeleAuto);
     // teleAutoStartTrigger.negate()
-    
+
     teleAutoStartTrigger.toggleOnTrue(_complexTeleAuto);
   }
 
@@ -145,10 +148,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new PlannedAuto(_drivetrain, _autoPath).andThen(() -> {
-      _drivetrain.stop();
-      System.out.println("ContainerAuto End");
-    }, _drivetrain);
+    if (autoCommand == null) {
+      autoCommand = new PlannedAuto(_drivetrain, _autoPath).andThen(() -> {
+        _drivetrain.stop();
+        System.out.println("ContainerAuto End");
+      }, _drivetrain);
+    }
+    return autoCommand;
   }
 
   public void testSwerve() {
