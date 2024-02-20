@@ -14,7 +14,7 @@ import frc.robot.subsystems.Crashbar;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.auto.ComplexAuto;
+import frc.robot.commands.RobotKill;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.hybrid.ComplexTeleAuto;
 import frc.robot.commands.manual.ManualClimbers;
@@ -28,6 +28,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -60,9 +61,8 @@ public class RobotContainer {
   private ManualCrashbar _manualCrashbar;
   private DoubleControl _controlInput;
 
-  private TeleAuto _teleAuto;
   private ComplexTeleAuto _complexTeleAuto;
-  private ComplexAuto _complexAuto;
+  private RobotKill _robotKill;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -76,6 +76,7 @@ public class RobotContainer {
     _crashbar = new Crashbar();
     _autoPath = new AutoPath(_drivetrain);
 
+    // Sets up auto chooser
     _autoPath.putAutoChooser();
 
     // Init Nav
@@ -108,9 +109,8 @@ public class RobotContainer {
     _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
 
     // Configure default bindings
-    _teleAuto = new TeleAuto(_drivetrain, _controlInput);
     _complexTeleAuto = new ComplexTeleAuto(_drivetrain);
-    _complexAuto = new ComplexAuto(_drivetrain);
+    _robotKill = new RobotKill(_drivetrain);
   }
 
   public void teleopInit() {
@@ -130,13 +130,16 @@ public class RobotContainer {
   private void configureButtonBindings() {
     BooleanSupplier getTeleAutoStart = () -> _controlInput.getTeleAutoStart();
     Trigger teleAutoStartTrigger = new Trigger(getTeleAutoStart);
+    teleAutoStartTrigger.toggleOnTrue(_complexTeleAuto);
 
     // BooleanSupplier getTeleAutoKill = () -> _controlInput.getKillAuto();
     // Trigger teleAutoKillTrigger = new Trigger(getTeleAutoKill);
     // //teleAutoStartTrigger.onTrue(_complexTeleAuto);
     // teleAutoStartTrigger.negate()
-    
-    teleAutoStartTrigger.toggleOnTrue(_complexTeleAuto);
+
+    BooleanSupplier getRobotKill = () -> _controlInput.getKillAuto();
+    Trigger robotKillTrigger = new Trigger(getRobotKill);
+    robotKillTrigger.whileTrue(_robotKill);
   }
 
   /**

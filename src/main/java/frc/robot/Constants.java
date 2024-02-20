@@ -100,6 +100,10 @@ public final class Constants {
         public static final double FALCON_DRIVE_KI = 0;
         public static final double FALCON_DRIVE_KD = 0;
 
+        public static final double FALCON_DRIVE_FEEDFORWARD_KS = 0;
+        public static final double FALCON_DRIVE_FEEDFORWARD_KV = 2.4915;
+
+
         public static final double KRAKEN_TURN_KP = 2.3;
         public static final double KRAKEN_TURN_KI = 0;
         public static final double KRAKEN_TURN_KD = 0;
@@ -107,6 +111,9 @@ public final class Constants {
         public static final double KRAKEN_DRIVE_KP = 0.2681;
         public static final double KRAKEN_DRIVE_KI = 0;
         public static final double KRAKEN_DRIVE_KD = 0;
+
+        public static final double KRAKEN_DRIVE_FEEDFORWARD_KS = 0;
+        public static final double KRAKEN_DRIVE_FEEDFORWARD_KV = 2.4915;
 
         // Shared
         public static final double RELATIVE_ENCODER_RATIO = 2048; // Same between Falcon and Kraken since they share the
