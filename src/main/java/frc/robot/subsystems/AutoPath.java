@@ -23,8 +23,8 @@ public class AutoPath {
                     SmartDashboard.putNumberArray("speeds",
                             new double[] { speeds.vxMetersPerSecond, speeds.vyMetersPerSecond });
                     drivetrain
-                            .drive(new DriveCommandData(MathUtil.clamp(speeds.vxMetersPerSecond, -0.05, 0.05),
-                                    MathUtil.clamp(speeds.vyMetersPerSecond, -0.05, 0.05),
+                            .drive(new DriveCommandData(speeds.vxMetersPerSecond,
+                                    speeds.vyMetersPerSecond,
                                     speeds.omegaRadiansPerSecond, false));
                 }, // Method that will drive the robot given ROBOT
                    // RELATIVE
