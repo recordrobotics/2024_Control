@@ -27,13 +27,8 @@ import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-import frc.robot.commands.hybrid.TeleAuto;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -64,6 +59,8 @@ public class RobotContainer {
   private ComplexTeleAuto _complexTeleAuto;
   private RobotKill _robotKill;
 
+  private Command autoCommand;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -85,6 +82,7 @@ public class RobotContainer {
     // Bindings and Teleop
     initTeleopCommands();
     configureButtonBindings();
+
   }
 
   private void initTeleopCommands() {
@@ -148,10 +146,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new PlannedAuto(_drivetrain, _autoPath).andThen(() -> {
-      _drivetrain.stop();
-      System.out.println("ContainerAuto End");
-    }, _drivetrain);
+    if (autoCommand == null) {
+      autoCommand = new PlannedAuto(_drivetrain, _autoPath).andThen(() -> {
+        _drivetrain.stop();
+        System.out.println("ContainerAuto End");
+      }, _drivetrain);
+    }
+    return autoCommand;
   }
 
   public void testSwerve() {

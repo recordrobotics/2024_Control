@@ -7,7 +7,6 @@ import frc.robot.commands.auto.MoveToPoint;
 import frc.robot.commands.auto.StopAndWait;
 import frc.robot.subsystems.Drivetrain;
 
-
 public class ComplexTeleAuto extends SequentialCommandGroup {
 
     private Drivetrain _drivetrain;
@@ -19,17 +18,20 @@ public class ComplexTeleAuto extends SequentialCommandGroup {
 
         addCommands(
 
-            new MoveToPoint(_drivetrain, new Pose2d(new Translation2d(0, 1).plus(current_pose), new Rotation2d(0)), 0.15),
-            new StopAndWait(_drivetrain, 0.2),
+                new MoveToPoint(_drivetrain, new Pose2d(new Translation2d(0, 1).plus(current_pose), new Rotation2d(0)),
+                        0.15),
+                new StopAndWait(_drivetrain, 0.2),
 
-            new MoveToPoint(_drivetrain, new Pose2d(new Translation2d(1, 1).plus(current_pose), new Rotation2d(0)), 0.15),
-            new StopAndWait(_drivetrain, 0.2),
-            
-            new MoveToPoint(_drivetrain, new Pose2d(new Translation2d(1, 0).plus(current_pose), new Rotation2d(0)), 0.15),
-            new StopAndWait(_drivetrain, 0.2),
+                new MoveToPoint(_drivetrain, new Pose2d(new Translation2d(1, 1).plus(current_pose), new Rotation2d(0)),
+                        0.15),
+                new StopAndWait(_drivetrain, 0.2),
 
-            new MoveToPoint(_drivetrain, new Pose2d(new Translation2d(0, 0).plus(current_pose), new Rotation2d(0)), 0.15),
-            new StopAndWait(_drivetrain, 0.05)
-        );
+                new MoveToPoint(_drivetrain, new Pose2d(new Translation2d(1, 0).plus(current_pose), new Rotation2d(0)),
+                        0.15),
+                new StopAndWait(_drivetrain, 0.2),
+
+                new MoveToPoint(_drivetrain, new Pose2d(new Translation2d(0, 0).plus(current_pose), new Rotation2d(0)),
+                        0.15),
+                new StopAndWait(_drivetrain, 0.05));
     }
 }
