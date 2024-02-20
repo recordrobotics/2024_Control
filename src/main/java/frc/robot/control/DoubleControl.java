@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants;
+import frc.robot.utils.SimpleMath;
 
 public class DoubleControl {
 
@@ -155,22 +156,27 @@ public class DoubleControl {
 	public boolean getTeleAutoStart() {
 		return stickpad.getRawButtonPressed(3);
 	}
-		
 
 	/**
-	 * Takes speedlevel slider on control input and remaps from -1-->1 to 0.5-->2
-	 * TODO: add to constants, make it not insanely fast
+	 * Returns speed level slider in range 0-1
+	 */
+	public double getSpeedLevelNormalized() {
+		// remap -1,1 to 1,0 (inverted)
+		return SimpleMath.Remap(stickpad.getRawAxis(3), -1, 1, 1, 0);
+	}
+
+	/**
+	 * Takes speedlevel slider on control input and remaps to 0.5-->4
 	 * 
 	 * @return
-	 *         Speedlevel control from 0.5 --> 2
+	 *         Speedlevel control from 0.5 --> 4
 	 */
 	public double getSpeedLevel() {
-		// Remap -1 --> 1 to 0 --> 1
-		double remap1 = (-stickpad.getRawAxis(3) + 1.0) / 2.0;
-		// Remap 0 --> 1 to 0.5 --> 2
-		double remap2 = remap1 * (2 - 0.5) + 0.5;
-		// Returns
-		return remap2;
+		final double speedLow = 0.5;
+		final double speedHigh = 4.0;
+
+		double norm = getSpeedLevelNormalized();
+		return SimpleMath.Remap(norm, speedLow, speedHigh);
 	}
 
 	public boolean getAcquireNormal() {
