@@ -1,23 +1,16 @@
 package frc.robot.commands.hybrid;
-
-import java.lang.reflect.Executable;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.auto.MoveToPoint;
 import frc.robot.commands.auto.StopAndWait;
-import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Drivetrain;
 
 
 public class ComplexTeleAuto extends SequentialCommandGroup {
 
     private Drivetrain _drivetrain;
-    private DoubleControl _controls;
     
     public ComplexTeleAuto(Drivetrain drivetrain) {
         this._drivetrain = drivetrain;

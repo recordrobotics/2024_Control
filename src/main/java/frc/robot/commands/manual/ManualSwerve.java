@@ -3,8 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.manual;
-
-import frc.robot.Constants;
 import frc.robot.control.DoubleControl;
 import frc.robot.control.JoystickOrientation;
 import frc.robot.subsystems.Drivetrain;
@@ -79,6 +77,7 @@ public class ManualSwerve extends Command {
   public void execute() {
 
     _controls.setJoystickOrientation(joystickOrientation.getSelected());
+    
     // Gets swerve position and sets to field position
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
 
@@ -116,9 +115,6 @@ public class ManualSwerve extends Command {
         driveCommandData = DefaultDrive.calculate(_controls, spin, swerve_position, true);
         break;
     }
-
-    // double constish = SmartDashboard.getNumber("tspeed", 0)/(Constants.Swerve.locDist);
-    // driveCommandData = new DriveCommandData(0, 0, constish, false);
 
     // Drive command
     _drivetrain.drive(driveCommandData);
