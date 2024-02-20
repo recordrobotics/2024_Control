@@ -76,7 +76,7 @@ public class Drivetrain extends SubsystemBase {
 
                 // Calculates swerveModuleStates given optimal ChassisSpeeds given by control
                 // scheme
-                
+
                 SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
                                 fieldRelative
                                                 ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,
@@ -88,9 +88,9 @@ public class Drivetrain extends SubsystemBase {
 
                 // Sets state for each module
                 m_frontLeft.setDesiredState(swerveModuleStates[0]);
-                m_frontRight.setDesiredState(swerveModuleStates[1]);
-                m_backLeft.setDesiredState(swerveModuleStates[2]);
-                m_backRight.setDesiredState(swerveModuleStates[3]);
+                // m_frontRight.setDesiredState(swerveModuleStates[1]);
+                // m_backLeft.setDesiredState(swerveModuleStates[2]);
+                // m_backRight.setDesiredState(swerveModuleStates[3]);
         }
 
         public void stop() {

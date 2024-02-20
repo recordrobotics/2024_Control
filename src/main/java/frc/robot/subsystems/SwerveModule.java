@@ -8,6 +8,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -25,11 +26,12 @@ public class SwerveModule {
   private final DutyCycleEncoder absoluteTurningMotorEncoder;
   private final double turningEncoderOffset;
 
-  //private final ProfiledPIDController drivePIDController;
-  //private final ProfiledPIDController turningPIDController;
+  // private final ProfiledPIDController drivePIDController;
+  // private final ProfiledPIDController turningPIDController;
 
   private final PIDController drivePIDController;
   private final PIDController turningPIDController;
+  private SimpleMotorFeedforward driveFeedForward;
 
   private final double TURN_GEAR_RATIO;
   private final double DRIVE_GEAR_RATIO;
@@ -71,19 +73,21 @@ public class SwerveModule {
     this.drivePIDController = new PIDController(
         m.DRIVE_KP,
         m.DRIVE_KI,
-        m.DRIVE_KD );
-        
-        // ,
-        // new TrapezoidProfile.Constraints(
-        //     m.DriveMaxAngularVelocity, m.DriveMaxAngularAcceleration));
+        m.DRIVE_KD);
+
+    driveFeedForward = new SimpleMotorFeedforward(0, 2.4915);
+
+    // ,
+    // new TrapezoidProfile.Constraints(
+    // m.DriveMaxAngularVelocity, m.DriveMaxAngularAcceleration));
 
     this.turningPIDController = new PIDController(
         m.TURN_KP,
         m.TURN_KI,
         m.TURN_KD);
-        //  ,
-        // new TrapezoidProfile.Constraints(
-        //     m.TurnMaxAngularVelocity, m.TurnMaxAngularAcceleration));
+    // ,
+    // new TrapezoidProfile.Constraints(
+    // m.TurnMaxAngularVelocity, m.TurnMaxAngularAcceleration));
 
     // Limit the PID Controller's input range between -0.5 and 0.5 and set the input
     // to be continuous.
@@ -91,6 +95,14 @@ public class SwerveModule {
 
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelTurnOffset());
+
+    SmartDashboard.putNumber("mspeed", 0);
+    SmartDashboard.putNumber("P", drivePIDController.getP());
+    SmartDashboard.putNumber("I", drivePIDController.getI());
+    SmartDashboard.putNumber("D", drivePIDController.getD());
+
+    SmartDashboard.putNumber("ks", driveFeedForward.ks);
+    SmartDashboard.putNumber("kv", driveFeedForward.kv);
   }
 
   /**
@@ -197,18 +209,35 @@ public class SwerveModule {
     SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState,
         getTurnWheelRotation2d());
 
-    // Calculate the drive output from the drive PID controller then set drive
-    // motor.
-    final double driveOutput = drivePIDController.calculate(getDriveWheelVelocityCorrect(),
-        optimizedState.speedMetersPerSecond);
-    m_driveMotor.set(driveOutput);
-
-    SmartDashboard.putNumber("driveoutput", driveOutput);
-
-
     double time = Timer.getFPGATimestamp();
     double deltaTime = time - prevTime;
     prevTime = time;
+
+    // Calculate the drive output from the drive PID controller then set drive
+    // motor.
+
+    double p = SmartDashboard.getNumber("P", 0);
+    double i = SmartDashboard.getNumber("I", 0);
+    double d = SmartDashboard.getNumber("D", 0);
+
+    double ks = SmartDashboard.getNumber("ks", 0);
+    double kv = SmartDashboard.getNumber("kv", 0);
+
+    driveFeedForward = new SimpleMotorFeedforward(ks, kv);
+
+    drivePIDController.setPID(p, i, d);
+
+    double speed = SmartDashboard.getNumber("mspeed", 0);
+
+    double driveOutput = drivePIDController.calculate(getDriveWheelVelocityCorrect(),
+        optimizedState.speedMetersPerSecond);
+
+    final double driveFeedforward = driveFeedForward.calculate(optimizedState.speedMetersPerSecond);
+    SmartDashboard.putNumber("volt", driveOutput + driveFeedforward);
+    m_driveMotor.setVoltage(driveOutput + driveFeedforward);
+
+    SmartDashboard.putNumberArray("velocity",
+        new double[] { getDriveWheelVelocityCorrect(), optimizedState.speedMetersPerSecond });
 
     double dist = getDriveWheelDistance();
     double deltaDist = dist - prevDist;
@@ -220,7 +249,6 @@ public class SwerveModule {
     SmartDashboard.putNumber("vel " + m_driveMotor.getDeviceID(), getDriveWheelVelocityCorrect());
     SmartDashboard.putNumber("vel_t " + m_driveMotor.getDeviceID(), velocity);
     SmartDashboard.putNumber("vel_wrn " + m_driveMotor.getDeviceID(), getDriveWheelVelocity());
-
 
     // Calculate the turning motor output from the turning PID controller then set
     // turn motor.
