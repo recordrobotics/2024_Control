@@ -57,8 +57,8 @@ public final class Constants {
     public final class Control {
 
         // Sensitivies for directional controls (XY) and spin (theta)
-        public static final double JOSYSTICK_DIRECTIONAL_SENSITIVITY = 0.3;
-        public static final double JOYSTICK_SPIN_SENSITIVITY = 0.5;
+        public static final double JOSYSTICK_DIRECTIONAL_SENSITIVITY = 1;
+        public static final double JOYSTICK_SPIN_SENSITIVITY = 1;
 
         // Thresholds for directional controls (XY) and spin (theta)
         public static final double JOYSTICK_X_THRESHOLD = 0.15;
@@ -127,12 +127,12 @@ public final class Constants {
         public static final double DriveMaxAngularAcceleration = 30; // 2 * Math.PI; // radians per second squared
 
         /** The max speed the robot is allowed to travel */
-        public static final double robotMaxSpeed = 3.0;
+        public static final double robotMaxSpeed = 7.0;
 
         public static final HolonomicPathFollowerConfig PathFollowerConfig = new HolonomicPathFollowerConfig(
                 new PIDConstants(1, 0.0, 0.0), // Translation PID constants
                 new PIDConstants(1, 0.0, 0.0), // Rotation PID constants
-                    1, // Max module speed, in m/s
+                3, // Max module speed, in m/s
                 locDist, // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig() // Default path replanning config. See the API for the options here
         );
