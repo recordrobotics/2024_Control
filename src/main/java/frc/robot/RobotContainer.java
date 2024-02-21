@@ -91,7 +91,7 @@ public class RobotContainer {
     _teleopPairs = new ArrayList<>();
 
     // Creates control input & manual swerve object, adds it to _teleopPairs
-    _controlInput = new DoubleControl(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.GAMEPAD_PORT);
+    _controlInput = new DoubleControl(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.XBOX_PORT);
 
     // Adds drivetrain & manual swerve to teleop commands
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);

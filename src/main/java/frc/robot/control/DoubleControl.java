@@ -14,9 +14,9 @@ public class DoubleControl {
 	private JoystickOrientation joystickOrientation = JoystickOrientation.XAxisTowardsTrigger;
 
 	// Constructor
-	public DoubleControl(int stickpadPort, int gamepadPort) {
+	public DoubleControl(int stickpadPort, int xboxPort) {
 		stickpad = new Joystick(stickpadPort);
-		xbox_controller = new XboxController(gamepadPort);
+		xbox_controller = new XboxController(xboxPort);
 	}
 
 	public void setJoystickOrientation(JoystickOrientation joystickOrientation) {
