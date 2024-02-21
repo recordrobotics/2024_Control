@@ -81,7 +81,7 @@ public class RobotContainer {
 
     // Bindings and Teleop
     initTeleopCommands();
-    configureButtonBindings();
+    // configureButtonBindings();
 
   }
 
@@ -107,7 +107,7 @@ public class RobotContainer {
     _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
 
     // Configure default bindings
-    _complexTeleAuto = new ComplexTeleAuto(_drivetrain);
+    // _complexTeleAuto = new ComplexTeleAuto(_drivetrain);
     _robotKill = new RobotKill(_drivetrain);
   }
 

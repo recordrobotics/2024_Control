@@ -1,10 +1,14 @@
 package frc.robot.subsystems;
+
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.commands.auto.StopAndWait;
 import frc.robot.utils.DriveCommandData;
 
 public class AutoPath {
@@ -12,6 +16,8 @@ public class AutoPath {
     private final SendableChooser<Command> autoChooser;
 
     public AutoPath(Drivetrain drivetrain) {
+        NamedCommands.registerCommand("StopAndWaitOneSecond", new StopAndWait(drivetrain, 1.0));
+
         AutoBuilder.configureHolonomic(
                 drivetrain.poseFilter::getEstimatedPosition, // Robot pose supplier
                 drivetrain::setToPose, // Method to reset odometry (will be called if your auto has a starting pose)
