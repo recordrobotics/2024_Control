@@ -7,8 +7,7 @@ import frc.robot.subsystems.Drivetrain;
 public class PlannedAuto extends SequentialCommandGroup {
     public PlannedAuto(Drivetrain drivetrain, AutoPath autoPath) {
         addCommands(
-                autoPath.getAutoChooserSelected(),
-                new StopAndWait(drivetrain, 1));
+            autoPath.getAutoChooserSelected(),
+            new StopAndWait(drivetrain, 1));
     }
-
 }

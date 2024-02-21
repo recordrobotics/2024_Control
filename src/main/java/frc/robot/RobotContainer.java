@@ -81,7 +81,7 @@ public class RobotContainer {
 
     // Bindings and Teleop
     initTeleopCommands();
-    // configureButtonBindings();
+    configureButtonBindings();
 
   }
 
