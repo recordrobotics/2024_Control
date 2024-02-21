@@ -40,7 +40,6 @@ public class StopAndWait extends Command {
   @Override
   public void initialize() {
     m_timer.restart();
-    System.out.println("STOPANDWAIT");
   }
 
   @Override
@@ -51,7 +50,6 @@ public class StopAndWait extends Command {
   @Override
   public void end(boolean interrupted) {
     m_timer.stop();
-    System.out.println("STOP!!!!!!! interrupt: " + interrupted);
   }
 
   @Override
