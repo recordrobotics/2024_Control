@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
-import frc.robot.commands.auto.StopAndWait;
 import frc.robot.utils.DriveCommandData;
 
 public class AutoPath {
@@ -16,7 +16,9 @@ public class AutoPath {
     private final SendableChooser<Command> autoChooser;
 
     public AutoPath(Drivetrain drivetrain) {
-        NamedCommands.registerCommand("StopAndWaitOneSecond", new StopAndWait(drivetrain, 1.0));
+        NamedCommands.registerCommand("Stop", new InstantCommand(() -> {
+            drivetrain.stop();
+        }, drivetrain));
 
         AutoBuilder.configureHolonomic(
                 drivetrain.poseFilter::getEstimatedPosition, // Robot pose supplier

@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 //import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -184,5 +185,10 @@ public class SwerveModule {
     final double turnOutput = turningPIDController.calculate(getTurnWheelRotation2d().getRotations(),
         optimizedState.angle.getRotations());
     m_turningMotor.set(turnOutput);
+  }
+
+  public void stop() {
+    m_driveMotor.setVoltage(0);
+    m_turningMotor.set(0);
   }
 }

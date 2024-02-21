@@ -93,8 +93,13 @@ public class Drivetrain extends SubsystemBase {
                 m_backRight.setDesiredState(swerveModuleStates[3]);
         }
 
+        // set PID target to 0 but also immediately stop all modules
         public void stop() {
                 drive(new DriveCommandData(0, 0, 0, false));
+                m_frontLeft.stop();
+                m_frontRight.stop();
+                m_backLeft.stop();
+                m_backRight.stop();
         }
 
         @Override
