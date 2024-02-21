@@ -5,13 +5,16 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+//import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.ModuleConstants;
 
 public class SwerveModule {
@@ -24,10 +27,10 @@ public class SwerveModule {
 
   private final ProfiledPIDController drivePIDController;
   private final ProfiledPIDController turningPIDController;
+  private final SimpleMotorFeedforward driveFeedForward;
 
   private final double TURN_GEAR_RATIO;
   private final double DRIVE_GEAR_RATIO;
-  private final double RELATIVE_ENCODER_RATIO;
   private final double WHEEL_DIAMETER;
 
   /**
@@ -51,11 +54,10 @@ public class SwerveModule {
     // Creates other variables
     this.TURN_GEAR_RATIO = m.TURN_GEAR_RATIO;
     this.DRIVE_GEAR_RATIO = m.DRIVE_GEAR_RATIO;
-    this.RELATIVE_ENCODER_RATIO = m.RELATIVE_ENCODER_RATIO;
     this.WHEEL_DIAMETER = m.WHEEL_DIAMETER;
 
-    // 3 Seconds delay per swerve module
-    Timer.delay(3);
+    // ~2 Seconds delay per swerve module
+    Timer.delay(2.3);
 
     // Sets motor speeds to 0
     m_driveMotor.set(0);
@@ -66,15 +68,17 @@ public class SwerveModule {
         m.DRIVE_KP,
         m.DRIVE_KI,
         m.DRIVE_KD,
-        new TrapezoidProfile.Constraints(
-            m.DriveMaxAngularVelocity, m.DriveMaxAngularAcceleration));
+        new TrapezoidProfile.Constraints(m.DriveMaxAngularVelocity, m.DriveMaxAngularAcceleration));
+
+    this.driveFeedForward = new SimpleMotorFeedforward(
+        m.DRIVE_FEEDFORWARD_KS,
+        m.DRIVE_FEEDFORWARD_KV);
 
     this.turningPIDController = new ProfiledPIDController(
         m.TURN_KP,
         m.TURN_KI,
         m.TURN_KD,
-        new TrapezoidProfile.Constraints(
-            m.TurnMaxAngularVelocity, m.TurnMaxAngularAcceleration));
+        new TrapezoidProfile.Constraints(m.TurnMaxAngularVelocity, m.TurnMaxAngularAcceleration));
 
     // Limit the PID Controller's input range between -0.5 and 0.5 and set the input
     // to be continuous.
@@ -115,7 +119,7 @@ public class SwerveModule {
    */
   private double getDriveWheelVelocity() {
     double driveMotorRotationsPerSecond = m_driveMotor.getVelocity().getValueAsDouble();
-    double driveWheelMetersPerSecond = (driveMotorRotationsPerSecond * 10 / RELATIVE_ENCODER_RATIO)
+    double driveWheelMetersPerSecond = (driveMotorRotationsPerSecond / DRIVE_GEAR_RATIO)
         * (WHEEL_DIAMETER * Math.PI);
     return driveWheelMetersPerSecond;
   }
@@ -165,24 +169,16 @@ public class SwerveModule {
    */
   public void setDesiredState(SwerveModuleState desiredState) {
 
-    // Put drive wheel distance on smartdashboard
-    /*
-     * int encoder_channel = m_driveMotor.getDeviceID();
-     * SmartDashboard.putNumber("ROTOR " + encoder_channel,
-     * m_driveMotor.getRotorPosition().getValue());
-     * SmartDashboard.putNumber("POSE " + encoder_channel,
-     * m_driveMotor.getPosition().getValue());
-     */
-
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState,
         getTurnWheelRotation2d());
 
     // Calculate the drive output from the drive PID controller then set drive
     // motor.
-    final double driveOutput = drivePIDController.calculate(getDriveWheelVelocity(),
+    double driveOutput = drivePIDController.calculate(getDriveWheelVelocity(),
         optimizedState.speedMetersPerSecond);
-    m_driveMotor.set(driveOutput);
+    double driveFeedforwardOutput = driveFeedForward.calculate(optimizedState.speedMetersPerSecond);
+    m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
 
     // Calculate the turning motor output from the turning PID controller then set
     // turn motor.
@@ -191,4 +187,8 @@ public class SwerveModule {
     m_turningMotor.set(turnOutput);
   }
 
+  public void stop() {
+    m_driveMotor.setVoltage(0);
+    m_turningMotor.set(0);
+  }
 }

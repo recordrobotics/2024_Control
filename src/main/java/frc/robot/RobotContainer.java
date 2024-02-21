@@ -6,23 +6,29 @@ package frc.robot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
-import frc.robot.commands.ManualClimbers;
-import frc.robot.commands.ManualCrashbar;
-import frc.robot.commands.ManualShooter;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Crashbar;
 
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ManualSwerve;
+import frc.robot.commands.RobotKill;
+import frc.robot.commands.auto.PlannedAuto;
+import frc.robot.commands.hybrid.ComplexTeleAuto;
+import frc.robot.commands.manual.ManualClimbers;
+import frc.robot.commands.manual.ManualCrashbar;
+import frc.robot.commands.manual.ManualShooter;
+import frc.robot.commands.manual.ManualSwerve;
 import frc.robot.control.DoubleControl;
+import frc.robot.subsystems.AutoPath;
 import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -36,17 +42,24 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here
-  private Drivetrain _drivetrain;
-  private Shooter _shooter;
-  private Crashbar _crashbar;
-  private Climbers _climbers;
+  private final Drivetrain _drivetrain;
+  private final Shooter _shooter;
+  private final Crashbar _crashbar;
+  private final Climbers _climbers;
+
+  private final AutoPath _autoPath;
+
   private List<Pair<Subsystem, Command>> _teleopPairs;
   private ManualSwerve _manualSwerve;
   private ManualShooter _manualShooter;
   private ManualClimbers _manualClimbers;
   private ManualCrashbar _manualCrashbar;
-
   private DoubleControl _controlInput;
+
+  private ComplexTeleAuto _complexTeleAuto;
+  private RobotKill _robotKill;
+
+  private Command autoCommand;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -58,13 +71,18 @@ public class RobotContainer {
     _shooter = new Shooter();
     _climbers = new Climbers();
     _crashbar = new Crashbar();
+    _autoPath = new AutoPath(_drivetrain);
+
+    // Sets up auto chooser
+    _autoPath.putAutoChooser();
 
     // Init Nav
     NavSensor.initNav();
 
     // Bindings and Teleop
-    configureButtonBindings();
     initTeleopCommands();
+    // configureButtonBindings();
+
   }
 
   private void initTeleopCommands() {
@@ -87,6 +105,10 @@ public class RobotContainer {
 
     _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
+
+    // Configure default bindings
+    // _complexTeleAuto = new ComplexTeleAuto(_drivetrain);
+    _robotKill = new RobotKill(_drivetrain);
   }
 
   public void teleopInit() {
@@ -104,14 +126,18 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    BooleanSupplier getTeleAutoStart = () -> _controlInput.getTeleAutoStart();
+    Trigger teleAutoStartTrigger = new Trigger(getTeleAutoStart);
+    teleAutoStartTrigger.toggleOnTrue(_complexTeleAuto);
 
-    // TODO: look into command binding
-    /**
-     * CommandJoystick joystick = new
-     * CommandJoystick(RobotMap.Control.STICKPAD_PORT);
-     * Trigger getReset = new Trigger(joystick.button(2));
-     * getReset.onTrue(_drivetrain());
-     */
+    // BooleanSupplier getTeleAutoKill = () -> _controlInput.getKillAuto();
+    // Trigger teleAutoKillTrigger = new Trigger(getTeleAutoKill);
+    // //teleAutoStartTrigger.onTrue(_complexTeleAuto);
+    // teleAutoStartTrigger.negate()
+
+    BooleanSupplier getRobotKill = () -> _controlInput.getKillAuto();
+    Trigger robotKillTrigger = new Trigger(getRobotKill);
+    robotKillTrigger.whileTrue(_robotKill);
   }
 
   /**
@@ -120,8 +146,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return _manualSwerve;
+    if (autoCommand == null) {
+      autoCommand = new PlannedAuto(_drivetrain, _autoPath).andThen(() -> {
+        _drivetrain.stop();
+        System.out.println("ContainerAuto End");
+      }, _drivetrain);
+    }
+    return autoCommand;
   }
 
   public void testSwerve() {
