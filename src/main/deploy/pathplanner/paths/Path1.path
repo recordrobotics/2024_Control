@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 2.0
+        "x": 1.9111476022419658,
+        "y": 5.9
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.9608634086626853,
-        "y": 2.1156975330577743
+        "x": 1.9214490204608776,
+        "y": 5.9
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 3.0
+        "x": 1.91,
+        "y": 6.9054241391535145
       },
       "prevControl": {
-        "x": 1.9914122488577533,
-        "y": 3.1491719040445205
+        "x": 1.9111476022419658,
+        "y": 6.9054241391535145
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": -52.501094293917454,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -49,9 +43,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "TestTeleAutoPaths",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 90.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

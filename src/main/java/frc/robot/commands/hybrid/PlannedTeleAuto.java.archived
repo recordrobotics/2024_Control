@@ -1,12 +1,14 @@
-package frc.robot.commands.auto;
+package frc.robot.commands.hybrid;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.AutoPath;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Vision;
 
-public class PlannedAuto extends SequentialCommandGroup {
+public class PlannedTeleAuto extends SequentialCommandGroup {
 
-    public PlannedAuto(AutoPath autoPath) {
+    public PlannedTeleAuto(Drivetrain drivetrain, Vision vision, AutoPath autoPath) {
+
+        drivetrain.resetPose(vision.getLatestEstimatedPose());
 
         addCommands(
                 autoPath.getAutoChooserSelected()

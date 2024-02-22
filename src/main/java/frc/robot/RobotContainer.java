@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.function.BooleanSupplier;
 
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Crashbar;
 
 import edu.wpi.first.math.Pair;
@@ -16,7 +17,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.RobotKill;
 import frc.robot.commands.auto.PlannedAuto;
-import frc.robot.commands.hybrid.ComplexTeleAuto;
 import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
@@ -27,6 +27,7 @@ import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -41,25 +42,29 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
-  // The robot's subsystems and commands are defined here
+  // Robot subsystems
   private final Drivetrain _drivetrain;
   private final Shooter _shooter;
   private final Crashbar _crashbar;
   private final Climbers _climbers;
+  private final Vision _vision;
 
-  private final AutoPath _autoPath;
-
-  private List<Pair<Subsystem, Command>> _teleopPairs;
+  // Robot Commands
   private ManualSwerve _manualSwerve;
   private ManualShooter _manualShooter;
   private ManualClimbers _manualClimbers;
   private ManualCrashbar _manualCrashbar;
+
+  // Robot Control
   private DoubleControl _controlInput;
 
-  private ComplexTeleAuto _complexTeleAuto;
-  private RobotKill _robotKill;
+  // Teleop bindings
+  private List<Pair<Subsystem, Command>> _teleopPairs;
 
-  private Command autoCommand;
+  // Auto commands
+  private final AutoPath _autoPath;
+  private RobotKill _robotKill;
+  private Command _plannedAuto;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -69,10 +74,16 @@ public class RobotContainer {
     // Init Swerve
     _drivetrain = new Drivetrain();
     _shooter = new Shooter();
+
+    // Init other subsystems
     _climbers = new Climbers();
     _crashbar = new Crashbar();
-    _autoPath = new AutoPath(_drivetrain);
+    
+    // Init vision
+    _vision = new Vision();
 
+    // Init auto path
+    _autoPath = new AutoPath(_drivetrain);
     // Sets up auto chooser
     _autoPath.putAutoChooser();
 
@@ -81,7 +92,7 @@ public class RobotContainer {
 
     // Bindings and Teleop
     initTeleopCommands();
-    // configureButtonBindings();
+    configureButtonBindings();
 
   }
 
@@ -107,7 +118,6 @@ public class RobotContainer {
     _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
 
     // Configure default bindings
-    // _complexTeleAuto = new ComplexTeleAuto(_drivetrain);
     _robotKill = new RobotKill(_drivetrain);
   }
 
@@ -126,15 +136,20 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    BooleanSupplier getTeleAutoStart = () -> _controlInput.getTeleAutoStart();
+    
+    // Gets boolean
+    boolean teleAutoVisionCheck = _vision.checkForSpecificTags(new Integer[] {6});
+    boolean teleAutoControlCheck = _controlInput.getTeleAutoStart();
+    // Creates boolean supplier object and attaches to trigger
+    BooleanSupplier getTeleAutoStart = () -> teleAutoVisionCheck && teleAutoControlCheck;
     Trigger teleAutoStartTrigger = new Trigger(getTeleAutoStart);
-    teleAutoStartTrigger.toggleOnTrue(_complexTeleAuto);
+    // Binds the trigger to the specified command as well as a command that resets the drivetrain based on vision
+    teleAutoStartTrigger.onTrue(new InstantCommand(()->{
+      _drivetrain.resetPose(_vision.getLatestEstimatedPose());;
+      }));
+    teleAutoStartTrigger.toggleOnTrue(_plannedAuto);
 
-    // BooleanSupplier getTeleAutoKill = () -> _controlInput.getKillAuto();
-    // Trigger teleAutoKillTrigger = new Trigger(getTeleAutoKill);
-    // //teleAutoStartTrigger.onTrue(_complexTeleAuto);
-    // teleAutoStartTrigger.negate()
-
+    // Binds command to kill teleop
     BooleanSupplier getRobotKill = () -> _controlInput.getKillAuto();
     Trigger robotKillTrigger = new Trigger(getRobotKill);
     robotKillTrigger.whileTrue(_robotKill);
@@ -146,13 +161,14 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    if (autoCommand == null) {
-      autoCommand = new PlannedAuto(_drivetrain, _autoPath).andThen(() -> {
+
+    if (_plannedAuto == null) {
+      _plannedAuto = new PlannedAuto(_autoPath).andThen(() -> {
         _drivetrain.stop();
         System.out.println("ContainerAuto End");
       }, _drivetrain);
     }
-    return autoCommand;
+    return _plannedAuto;
   }
 
   public void testSwerve() {

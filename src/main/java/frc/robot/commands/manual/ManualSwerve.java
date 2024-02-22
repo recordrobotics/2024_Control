@@ -3,11 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.manual;
+import frc.robot.Constants;
 import frc.robot.control.DoubleControl;
 import frc.robot.control.JoystickOrientation;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
-
+import frc.robot.utils.DriverStationUtils;
 import frc.robot.utils.drivemodes.AutoOrient;
 import frc.robot.utils.drivemodes.DefaultSpin;
 
@@ -16,6 +17,7 @@ import frc.robot.utils.drivemodes.TabletDrive;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -86,7 +88,10 @@ public class ManualSwerve extends Command {
 
     // Control to reset pose if reset button is pressed
     if (_controls.getResetPressed()) {
-      _drivetrain.resetPose();
+      _drivetrain.resetPose(DriverStationUtils.getCurrentAlliance() == Alliance.Red
+                              ? Constants.FieldConstants.TEAM_RED_STARTING_POSE
+                              : Constants.FieldConstants.TEAM_BLUE_STARTING_POSE
+                            );
     }
 
     // Sets up spin

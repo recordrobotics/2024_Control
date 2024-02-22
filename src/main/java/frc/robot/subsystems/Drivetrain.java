@@ -116,7 +116,7 @@ public class Drivetrain extends SubsystemBase {
         }
 
         /** Resets the field relative position of the robot (mostly for testing). */
-        public void resetPose() {
+        public void resetPose(Pose2d pose) {
                 _nav.resetAngleAdjustment();
                 m_frontLeft.resetDriveMotorPosition();
                 m_frontRight.resetDriveMotorPosition();
@@ -130,9 +130,7 @@ public class Drivetrain extends SubsystemBase {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                DriverStationUtils.getCurrentAlliance() == Alliance.Red
-                                                ? Constants.FieldConstants.TEAM_RED_STARTING_POSE
-                                                : Constants.FieldConstants.TEAM_BLUE_STARTING_POSE);
+                                pose);
         }
 
         /**
