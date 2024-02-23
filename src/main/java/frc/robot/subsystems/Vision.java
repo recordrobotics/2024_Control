@@ -1,33 +1,21 @@
 package frc.robot.subsystems;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import java.util.Arrays;
-
-import org.opencv.dnn.Net;
-import org.photonvision.PhotonCamera;
-import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
-import frc.robot.Constants;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 public class Vision extends SubsystemBase {
     
-    private static PhotonPipelineResult latestResult;
     private static NetworkTable _networkTable;
 
     private static Pose2d lastDetectedPose;
     private static int lastDetectedTagID;
+
     private static boolean hasTag = false;
 	
     public Vision() {
