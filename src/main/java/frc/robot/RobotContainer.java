@@ -15,6 +15,7 @@ import frc.robot.subsystems.Crashbar;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.RobotKill;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.manual.ManualClimbers;
@@ -44,9 +45,9 @@ public class RobotContainer {
 
   // Robot subsystems
   private final Drivetrain _drivetrain;
-  private final Shooter _shooter;
-  private final Crashbar _crashbar;
-  private final Climbers _climbers;
+  // private final Shooter _shooter;
+  // private final Crashbar _crashbar;
+  // private final Climbers _climbers;
   private final Vision _vision;
 
   // Robot Commands
@@ -73,11 +74,11 @@ public class RobotContainer {
 
     // Init Swerve
     _drivetrain = new Drivetrain();
-    _shooter = new Shooter();
 
-    // Init other subsystems
-    _climbers = new Climbers();
-    _crashbar = new Crashbar();
+    // // Init other subsystems
+    // _shooter = new Shooter();
+    // _climbers = new Climbers();
+    // _crashbar = new Crashbar();
     
     // Init vision
     _vision = new Vision();
@@ -108,17 +109,24 @@ public class RobotContainer {
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
 
-    _manualShooter = new ManualShooter(_shooter, _controlInput);
-    _teleopPairs.add(new Pair<Subsystem, Command>(_shooter, _manualShooter));
+    // _manualShooter = new ManualShooter(_shooter, _controlInput);
+    // _teleopPairs.add(new Pair<Subsystem, Command>(_shooter, _manualShooter));
 
-    _manualClimbers = new ManualClimbers(_climbers, _controlInput);
-    _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
+    // _manualClimbers = new ManualClimbers(_climbers, _controlInput);
+    // _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
 
-    _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
-    _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
+    // _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
+    // _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
 
     // Configure default bindings
     _robotKill = new RobotKill(_drivetrain);
+    
+    // Defines planned auto
+    if (_plannedAuto == null) {
+      _plannedAuto = new PlannedAuto(_autoPath).andThen(() -> {
+        _drivetrain.stop();
+      }, _drivetrain);
+    }
   }
 
   public void teleopInit() {
@@ -136,16 +144,19 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
-    // Gets boolean
-    boolean teleAutoVisionCheck = _vision.checkForSpecificTags(new Integer[] {6});
-    boolean teleAutoControlCheck = _controlInput.getTeleAutoStart();
+
     // Creates boolean supplier object and attaches to trigger
-    BooleanSupplier getTeleAutoStart = () -> teleAutoVisionCheck && teleAutoControlCheck;
+    BooleanSupplier getTeleAutoStart = () -> {
+      boolean teleAutoVisionCheck = _vision.checkForSpecificTags(new Integer[] {6});
+      boolean teleAutoControlCheck = _controlInput.getTeleAutoStart();
+      return teleAutoVisionCheck && teleAutoControlCheck;
+    };
+
     Trigger teleAutoStartTrigger = new Trigger(getTeleAutoStart);
     // Binds the trigger to the specified command as well as a command that resets the drivetrain based on vision
     teleAutoStartTrigger.onTrue(new InstantCommand(()->{
-      _drivetrain.resetPose(_vision.getLatestEstimatedPose());;
+      SmartDashboard.putBoolean("Trigger down", true);
+      _drivetrain.resetPose(_vision.getLastPose());;
       }));
     teleAutoStartTrigger.toggleOnTrue(_plannedAuto);
 

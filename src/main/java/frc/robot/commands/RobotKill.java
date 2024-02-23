@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain;
 
@@ -16,6 +17,7 @@ public class RobotKill extends Command {
   
 
   public RobotKill(Drivetrain drivetrain) {
+    addRequirements(drivetrain);
     _drivetrain = drivetrain;
   }
 
@@ -25,11 +27,13 @@ public class RobotKill extends Command {
 
   @Override
   public void execute () {
+    SmartDashboard.putBoolean("robotkill", true);
     _drivetrain.stop();
   }
 
   @Override
   public void end(boolean interrupted) {
+    SmartDashboard.putBoolean("robotkill", false);
   }
 
   @Override
