@@ -156,6 +156,10 @@ public class DoubleControl {
 		return stickpad.getRawButtonPressed(3);
 	}
 
+	public boolean getVisionReset() {
+		return stickpad.getRawButtonPressed(5);
+	}
+
 	/**
 	 * Returns speed level slider in range 0-1
 	 */

@@ -138,17 +138,22 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     SmartDashboard.putBoolean("run auto", false);
+
+    BooleanSupplier getVisionReset = () -> _controlInput.getVisionReset();
+    Trigger visionResetTrigger = new Trigger(getVisionReset);
+    visionResetTrigger.onTrue(
+      new InstantCommand(() -> {
+      _drivetrain.setToPose(_vision.getLastPose());
+    }));
+
     // Creates boolean supplier object and attaches to trigger
     BooleanSupplier getTeleAutoStart = () -> {
       boolean teleAutoVisionCheck = _vision.checkForSpecificTags(new Integer[] { 6 });
       boolean teleAutoControlCheck = _controlInput.getTeleAutoStart();
       return teleAutoVisionCheck && teleAutoControlCheck;
     };
-
     Trigger teleAutoStartTrigger = new Trigger(getTeleAutoStart);
-
-    // Binds the trigger to the specified command as well as a command that resets
-    // the drivetrain based on vision
+    // Binds the trigger to the specified command as well as a command that resets the drivetrain based on vision
     teleAutoStartTrigger.onTrue(
       new InstantCommand(() -> {
       _drivetrain.setToPose(_vision.getLastPose());
@@ -158,6 +163,7 @@ public class RobotContainer {
       .andThen(() -> {
       _drivetrain.stop();
     }, _drivetrain)));
+
 
     // Binds command to kill teleop
     BooleanSupplier getRobotKill = () -> _controlInput.getKillAuto();
