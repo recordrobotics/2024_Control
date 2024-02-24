@@ -23,4 +23,8 @@ public class ShuffleboardField {
         field.getObject("Tablet Target").setPose(new Pose2d(x, y, new Rotation2d(0)));
         putData();
     }
+
+    public static void setVisionPose(Pose2d pose) {
+        field.getObject("Vision Pose").setPose(pose);
+    }
 }
