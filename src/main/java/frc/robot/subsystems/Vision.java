@@ -53,7 +53,8 @@ public class Vision extends SubsystemBase {
         SmartDashboard.putBoolean("HAS POSE", hasTag);
         SmartDashboard.putNumber("Last Id", lastDetectedTagID);
 
-        ShuffleboardField.setVisionPose(lastDetectedPose);
+        if (lastDetectedPose != null)
+            ShuffleboardField.setVisionPose(lastDetectedPose);
     }
 
     public boolean checkForSpecificTags(Integer[] allowedTags) {
