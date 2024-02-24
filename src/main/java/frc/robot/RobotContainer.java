@@ -15,9 +15,9 @@ import frc.robot.subsystems.Crashbar;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.RobotKill;
 import frc.robot.commands.auto.PlannedAuto;
-import frc.robot.commands.auto.Spin;
 import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
@@ -65,9 +65,6 @@ public class RobotContainer {
   // Auto commands
   private final AutoPath _autoPath;
   private RobotKill _robotKill;
-  private Command _plannedAuto;
-
-  private Spin _spin;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -81,7 +78,7 @@ public class RobotContainer {
     _shooter = new Shooter();
     _climbers = new Climbers();
     _crashbar = new Crashbar();
-    
+
     // Init vision
     _vision = new Vision();
 
@@ -122,7 +119,6 @@ public class RobotContainer {
 
     // Configure default bindings
     _robotKill = new RobotKill(_drivetrain);
-  
 
   }
 
@@ -141,28 +137,26 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
-    // Defines planned auto
-    if (_plannedAuto == null) {
-      _plannedAuto = new PlannedAuto(_autoPath).andThen(() -> {
-        _drivetrain.stop();
-      }, _drivetrain);
-    }
-
+    SmartDashboard.putBoolean("run auto", false);
     // Creates boolean supplier object and attaches to trigger
     BooleanSupplier getTeleAutoStart = () -> {
-      boolean teleAutoVisionCheck = _vision.checkForSpecificTags(new Integer[] {6});
+      boolean teleAutoVisionCheck = _vision.checkForSpecificTags(new Integer[] { 6 });
       boolean teleAutoControlCheck = _controlInput.getTeleAutoStart();
       return teleAutoVisionCheck && teleAutoControlCheck;
     };
 
     Trigger teleAutoStartTrigger = new Trigger(getTeleAutoStart);
-    Trigger teleAutoStartTrigger2 = new Trigger(getTeleAutoStart);
-    // Binds the trigger to the specified command as well as a command that resets the drivetrain based on vision
-    teleAutoStartTrigger.onTrue(new InstantCommand(()->{
+    Trigger teleAutoStartTrigger2 = new Trigger(() -> {
+      return SmartDashboard.getBoolean("run auto", false);
+    });
+    // Binds the trigger to the specified command as well as a command that resets
+    // the drivetrain based on vision
+    teleAutoStartTrigger.onTrue(new InstantCommand(() -> {
       _drivetrain.setToPose(_vision.getLastPose());
-      }));
-    teleAutoStartTrigger2.onTrue(_plannedAuto);
+    }));
+    teleAutoStartTrigger2.onTrue(new PlannedAuto(_autoPath).andThen(() -> {
+      _drivetrain.stop();
+    }, _drivetrain));
 
     // Binds command to kill teleop
     BooleanSupplier getRobotKill = () -> _controlInput.getKillAuto();
@@ -176,14 +170,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
-    if (_plannedAuto == null) {
-      _plannedAuto = new PlannedAuto(_autoPath).andThen(() -> {
-        _drivetrain.stop();
-        System.out.println("ContainerAuto End");
-      }, _drivetrain);
-    }
-    return _plannedAuto;
+    return new PlannedAuto(_autoPath).andThen(() -> {
+      _drivetrain.stop();
+      System.out.println("ContainerAuto End");
+    }, _drivetrain);
   }
 
   public void testSwerve() {
