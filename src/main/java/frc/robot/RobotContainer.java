@@ -146,17 +146,18 @@ public class RobotContainer {
     };
 
     Trigger teleAutoStartTrigger = new Trigger(getTeleAutoStart);
-    Trigger teleAutoStartTrigger2 = new Trigger(() -> {
-      return SmartDashboard.getBoolean("run auto", false);
-    });
+
     // Binds the trigger to the specified command as well as a command that resets
     // the drivetrain based on vision
-    teleAutoStartTrigger.onTrue(new InstantCommand(() -> {
+    teleAutoStartTrigger.onTrue(
+      new InstantCommand(() -> {
       _drivetrain.setToPose(_vision.getLastPose());
-    }));
-    teleAutoStartTrigger2.onTrue(new PlannedAuto(_autoPath).andThen(() -> {
+    })
+    .andThen(
+      new PlannedAuto(_autoPath)
+      .andThen(() -> {
       _drivetrain.stop();
-    }, _drivetrain));
+    }, _drivetrain)));
 
     // Binds command to kill teleop
     BooleanSupplier getRobotKill = () -> _controlInput.getKillAuto();
