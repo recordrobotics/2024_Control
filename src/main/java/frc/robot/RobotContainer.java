@@ -21,11 +21,18 @@ import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
 import frc.robot.commands.manual.ManualSwerve;
+import frc.robot.commands.notes.Acquire;
+import frc.robot.commands.notes.Reverse;
+import frc.robot.commands.notes.ShootAmp;
+import frc.robot.commands.notes.ShootSpeaker;
 import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.AutoPath;
+import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
+import frc.robot.subsystems.Photosensor;
+import frc.robot.subsystems.Acquisition;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -46,17 +53,26 @@ public class RobotContainer {
   private final Shooter _shooter;
   private final Crashbar _crashbar;
   private final Climbers _climbers;
+  private final Acquisition _acquisition;
+  private final Channel _channel;
+  private final Photosensor _photosensor;
 
   private final AutoPath _autoPath;
 
   private List<Pair<Subsystem, Command>> _teleopPairs;
+
   private ManualSwerve _manualSwerve;
   private ManualShooter _manualShooter;
   private ManualClimbers _manualClimbers;
   private ManualCrashbar _manualCrashbar;
+
   private DoubleControl _controlInput;
 
-  private ComplexTeleAuto _complexTeleAuto;
+  private Acquire _acquire;
+  private Reverse _reverse;
+  private ShootSpeaker _shootSpeaker;
+  private ShootAmp _shootAmp;
+
   private RobotKill _robotKill;
 
   private Command autoCommand;
@@ -68,12 +84,19 @@ public class RobotContainer {
 
     // Init Swerve
     _drivetrain = new Drivetrain();
+
+    // Init note systems
+    _channel = new Channel();
+    _acquisition = new Acquisition();
     _shooter = new Shooter();
-    _climbers = new Climbers();
     _crashbar = new Crashbar();
-    _autoPath = new AutoPath(_drivetrain);
+    _photosensor = new Photosensor();
+
+    // Init climbers
+    _climbers = new Climbers();
 
     // Sets up auto chooser
+    _autoPath = new AutoPath(_drivetrain);
     _autoPath.putAutoChooser();
 
     // Init Nav
@@ -81,7 +104,7 @@ public class RobotContainer {
 
     // Bindings and Teleop
     initTeleopCommands();
-    // configureButtonBindings();
+    configureButtonBindings();
 
   }
 
@@ -97,8 +120,8 @@ public class RobotContainer {
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
 
-    _manualShooter = new ManualShooter(_shooter, _controlInput);
-    _teleopPairs.add(new Pair<Subsystem, Command>(_shooter, _manualShooter));
+    //_manualShooter = new ManualShooter(_shooter, _controlInput);
+    //_teleopPairs.add(new Pair<Subsystem, Command>(_shooter, _manualShooter));
 
     _manualClimbers = new ManualClimbers(_climbers, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
@@ -106,8 +129,13 @@ public class RobotContainer {
     _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
 
+    // Sets up higher level manual notes commands
+    _acquire = new Acquire(_acquisition, _channel, _photosensor);
+    _shootSpeaker = new ShootSpeaker(_channel, _shooter);
+    _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
+    _reverse = new Reverse(_acquisition, _channel);
+
     // Configure default bindings
-    // _complexTeleAuto = new ComplexTeleAuto(_drivetrain);
     _robotKill = new RobotKill(_drivetrain);
   }
 
@@ -126,18 +154,26 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    BooleanSupplier getTeleAutoStart = () -> _controlInput.getTeleAutoStart();
-    Trigger teleAutoStartTrigger = new Trigger(getTeleAutoStart);
-    teleAutoStartTrigger.toggleOnTrue(_complexTeleAuto);
-
-    // BooleanSupplier getTeleAutoKill = () -> _controlInput.getKillAuto();
-    // Trigger teleAutoKillTrigger = new Trigger(getTeleAutoKill);
-    // //teleAutoStartTrigger.onTrue(_complexTeleAuto);
-    // teleAutoStartTrigger.negate()
 
     BooleanSupplier getRobotKill = () -> _controlInput.getKillAuto();
     Trigger robotKillTrigger = new Trigger(getRobotKill);
     robotKillTrigger.whileTrue(_robotKill);
+
+    BooleanSupplier getAcquire = () -> _controlInput.getAcquire();
+    Trigger acquireTrigger = new Trigger(getAcquire);
+    acquireTrigger.onTrue(_acquire);
+
+    BooleanSupplier getShootSpeaker = () -> _controlInput.getShootSpeaker();
+    Trigger shootSpeakerTrigger = new Trigger(getShootSpeaker);
+    shootSpeakerTrigger.onTrue(_shootSpeaker);
+
+    BooleanSupplier getShootAmp = () -> _controlInput.getShootAmp();
+    Trigger shootAmpTrigger = new Trigger(getShootAmp);
+    shootAmpTrigger.onTrue(_shootAmp);
+
+    BooleanSupplier getReverse = () -> _controlInput.getReverse();
+    Trigger reverseTrigger = new Trigger(getReverse);
+    reverseTrigger.onTrue(_reverse);
   }
 
   /**

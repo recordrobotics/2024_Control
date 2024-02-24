@@ -178,16 +178,20 @@ public class DoubleControl {
 		return SimpleMath.Remap(norm, speedLow, speedHigh);
 	}
 
-	public boolean getAcquireNormal() {
-		return xbox_controller.getRawAxis(2) > 0.3;
+	public boolean getAcquire() {
+		return xbox_controller.getLeftTriggerAxis() > 0.3; // aka the left trigger axis
 	}
 
-	public boolean getAcquireReverse() {
-		return xbox_controller.getRawButton(5);
+	public boolean getReverse() {
+		return xbox_controller.getLeftBumper(); // aka the left trigger button
 	}
 
-	public boolean getShoot() {
-		return xbox_controller.getRawAxis(3) > 0.3 || xbox_controller.getRawButton(6);
+	public boolean getShootSpeaker() { 
+		return xbox_controller.getRightTriggerAxis() > 0.3; // aka the right trigger axis
+	}
+
+	public boolean getShootAmp() {
+		return xbox_controller.getRightBumper(); // aka the right trigger button
 	}
 
 	public boolean getChainUp() {

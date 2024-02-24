@@ -3,6 +3,7 @@ package frc.robot.commands.manual;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.ShooterStates;
 
 public class ManualShooter extends Command {
 
@@ -24,10 +25,10 @@ public class ManualShooter extends Command {
   @Override
   public void execute() {
     //
-    if (_controls.getShoot())
-      _shooter.shoot();
+    if (_controls.getShootSpeaker())
+      _shooter.toggle(ShooterStates.SPEAKER);
     else
-      _shooter.stop();
+      _shooter.toggle(ShooterStates.SPEAKER);
   }
 
   // Called once the command ends or is interrupted.

@@ -5,40 +5,49 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotMap;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Shooter extends SubsystemBase {
 
-    private CANSparkMax flywheelLeft = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID,
-            MotorType.kBrushless);
-    private CANSparkMax flywheelRight = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID,
-            MotorType.kBrushless);
+    private CANSparkMax flywheelL = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID, MotorType.kBrushless);
+    private CANSparkMax flywheelR = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID, MotorType.kBrushless);
+    
+
+    private static final double SPEAKER_SPEED = Constants.Shooter.SPEAKER_SPEED;
+    private static final double AMP_SPEED = Constants.Shooter.AMP_SPEED;
 
     public Shooter() {
-        flywheelLeft.set(0);
-        flywheelRight.set(0);
-
-        SmartDashboard.putNumber("Shooter speed", 0.1);
+        toggle(ShooterStates.OFF);
     }
 
-    public void shoot() {
-        // get the flywheel speed from shuffleboard...
-        double speed = SmartDashboard.getNumber("Shooter speed", 0.1);
-
-        // ... clamp for safety ...
-        speed = Math.max(0, Math.min(1, speed));
-
-        // ... and try to not hit anyone!
-        flywheelLeft.set(speed);
-        flywheelRight.set(-speed);
+    public void toggle(double speed) {
+        flywheelL.set(-speed);
+        flywheelR.set(speed);
     }
 
-    public void stop() {
-        flywheelLeft.set(0);
-        flywheelRight.set(0);
+    public void toggle(ShooterStates state) {
+        switch (state) {
+            case SPEAKER:
+                flywheelL.set(-SPEAKER_SPEED);
+                flywheelR.set(SPEAKER_SPEED);
+                break;
+            case AMP:
+                flywheelL.set(-AMP_SPEED);
+                flywheelR.set(AMP_SPEED);
+                break;
+            default:
+                flywheelL.set(0);
+                flywheelR.set(0);
+                break;
+        }
+    }
+
+    public enum ShooterStates {
+        SPEAKER,
+        AMP,
+        OFF;
     }
 }

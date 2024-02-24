@@ -30,6 +30,21 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+    public final class Shooter {
+        public static final double SPEAKER_SPEED = 1;
+        public static final double AMP_SPEED = 0.3;
+    }
+
+    public final class Channel {
+        public static final double CHANNEL_SPEED = 1;
+    }
+
+    public final class Acquisition {
+        /** Constant; The speed and direction of the acquisition on intake*/
+        public static final double ACQUISITION_SPEED = 1;
+    }
+    
+
     public final class FieldConstants {
 
         public static final Translation2d TEAM_RED_SPEAKER = new Translation2d(16, 5.5);
