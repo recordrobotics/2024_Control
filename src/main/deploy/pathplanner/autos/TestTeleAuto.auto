@@ -5,7 +5,7 @@
       "x": 1.91,
       "y": 5.9
     },
-    "rotation": 90.0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Spin"
+            "pathName": "Path1"
           }
         }
       ]
