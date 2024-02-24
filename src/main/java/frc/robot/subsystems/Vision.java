@@ -54,6 +54,15 @@ public class Vision extends SubsystemBase {
         return robotGlobalPose;
     }
 
+    public Rotation2d ringDirection(){
+        // Gets a frame from the camera
+		var result = camera.getLatestResult();
+
+		// Gets target object from apriltag perspective photonvision
+		PhotonTrackedTarget target = result.getBestTarget();
+        return Rotation2d.fromDegrees((result.getSkew());
+    }
+
 	public static boolean checkForTarget(){
 		var result = camera.getLatestResult();//get a frame from the camera
 		boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
