@@ -40,10 +40,9 @@ public final class Constants {
     }
 
     public final class Acquisition {
-        /** Constant; The speed and direction of the acquisition on intake*/
+        /** Constant; The speed and direction of the acquisition on intake */
         public static final double ACQUISITION_SPEED = 1;
     }
-    
 
     public final class FieldConstants {
 
@@ -158,32 +157,32 @@ public final class Constants {
                 2,
                 0.597,
                 frontLeftLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
         public static final ModuleConstants frontRightConstants = new ModuleConstants(
                 4,
                 3,
                 3,
                 0.886,
                 frontRightLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
         public static final ModuleConstants backLeftConstants = new ModuleConstants(
                 8,
                 7,
                 1,
                 0.857,
                 backLeftLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
         public static final ModuleConstants backRightConstants = new ModuleConstants(
                 6,
                 5,
                 4,
                 0.556,
                 backRightLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
     }
 
     public final class Frame {

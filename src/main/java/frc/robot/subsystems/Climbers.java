@@ -12,8 +12,8 @@ import frc.robot.RobotMap;
 
 public class Climbers extends SubsystemBase {
 
-    private DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.LEFT_FORWARD_PORT,
-            RobotMap.Climbers.LEFT_REVERSE_PORT);
+    private DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.FORWARD_PORT,
+            RobotMap.Climbers.REVERSE_PORT);
 
     public Climbers() {
         solenoid.set(DoubleSolenoid.Value.kOff);
