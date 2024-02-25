@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.RobotKill;
 import frc.robot.commands.auto.PlannedAuto;
-import frc.robot.commands.hybrid.ComplexTeleAuto;
 import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
@@ -62,7 +61,6 @@ public class RobotContainer {
   private List<Pair<Subsystem, Command>> _teleopPairs;
 
   private ManualSwerve _manualSwerve;
-  private ManualShooter _manualShooter;
   private ManualClimbers _manualClimbers;
   private ManualCrashbar _manualCrashbar;
 
@@ -120,9 +118,6 @@ public class RobotContainer {
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
 
-    //_manualShooter = new ManualShooter(_shooter, _controlInput);
-    //_teleopPairs.add(new Pair<Subsystem, Command>(_shooter, _manualShooter));
-
     _manualClimbers = new ManualClimbers(_climbers, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
 
@@ -135,7 +130,7 @@ public class RobotContainer {
     _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
     _reverse = new Reverse(_acquisition, _channel);
 
-    // Configure default bindings
+    // Configure bindings
     _robotKill = new RobotKill(_drivetrain);
   }
 
