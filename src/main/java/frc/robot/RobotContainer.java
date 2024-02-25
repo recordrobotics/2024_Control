@@ -7,7 +7,6 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
-
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Crashbar;
 
@@ -55,14 +54,18 @@ public class RobotContainer {
   private final Channel _channel;
   private final Photosensor _photosensor;
 
+  // Autonomous 
   private final AutoPath _autoPath;
 
+  // Teleop commands
   private List<Pair<Subsystem, Command>> _teleopPairs;
 
+  // Manual (default) commands
   private ManualSwerve _manualSwerve;
   private ManualClimbers _manualClimbers;
   private ManualCrashbar _manualCrashbar;
 
+  // 
   private DoubleControl _controlInput;
 
   private Acquire _acquire;
@@ -78,6 +81,9 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+    // Init Nav
+    NavSensor.initNav();
 
     // Init Swerve
     _drivetrain = new Drivetrain();
@@ -96,13 +102,9 @@ public class RobotContainer {
     _autoPath = new AutoPath(_drivetrain);
     _autoPath.putAutoChooser();
 
-    // Init Nav
-    NavSensor.initNav();
-
     // Bindings and Teleop
     initTeleopCommands();
     configureButtonBindings();
-
   }
 
   private void initTeleopCommands() {
@@ -183,8 +185,5 @@ public class RobotContainer {
       }, _drivetrain);
     }
     return autoCommand;
-  }
-
-  public void testSwerve() {
   }
 }

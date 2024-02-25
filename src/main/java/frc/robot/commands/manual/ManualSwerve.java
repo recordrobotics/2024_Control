@@ -10,7 +10,7 @@ import frc.robot.utils.DriveCommandData;
 
 import frc.robot.utils.drivemodes.AutoOrient;
 import frc.robot.utils.drivemodes.DefaultSpin;
-
+import frc.robot.utils.drivemodes.SpinDrive;
 import frc.robot.utils.drivemodes.DefaultDrive;
 import frc.robot.utils.drivemodes.TabletDrive;
 
@@ -30,7 +30,7 @@ public class ManualSwerve extends Command {
 
   // Sets up sendable chooser for drivemode
   public enum DriveMode {
-    Robot, Field, Tablet
+    Robot, Field, Tablet, Spin
   }
 
   private SendableChooser<DriveMode> driveMode = new SendableChooser<DriveMode>();
@@ -54,6 +54,7 @@ public class ManualSwerve extends Command {
     driveMode.addOption("Robot", DriveMode.Robot);
     driveMode.addOption("Field", DriveMode.Field);
     driveMode.addOption("Tablet", DriveMode.Tablet);
+    driveMode.addOption("Spin", DriveMode.Spin);
     driveMode.setDefaultOption("Field", DriveMode.Field);
 
     joystickOrientation.addOption("X Axis", JoystickOrientation.XAxisTowardsTrigger);
@@ -92,11 +93,20 @@ public class ManualSwerve extends Command {
     // Sets up spin
     double spin;
 
-    // Auto-orient function
+    // Tests if auto-orient should run
     if (autoOrient.shouldExecute(_controls)) {
       spin = autoOrient.calculate(_controls, swerve_position);
     } else {
-      spin = DefaultSpin.calculate(_controls);
+    
+    // If auto orient shouldn't run
+      switch (driveMode.getSelected()) {
+        case Spin:
+          spin = SpinDrive.calculate(_controls, swerve_position);
+          break;
+        default:
+          spin = DefaultSpin.calculate(_controls);
+          break;
+      }
     }
 
     // Sets up driveCommandData object

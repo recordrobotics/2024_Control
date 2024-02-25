@@ -250,4 +250,12 @@ public class DoubleControl {
 		}
 		return 0;
 	}
+
+	/**
+	 * Converts (-1, 1) to (-pi, pi)
+	 * @return angle of the spin knob (from -pi to pi)
+	 */
+	public double getSpinKnob() {
+		return SimpleMath.Remap(xbox_controller.getRawAxis(0), -1, 1, -Math.PI, Math.PI);
+		}
 }
