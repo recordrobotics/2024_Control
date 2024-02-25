@@ -157,19 +157,19 @@ public class RobotContainer {
 
     BooleanSupplier getAcquire = () -> _controlInput.getAcquire();
     Trigger acquireTrigger = new Trigger(getAcquire);
-    acquireTrigger.onTrue(_acquire);
+    acquireTrigger.toggleOnTrue(_acquire);
 
     BooleanSupplier getShootSpeaker = () -> _controlInput.getShootSpeaker();
     Trigger shootSpeakerTrigger = new Trigger(getShootSpeaker);
-    shootSpeakerTrigger.onTrue(_shootSpeaker);
+    shootSpeakerTrigger.toggleOnTrue(_shootSpeaker);
 
     BooleanSupplier getShootAmp = () -> _controlInput.getShootAmp();
     Trigger shootAmpTrigger = new Trigger(getShootAmp);
-    shootAmpTrigger.onTrue(_shootAmp);
+    shootAmpTrigger.toggleOnTrue(_shootAmp);
 
     BooleanSupplier getReverse = () -> _controlInput.getReverse();
     Trigger reverseTrigger = new Trigger(getReverse);
-    reverseTrigger.onTrue(_reverse);
+    reverseTrigger.whileTrue(_reverse);
   }
 
   /**

@@ -157,32 +157,32 @@ public final class Constants {
                 1,
                 0.597,
                 frontLeftLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
         public static final ModuleConstants frontRightConstants = new ModuleConstants(
                 4,
                 3,
                 2,
                 0.886,
                 frontRightLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
         public static final ModuleConstants backLeftConstants = new ModuleConstants(
                 8,
                 7,
                 4,
                 0.857,
                 backLeftLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
         public static final ModuleConstants backRightConstants = new ModuleConstants(
                 6,
                 5,
                 3,
                 0.556,
                 backRightLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
     }
 
     public final class Frame {

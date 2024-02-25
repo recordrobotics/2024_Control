@@ -37,12 +37,13 @@ public class ShootAmp extends Command {
     _shooter.toggle(ShooterStates.SPEAKER);
     _crashbar.extend();
     m_timer.reset();
+    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_timer.hasElapsed(flywheelSpinupTime) && m_timer.hasElapsed(crashbarExtendTime) && _channel.channelState == ChannelStates.OFF) {
+    if (m_timer.hasElapsed(flywheelSpinupTime) && m_timer.hasElapsed(crashbarExtendTime) /* && _channel.channelState == ChannelStates.OFF */) {
       _channel.toggle(ChannelStates.SHOOT);
     }
   }

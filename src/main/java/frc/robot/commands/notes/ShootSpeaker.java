@@ -5,6 +5,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Channel.ChannelStates;
 import frc.robot.subsystems.Shooter.ShooterStates;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShootSpeaker extends Command {
 
@@ -12,7 +13,7 @@ public class ShootSpeaker extends Command {
   private static Shooter _shooter;
 
   /** Number of seconds it takes for the flywheel to spin up */
-  private final double flywheelSpinupTime = 4;
+  private final double flywheelSpinupTime = 3;
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
   private final double shootTime = 2;
 
@@ -31,12 +32,16 @@ public class ShootSpeaker extends Command {
   public void initialize() {
     _shooter.toggle(ShooterStates.SPEAKER);
     m_timer.reset();
+    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_timer.hasElapsed(flywheelSpinupTime) && _channel.channelState == ChannelStates.OFF) {
+
+    SmartDashboard.putNumber("timer", m_timer.get());
+
+    if (m_timer.get() >= flywheelSpinupTime /* && _channel.channelState == ChannelStates.OFF */) {
       _channel.toggle(ChannelStates.SHOOT);
     }
   }
