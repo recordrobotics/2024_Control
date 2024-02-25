@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.apriltag.AprilTagPoseEstimate;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -112,6 +113,7 @@ public class Drivetrain extends SubsystemBase {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 });
+
                 ShuffleboardField.setRobotPose(poseFilter.getEstimatedPosition());
         }
 

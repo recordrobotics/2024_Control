@@ -24,6 +24,10 @@ public class ShuffleboardField {
         putData();
     }
 
+    public static void setVisionPoses(Pose2d[] poses) {
+        field.getObject("Vision Pose").setPoses(poses);
+    }
+
     public static void setVisionPose(Pose2d pose) {
         field.getObject("Vision Pose").setPose(pose);
     }

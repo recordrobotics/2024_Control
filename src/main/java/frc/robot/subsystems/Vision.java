@@ -53,8 +53,17 @@ public class Vision extends SubsystemBase {
         SmartDashboard.putBoolean("HAS POSE", hasTag);
         SmartDashboard.putNumber("Last Id", lastDetectedTagID);
 
-        if (lastDetectedPose != null)
+        if (lastDetectedPose != null) {
+            // var poseKeys = _networkTable.getKeys().stream().filter((v) ->
+            // v.startsWith("Pose")).toList();
+            // Pose2d[] poses = new Pose2d[poseKeys.size()];
+            // for (int i = 0; i < poseKeys.size(); i++) {
+            // var dt = _networkTable.getValue(poseKeys.get(i)).getDoubleArray();
+            // poses[i] = new Pose2d(new Translation2d(dt[0], dt[1]),
+            // new Rotation2d(dt[2]));
+            // }
             ShuffleboardField.setVisionPose(lastDetectedPose);
+        }
     }
 
     public boolean checkForSpecificTags(Integer[] allowedTags) {
