@@ -154,7 +154,7 @@ public final class Constants {
         public static final ModuleConstants frontLeftConstants = new ModuleConstants(
                 2,
                 1,
-                2,
+                1,
                 0.597,
                 frontLeftLocation,
                 MotorType.Falcon,
@@ -162,7 +162,7 @@ public final class Constants {
         public static final ModuleConstants frontRightConstants = new ModuleConstants(
                 4,
                 3,
-                3,
+                2,
                 0.886,
                 frontRightLocation,
                 MotorType.Falcon,
@@ -170,7 +170,7 @@ public final class Constants {
         public static final ModuleConstants backLeftConstants = new ModuleConstants(
                 8,
                 7,
-                1,
+                4,
                 0.857,
                 backLeftLocation,
                 MotorType.Falcon,
@@ -178,7 +178,7 @@ public final class Constants {
         public static final ModuleConstants backRightConstants = new ModuleConstants(
                 6,
                 5,
-                4,
+                3,
                 0.556,
                 backRightLocation,
                 MotorType.Falcon,
