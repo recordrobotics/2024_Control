@@ -19,15 +19,13 @@ public class TabletDrive {
      */
     private static double speedFromPressure(double tablet_pressure) {
 
-        double PRESSURE_THRESHOLD = 0.2;
-        double MIN_SPEED = 0.2;
-        double STEEPNESS = 2.6; // Linear = 1, <1 = faster scaling, >1 = slower scaling
+        double PRESSURE_THRESHOLD = Constants.Control.Tablet.PRESSURE_THRESHOLD;
+        double MIN_SPEED = Constants.Control.Tablet.MIN_SPEED;
+        double STEEPNESS = Constants.Control.Tablet.STEEPNESS; // Linear = 1, <1 = faster scaling, >1 = slower scaling
 
         if (tablet_pressure < PRESSURE_THRESHOLD) {
             return 0;
-        }
-
-        else {
+        } else {
             double coeff_1 = Math.pow((tablet_pressure - PRESSURE_THRESHOLD) / (1 - PRESSURE_THRESHOLD), STEEPNESS);
             double coeff_2 = 1 - MIN_SPEED;
             double final_speed = coeff_1 * coeff_2 + MIN_SPEED;

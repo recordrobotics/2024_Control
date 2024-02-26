@@ -19,9 +19,8 @@ public class Channel extends SubsystemBase {
         toggle(ChannelStates.OFF);
     }
 
-
     public void toggle(ChannelStates state, double speed) {
-        channelState = ChannelStates.THROUGH;
+        channelState = state;
         switch (state) {
             case THROUGH:
                 channelMotor.set(speed);

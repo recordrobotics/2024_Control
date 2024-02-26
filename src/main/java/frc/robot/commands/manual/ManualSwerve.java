@@ -32,7 +32,8 @@ public class ManualSwerve extends Command {
   public enum DriveMode {
     Robot, Field, Tablet, Spin
   }
-
+  
+  // Sets up sendable choosers
   private SendableChooser<DriveMode> driveMode = new SendableChooser<DriveMode>();
   private SendableChooser<JoystickOrientation> joystickOrientation = new SendableChooser<JoystickOrientation>();
 
@@ -56,7 +57,7 @@ public class ManualSwerve extends Command {
     driveMode.addOption("Tablet", DriveMode.Tablet);
     driveMode.addOption("Spin", DriveMode.Spin);
     driveMode.setDefaultOption("Field", DriveMode.Field);
-
+    
     joystickOrientation.addOption("X Axis", JoystickOrientation.XAxisTowardsTrigger);
     joystickOrientation.addOption("Y Axis", JoystickOrientation.YAxisTowardsTrigger);
     joystickOrientation.setDefaultOption("X Axis", JoystickOrientation.XAxisTowardsTrigger);

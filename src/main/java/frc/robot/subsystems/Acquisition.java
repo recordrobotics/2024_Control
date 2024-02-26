@@ -12,12 +12,14 @@ import frc.robot.RobotMap;
 public class Acquisition extends SubsystemBase {
     private Spark acquisitionMotor = new Spark(RobotMap.Acquisition.ACQUISITION_MOTOR_ID);
     private static final double acquisitionDefaultSpeed = Constants.Acquisition.ACQUISITION_SPEED;
+    public AcquisitionStates acquisitionState = AcquisitionStates.OFF;
 
     public Acquisition() {
         toggle(AcquisitionStates.OFF);
     }
 
     public void toggle(AcquisitionStates state, double speed) {
+        acquisitionState = state;
         switch (state) {
             case IN:
                 acquisitionMotor.set(speed);

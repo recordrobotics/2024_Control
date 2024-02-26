@@ -88,7 +88,9 @@ public final class Constants {
         // Tablet drive constants
         public final class Tablet {
             // Will fill in later, but for now it's convenient to have it in the TabletDrive
-            // file
+            public static final double PRESSURE_THRESHOLD = 0.2;
+            public static final double MIN_SPEED = 0.2;
+            public static final double STEEPNESS = 2.6; // Linear = 1, <1 = faster scaling, >1 = slower scaling
         }
     }
 
@@ -134,12 +136,13 @@ public final class Constants {
         public static final double KRAKEN_DRIVE_FEEDFORWARD_KS = 0.1205;
         public static final double KRAKEN_DRIVE_FEEDFORWARD_KV = 2.4915;
 
-        // Shared
-        public static final double RELATIVE_ENCODER_RATIO = 2048; // Same between Falcon and Kraken since they share the
-                                                                  // same encoders
-        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
-        // public static final double WHEEL_DIAMETER = 0.1016;
+        // Same between Falcon and Kraken since they share the same encoders
+        public static final double RELATIVE_ENCODER_RATIO = 2048; 
 
+        // Wheel diameter
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
+
+        // Turn & Drive max velocity and acceleration
         public static final double TurnMaxAngularVelocity = 17; // Drivetrain.kMaxAngularSpeed;
         public static final double TurnMaxAngularAcceleration = 34; // 2 * Math.PI; // radians per second squared
         public static final double DriveMaxAngularVelocity = 15; // Drivetrain.kMaxAngularSpeed;

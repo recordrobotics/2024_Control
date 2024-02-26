@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Climbers;
+import frc.robot.subsystems.Climbers.ClimberStates;
 
 public class ManualClimbers extends Command {
 
@@ -26,18 +27,18 @@ public class ManualClimbers extends Command {
   public void execute() {
     SmartDashboard.putBoolean("chainUp", _controls.getChainUp());
     if (_controls.getChainUp()) {
-      _climbers.chainUp();
+      _climbers.toggle(ClimberStates.UP);
     } else if (_controls.getChainDown()) {
-      _climbers.chainDown();
+      _climbers.toggle(ClimberStates.DOWN);
     } else {
-      _climbers.stop();
+      _climbers.toggle(ClimberStates.OFF);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    _climbers.stop();
+    _climbers.toggle(ClimberStates.OFF);
   }
 
   // Returns true when the command should end.

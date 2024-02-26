@@ -4,6 +4,7 @@ import frc.robot.subsystems.Crashbar;
 import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Channel.ChannelStates;
+import frc.robot.subsystems.Crashbar.CrashbarStates;
 import frc.robot.subsystems.Shooter.ShooterStates;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -35,7 +36,7 @@ public class ShootAmp extends Command {
   @Override
   public void initialize() {
     _shooter.toggle(ShooterStates.SPEAKER);
-    _crashbar.extend();
+    _crashbar.toggle(CrashbarStates.EXTENDED);
     m_timer.reset();
     m_timer.start();
   }
@@ -43,7 +44,7 @@ public class ShootAmp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_timer.hasElapsed(flywheelSpinupTime) && m_timer.hasElapsed(crashbarExtendTime) /* && _channel.channelState == ChannelStates.OFF */) {
+    if (m_timer.hasElapsed(flywheelSpinupTime) && m_timer.hasElapsed(crashbarExtendTime) && _channel.channelState == ChannelStates.OFF) {
       _channel.toggle(ChannelStates.SHOOT);
     }
   }
@@ -53,7 +54,7 @@ public class ShootAmp extends Command {
   public void end(boolean interrupted) {
     _shooter.toggle(ShooterStates.OFF);
     _channel.toggle(ChannelStates.OFF);
-    _crashbar.retract();
+    _crashbar.toggle(CrashbarStates.RETRACTED);
   }
 
   // Returns true when the command should end.

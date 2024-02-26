@@ -26,18 +26,18 @@ public class ManualCrashbar extends Command {
     public void execute() {
         SmartDashboard.putBoolean("crashExtend", _controls.getCrashbarExtend());
         if (_controls.getCrashbarExtend()) {
-            _crashbar.extend();
+            _crashbar.toggle(Crashbar.CrashbarStates.EXTENDED);
         } else if (_controls.getCrashbarRetract()) {
-            _crashbar.retract();
+            _crashbar.toggle(Crashbar.CrashbarStates.RETRACTED);
         } else {
-            _crashbar.stop();
+            _crashbar.toggle(Crashbar.CrashbarStates.OFF);
         }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        _crashbar.stop();
+        _crashbar.toggle(Crashbar.CrashbarStates.OFF);
     }
 
     // Returns true when the command should end.

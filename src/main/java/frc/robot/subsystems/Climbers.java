@@ -12,6 +12,8 @@ import frc.robot.RobotMap;
 
 public class Climbers extends SubsystemBase {
 
+    public ClimberStates climberState = ClimberStates.OFF;
+
     private DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.FORWARD_PORT,
             RobotMap.Climbers.REVERSE_PORT);
 
@@ -19,18 +21,27 @@ public class Climbers extends SubsystemBase {
         solenoid.set(DoubleSolenoid.Value.kOff);
     }
 
-    public void chainUp() {
-        solenoid.set(DoubleSolenoid.Value.kForward);
+    public void periodic () {
     }
 
-    public void chainDown() {
-        solenoid.set(DoubleSolenoid.Value.kReverse);
+    public void toggle(ClimberStates state) {
+        climberState = state;
+        switch (state) {
+            case UP:
+                solenoid.set(DoubleSolenoid.Value.kForward);
+                break;
+            case DOWN:
+                solenoid.set(DoubleSolenoid.Value.kReverse);
+                break;
+            default:
+                solenoid.set(DoubleSolenoid.Value.kOff);
+                break;
+        }
     }
 
-    /**
-     * Turns off solenoid, does not reverse it
-     */
-    public void stop() {
-        solenoid.set(DoubleSolenoid.Value.kOff);
+    public enum ClimberStates {
+        UP,
+        DOWN,
+        OFF;
     }
 }
