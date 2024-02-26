@@ -43,6 +43,6 @@ public class Acquire extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !_photosensor.getDebouncedValue();
+    return _photosensor.getDebouncedValue();
   }
 }

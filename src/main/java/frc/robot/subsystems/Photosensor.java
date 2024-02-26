@@ -20,7 +20,7 @@ public class Photosensor extends SubsystemBase {
     /** Gets the debounced state of the photosensor, meaning that x time must pass before the sensor returns true
      * (true = object detected, false = no object detected) */
     public Boolean getDebouncedValue () {
-        return debounced_value;
+        return !debounced_value;
     }
 
     /** Gets the current state of the photosensor (true = object detected, false = no object detected) */

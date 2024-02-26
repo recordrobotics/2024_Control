@@ -80,8 +80,7 @@ public class SwerveModule {
         m.TURN_KD,
         new TrapezoidProfile.Constraints(m.TurnMaxAngularVelocity, m.TurnMaxAngularAcceleration));
 
-    // Limit the PID Controller's input range between -0.5 and 0.5 and set the input
-    // to be continuous.
+    // Limit the PID Controller's input range between -0.5 and 0.5 and set the input to be continuous.
     turningPIDController.enableContinuousInput(-0.5, 0.5);
 
     // Corrects for offset in absolute motor position

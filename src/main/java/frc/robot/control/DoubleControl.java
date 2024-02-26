@@ -47,18 +47,13 @@ public class DoubleControl {
 				input = 0;
 				break;
 		}
-		// Gets whether or not the spin input is negative or positive
-		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOYSTICK_X_THRESHOLD); // How much
-																											// the input
-																											// is above
-																											// the
-																											// threshold
-																											// (absolute
-																											// value)
-		double proportion = subtract_threshold / (1 - Constants.Control.JOYSTICK_X_THRESHOLD); // What proportion
-																								// (threshold to value)
-																								// is of (threshold to
-																								// 1)
+
+		// How much the input is above the threshold (absolute value)
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOYSTICK_X_THRESHOLD); 
+		
+		// What proportion (threshold to value) is of (threshold to 1)
+		double proportion = subtract_threshold / (1 - Constants.Control.JOYSTICK_X_THRESHOLD); 
+
 		// Multiplies by spin sensitivity and returns
 		double final_x = Math.signum(input) * proportion * Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY;
 		return final_x;
@@ -92,10 +87,7 @@ public class DoubleControl {
 																											// threshold
 																											// (absolute
 																											// value)
-		double proportion = subtract_threshold / (1 - Constants.Control.JOSYTICK_Y_THRESHOLD); // What proportion
-																								// (threshold to value)
-																								// is of (threshold to
-																								// 1)
+		double proportion = subtract_threshold / (1 - Constants.Control.JOSYTICK_Y_THRESHOLD);
 		// Multiplies by spin sensitivity and returns
 		double final_y = Math.signum(input) * proportion * Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY;
 		return final_y;
@@ -157,25 +149,18 @@ public class DoubleControl {
 	}
 
 	/**
-	 * Returns speed level slider in range 0-1
+	 * Takes speedlevel slider on control input and remaps to 1.4-->7.0
+	 * @return
+	 * Speedlevel control from 1.4 --> 7.0
 	 */
-	public double getSpeedLevelNormalized() {
-		// remap -1,1 to 1,0 (inverted)
-		return SimpleMath.Remap(stickpad.getRawAxis(3), -1, 1, 1, 0);
+	public double getDirectionalSpeedLevel() {
+		// Remaps speed meter from -1 -> 1 to 0.5 -> 4, then returns
+		return SimpleMath.Remap(stickpad.getRawAxis(3), -1, 1, Constants.Control.DIRECTIONAL_SPEED_METER_LOW, Constants.Control.DIRECTIONAL_SPEED_METER_HIGH);
 	}
 
-	/**
-	 * Takes speedlevel slider on control input and remaps to 0.5-->4
-	 * 
-	 * @return
-	 *         Speedlevel control from 0.5 --> 4
-	 */
-	public double getSpeedLevel() {
-		final double speedLow = 0.5;
-		final double speedHigh = 4.0;
-
-		double norm = getSpeedLevelNormalized();
-		return SimpleMath.Remap(norm, speedLow, speedHigh);
+	public double getSpinSpeedLevel() {
+		// Remaps speed meter from -1 -> 1 to 0.5 -> 4, then returns
+		return SimpleMath.Remap(stickpad.getRawAxis(3), -1, 1, Constants.Control.SPIN_SPEED_METER_LOW, Constants.Control.SPIN_SPEED_METER_HIGH);
 	}
 
 	public boolean getAcquire() {
