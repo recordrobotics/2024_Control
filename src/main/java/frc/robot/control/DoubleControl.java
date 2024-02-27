@@ -179,11 +179,11 @@ public class DoubleControl {
 		return xbox_controller.getRightBumper(); // aka the right trigger button
 	}
 
-	public boolean getChainUp() {
+	public boolean getClimberUp() {
 		return xbox_controller.getRawAxis(1) < -0.5;
 	}
 
-	public boolean getChainDown() {
+	public boolean getClimberDown() {
 		return xbox_controller.getRawAxis(1) > 0.5;
 	}
 

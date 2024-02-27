@@ -21,6 +21,10 @@ public class Climbers extends SubsystemBase {
         solenoid.set(DoubleSolenoid.Value.kOff);
     }
 
+    public DoubleSolenoid.Value getClimberValue () {
+        return solenoid.get();
+    }
+
     public void periodic () {
     }
 

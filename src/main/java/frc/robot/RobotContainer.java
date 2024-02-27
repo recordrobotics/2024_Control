@@ -22,6 +22,8 @@ import frc.robot.commands.notes.Acquire;
 import frc.robot.commands.notes.Reverse;
 import frc.robot.commands.notes.ShootAmp;
 import frc.robot.commands.notes.ShootSpeaker;
+import frc.robot.commands.solenoid.ClimberDown;
+import frc.robot.commands.solenoid.ClimberUp;
 import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.AutoPath;
 import frc.robot.subsystems.Channel;
@@ -72,6 +74,8 @@ public class RobotContainer {
   private Reverse _reverse;
   private ShootSpeaker _shootSpeaker;
   private ShootAmp _shootAmp;
+  private ClimberUp _climberUp;
+  private ClimberDown _climberDown;
 
   private RobotKill _robotKill;
 
@@ -119,17 +123,21 @@ public class RobotContainer {
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
 
+    /*
     _manualClimbers = new ManualClimbers(_climbers, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
 
     _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
+    */
 
     // Sets up higher level manual notes commands
     _acquire = new Acquire(_acquisition, _channel, _photosensor);
     _shootSpeaker = new ShootSpeaker(_channel, _shooter);
     _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
     _reverse = new Reverse(_acquisition, _channel);
+    _climberUp = new ClimberUp(_climbers);
+    _climberDown = new ClimberDown(_climbers);
 
     // Configure bindings
     _robotKill = new RobotKill(_drivetrain);
@@ -165,6 +173,14 @@ public class RobotContainer {
 
     Trigger reverseTrigger = new Trigger(_controlInput::getReverse);
     reverseTrigger.whileTrue(_reverse);
+
+    BooleanSupplier getClimberUp = () -> _controlInput.getClimberUp();
+    Trigger ClimberUpTrigger = new Trigger(getClimberUp);
+    ClimberUpTrigger.onTrue(_climberUp);
+
+    BooleanSupplier getClimberDown = () -> _controlInput.getClimberDown();
+    Trigger ClimberDownTrigger = new Trigger(getClimberDown);
+    ClimberDownTrigger.onTrue(_climberDown);
   }
 
   /**
