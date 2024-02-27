@@ -124,12 +124,12 @@ public class RobotContainer {
     _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
 
     /*
-    _manualClimbers = new ManualClimbers(_climbers, _controlInput);
-    _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
-
-    _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
-    _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
-    */
+     * _manualClimbers = new ManualClimbers(_climbers, _controlInput);
+     * _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
+     * 
+     * _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
+     * _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
+     */
 
     // Sets up higher level manual notes commands
     _acquire = new Acquire(_acquisition, _channel, _photosensor);
@@ -174,12 +174,10 @@ public class RobotContainer {
     Trigger reverseTrigger = new Trigger(_controlInput::getReverse);
     reverseTrigger.whileTrue(_reverse);
 
-    BooleanSupplier getClimberUp = () -> _controlInput.getClimberUp();
-    Trigger ClimberUpTrigger = new Trigger(getClimberUp);
+    Trigger ClimberUpTrigger = new Trigger(_controlInput::getClimberUp);
     ClimberUpTrigger.onTrue(_climberUp);
 
-    BooleanSupplier getClimberDown = () -> _controlInput.getClimberDown();
-    Trigger ClimberDownTrigger = new Trigger(getClimberDown);
+    Trigger ClimberDownTrigger = new Trigger(_controlInput::getClimberDown);
     ClimberDownTrigger.onTrue(_climberDown);
   }
 
