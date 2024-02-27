@@ -25,10 +25,10 @@ public class ManualClimbers extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putBoolean("chainUp", _controls.getChainUp());
-    if (_controls.getChainUp()) {
+    SmartDashboard.putBoolean("chainUp", _controls.getClimberUp());
+    if (_controls.getClimberUp()) {
       _climbers.toggle(ClimberStates.UP);
-    } else if (_controls.getChainDown()) {
+    } else if (_controls.getClimberDown()) {
       _climbers.toggle(ClimberStates.DOWN);
     } else {
       _climbers.toggle(ClimberStates.OFF);
