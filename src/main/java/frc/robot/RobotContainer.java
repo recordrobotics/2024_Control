@@ -54,7 +54,7 @@ public class RobotContainer {
   private final Channel _channel;
   private final Photosensor _photosensor;
 
-  // Autonomous 
+  // Autonomous
   private final AutoPath _autoPath;
 
   // Teleop commands
@@ -65,7 +65,7 @@ public class RobotContainer {
   private ManualClimbers _manualClimbers;
   private ManualCrashbar _manualCrashbar;
 
-  // 
+  //
   private DoubleControl _controlInput;
 
   private Acquire _acquire;
@@ -151,24 +151,19 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    BooleanSupplier getRobotKill = () -> _controlInput.getKillAuto();
-    Trigger robotKillTrigger = new Trigger(getRobotKill);
+    Trigger robotKillTrigger = new Trigger(_controlInput::getKillAuto);
     robotKillTrigger.whileTrue(_robotKill);
 
-    BooleanSupplier getAcquire = () -> _controlInput.getAcquire();
-    Trigger acquireTrigger = new Trigger(getAcquire);
+    Trigger acquireTrigger = new Trigger(_controlInput::getAcquire);
     acquireTrigger.toggleOnTrue(_acquire);
 
-    BooleanSupplier getShootSpeaker = () -> _controlInput.getShootSpeaker();
-    Trigger shootSpeakerTrigger = new Trigger(getShootSpeaker);
+    Trigger shootSpeakerTrigger = new Trigger(_controlInput::getShootSpeaker);
     shootSpeakerTrigger.toggleOnTrue(_shootSpeaker);
 
-    BooleanSupplier getShootAmp = () -> _controlInput.getShootAmp();
-    Trigger shootAmpTrigger = new Trigger(getShootAmp);
+    Trigger shootAmpTrigger = new Trigger(_controlInput::getShootAmp);
     shootAmpTrigger.toggleOnTrue(_shootAmp);
 
-    BooleanSupplier getReverse = () -> _controlInput.getReverse();
-    Trigger reverseTrigger = new Trigger(getReverse);
+    Trigger reverseTrigger = new Trigger(_controlInput::getReverse);
     reverseTrigger.whileTrue(_reverse);
   }
 
