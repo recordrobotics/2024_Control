@@ -35,7 +35,7 @@ public class ShootAmp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    _shooter.toggle(ShooterStates.SPEAKER);
+    _shooter.toggle(ShooterStates.AMP);
     _crashbar.toggle(CrashbarStates.EXTENDED);
     m_timer.reset();
     m_timer.start();

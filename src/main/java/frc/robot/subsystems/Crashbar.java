@@ -26,10 +26,10 @@ public class Crashbar extends SubsystemBase {
         crashbarState = state;
         switch (state) {
             case EXTENDED:
-                solenoid.set(DoubleSolenoid.Value.kForward);
+                solenoid.set(DoubleSolenoid.Value.kReverse);
                 break;
             case RETRACTED:
-                solenoid.set(DoubleSolenoid.Value.kReverse);
+                solenoid.set(DoubleSolenoid.Value.kForward);
                 break;
             default:
                 solenoid.set(DoubleSolenoid.Value.kOff);

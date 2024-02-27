@@ -24,6 +24,8 @@ import frc.robot.commands.notes.ShootAmp;
 import frc.robot.commands.notes.ShootSpeaker;
 import frc.robot.commands.solenoid.ClimberDown;
 import frc.robot.commands.solenoid.ClimberUp;
+import frc.robot.commands.solenoid.CrashbarDown;
+import frc.robot.commands.solenoid.CrashbarUp;
 import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.AutoPath;
 import frc.robot.subsystems.Channel;
@@ -76,6 +78,8 @@ public class RobotContainer {
   private ShootAmp _shootAmp;
   private ClimberUp _climberUp;
   private ClimberDown _climberDown;
+  private CrashbarDown _crashbarDown;
+  private CrashbarUp _crashbarUp;
 
   private RobotKill _robotKill;
 
@@ -127,8 +131,8 @@ public class RobotContainer {
      * _manualClimbers = new ManualClimbers(_climbers, _controlInput);
      * _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
      */
-    _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
-    _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
+    //_manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
+    //_teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
     
     // Sets up higher level manual notes commands
     _acquire = new Acquire(_acquisition, _channel, _photosensor);
@@ -137,6 +141,8 @@ public class RobotContainer {
     _reverse = new Reverse(_acquisition, _channel);
     _climberUp = new ClimberUp(_climbers);
     _climberDown = new ClimberDown(_climbers);
+    _crashbarDown = new CrashbarDown(_crashbar);
+    _crashbarUp = new CrashbarUp(_crashbar);
 
     // Configure bindings
     _robotKill = new RobotKill(_drivetrain);
@@ -179,8 +185,14 @@ public class RobotContainer {
     Trigger ClimberDownTrigger = new Trigger(_controlInput::getClimberDown);
     ClimberDownTrigger.onTrue(_climberDown);
 
+    Trigger CrashbarExtendTrigger = new Trigger(_controlInput::getCrashbarExtend);
+    CrashbarExtendTrigger.onTrue(_crashbarUp);
+
+    Trigger CrashbarRetractTrigger = new Trigger(_controlInput::getCrashbarRetract);
+    CrashbarRetractTrigger.onTrue(_crashbarDown);
+
     //Trigger CrashbarExtendTrigger = new Trigger(_controlInput::getCrashbarExtend);
-    //CrashbarExtendTrigger.onTrue(_crashbar)
+    //CrashbarExtendTrigger.onTrue(_crashbar);
   }
 
   /**
