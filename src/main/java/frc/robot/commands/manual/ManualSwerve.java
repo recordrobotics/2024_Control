@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.manual;
+
 import frc.robot.control.DoubleControl;
 import frc.robot.control.JoystickOrientation;
 import frc.robot.subsystems.Drivetrain;
@@ -32,7 +33,7 @@ public class ManualSwerve extends Command {
   public enum DriveMode {
     Robot, Field, Tablet, Spin
   }
-  
+
   // Sets up sendable choosers
   private SendableChooser<DriveMode> driveMode = new SendableChooser<DriveMode>();
   private SendableChooser<JoystickOrientation> joystickOrientation = new SendableChooser<JoystickOrientation>();
@@ -57,7 +58,7 @@ public class ManualSwerve extends Command {
     driveMode.addOption("Tablet", DriveMode.Tablet);
     driveMode.addOption("Spin", DriveMode.Spin);
     driveMode.setDefaultOption("Field", DriveMode.Field);
-    
+
     joystickOrientation.addOption("X Axis", JoystickOrientation.XAxisTowardsTrigger);
     joystickOrientation.addOption("Y Axis", JoystickOrientation.YAxisTowardsTrigger);
     joystickOrientation.setDefaultOption("X Axis", JoystickOrientation.XAxisTowardsTrigger);
@@ -65,6 +66,8 @@ public class ManualSwerve extends Command {
     // puts selector data on Smartdashboard
     SmartDashboard.putData("Drive Mode", driveMode);
     SmartDashboard.putData("Joystick Orientation", joystickOrientation);
+
+    SmartDashboard.putNumber("tspeed", 0.0);
   }
 
   // Called when the command is initially scheduled.
@@ -77,7 +80,7 @@ public class ManualSwerve extends Command {
   public void execute() {
 
     _controls.setJoystickOrientation(joystickOrientation.getSelected());
-    
+
     // Gets swerve position and sets to field position
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
 
@@ -98,8 +101,8 @@ public class ManualSwerve extends Command {
     if (autoOrient.shouldExecute(_controls)) {
       spin = autoOrient.calculate(_controls, swerve_position);
     } else {
-    
-    // If auto orient shouldn't run
+
+      // If auto orient shouldn't run
       switch (driveMode.getSelected()) {
         case Spin:
           spin = SpinDrive.calculate(_controls, swerve_position);
@@ -124,6 +127,8 @@ public class ManualSwerve extends Command {
         driveCommandData = DefaultDrive.calculate(_controls, spin, swerve_position, true);
         break;
     }
+
+    driveCommandData = new DriveCommandData(0, 0, SmartDashboard.getNumber("tspeed", 0.0), false);
 
     // Drive command
     _drivetrain.drive(driveCommandData);
