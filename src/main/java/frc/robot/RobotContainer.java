@@ -126,11 +126,10 @@ public class RobotContainer {
     /*
      * _manualClimbers = new ManualClimbers(_climbers, _controlInput);
      * _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
-     * 
-     * _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
-     * _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
      */
-
+    _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
+    _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
+    
     // Sets up higher level manual notes commands
     _acquire = new Acquire(_acquisition, _channel, _photosensor);
     _shootSpeaker = new ShootSpeaker(_channel, _shooter);
@@ -179,6 +178,9 @@ public class RobotContainer {
 
     Trigger ClimberDownTrigger = new Trigger(_controlInput::getClimberDown);
     ClimberDownTrigger.onTrue(_climberDown);
+
+    //Trigger CrashbarExtendTrigger = new Trigger(_controlInput::getCrashbarExtend);
+    //CrashbarExtendTrigger.onTrue(_crashbar)
   }
 
   /**

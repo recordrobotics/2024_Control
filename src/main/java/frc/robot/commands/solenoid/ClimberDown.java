@@ -14,12 +14,13 @@ public class ClimberDown extends Command {
 
   public ClimberDown (Climbers climbers) {
     addRequirements(climbers);
+    _climbers = climbers;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    _climbers.toggle(ClimberStates.UP);
+    _climbers.toggle(ClimberStates.DOWN);
     m_timer.reset();
     m_timer.start();
   }

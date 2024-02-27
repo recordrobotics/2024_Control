@@ -188,11 +188,11 @@ public class DoubleControl {
 	}
 
 	public boolean getCrashbarExtend() {
-		return xbox_controller.getRawAxis(5) < -0.5;
+		return xbox_controller.getRawAxis(5) < 0.5;
 	}
 
 	public boolean getCrashbarRetract() {
-		return xbox_controller.getRawAxis(5) > 0.5;
+		return xbox_controller.getRawAxis(5) > -0.5;
 	}
 
 	public boolean getKillAuto() {

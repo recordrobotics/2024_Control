@@ -75,10 +75,10 @@ public final class Constants {
         public static final double JOYSTICK_SPIN_SENSITIVITY = 1;
 
         // Sensitivity for speed meter
-        public static final double DIRECTIONAL_SPEED_METER_LOW = 0.5;
-        public static final double DIRECTIONAL_SPEED_METER_HIGH = 4.0;
-        public static final double SPIN_SPEED_METER_LOW = 1.4;
-        public static final double SPIN_SPEED_METER_HIGH = 7.0;
+        public static final double DIRECTIONAL_SPEED_METER_LOW = 0.25;
+        public static final double DIRECTIONAL_SPEED_METER_HIGH = 2.0;
+        public static final double SPIN_SPEED_METER_LOW = 0.5;
+        public static final double SPIN_SPEED_METER_HIGH = 4.0;
 
         // Thresholds for directional controls (XY) and spin (theta)
         public static final double JOYSTICK_X_THRESHOLD = 0.15;
@@ -164,7 +164,7 @@ public final class Constants {
                 2,
                 1,
                 1,
-                0.597,
+                0.620, //0.12363, //0.597
                 frontLeftLocation,
                 MotorType.Falcon,
                 MotorType.Falcon);
@@ -172,7 +172,7 @@ public final class Constants {
                 4,
                 3,
                 2,
-                0.886,
+                0.924, //0.41599, //0.886
                 frontRightLocation,
                 MotorType.Falcon,
                 MotorType.Falcon);
@@ -180,7 +180,7 @@ public final class Constants {
                 8,
                 7,
                 4,
-                0.857,
+                0.676, //0.17245, //0.857
                 backLeftLocation,
                 MotorType.Falcon,
                 MotorType.Falcon);
@@ -188,7 +188,7 @@ public final class Constants {
                 6,
                 5,
                 3,
-                0.556,
+                0.371, //0.86499, //0.556
                 backRightLocation,
                 MotorType.Falcon,
                 MotorType.Falcon);

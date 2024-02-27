@@ -14,6 +14,7 @@ public class ClimberUp extends Command {
 
   public ClimberUp (Climbers climbers) {
     addRequirements(climbers);
+    _climbers = climbers;
   }
 
   // Called when the command is initially scheduled.
