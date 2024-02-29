@@ -5,14 +5,14 @@ import frc.robot.subsystems.Crashbar;
 import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class CrashbarUp extends Command {
+public class CrashbarRetract extends Command {
 
   private static Crashbar _crashbar;
 
   // Init timer
   protected Timer m_timer = new Timer();
 
-  public CrashbarUp (Crashbar crashbar) {
+  public CrashbarRetract (Crashbar crashbar) {
     addRequirements(crashbar);
     _crashbar = crashbar;
   }
@@ -20,7 +20,7 @@ public class CrashbarUp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    _crashbar.toggle(CrashbarStates.EXTENDED);
+    _crashbar.toggle(CrashbarStates.RETRACTED);
     m_timer.reset();
     m_timer.start();
   }
