@@ -1,43 +1,32 @@
 package frc.robot.commands.manual;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Crashbar;
+import frc.robot.subsystems.Crashbar.CrashbarStates;
 
 public class ManualCrashbar extends Command {
 
     private Crashbar _crashbar;
-    private DoubleControl _controls;
 
-    public ManualCrashbar(Crashbar crashbar, DoubleControl controls) {
+    public ManualCrashbar(Crashbar crashbar) {
         _crashbar = crashbar;
-        _controls = controls;
         addRequirements(crashbar);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        _crashbar.toggle(CrashbarStates.EXTENDED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        SmartDashboard.putBoolean("crashExtend", _controls.getCrashbarExtend());
-        if (_controls.getCrashbarExtend()) {
-            _crashbar.toggle(Crashbar.CrashbarStates.EXTENDED);
-        } else if (_controls.getCrashbarRetract()) {
-            _crashbar.toggle(Crashbar.CrashbarStates.RETRACTED);
-        } else {
-            _crashbar.toggle(Crashbar.CrashbarStates.OFF);
-        }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        _crashbar.toggle(Crashbar.CrashbarStates.OFF);
+        _crashbar.toggle(CrashbarStates.RETRACTED);
     }
 
     // Returns true when the command should end.

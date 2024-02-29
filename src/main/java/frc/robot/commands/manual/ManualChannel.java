@@ -1,21 +1,21 @@
 package frc.robot.commands.manual;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Climbers;
-import frc.robot.subsystems.Climbers.ClimberStates;
+import frc.robot.subsystems.Channel;
+import frc.robot.subsystems.Channel.ChannelStates;
 
-public class ManualClimbers extends Command {
+public class ManualChannel extends Command {
 
-  private Climbers _climbers;
+  private static Channel _channel;
 
-  public ManualClimbers(Climbers climbers) {
-    _climbers = climbers;
-    addRequirements(climbers);
+  public ManualChannel (Channel channel) {
+    _channel = channel;
+    addRequirements(channel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    _climbers.toggle(ClimberStates.UP);
+    _channel.toggle(ChannelStates.SHOOT);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -26,7 +26,7 @@ public class ManualClimbers extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    _climbers.toggle(ClimberStates.DOWN);
+    _channel.toggle(ChannelStates.OFF);
   }
 
   // Returns true when the command should end.

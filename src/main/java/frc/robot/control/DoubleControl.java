@@ -199,9 +199,26 @@ public class DoubleControl {
 		return xbox_controller.getRawButton(8);
 	}
 
-	/**
-	 * TABLET COMMANDS
-	 */
+
+	
+	public boolean getManualShootSpeaker() {
+		return xbox_controller.getAButton();
+	}
+
+	public boolean getManualShootAmp() {
+		return xbox_controller.getBButton();
+	}
+
+	public boolean getManualAcquisition() {
+		return xbox_controller.getXButton();
+	}
+
+	public boolean getManualCrashbar() {
+		return xbox_controller.getYButton();
+	}
+	
+
+
 
 	/**
 	 * Converts (-1, 1) to (0,1)
@@ -242,5 +259,8 @@ public class DoubleControl {
 	 */
 	public double getSpinKnob() {
 		return SimpleMath.Remap(xbox_controller.getRawAxis(0), -1, 1, -Math.PI, Math.PI);
-		}
-}
+	}
+
+	}
+
+

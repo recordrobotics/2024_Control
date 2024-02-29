@@ -1,8 +1,6 @@
 package frc.robot.commands.solenoid;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Climbers.ClimberStates;
 import frc.robot.subsystems.Crashbar.CrashbarStates;
-import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Crashbar;
 import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

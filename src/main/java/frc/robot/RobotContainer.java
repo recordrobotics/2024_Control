@@ -6,8 +6,8 @@ package frc.robot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BooleanSupplier;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.ShooterStates;
 import frc.robot.subsystems.Crashbar;
 
 import edu.wpi.first.math.Pair;
@@ -15,8 +15,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.RobotKill;
 import frc.robot.commands.auto.PlannedAuto;
-import frc.robot.commands.manual.ManualClimbers;
+import frc.robot.commands.manual.ManualAcquisition;
 import frc.robot.commands.manual.ManualCrashbar;
+import frc.robot.commands.manual.ManualShooter;
 import frc.robot.commands.manual.ManualSwerve;
 import frc.robot.commands.notes.Acquire;
 import frc.robot.commands.notes.Reverse;
@@ -66,8 +67,6 @@ public class RobotContainer {
 
   // Manual (default) commands
   private ManualSwerve _manualSwerve;
-  private ManualClimbers _manualClimbers;
-  private ManualCrashbar _manualCrashbar;
 
   //
   private DoubleControl _controlInput;
@@ -80,6 +79,11 @@ public class RobotContainer {
   private ClimberDown _climberDown;
   private CrashbarDown _crashbarDown;
   private CrashbarUp _crashbarUp;
+
+  private ManualShooter _manualShootSpeaker;
+  private ManualShooter _manualShootAmp;
+  private ManualAcquisition _manualAcquisition;
+  private ManualCrashbar _manualCrashbar;
 
   private RobotKill _robotKill;
 
@@ -127,13 +131,12 @@ public class RobotContainer {
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
     _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
 
-    /*
-     * _manualClimbers = new ManualClimbers(_climbers, _controlInput);
-     * _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
-     */
-    //_manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
-    //_teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
-    
+    // Sets up manual commands
+    _manualAcquisition = new ManualAcquisition(_acquisition, _channel);
+    _manualShootSpeaker = new ManualShooter(_shooter, ShooterStates.SPEAKER);
+    _manualShootAmp = new ManualShooter(_shooter, ShooterStates.AMP);
+    _manualCrashbar = new ManualCrashbar(_crashbar);
+
     // Sets up higher level manual notes commands
     _acquire = new Acquire(_acquisition, _channel, _photosensor);
     _shootSpeaker = new ShootSpeaker(_channel, _shooter);
@@ -179,6 +182,8 @@ public class RobotContainer {
     Trigger reverseTrigger = new Trigger(_controlInput::getReverse);
     reverseTrigger.whileTrue(_reverse);
 
+
+    // Solenoid triggers
     Trigger ClimberUpTrigger = new Trigger(_controlInput::getClimberUp);
     ClimberUpTrigger.onTrue(_climberUp);
 
@@ -191,8 +196,20 @@ public class RobotContainer {
     Trigger CrashbarRetractTrigger = new Trigger(_controlInput::getCrashbarRetract);
     CrashbarRetractTrigger.onTrue(_crashbarDown);
 
-    //Trigger CrashbarExtendTrigger = new Trigger(_controlInput::getCrashbarExtend);
-    //CrashbarExtendTrigger.onTrue(_crashbar);
+
+    // Manual triggers
+    Trigger ManualShootAmpTrigger = new Trigger(_controlInput::getManualShootAmp);
+    ManualShootAmpTrigger.toggleOnTrue(_manualShootAmp);
+
+    Trigger ManualShootSpeakerTrigger = new Trigger(_controlInput::getManualShootSpeaker);
+    ManualShootSpeakerTrigger.toggleOnTrue(_manualShootSpeaker);
+    
+    Trigger ManualCrashbarTrigger = new Trigger(_controlInput::getManualCrashbar);
+    ManualCrashbarTrigger.toggleOnTrue(_manualCrashbar);
+
+    Trigger ManualAcquisitionTrigger = new Trigger(_controlInput::getManualAcquisition);
+    ManualAcquisitionTrigger.onTrue(_manualAcquisition);
+    
   }
 
   /**
