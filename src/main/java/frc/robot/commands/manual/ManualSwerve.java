@@ -14,7 +14,7 @@ import frc.robot.utils.drivemodes.DefaultSpin;
 import frc.robot.utils.drivemodes.SpinDrive;
 import frc.robot.utils.drivemodes.DefaultDrive;
 import frc.robot.utils.drivemodes.TabletDrive;
-
+import frc.robot.utils.drivemodes.XboxSpin;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -40,6 +40,7 @@ public class ManualSwerve extends Command {
 
   // Sets up spin modes
   public AutoOrient autoOrient = new AutoOrient();
+  public XboxSpin xboxSpin = new XboxSpin();
 
   /**
    * @param drivetrain
@@ -97,10 +98,15 @@ public class ManualSwerve extends Command {
     // Sets up spin
     double spin;
 
-    // Tests if auto-orient should run
+    // Auto-orient function
     if (autoOrient.shouldExecute(_controls)) {
       spin = autoOrient.calculate(_controls, swerve_position);
-    } else {
+    }
+    else if (xboxSpin.shouldExecute(_controls)) {
+      spin = xboxSpin.calculate(_controls, swerve_position);
+    }
+    else {
+      spin = DefaultSpin.calculate(_controls);
 
       // If auto orient shouldn't run
       switch (driveMode.getSelected()) {
