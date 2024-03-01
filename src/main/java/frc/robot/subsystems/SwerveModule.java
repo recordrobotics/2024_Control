@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.ModuleConstants;
 
@@ -27,7 +28,7 @@ public class SwerveModule {
 
   private final ProfiledPIDController drivePIDController;
   private final ProfiledPIDController turningPIDController;
-  private final SimpleMotorFeedforward driveFeedForward;
+  private SimpleMotorFeedforward driveFeedForward;
 
   private final double TURN_GEAR_RATIO;
   private final double DRIVE_GEAR_RATIO;
@@ -86,6 +87,9 @@ public class SwerveModule {
 
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelTurnOffset());
+
+    SmartDashboard.putNumber("kS", driveFeedForward.ks);
+    SmartDashboard.putNumber("kV", driveFeedForward.kv);
   }
 
   /**
@@ -173,12 +177,18 @@ public class SwerveModule {
     SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState,
         getTurnWheelRotation2d());
 
+    driveFeedForward = new SimpleMotorFeedforward(SmartDashboard.getNumber("kS", 0),
+        SmartDashboard.getNumber("kV", 0));
+
     // Calculate the drive output from the drive PID controller then set drive
     // motor.
     double driveOutput = drivePIDController.calculate(getDriveWheelVelocity(),
         optimizedState.speedMetersPerSecond);
     double driveFeedforwardOutput = driveFeedForward.calculate(optimizedState.speedMetersPerSecond);
     m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
+
+    SmartDashboard.putNumberArray("speed " + m_driveMotor.getDeviceID(),
+        new double[] { getDriveWheelVelocity(), optimizedState.speedMetersPerSecond });
 
     // Calculate the turning motor output from the turning PID controller then set
     // turn motor.

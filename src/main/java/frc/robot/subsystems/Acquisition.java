@@ -4,21 +4,42 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import frc.robot.Constants;
 import frc.robot.RobotMap;
 
 public class Acquisition extends SubsystemBase {
-    private Spark lower = new Spark(RobotMap.Aquisition.LOWER_ACQUISITION_MOTOR_ID);
-    private Spark upper = new Spark(RobotMap.Aquisition.UPPER_ACQUISITION_MOTOR_ID);
-    DigitalInput photosensor = new DigitalInput(0);
-
-    private static final double LOWER_SPEED = 0.3;
-    private static final double UPPER_SPEED = 0.1;
+    private Spark acquisitionMotor = new Spark(RobotMap.Acquisition.ACQUISITION_MOTOR_ID);
+    private static final double acquisitionDefaultSpeed = Constants.Acquisition.ACQUISITION_SPEED;
+    public AcquisitionStates acquisitionState = AcquisitionStates.OFF;
 
     public Acquisition() {
-        
+        toggle(AcquisitionStates.OFF);
+    }
+
+    public void toggle(AcquisitionStates state, double speed) {
+        acquisitionState = state;
+        switch (state) {
+            case IN:
+                acquisitionMotor.set(speed);
+                break;
+            case REVERSE:
+                acquisitionMotor.set(-speed);
+                break;
+            default:
+                acquisitionMotor.set(0);
+                break;
+        }
+    }
+
+    public void toggle(AcquisitionStates state) {
+        toggle(state, acquisitionDefaultSpeed);
+    }
+
+    public enum AcquisitionStates {
+        IN,
+        REVERSE,
+        OFF;
     }
 }

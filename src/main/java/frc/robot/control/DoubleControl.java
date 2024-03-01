@@ -47,18 +47,13 @@ public class DoubleControl {
 				input = 0;
 				break;
 		}
-		// Gets whether or not the spin input is negative or positive
-		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOYSTICK_X_THRESHOLD); // How much
-																											// the input
-																											// is above
-																											// the
-																											// threshold
-																											// (absolute
-																											// value)
-		double proportion = subtract_threshold / (1 - Constants.Control.JOYSTICK_X_THRESHOLD); // What proportion
-																								// (threshold to value)
-																								// is of (threshold to
-																								// 1)
+
+		// How much the input is above the threshold (absolute value)
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOYSTICK_X_THRESHOLD); 
+		
+		// What proportion (threshold to value) is of (threshold to 1)
+		double proportion = subtract_threshold / (1 - Constants.Control.JOYSTICK_X_THRESHOLD); 
+
 		// Multiplies by spin sensitivity and returns
 		double final_x = Math.signum(input) * proportion * Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY;
 		return final_x;
@@ -92,10 +87,7 @@ public class DoubleControl {
 																											// threshold
 																											// (absolute
 																											// value)
-		double proportion = subtract_threshold / (1 - Constants.Control.JOSYTICK_Y_THRESHOLD); // What proportion
-																								// (threshold to value)
-																								// is of (threshold to
-																								// 1)
+		double proportion = subtract_threshold / (1 - Constants.Control.JOSYTICK_Y_THRESHOLD);
 		// Multiplies by spin sensitivity and returns
 		double final_y = Math.signum(input) * proportion * Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY;
 		return final_y;
@@ -157,44 +149,41 @@ public class DoubleControl {
 	}
 
 	/**
-	 * Returns speed level slider in range 0-1
-	 */
-	public double getSpeedLevelNormalized() {
-		// remap -1,1 to 1,0 (inverted)
-		return SimpleMath.Remap(stickpad.getRawAxis(3), -1, 1, 1, 0);
-	}
-
-	/**
-	 * Takes speedlevel slider on control input and remaps to 0.5-->4
-	 * 
+	 * Takes speedlevel slider on control input and remaps to 1.4-->7.0
 	 * @return
-	 *         Speedlevel control from 0.5 --> 4
+	 * Speedlevel control from 1.4 --> 7.0
 	 */
-	public double getSpeedLevel() {
-		final double speedLow = 0.5;
-		final double speedHigh = 4.0;
-
-		double norm = getSpeedLevelNormalized();
-		return SimpleMath.Remap(norm, speedLow, speedHigh);
+	public double getDirectionalSpeedLevel() {
+		// Remaps speed meter from -1 -> 1 to 0.5 -> 4, then returns
+		return SimpleMath.Remap(stickpad.getRawAxis(3), -1, 1, Constants.Control.DIRECTIONAL_SPEED_METER_LOW, Constants.Control.DIRECTIONAL_SPEED_METER_HIGH);
 	}
 
-	public boolean getAcquireNormal() {
-		return xbox_controller.getRawAxis(2) > 0.3;
+	public double getSpinSpeedLevel() {
+		// Remaps speed meter from -1 -> 1 to 0.5 -> 4, then returns
+		return SimpleMath.Remap(stickpad.getRawAxis(3), -1, 1, Constants.Control.SPIN_SPEED_METER_LOW, Constants.Control.SPIN_SPEED_METER_HIGH);
 	}
 
-	public boolean getAcquireReverse() {
-		return xbox_controller.getRawButton(5);
+	public boolean getAcquire() {
+		return xbox_controller.getLeftTriggerAxis() > 0.3; // aka the left trigger axis
 	}
 
-	public boolean getShoot() {
-		return xbox_controller.getRawAxis(3) > 0.3 || xbox_controller.getRawButton(6);
+	public boolean getReverse() {
+		return xbox_controller.getLeftBumper(); // aka the left trigger button
 	}
 
-	public boolean getChainUp() {
+	public boolean getShootSpeaker() { 
+		return xbox_controller.getRightTriggerAxis() > 0.3; // aka the right trigger axis
+	}
+
+	public boolean getShootAmp() {
+		return xbox_controller.getRightBumper(); // aka the right trigger button
+	}
+
+	public boolean getClimberUp() {
 		return xbox_controller.getRawAxis(1) < -0.5;
 	}
 
-	public boolean getChainDown() {
+	public boolean getClimberDown() {
 		return xbox_controller.getRawAxis(1) > 0.5;
 	}
 
@@ -210,9 +199,26 @@ public class DoubleControl {
 		return xbox_controller.getRawButton(8);
 	}
 
-	/**
-	 * TABLET COMMANDS
-	 */
+
+	
+	public boolean getManualShootSpeaker() {
+		return xbox_controller.getAButton();
+	}
+
+	public boolean getManualShootAmp() {
+		return xbox_controller.getBButton();
+	}
+
+	public boolean getManualAcquisition() {
+		return xbox_controller.getXButton();
+	}
+
+	public boolean getManualCrashbar() {
+		return xbox_controller.getYButton();
+	}
+	
+
+
 
 	/**
 	 * Converts (-1, 1) to (0,1)
@@ -246,4 +252,15 @@ public class DoubleControl {
 		}
 		return 0;
 	}
-}
+
+	/**
+	 * Converts (-1, 1) to (-pi, pi)
+	 * @return angle of the spin knob (from -pi to pi)
+	 */
+	public double getSpinKnob() {
+		return SimpleMath.Remap(xbox_controller.getRawAxis(0), -1, 1, -Math.PI, Math.PI);
+	}
+
+	}
+
+
