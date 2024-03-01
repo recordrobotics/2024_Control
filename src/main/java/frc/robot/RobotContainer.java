@@ -137,7 +137,7 @@ public class RobotContainer {
     _crashbarExtend = new CrashbarExtend(_crashbar);
 
     // Robot kill command
-    _robotKill = new RobotKill(_drivetrain);
+    _robotKill = new RobotKill(_drivetrain, _acquisition, _channel, _climbers, _shooter, _crashbar);
   }
 
   public void teleopInit() {
