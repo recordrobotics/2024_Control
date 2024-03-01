@@ -1,5 +1,6 @@
 package frc.robot.control;
 
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
@@ -250,4 +251,21 @@ public class DoubleControl {
 		}
 		return 0;
 	}
+
+
+	public Pair<Double, Boolean> getXboxSpinAngle() {
+		double MAGNITUDE_THRESHOLD = 0.5;
+		// Gets x and y axis of xbox
+		double x_axis = xbox_controller.getRawAxis(0);
+		double y_axis = -1 * xbox_controller.getRawAxis(1);
+		// Gets magnitude of xbox axis
+		double magnitude = Math.sqrt(x_axis*x_axis + y_axis*y_axis);
+		
+		if (magnitude > MAGNITUDE_THRESHOLD) {
+			double angle = Math.atan2(y_axis, x_axis);
+			return new Pair<Double,Boolean> (angle, true);
+		}
+		return new Pair<Double,Boolean>(0.0, false);
+	}
+
 }

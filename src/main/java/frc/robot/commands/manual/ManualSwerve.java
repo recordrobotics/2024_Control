@@ -11,6 +11,8 @@ import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.DriverStationUtils;
 import frc.robot.utils.drivemodes.AutoOrient;
 import frc.robot.utils.drivemodes.DefaultSpin;
+import frc.robot.utils.drivemodes.XboxSpin;
+
 
 import frc.robot.utils.drivemodes.DefaultDrive;
 import frc.robot.utils.drivemodes.TabletDrive;
@@ -40,6 +42,7 @@ public class ManualSwerve extends Command {
 
   // Sets up spin modes
   public AutoOrient autoOrient = new AutoOrient();
+  public XboxSpin xboxSpin = new XboxSpin();
 
   /**
    * @param drivetrain
@@ -100,7 +103,11 @@ public class ManualSwerve extends Command {
     // Auto-orient function
     if (autoOrient.shouldExecute(_controls)) {
       spin = autoOrient.calculate(_controls, swerve_position);
-    } else {
+    }
+    else if (xboxSpin.shouldExecute(_controls)) {
+      spin = xboxSpin.calculate(_controls, swerve_position);
+    }
+    else {
       spin = DefaultSpin.calculate(_controls);
     }
 
