@@ -31,6 +31,11 @@ public class Shooter extends SubsystemBase {
         flywheelR.set(speed);
     }
 
+    public void toggle(double speedL, double speedR) {
+        flywheelL.set(-speedL);
+        flywheelR.set(speedR);
+    }
+
     public void toggle(ShooterStates state) {
         shooterState = state;
         switch (state) {

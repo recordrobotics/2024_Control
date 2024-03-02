@@ -9,13 +9,13 @@ import frc.robot.subsystems.Photosensor;
 import frc.robot.subsystems.Acquisition.AcquisitionStates;
 import frc.robot.subsystems.Channel.ChannelStates;
 
-public class Acquire extends SequentialCommandGroup {
+public class AcquireSmart extends SequentialCommandGroup {
 
   private static Acquisition _acquisition;
   private static Channel _channel;
   private static Photosensor _photosensor;
 
-  public Acquire (Acquisition acquisition, Channel channel, Photosensor photosensor) {
+  public AcquireSmart (Acquisition acquisition, Channel channel, Photosensor photosensor) {
     _acquisition = acquisition;
     _channel = channel;
     _photosensor = photosensor;
@@ -31,9 +31,16 @@ public class Acquire extends SequentialCommandGroup {
       new InstantCommand(() -> _channel.toggle(ChannelStates.SHOOT), _channel).handleInterrupt(killSpecified),
       // Waits until photosensor
       new WaitUntilCommand(()->_photosensor.getDebouncedValue()),
-      // Turns acq and channel off
+      // Turns acq off
       new InstantCommand(() -> _acquisition.toggle(AcquisitionStates.OFF), _acquisition).handleInterrupt(killSpecified),
-      new InstantCommand(() -> _channel.toggle(ChannelStates.OFF), _channel).handleInterrupt(killSpecified)
+      // waits until photosensor off, extra time
+      new WaitUntilCommand(()->!_photosensor.getDebouncedValue()).handleInterrupt(killSpecified),
+      new WaitUntilCommand(0.5),
+      // Turns channel reverse
+      new InstantCommand(() -> _channel.toggle(ChannelStates.REVERSE), _channel).handleInterrupt(killSpecified),
+      // Waits until photosensor on, then toggle channel off
+      new WaitUntilCommand(()->_photosensor.getDebouncedValue()).handleInterrupt(killSpecified),
+      new InstantCommand(()-> _channel.toggle(ChannelStates.OFF), _channel).handleInterrupt(killSpecified)
     );
   }
 }

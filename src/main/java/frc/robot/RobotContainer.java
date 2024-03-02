@@ -12,15 +12,15 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.RobotKill;
+import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.manual.ManualAcquisition;
 import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
 import frc.robot.commands.manual.ManualSwerve;
+import frc.robot.commands.manual.ManualReverse;
 import frc.robot.commands.notes.Acquire;
-import frc.robot.commands.notes.Reverse;
 import frc.robot.commands.notes.ShootAmp;
 import frc.robot.commands.notes.ShootSpeaker;
 import frc.robot.control.DoubleControl;
@@ -64,7 +64,7 @@ public class RobotContainer {
   private DoubleControl _controlInput;
 
   private Acquire _acquire;
-  private Reverse _reverse;
+  private ManualReverse _reverse;
   private ShootSpeaker _shootSpeaker;
   private ShootAmp _shootAmp;
   // private ClimberUp _climberUp;
@@ -76,7 +76,7 @@ public class RobotContainer {
   private ManualCrashbar _manualCrashbar;
   private ManualClimbers _manualClimbers;
 
-  private RobotKill _robotKill;
+  private KillSpecified _killSpecified;
 
   private Command autoCommand;
 
@@ -128,14 +128,14 @@ public class RobotContainer {
     _acquire = new Acquire(_acquisition, _channel, _photosensor);
     _shootSpeaker = new ShootSpeaker(_channel, _shooter);
     _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
-    _reverse = new Reverse(_acquisition, _channel);
+    _reverse = new ManualReverse(_acquisition, _channel);
 
     // Solenoid commands
     // _climberUp = new ClimberUp(_climbers);
     // _climberDown = new ClimberDown(_climbers);
 
     // Robot kill command
-    _robotKill = new RobotKill(_drivetrain);
+    _killSpecified = new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers);
   }
 
   public void teleopInit() {
@@ -153,8 +153,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    // Command to kill robot
     Trigger robotKillTrigger = new Trigger(_controlInput::getKillAuto);
-    robotKillTrigger.whileTrue(_robotKill);
+    robotKillTrigger.whileTrue(_killSpecified);
 
     Trigger acquireTrigger = new Trigger(_controlInput::getAcquire);
     acquireTrigger.toggleOnTrue(_acquire);
