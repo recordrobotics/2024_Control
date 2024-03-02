@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.control.DoubleControl;
 import frc.robot.utils.DriveCommandData;
 
-public class DefaultDrive {
+public class XboxDrive {
 
     /**
      * runs calculations for auto-orient
@@ -24,8 +24,8 @@ public class DefaultDrive {
 
         // Gets information needed to drive
         DriveCommandData driveCommandData = new DriveCommandData(
-                _controls.getX() * speedLevel,
-                _controls.getY() * speedLevel,
+                _controls.getXboxDriveX() * speedLevel,
+                _controls.getXboxDriveY() * speedLevel,
                 spin,
                 field_relative);
 

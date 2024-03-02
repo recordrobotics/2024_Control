@@ -124,6 +124,7 @@ public class RobotContainer {
     _manualShootSpeaker = new ManualShooter(_shooter, ShooterStates.SPEAKER);
     _manualShootAmp = new ManualShooter(_shooter, ShooterStates.AMP);
     _manualCrashbar = new ManualCrashbar(_crashbar);
+    _manualClimbers = new ManualClimbers(_climbers);
 
     // Sets up higher level manual notes commands
     _acquire = new Acquire(_acquisition, _channel, _photosensor);

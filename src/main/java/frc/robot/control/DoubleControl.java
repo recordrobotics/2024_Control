@@ -230,7 +230,7 @@ public class DoubleControl {
 	}
 
 	public boolean getClimberToggle() {
-		return stickpad.getRawButton(7);
+		return xbox_controller.getRawButton(7);
 	}
 
 	/*
