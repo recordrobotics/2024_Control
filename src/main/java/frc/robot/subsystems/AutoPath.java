@@ -19,7 +19,7 @@ public class AutoPath {
     public AutoPath(Drivetrain drivetrain, Channel channel, Shooter shooter) {
         NamedCommands.registerCommand("Stop", new InstantCommand(() -> {
             drivetrain.stop();
-        }, drivetrain));
+        }));
 
         NamedCommands.registerCommand("ShootSpeaker", new ShootSpeaker(channel, shooter));
 
