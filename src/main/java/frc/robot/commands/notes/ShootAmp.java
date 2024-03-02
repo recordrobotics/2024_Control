@@ -16,9 +16,9 @@ public class ShootAmp extends Command {
 
   /** Number of seconds it takes for the flywheel to spin up */
   private final double flywheelSpinupTime = 1;
-  private final double crashbarExtendTime = 1.5;
+  private final double crashbarExtendTime = 1.2;
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
-  private final double shootTime = 1.3;
+  private final double shootTime = 2;
 
   // Init timer
   protected Timer m_timer = new Timer();
