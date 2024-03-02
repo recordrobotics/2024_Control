@@ -178,11 +178,13 @@ public class RobotContainer {
     Trigger ClimberDownTrigger = new Trigger(_controlInput::getClimberDown);
     ClimberDownTrigger.onTrue(_climberDown);
 
+    /*
     Trigger CrashbarExtendTrigger = new Trigger(_controlInput::getCrashbarExtend);
     CrashbarExtendTrigger.onTrue(_crashbarExtend);
 
     Trigger CrashbarRetractTrigger = new Trigger(_controlInput::getCrashbarRetract);
     CrashbarRetractTrigger.onTrue(_crashbarRetract);
+     */
 
     // Manual triggers
     Trigger ManualShootAmpTrigger = new Trigger(_controlInput::getManualShootAmp);

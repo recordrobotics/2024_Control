@@ -181,13 +181,14 @@ public class DoubleControl {
 	}
 
 	public boolean getClimberUp() {
-		return xbox_controller.getRawAxis(1) < -0.5;
+		return xbox_controller.getRawAxis(5) < -0.5;
 	}
 
 	public boolean getClimberDown() {
-		return xbox_controller.getRawAxis(1) > 0.5;
+		return xbox_controller.getRawAxis(5) > 0.5;
 	}
 
+	/*
 	public boolean getCrashbarExtend() {
 		return xbox_controller.getRawAxis(5) < -0.5;
 	}
@@ -195,6 +196,7 @@ public class DoubleControl {
 	public boolean getCrashbarRetract() {
 		return xbox_controller.getRawAxis(5) > 0.5;
 	}
+	 */
 
 	public boolean getKillAuto() {
 		return xbox_controller.getRawButton(8);

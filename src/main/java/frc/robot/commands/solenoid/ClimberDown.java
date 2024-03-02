@@ -2,15 +2,12 @@ package frc.robot.commands.solenoid;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climbers.ClimberStates;
 import frc.robot.subsystems.Climbers;
-import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClimberDown extends Command {
 
   private static Climbers _climbers;
 
-  // Init timer
-  protected Timer m_timer = new Timer();
 
   public ClimberDown (Climbers climbers) {
     addRequirements(climbers);
@@ -21,8 +18,6 @@ public class ClimberDown extends Command {
   @Override
   public void initialize() {
     _climbers.toggle(ClimberStates.DOWN);
-    m_timer.reset();
-    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
