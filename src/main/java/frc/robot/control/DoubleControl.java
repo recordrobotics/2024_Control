@@ -318,6 +318,79 @@ public class DoubleControl {
 		return stickpad.getRawButton(1);
 	}
 
+	public double getXboxDriveX() {
+
+		// Gets raw value
+		double input;
+		switch (joystickOrientation) {
+			case XAxisTowardsTrigger:
+				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+					input = -xbox_controller.getRawAxis(5);
+				else
+					input = xbox_controller.getRawAxis(5);
+				break;
+			case YAxisTowardsTrigger:
+				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+					input = xbox_controller.getRawAxis(4);
+				else
+					input = -xbox_controller.getRawAxis(4);
+				break;
+			default:
+				input = 0;
+				break;
+		}
+
+		// How much the input is above the threshold (absolute value)
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOYSTICK_X_THRESHOLD);
+
+		// What proportion (threshold to value) is of (threshold to 1)
+		double proportion = subtract_threshold / (1 - Constants.Control.JOYSTICK_X_THRESHOLD);
+
+		// Multiplies by spin sensitivity and returns
+		double final_x = Math.signum(input) * proportion * Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY;
+		return final_x;
+
+	}
+
+	/**
+	 * @return remapped joystick y value (sets a min threshold, multiplies by input
+	 *         sens)
+	 */
+	public double getXboxDriveY() {
+
+		// Gets raw value
+		double input;
+		switch (joystickOrientation) {
+			case XAxisTowardsTrigger:
+				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+					input = -xbox_controller.getRawAxis(4);
+				else
+					input = xbox_controller.getRawAxis(4);
+				break;
+			case YAxisTowardsTrigger:
+				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+					input = -xbox_controller.getRawAxis(5);
+				else
+					input = xbox_controller.getRawAxis(5);
+				break;
+			default:
+				input = 0;
+				break;
+		}
+		// Gets whether or not the spin input is negative or positive
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOSYTICK_Y_THRESHOLD); // How much
+																											// the input
+																											// is above
+																											// the
+																											// threshold
+																											// (absolute
+																											// value)
+		double proportion = subtract_threshold / (1 - Constants.Control.JOSYTICK_Y_THRESHOLD);
+		// Multiplies by spin sensitivity and returns
+		double final_y = Math.signum(input) * proportion * Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY;
+		return final_y;
+	}
+
 	/**
 	 * TODO: documentation
 	 * 

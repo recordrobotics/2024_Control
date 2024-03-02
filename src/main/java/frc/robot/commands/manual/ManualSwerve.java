@@ -10,6 +10,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.drivemodes.drive.DefaultDrive;
 import frc.robot.utils.drivemodes.drive.TabletDrive;
+import frc.robot.utils.drivemodes.drive.XboxDrive;
 import frc.robot.utils.drivemodes.spin.AutoOrient;
 import frc.robot.utils.drivemodes.spin.DefaultSpin;
 import frc.robot.utils.drivemodes.spin.KnobSpin;
@@ -32,7 +33,7 @@ public class ManualSwerve extends Command {
 
   // Sets up sendable chooser for drivemode
   public enum DriveMode {
-    Robot, Field, Tablet, Spin
+    Robot, Field, Tablet, Spin, Xbox
   }
 
   // Sets up sendable choosers
@@ -45,6 +46,7 @@ public class ManualSwerve extends Command {
   public XboxSpin xboxSpin = new XboxSpin();
   public XboxDPad xboxDPad = new XboxDPad();
   public SpinLock spinLock = new SpinLock();
+  public XboxDrive xboxDrive = new XboxDrive();
 
   /**
    * @param drivetrain
@@ -61,6 +63,7 @@ public class ManualSwerve extends Command {
     driveMode.addOption("Robot", DriveMode.Robot);
     driveMode.addOption("Field", DriveMode.Field);
     driveMode.addOption("Tablet", DriveMode.Tablet);
+    driveMode.addOption("Xbox", DriveMode.Xbox);
     driveMode.addOption("Spin", DriveMode.Spin);
     driveMode.setDefaultOption("Field", DriveMode.Field);
 
@@ -126,7 +129,7 @@ public class ManualSwerve extends Command {
       switch (driveMode.getSelected()) {
         case Spin:
           spin = spinDrive.calculate(_controls, swerve_position);
-          break;
+          break;          
         default:
           spin = DefaultSpin.calculate(_controls);
           break;
@@ -142,6 +145,9 @@ public class ManualSwerve extends Command {
         break;
       case Robot:
         driveCommandData = DefaultDrive.calculate(_controls, spin, swerve_position, false);
+        break;
+      case Xbox:
+        driveCommandData = XboxDrive.calculate(_controls, spin, swerve_position, true);
         break;
       default:
         driveCommandData = DefaultDrive.calculate(_controls, spin, swerve_position, true);
