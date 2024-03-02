@@ -7,7 +7,7 @@ import frc.robot.control.DoubleControl;
 public class XboxSpin {
 
     // Init variables
-    private PIDController anglePID = new PIDController(0.4, 0, 0);
+    private PIDController anglePID = new PIDController(3.36, 0, 0);
 
     public XboxSpin() {
         // Enables continious input for PID
@@ -31,7 +31,7 @@ public class XboxSpin {
             double xbox_angle = _controls.getXboxSpinAngle().getFirst();
             double robot_angle = swerve_position.getRotation().getRadians();
 
-            double spin = Math.max(-0.5, Math.min(0.5, anglePID.calculate(robot_angle, xbox_angle)));
+            double spin = anglePID.calculate(robot_angle, xbox_angle);
             
             // Returns spin
             return spin;

@@ -11,6 +11,7 @@ public class ManualShooter extends Command {
 
   public ManualShooter(Shooter shooter, ShooterStates state) {
     _shooter = shooter;
+    _state = state;
     addRequirements(shooter);
   }
 
