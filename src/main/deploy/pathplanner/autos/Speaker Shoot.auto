@@ -20,6 +20,12 @@
         {
           "type": "named",
           "data": {
+            "name": "OrientSpeaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "ShootSpeaker"
           }
         }
