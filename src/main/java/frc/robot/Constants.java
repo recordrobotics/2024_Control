@@ -85,7 +85,7 @@ public final class Constants {
         // Thresholds for directional controls (XY) and spin (theta)
         public static final double JOYSTICK_X_THRESHOLD = 0.15;
         public static final double JOSYTICK_Y_THRESHOLD = 0.15;
-        public static final double JOYSTICK_SPIN_THRESHOLD = 0.5;
+        public static final double JOYSTICK_SPIN_THRESHOLD = 0.76;
 
         // Tablet drive constants
         public final class Tablet {
