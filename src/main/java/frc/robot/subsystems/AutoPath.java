@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
+import frc.robot.commands.auto.OrientTowards;
 import frc.robot.commands.notes.ShootSpeaker;
 import frc.robot.utils.DriveCommandData;
+import frc.robot.utils.OrientTarget;
 
 public class AutoPath {
 
@@ -22,6 +24,8 @@ public class AutoPath {
         }));
 
         NamedCommands.registerCommand("ShootSpeaker", new ShootSpeaker(channel, shooter));
+        NamedCommands.registerCommand("OrientSpeaker", new OrientTowards(drivetrain, OrientTarget.Speaker));
+        NamedCommands.registerCommand("OrientAmp", new OrientTowards(drivetrain, OrientTarget.Amp));
 
         AutoBuilder.configureHolonomic(
                 drivetrain.poseFilter::getEstimatedPosition, // Robot pose supplier

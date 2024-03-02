@@ -65,7 +65,9 @@ public final class Constants {
         // public static final Pose2d TEAM_BLUE_STARTING_POSE = new
         // Pose2d(FIELD_X_DIMENSION / 2, FIELD_Y_DIMENSION / 2,
         // Rotation2d.fromDegrees(0));
-        public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(2, 2, Rotation2d.fromDegrees(0));
+        // public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(2, 2,
+        // Rotation2d.fromDegrees(0));
+        public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(3.322, 5.633, Rotation2d.fromDegrees(0));
     }
 
     public final class Control {
@@ -137,7 +139,7 @@ public final class Constants {
         public static final double KRAKEN_DRIVE_FEEDFORWARD_KV = 2.4915;
 
         // Same between Falcon and Kraken since they share the same encoders
-        public static final double RELATIVE_ENCODER_RATIO = 2048; 
+        public static final double RELATIVE_ENCODER_RATIO = 2048;
 
         // Wheel diameter
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
@@ -164,7 +166,7 @@ public final class Constants {
                 2,
                 1,
                 1,
-                0.620, //0.12363, //0.597
+                0.620, // 0.12363, //0.597
                 frontLeftLocation,
                 MotorType.Falcon,
                 MotorType.Falcon);
@@ -172,7 +174,7 @@ public final class Constants {
                 4,
                 3,
                 2,
-                0.924, //0.41599, //0.886
+                0.924, // 0.41599, //0.886
                 frontRightLocation,
                 MotorType.Falcon,
                 MotorType.Falcon);
@@ -180,7 +182,7 @@ public final class Constants {
                 8,
                 7,
                 4,
-                0.676, //0.17245, //0.857
+                0.676, // 0.17245, //0.857
                 backLeftLocation,
                 MotorType.Falcon,
                 MotorType.Falcon);
@@ -188,7 +190,7 @@ public final class Constants {
                 6,
                 5,
                 3,
-                0.371, //0.86499, //0.556
+                0.371, // 0.86499, //0.556
                 backRightLocation,
                 MotorType.Falcon,
                 MotorType.Falcon);
