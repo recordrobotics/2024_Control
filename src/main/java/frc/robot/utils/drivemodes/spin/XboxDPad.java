@@ -2,7 +2,6 @@ package frc.robot.utils.drivemodes.spin;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.control.DoubleControl;
 
 public class XboxDPad {
@@ -19,7 +18,6 @@ public class XboxDPad {
     }
 
     public double calculate(DoubleControl _controls, Pose2d swerve_position) {
-        SmartDashboard.putNumber("pova", _controls.getAngleDPad().getFirst().getDegrees());
         double spin = anglePID.calculate(swerve_position.getRotation().getRadians(),
                 _controls.getAngleDPad().getFirst().getRadians());
 
