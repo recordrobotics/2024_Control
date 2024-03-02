@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterStates;
 import frc.robot.subsystems.Crashbar;
@@ -102,7 +103,7 @@ public class RobotContainer {
     _climbers = new Climbers();
 
     // Sets up auto chooser
-    _autoPath = new AutoPath(_drivetrain);
+    _autoPath = new AutoPath(_drivetrain, _channel, _shooter);
     _autoPath.putAutoChooser();
 
     // Bindings and Teleop
@@ -170,7 +171,6 @@ public class RobotContainer {
     Trigger reverseTrigger = new Trigger(_controlInput::getReverse);
     reverseTrigger.whileTrue(_reverse);
 
-
     // Solenoid triggers
     Trigger ClimberUpTrigger = new Trigger(_controlInput::getClimberUp);
     ClimberUpTrigger.onTrue(_climberUp);
@@ -184,20 +184,19 @@ public class RobotContainer {
     Trigger CrashbarRetractTrigger = new Trigger(_controlInput::getCrashbarRetract);
     CrashbarRetractTrigger.onTrue(_crashbarRetract);
 
-
     // Manual triggers
     Trigger ManualShootAmpTrigger = new Trigger(_controlInput::getManualShootAmp);
     ManualShootAmpTrigger.toggleOnTrue(_manualShootAmp);
 
     Trigger ManualShootSpeakerTrigger = new Trigger(_controlInput::getManualShootSpeaker);
     ManualShootSpeakerTrigger.toggleOnTrue(_manualShootSpeaker);
-    
+
     Trigger ManualCrashbarTrigger = new Trigger(_controlInput::getManualCrashbar);
     ManualCrashbarTrigger.toggleOnTrue(_manualCrashbar);
 
     Trigger ManualAcquisitionTrigger = new Trigger(_controlInput::getManualAcquisition);
     ManualAcquisitionTrigger.whileTrue(_manualAcquisition);
-    
+
   }
 
   /**
