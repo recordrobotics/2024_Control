@@ -126,11 +126,11 @@ public class DoubleControl {
 	}
 
 	public boolean getAutoOrientSpeaker() {
-		return stickpad.getRawButton(9) || xbox_controller.getRawButton(3);
+		return stickpad.getRawButton(9);
 	}
 
 	public boolean getAutoOrientAmp() {
-		return stickpad.getRawButton(11) || xbox_controller.getRawButton(4);
+		return stickpad.getRawButton(11);
 	}
 
 	public boolean getAutoChain() {
@@ -138,11 +138,11 @@ public class DoubleControl {
 	}
 
 	public boolean getAutoScoreSpeaker() {
-		return stickpad.getRawButtonPressed(10) || xbox_controller.getRawButtonPressed(1);
+		return stickpad.getRawButtonPressed(10);
 	}
 
 	public boolean getAutoScoreAmp() {
-		return stickpad.getRawButtonPressed(12) || xbox_controller.getRawButtonPressed(2);
+		return stickpad.getRawButtonPressed(12);
 	}
 
 	public boolean getTeleAutoStart() {
