@@ -173,6 +173,15 @@ public class DoubleControl {
 		return stickpad.getRawButtonPressed(3);
 	}
 
+	public Pair<Double, Boolean> getAngleDPad() {
+		double pov = xbox_controller.getPOV();
+		if (pov == -1) {
+			return new Pair<Double, Boolean>(0.0, false);
+		} else {
+			return new Pair<Double, Boolean>(pov, true);
+		}
+	}
+
 	/**
 	 * Takes speedlevel slider on control input and remaps to 1.4-->7.0
 	 * 
