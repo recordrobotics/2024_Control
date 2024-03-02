@@ -3,6 +3,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.control.DoubleControl;
+import frc.robot.utils.SimpleMath;
 
 public class XboxSpin {
 
@@ -19,24 +20,22 @@ public class XboxSpin {
     }
 
     public boolean shouldExecute(DoubleControl _controls) {
-        boolean is_over_threshold = _controls.getXboxSpinAngle().getSecond();
+        boolean is_over_threshold = _controls.getXboxSpinAngle().getSecond() > 0;
         return is_over_threshold; 
     }
 
     public double calculate(DoubleControl _controls, Pose2d swerve_position) {
 
-        boolean is_over_threshold = _controls.getXboxSpinAngle().getSecond();
+        double xbox_magnitutde = _controls.getXboxSpinAngle().getSecond();
+        double scaled_magnitude = SimpleMath.Remap(xbox_magnitutde, 0, 1);
 
-        if (is_over_threshold) {
-            double xbox_angle = _controls.getXboxSpinAngle().getFirst();
-            double robot_angle = swerve_position.getRotation().getRadians();
+        double xbox_angle = _controls.getXboxSpinAngle().getFirst();
+        double robot_angle = swerve_position.getRotation().getRadians();
 
-            double spin = anglePID.calculate(robot_angle, xbox_angle);
+        double spin = anglePID.calculate(robot_angle, xbox_angle);
             
-            // Returns spin
-            return spin;
-        }
-        return 0;
+        // Returns spin
+        return spin * scaled_magnitude;
     }
 
 }

@@ -277,18 +277,23 @@ public class DoubleControl {
 	 * TODO: documentation
 	 * @return
 	 */
-	public Pair<Double, Boolean> getXboxSpinAngle() {
+	public Pair<Double, Double> getXboxSpinAngle() {
 		double MAGNITUDE_THRESHOLD = 0.5;
 		// Gets x and y axis of xbox
 		double x_axis = xbox_controller.getRawAxis(0);
 		double y_axis = -1 * xbox_controller.getRawAxis(1);
 		// Gets magnitude of xbox axis
 		double magnitude = Math.sqrt(x_axis*x_axis + y_axis*y_axis);
+
+		// How much the input is above the threshold (absolute value)
+		double subtract_threshold = Math.max(0, magnitude - MAGNITUDE_THRESHOLD);
+		// What proportion (threshold to value) is of (threshold to 1)
+		double proportion = subtract_threshold / (1 - MAGNITUDE_THRESHOLD);
+
+		double angle = Math.atan2(y_axis, x_axis);
 		
-		if (magnitude > MAGNITUDE_THRESHOLD) {
-			double angle = Math.atan2(y_axis, x_axis);
-			return new Pair<Double,Boolean> (angle, true);
-		}
-		return new Pair<Double,Boolean>(0.0, false);
+		return new Pair<Double,Double> (angle, proportion);
+
 	}
+
 }
