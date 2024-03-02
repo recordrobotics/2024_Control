@@ -9,16 +9,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
+import frc.robot.commands.notes.ShootSpeaker;
 import frc.robot.utils.DriveCommandData;
 
 public class AutoPath {
 
     private final SendableChooser<Command> autoChooser;
 
-    public AutoPath(Drivetrain drivetrain) {
+    public AutoPath(Drivetrain drivetrain, Channel channel, Shooter shooter) {
         NamedCommands.registerCommand("Stop", new InstantCommand(() -> {
             drivetrain.stop();
         }, drivetrain));
+
+        NamedCommands.registerCommand("ShootSpeaker", new ShootSpeaker(channel, shooter));
 
         AutoBuilder.configureHolonomic(
                 drivetrain.poseFilter::getEstimatedPosition, // Robot pose supplier
