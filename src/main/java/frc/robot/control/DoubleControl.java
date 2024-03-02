@@ -334,8 +334,26 @@ public class DoubleControl {
 
 		double angle = Math.atan2(y_axis, x_axis);
 
-		return new Pair<Double, Double>(angle, proportion);
+		double adjusted_angle;
+		switch (joystickOrientation) {
+			case XAxisTowardsTrigger:
+				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+					adjusted_angle  = angle - Math.PI/2;
+				else
+					adjusted_angle = angle + Math.PI/2;
+				break;
+			case YAxisTowardsTrigger: //TODO: going to have to work the angle offsets out here
+				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+					adjusted_angle = angle;
+				else
+					adjusted_angle = angle;
+				break;
+			default:
+				adjusted_angle = 0;
+				break; 
+		}
 
+		return new Pair<Double, Double>(adjusted_angle, proportion);
 	}
 
 }
