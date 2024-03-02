@@ -168,12 +168,12 @@ public class RobotContainer {
 
     // Solenoid triggers
     Trigger ClimberUpTrigger = new Trigger(_controlInput::getClimberUp);
-    ClimberUpTrigger.onTrue(_climberUp);
+    ClimberUpTrigger.toggleOnTrue(_climberUp);
 
     Trigger ClimberDownTrigger = new Trigger(_controlInput::getClimberDown);
-    ClimberDownTrigger.onTrue(_climberDown);
+    ClimberDownTrigger.toggleOnTrue(_climberDown);
 
-    
+
     // Manual triggers
     Trigger ManualShootAmpTrigger = new Trigger(_controlInput::getManualShootAmp);
     ManualShootAmpTrigger.toggleOnTrue(_manualShootAmp);

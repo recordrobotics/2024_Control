@@ -1,4 +1,5 @@
 package frc.robot.commands.solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climbers.ClimberStates;
 import frc.robot.subsystems.Climbers;
@@ -7,6 +8,7 @@ import frc.robot.subsystems.Climbers;
 public class ClimberDown extends Command {
 
   private static Climbers _climbers;
+  protected Timer m_timer = new Timer();
 
 
   public ClimberDown (Climbers climbers) {
@@ -18,6 +20,8 @@ public class ClimberDown extends Command {
   @Override
   public void initialize() {
     _climbers.toggle(ClimberStates.DOWN);
+    m_timer.reset();
+    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,6 +38,6 @@ public class ClimberDown extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_timer.hasElapsed(1.1);
   }
 }
