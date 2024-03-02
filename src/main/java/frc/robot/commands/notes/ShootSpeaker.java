@@ -13,7 +13,7 @@ public class ShootSpeaker extends Command {
   private static Shooter _shooter;
 
   /** Number of seconds it takes for the flywheel to spin up */
-  private final double flywheelSpinupTime = 1;
+  private final double flywheelSpinupTime = 1.5;
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
   private final double shootTime = 1.2;
 
