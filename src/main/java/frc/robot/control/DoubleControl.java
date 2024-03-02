@@ -156,12 +156,12 @@ public class DoubleControl {
 	 */
 	public double getDirectionalSpeedLevel() {
 		// Remaps speed meter from -1 -> 1 to 0.5 -> 4, then returns
-		return SimpleMath.Remap(stickpad.getRawAxis(3), -1, 1, Constants.Control.DIRECTIONAL_SPEED_METER_LOW, Constants.Control.DIRECTIONAL_SPEED_METER_HIGH);
+		return SimpleMath.Remap(stickpad.getRawAxis(3), 1, -1, Constants.Control.DIRECTIONAL_SPEED_METER_LOW, Constants.Control.DIRECTIONAL_SPEED_METER_HIGH);
 	}
 
 	public double getSpinSpeedLevel() {
 		// Remaps speed meter from -1 -> 1 to 0.5 -> 4, then returns
-		return SimpleMath.Remap(stickpad.getRawAxis(3), -1, 1, Constants.Control.SPIN_SPEED_METER_LOW, Constants.Control.SPIN_SPEED_METER_HIGH);
+		return SimpleMath.Remap(stickpad.getRawAxis(3), 1, -1, Constants.Control.SPIN_SPEED_METER_LOW, Constants.Control.SPIN_SPEED_METER_HIGH);
 	}
 
 	public boolean getAcquire() {
