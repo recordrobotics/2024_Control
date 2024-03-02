@@ -37,32 +37,28 @@ public class AutoOrient {
     }
 
     /**
-     * @return
-     *         Whether or not auto-orient should be running
-     */
-    public boolean shouldExecute(DoubleControl _controls) {
-        return _controls.getAutoOrientSpeaker() || _controls.getAutoOrientAmp() && !_controls.getKillAuto();
-    }
-
-    /**
      * runs calculations for auto-orient
      * 
      * @return
      *         DriveCommandData object with drive directions
      */
-    public double calculate(DoubleControl _controls, Pose2d swerve_position) {
+
+    public double calculateSpeaker(Pose2d swerve_position) {
         Translation2d targetPos = new Translation2d(0, 0);
-        if (_controls.getAutoOrientAmp()) {
-            targetPos = DriverStationUtils.getCurrentAlliance() == Alliance.Red
-                    ? Constants.FieldConstants.TEAM_RED_AMP
-                    : Constants.FieldConstants.TEAM_BLUE_AMP;
-        } else if (_controls.getAutoOrientSpeaker()) {
-            targetPos = DriverStationUtils.getCurrentAlliance() == Alliance.Red
-                    ? Constants.FieldConstants.TEAM_RED_SPEAKER
-                    : Constants.FieldConstants.TEAM_BLUE_SPEAKER;
-        }
+        targetPos = DriverStationUtils.getCurrentAlliance() == Alliance.Red
+            ? Constants.FieldConstants.TEAM_RED_SPEAKER
+            : Constants.FieldConstants.TEAM_BLUE_SPEAKER;
         return calculate(targetPos, swerve_position);
     }
+
+    public double calculateAmp(Pose2d swerve_position) {
+        Rotation2d targetRotation = new Rotation2d(0);
+        targetRotation = DriverStationUtils.getCurrentAlliance() == Alliance.Red
+            ? Constants.FieldConstants.TEAM_RED_AMP
+            : Constants.FieldConstants.TEAM_BLUE_AMP;
+        return calculate(targetRotation, swerve_position);
+    }
+
 
     public double calculate(Translation2d targetPos, Pose2d swerve_position) {
         double spin;
@@ -72,7 +68,20 @@ public class AutoOrient {
         } else {
             spin = 0;
         }
+        // Returns spin
+        return spin;
+    }
 
+
+    public double calculate(Rotation2d targetAngle, Pose2d swerve_position) {
+        double spin;
+        double swerve_angle_radians = swerve_position.getRotation().getRadians();
+        double target_angle_radians = targetAngle.getRadians();
+        if (Math.abs(swerve_angle_radians - target_angle_radians) > 0.04) {
+            spin = anglePID.calculate(swerve_angle_radians, target_angle_radians);
+        } else {
+            spin = 0;
+        }
         // Returns spin
         return spin;
     }

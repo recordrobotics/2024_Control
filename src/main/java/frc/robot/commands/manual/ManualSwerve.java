@@ -100,8 +100,12 @@ public class ManualSwerve extends Command {
     double spin;
 
     // Auto-orient function
-    if (autoOrient.shouldExecute(_controls)) {
-      spin = autoOrient.calculate(_controls, swerve_position);
+    // If normal orient should activate
+    if (_controls.getAutoOrientSpeaker()) {
+      spin = autoOrient.calculateSpeaker(swerve_position);
+    }
+    if (_controls.getAutoOrientAmp()) {
+      spin = autoOrient.calculateAmp(swerve_position);
     }
     else if (xboxSpin.shouldExecute(_controls)) {
       spin = xboxSpin.calculate(_controls, swerve_position);

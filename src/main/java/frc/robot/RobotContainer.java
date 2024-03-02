@@ -21,8 +21,6 @@ import frc.robot.commands.notes.ShootAmp;
 import frc.robot.commands.notes.ShootSpeaker;
 import frc.robot.commands.solenoid.ClimberDown;
 import frc.robot.commands.solenoid.ClimberUp;
-import frc.robot.commands.solenoid.CrashbarRetract;
-import frc.robot.commands.solenoid.CrashbarExtend;
 import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.AutoPath;
 import frc.robot.subsystems.Channel;
@@ -69,8 +67,6 @@ public class RobotContainer {
   private ShootAmp _shootAmp;
   private ClimberUp _climberUp;
   private ClimberDown _climberDown;
-  private CrashbarRetract _crashbarRetract;
-  private CrashbarExtend _crashbarExtend;
 
   private ManualShooter _manualShootSpeaker;
   private ManualShooter _manualShootAmp;
@@ -134,8 +130,6 @@ public class RobotContainer {
     // Solenoid commands
     _climberUp = new ClimberUp(_climbers);
     _climberDown = new ClimberDown(_climbers);
-    _crashbarRetract = new CrashbarRetract(_crashbar);
-    _crashbarExtend = new CrashbarExtend(_crashbar);
 
     // Robot kill command
     _robotKill = new RobotKill(_drivetrain);
@@ -171,6 +165,7 @@ public class RobotContainer {
     Trigger reverseTrigger = new Trigger(_controlInput::getReverse);
     reverseTrigger.whileTrue(_reverse);
 
+
     // Solenoid triggers
     Trigger ClimberUpTrigger = new Trigger(_controlInput::getClimberUp);
     ClimberUpTrigger.onTrue(_climberUp);
@@ -178,16 +173,7 @@ public class RobotContainer {
     Trigger ClimberDownTrigger = new Trigger(_controlInput::getClimberDown);
     ClimberDownTrigger.onTrue(_climberDown);
 
-    /*
-     * Trigger CrashbarExtendTrigger = new
-     * Trigger(_controlInput::getCrashbarExtend);
-     * CrashbarExtendTrigger.onTrue(_crashbarExtend);
-     * 
-     * Trigger CrashbarRetractTrigger = new
-     * Trigger(_controlInput::getCrashbarRetract);
-     * CrashbarRetractTrigger.onTrue(_crashbarRetract);
-     */
-
+    
     // Manual triggers
     Trigger ManualShootAmpTrigger = new Trigger(_controlInput::getManualShootAmp);
     ManualShootAmpTrigger.toggleOnTrue(_manualShootAmp);

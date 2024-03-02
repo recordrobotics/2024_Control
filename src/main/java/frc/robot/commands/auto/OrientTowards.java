@@ -1,5 +1,6 @@
 package frc.robot.commands.auto;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,11 +17,19 @@ public class OrientTowards extends Command {
 
     private AutoOrient _autoOrient;
 
-    private Translation2d target;
+    private Translation2d targetPos;   
+    private Rotation2d targetRot;
+
 
     public OrientTowards(Drivetrain drivetrain, Translation2d target) {
         _autoOrient = new AutoOrient();
-        this.target = target;
+        this.targetPos = target;
+        this._drivetrain = drivetrain;
+    }
+
+    public OrientTowards(Drivetrain drivetrain, Rotation2d target) {
+        _autoOrient = new AutoOrient();
+        this.targetRot = target;
         this._drivetrain = drivetrain;
     }
 
@@ -29,12 +38,12 @@ public class OrientTowards extends Command {
         this._drivetrain = drivetrain;
         switch (target) {
             case Speaker:
-                this.target = DriverStationUtils.getCurrentAlliance() == Alliance.Red
+                this.targetPos = DriverStationUtils.getCurrentAlliance() == Alliance.Red
                         ? Constants.FieldConstants.TEAM_RED_SPEAKER
                         : Constants.FieldConstants.TEAM_BLUE_SPEAKER;
                 break;
             case Amp:
-                this.target = DriverStationUtils.getCurrentAlliance() == Alliance.Red
+                this.targetRot = DriverStationUtils.getCurrentAlliance() == Alliance.Red
                         ? Constants.FieldConstants.TEAM_RED_AMP
                         : Constants.FieldConstants.TEAM_BLUE_AMP;
                 break;
@@ -47,7 +56,10 @@ public class OrientTowards extends Command {
 
     @Override
     public void execute() {
-        double spin = _autoOrient.calculate(target, _drivetrain.poseFilter.getEstimatedPosition());
+        double spin = 0;
+        if(targetPos != null){
+            spin = _autoOrient.calculate(targetPos, _drivetrain.poseFilter.getEstimatedPosition());
+        }
 
         // Gets information needed to drive
         DriveCommandData driveCommandData = new DriveCommandData(
@@ -66,7 +78,14 @@ public class OrientTowards extends Command {
 
     @Override
     public boolean isFinished() {
-        double spin = _autoOrient.calculate(target, _drivetrain.poseFilter.getEstimatedPosition());
+        double spin = 0;
+        if(targetPos != null){
+            spin = _autoOrient.calculate(targetPos, _drivetrain.poseFilter.getEstimatedPosition());
+        }
+        else if (targetRot != null) {
+            spin = _autoOrient.calculate(targetRot, _drivetrain.poseFilter.getEstimatedPosition());
+        }
+        
         SmartDashboard.putNumber("autospin", spin);
         if (Math.abs(spin) <= 0.04) {
             return true;
