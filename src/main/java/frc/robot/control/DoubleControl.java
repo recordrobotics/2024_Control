@@ -329,15 +329,15 @@ public class DoubleControl {
 		switch (joystickOrientation) {
 			case XAxisTowardsTrigger:
 				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
-					input = -xbox_controller.getRawAxis(5);
+					input = -xbox_controller.getRawAxis(1);
 				else
-					input = xbox_controller.getRawAxis(5);
+					input = xbox_controller.getRawAxis(1);
 				break;
 			case YAxisTowardsTrigger:
 				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
-					input = xbox_controller.getRawAxis(4);
+					input = xbox_controller.getRawAxis(0);
 				else
-					input = -xbox_controller.getRawAxis(4);
+					input = -xbox_controller.getRawAxis(0);
 				break;
 			default:
 				input = 0;
@@ -367,15 +367,15 @@ public class DoubleControl {
 		switch (joystickOrientation) {
 			case XAxisTowardsTrigger:
 				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
-					input = -xbox_controller.getRawAxis(4);
+					input = -xbox_controller.getRawAxis(0);
 				else
-					input = xbox_controller.getRawAxis(4);
+					input = xbox_controller.getRawAxis(0);
 				break;
 			case YAxisTowardsTrigger:
 				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
-					input = -xbox_controller.getRawAxis(5);
+					input = -xbox_controller.getRawAxis(1);
 				else
-					input = xbox_controller.getRawAxis(5);
+					input = xbox_controller.getRawAxis(1);
 				break;
 			default:
 				input = 0;
@@ -403,8 +403,8 @@ public class DoubleControl {
 	public Pair<Double, Double> getXboxSpinAngle() {
 		double MAGNITUDE_THRESHOLD = 0.5;
 		// Gets x and y axis of xbox
-		double x_axis = xbox_controller.getRawAxis(0);
-		double y_axis = xbox_controller.getRawAxis(1);
+		double x_axis = xbox_controller.getRawAxis(4);
+		double y_axis = xbox_controller.getRawAxis(5);
 		// Gets magnitude of xbox axis
 		double magnitude = Math.sqrt(x_axis * x_axis + y_axis * y_axis);
 
@@ -413,7 +413,7 @@ public class DoubleControl {
 		// What proportion (threshold to value) is of (threshold to 1)
 		double proportion = subtract_threshold / (1 - MAGNITUDE_THRESHOLD);
 
-		double angle = Math.atan2(y_axis, x_axis);
+		double angle = -Math.atan2(y_axis, x_axis);
 
 		double adjusted_angle;
 		switch (joystickOrientation) {
