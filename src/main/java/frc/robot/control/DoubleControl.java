@@ -192,19 +192,19 @@ public class DoubleControl {
 	}
 
 	public boolean getAcquire() {
-		return xbox_controller.getLeftTriggerAxis() > 0.3; // aka the left trigger axis
+		return xbox_controller.getLeftTriggerAxis() > 0.3 || stickpad.getRawButton(3); // aka the left trigger axis
 	}
 
 	public boolean getReverse() {
-		return xbox_controller.getLeftBumper(); // aka the left trigger button
+		return xbox_controller.getLeftBumper() || stickpad.getRawButton(5); // aka the left trigger button
 	}
 
 	public boolean getShootSpeaker() {
-		return xbox_controller.getRightTriggerAxis() > 0.3; // aka the right trigger axis
+		return xbox_controller.getRightTriggerAxis() > 0.3 || stickpad.getRawButton(4); // aka the right trigger axis
 	}
 
 	public boolean getShootAmp() {
-		return xbox_controller.getRightBumper(); // aka the right trigger button
+		return xbox_controller.getRightBumper() || stickpad.getRawButton(6); // aka the right trigger button
 	}
 
 	public boolean getClimberUp() {
