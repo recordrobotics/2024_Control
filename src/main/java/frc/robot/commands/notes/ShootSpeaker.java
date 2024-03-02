@@ -15,7 +15,7 @@ public class ShootSpeaker extends Command {
   /** Number of seconds it takes for the flywheel to spin up */
   private final double flywheelSpinupTime = 0.3; //1.5;
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
-  private final double shootTime = 1.2;
+  private final double shootTime = 2;
 
   // Init timer
   protected Timer m_timer = new Timer();
