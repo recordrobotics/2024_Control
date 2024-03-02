@@ -166,6 +166,10 @@ public class DoubleControl {
 		return stickpad.getRawButtonPressed(10);
 	}
 
+	public boolean getAutoAcquireCorner() {
+		return stickpad.getRawButtonPressed(12);
+	}
+
 	public boolean getAutoScoreAmp() {
 		return stickpad.getRawButtonPressed(12);
 	}

@@ -7,6 +7,9 @@ package frc.robot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterStates;
 import frc.robot.subsystems.Crashbar;
+
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.RobotKill;
@@ -111,7 +114,6 @@ public class RobotContainer {
 
     // Creates control input & manual swerve object, adds it to _teleopPairs
     _controlInput = new DoubleControl(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.XBOX_PORT);
-
     // Adds default drivetrain & manual swerve to teleop commands
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
 
@@ -165,14 +167,12 @@ public class RobotContainer {
     Trigger reverseTrigger = new Trigger(_controlInput::getReverse);
     reverseTrigger.whileTrue(_reverse);
 
-
     // Solenoid triggers
     Trigger ClimberUpTrigger = new Trigger(_controlInput::getClimberUp);
     ClimberUpTrigger.toggleOnTrue(_climberUp);
 
     Trigger ClimberDownTrigger = new Trigger(_controlInput::getClimberDown);
     ClimberDownTrigger.toggleOnTrue(_climberDown);
-
 
     // Manual triggers
     Trigger ManualShootAmpTrigger = new Trigger(_controlInput::getManualShootAmp);
@@ -186,6 +186,9 @@ public class RobotContainer {
 
     Trigger ManualAcquisitionTrigger = new Trigger(_controlInput::getManualAcquisition);
     ManualAcquisitionTrigger.whileTrue(_manualAcquisition);
+
+    Trigger AutoAcquireTrigger = new Trigger(_controlInput::getAutoAcquireCorner);
+    AutoAcquireTrigger.onTrue(new PathPlannerAuto("Acquire In corner"));
 
   }
 
