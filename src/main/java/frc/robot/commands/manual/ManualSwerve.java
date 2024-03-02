@@ -40,6 +40,7 @@ public class ManualSwerve extends Command {
 
   // Sets up spin modes
   public AutoOrient autoOrient = new AutoOrient();
+  public SpinDrive spinDrive = new SpinDrive();
   public XboxSpin xboxSpin = new XboxSpin();
 
   /**
@@ -111,7 +112,7 @@ public class ManualSwerve extends Command {
       // If auto orient shouldn't run
       switch (driveMode.getSelected()) {
         case Spin:
-          spin = SpinDrive.calculate(_controls, swerve_position);
+          spin = spinDrive.calculate(_controls, swerve_position);
           break;
         default:
           spin = DefaultSpin.calculate(_controls);

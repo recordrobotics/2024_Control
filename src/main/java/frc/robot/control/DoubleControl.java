@@ -1,6 +1,7 @@
 package frc.robot.control;
 
 import edu.wpi.first.math.Pair;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
@@ -11,13 +12,21 @@ public class DoubleControl {
 	// Sets ups controller classes
 	private Joystick stickpad;
 	private XboxController xbox_controller;
+	private GenericHID extra_controller;
 
 	private JoystickOrientation joystickOrientation = JoystickOrientation.XAxisTowardsTrigger;
 
 	// Constructor
-	public DoubleControl(int stickpadPort, int xboxPort) {
+	public DoubleControl(int stickpadPort, int xboxPort, int extraControllerPort) {
 		stickpad = new Joystick(stickpadPort);
 		xbox_controller = new XboxController(xboxPort);
+		if (extraControllerPort != -1) {
+			extra_controller = new GenericHID(extraControllerPort);
+		}
+	}
+
+	public DoubleControl(int stickpadPort, int xboxPort) {
+		this(stickpadPort, xboxPort, -1);
 	}
 
 	public void setJoystickOrientation(JoystickOrientation joystickOrientation) {
@@ -229,7 +238,7 @@ public class DoubleControl {
 	 * @return x coordinate of the tablet (from 0 to 1)
 	 */
 	public double getTabletX() {
-		double x = (xbox_controller.getRawAxis(0) + 1) / 2;
+		double x = (extra_controller.getRawAxis(0) + 1) / 2;
 		return x;
 	}
 
@@ -239,7 +248,7 @@ public class DoubleControl {
 	 * @return y coordinate of the tablet (from 0 to 1)
 	 */
 	public double getTabletY() {
-		double y = (xbox_controller.getRawAxis(1) + 1) / 2;
+		double y = (extra_controller.getRawAxis(1) + 1) / 2;
 		return y;
 	}
 
@@ -250,8 +259,8 @@ public class DoubleControl {
 
 		// Checks that the Z axis (height of the pen) is below a certain amount
 		// (If it isn't, the pressure reading is probably a hardware error)
-		if (xbox_controller.getRawAxis(4) > 0.03 && xbox_controller.getRawAxis(4) < 0.25) {
-			return -1 * xbox_controller.getRawAxis(5);
+		if (extra_controller.getRawAxis(4) > 0.03 && extra_controller.getRawAxis(4) < 0.25) {
+			return -1 * extra_controller.getRawAxis(5);
 		}
 		return 0;
 	}
@@ -261,7 +270,7 @@ public class DoubleControl {
 	 * @return angle of the spin knob (from -pi to pi)
 	 */
 	public double getSpinKnob() {
-		return SimpleMath.Remap(xbox_controller.getRawAxis(0), -1, 1, -Math.PI, Math.PI);
+		return SimpleMath.Remap(extra_controller.getRawAxis(0), -1, 1, -Math.PI, Math.PI);
 	}
 
 	/**
