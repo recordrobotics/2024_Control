@@ -103,7 +103,7 @@ public class RobotContainer {
     _climbers = new Climbers();
 
     // Sets up auto chooser
-    _autoPath = new AutoPath(_drivetrain, _channel, _shooter);
+    _autoPath = new AutoPath(_drivetrain, _channel, _shooter, _crashbar);
     _autoPath.putAutoChooser();
 
     // Bindings and Teleop
@@ -179,11 +179,13 @@ public class RobotContainer {
     ClimberDownTrigger.onTrue(_climberDown);
 
     /*
-    Trigger CrashbarExtendTrigger = new Trigger(_controlInput::getCrashbarExtend);
-    CrashbarExtendTrigger.onTrue(_crashbarExtend);
-
-    Trigger CrashbarRetractTrigger = new Trigger(_controlInput::getCrashbarRetract);
-    CrashbarRetractTrigger.onTrue(_crashbarRetract);
+     * Trigger CrashbarExtendTrigger = new
+     * Trigger(_controlInput::getCrashbarExtend);
+     * CrashbarExtendTrigger.onTrue(_crashbarExtend);
+     * 
+     * Trigger CrashbarRetractTrigger = new
+     * Trigger(_controlInput::getCrashbarRetract);
+     * CrashbarRetractTrigger.onTrue(_crashbarRetract);
      */
 
     // Manual triggers

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
 import frc.robot.commands.auto.OrientTowards;
+import frc.robot.commands.notes.ShootAmp;
 import frc.robot.commands.notes.ShootSpeaker;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.OrientTarget;
@@ -18,12 +19,13 @@ public class AutoPath {
 
     private final SendableChooser<Command> autoChooser;
 
-    public AutoPath(Drivetrain drivetrain, Channel channel, Shooter shooter) {
+    public AutoPath(Drivetrain drivetrain, Channel channel, Shooter shooter, Crashbar crashbar) {
         NamedCommands.registerCommand("Stop", new InstantCommand(() -> {
             drivetrain.stop();
         }));
 
         NamedCommands.registerCommand("ShootSpeaker", new ShootSpeaker(channel, shooter));
+        NamedCommands.registerCommand("ShootAmp", new ShootAmp(channel, shooter, crashbar));
         NamedCommands.registerCommand("OrientSpeaker", new OrientTowards(drivetrain, OrientTarget.Speaker));
         NamedCommands.registerCommand("OrientAmp", new OrientTowards(drivetrain, OrientTarget.Amp));
 
