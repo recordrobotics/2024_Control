@@ -196,7 +196,7 @@ public class RobotContainer {
     ManualCrashbarTrigger.toggleOnTrue(_manualCrashbar);
 
     Trigger ManualAcquisitionTrigger = new Trigger(_controlInput::getManualAcquisition);
-    ManualAcquisitionTrigger.onTrue(_manualAcquisition);
+    ManualAcquisitionTrigger.whileTrue(_manualAcquisition);
     
   }
 

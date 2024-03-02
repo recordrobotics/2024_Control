@@ -32,7 +32,7 @@ public final class Constants {
 
     public final class Shooter {
         public static final double SPEAKER_SPEED = 1;
-        public static final double AMP_SPEED = 0.3;
+        public static final double AMP_SPEED = 0.45;
     }
 
     public final class Channel {
