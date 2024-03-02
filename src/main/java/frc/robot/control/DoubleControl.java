@@ -4,7 +4,9 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants;
+import frc.robot.utils.DriverStationUtils;
 import frc.robot.utils.SimpleMath;
 
 public class DoubleControl {
@@ -41,6 +43,7 @@ public class DoubleControl {
 	/**
 	 * @return remapped joystick value x horizontal (sets a min threshold,
 	 *         multiplies by input sens)
+	 *         AWAY FROM DRIVER!!!!
 	 */
 	public double getX() {
 
@@ -48,10 +51,16 @@ public class DoubleControl {
 		double input;
 		switch (joystickOrientation) {
 			case XAxisTowardsTrigger:
-				input = -stickpad.getY();
+				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+					input = -stickpad.getY();
+				else
+					input = stickpad.getY();
 				break;
 			case YAxisTowardsTrigger:
-				input = stickpad.getX();
+				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+					input = stickpad.getX();
+				else
+					input = -stickpad.getX();
 				break;
 			default:
 				input = 0;
@@ -59,10 +68,10 @@ public class DoubleControl {
 		}
 
 		// How much the input is above the threshold (absolute value)
-		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOYSTICK_X_THRESHOLD); 
-		
+		double subtract_threshold = Math.max(0, Math.abs(input) - Constants.Control.JOYSTICK_X_THRESHOLD);
+
 		// What proportion (threshold to value) is of (threshold to 1)
-		double proportion = subtract_threshold / (1 - Constants.Control.JOYSTICK_X_THRESHOLD); 
+		double proportion = subtract_threshold / (1 - Constants.Control.JOYSTICK_X_THRESHOLD);
 
 		// Multiplies by spin sensitivity and returns
 		double final_x = Math.signum(input) * proportion * Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY;
@@ -80,10 +89,16 @@ public class DoubleControl {
 		double input;
 		switch (joystickOrientation) {
 			case XAxisTowardsTrigger:
-				input = -stickpad.getX();
+				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+					input = -stickpad.getX();
+				else
+					input = stickpad.getX();
 				break;
 			case YAxisTowardsTrigger:
-				input = -stickpad.getY();
+				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+					input = -stickpad.getY();
+				else
+					input = stickpad.getY();
 				break;
 			default:
 				input = 0;
@@ -160,17 +175,20 @@ public class DoubleControl {
 
 	/**
 	 * Takes speedlevel slider on control input and remaps to 1.4-->7.0
+	 * 
 	 * @return
-	 * Speedlevel control from 1.4 --> 7.0
+	 *         Speedlevel control from 1.4 --> 7.0
 	 */
 	public double getDirectionalSpeedLevel() {
 		// Remaps speed meter from -1 -> 1 to 0.5 -> 4, then returns
-		return SimpleMath.Remap(stickpad.getRawAxis(3), 1, -1, Constants.Control.DIRECTIONAL_SPEED_METER_LOW, Constants.Control.DIRECTIONAL_SPEED_METER_HIGH);
+		return SimpleMath.Remap(stickpad.getRawAxis(3), 1, -1, Constants.Control.DIRECTIONAL_SPEED_METER_LOW,
+				Constants.Control.DIRECTIONAL_SPEED_METER_HIGH);
 	}
 
 	public double getSpinSpeedLevel() {
 		// Remaps speed meter from -1 -> 1 to 0.5 -> 4, then returns
-		return SimpleMath.Remap(stickpad.getRawAxis(3), 1, -1, Constants.Control.SPIN_SPEED_METER_LOW, Constants.Control.SPIN_SPEED_METER_HIGH);
+		return SimpleMath.Remap(stickpad.getRawAxis(3), 1, -1, Constants.Control.SPIN_SPEED_METER_LOW,
+				Constants.Control.SPIN_SPEED_METER_HIGH);
 	}
 
 	public boolean getAcquire() {
@@ -181,7 +199,7 @@ public class DoubleControl {
 		return xbox_controller.getLeftBumper(); // aka the left trigger button
 	}
 
-	public boolean getShootSpeaker() { 
+	public boolean getShootSpeaker() {
 		return xbox_controller.getRightTriggerAxis() > 0.3; // aka the right trigger axis
 	}
 
@@ -198,21 +216,19 @@ public class DoubleControl {
 	}
 
 	/*
-	public boolean getCrashbarExtend() {
-		return xbox_controller.getRawAxis(5) < -0.5;
-	}
-
-	public boolean getCrashbarRetract() {
-		return xbox_controller.getRawAxis(5) > 0.5;
-	}
+	 * public boolean getCrashbarExtend() {
+	 * return xbox_controller.getRawAxis(5) < -0.5;
+	 * }
+	 * 
+	 * public boolean getCrashbarRetract() {
+	 * return xbox_controller.getRawAxis(5) > 0.5;
+	 * }
 	 */
 
 	public boolean getKillAuto() {
 		return xbox_controller.getRawButton(8);
 	}
 
-
-	
 	public boolean getManualShootSpeaker() {
 		return xbox_controller.getAButton();
 	}
@@ -228,9 +244,6 @@ public class DoubleControl {
 	public boolean getManualCrashbar() {
 		return xbox_controller.getYButton();
 	}
-	
-
-
 
 	/**
 	 * Converts (-1, 1) to (0,1)
@@ -267,6 +280,7 @@ public class DoubleControl {
 
 	/**
 	 * Converts (-1, 1) to (-pi, pi)
+	 * 
 	 * @return angle of the spin knob (from -pi to pi)
 	 */
 	public double getSpinKnob() {
@@ -275,6 +289,7 @@ public class DoubleControl {
 
 	/**
 	 * TODO: documentation
+	 * 
 	 * @return
 	 */
 	public Pair<Double, Double> getXboxSpinAngle() {
@@ -283,7 +298,7 @@ public class DoubleControl {
 		double x_axis = xbox_controller.getRawAxis(0);
 		double y_axis = -1 * xbox_controller.getRawAxis(1);
 		// Gets magnitude of xbox axis
-		double magnitude = Math.sqrt(x_axis*x_axis + y_axis*y_axis);
+		double magnitude = Math.sqrt(x_axis * x_axis + y_axis * y_axis);
 
 		// How much the input is above the threshold (absolute value)
 		double subtract_threshold = Math.max(0, magnitude - MAGNITUDE_THRESHOLD);
@@ -291,8 +306,8 @@ public class DoubleControl {
 		double proportion = subtract_threshold / (1 - MAGNITUDE_THRESHOLD);
 
 		double angle = Math.atan2(y_axis, x_axis);
-		
-		return new Pair<Double,Double> (angle, proportion);
+
+		return new Pair<Double, Double>(angle, proportion);
 
 	}
 
