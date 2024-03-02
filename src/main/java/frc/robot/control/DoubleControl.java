@@ -323,7 +323,7 @@ public class DoubleControl {
 		double MAGNITUDE_THRESHOLD = 0.5;
 		// Gets x and y axis of xbox
 		double x_axis = xbox_controller.getRawAxis(0);
-		double y_axis = -1 * xbox_controller.getRawAxis(1);
+		double y_axis = xbox_controller.getRawAxis(1);
 		// Gets magnitude of xbox axis
 		double magnitude = Math.sqrt(x_axis * x_axis + y_axis * y_axis);
 
