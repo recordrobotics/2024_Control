@@ -1,6 +1,9 @@
 package frc.robot.utils;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.control.JoystickOrientation;
 
 public class SimpleMath {
     /**
@@ -29,5 +32,26 @@ public class SimpleMath {
      */
     public static double Remap(double value01, double min, double max) {
         return Remap(MathUtil.clamp(value01, 0, 1), 0, 1, min, max);
+    }
+
+    public static double JoystickToFieldPolar(JoystickOrientation joystickOrientation, double joystickPolar) {
+        switch (joystickOrientation) {
+            case XAxisTowardsTrigger:
+                if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+                    return joystickPolar - Math.PI / 2;
+                else
+                    return joystickPolar + Math.PI / 2;
+            case YAxisTowardsTrigger:
+                if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+                    return joystickPolar;
+                else
+                    return joystickPolar + Math.PI;
+            default:
+                return joystickPolar;
+        }
+    }
+
+    public static Rotation2d JoystickToFieldPolar(JoystickOrientation joystickOrientation, Rotation2d joystickPolar) {
+        return new Rotation2d(JoystickToFieldPolar(joystickOrientation, joystickPolar.getRadians()));
     }
 }

@@ -1,14 +1,15 @@
 package frc.robot.utils.drivemodes.spin;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.control.DoubleControl;
 
 public class XboxDPad {
 
-    private AutoOrient _autoOrient;
+    private PIDController anglePID = new PIDController(3.36, 0, 0);
 
     public XboxDPad() {
-        _autoOrient = new AutoOrient();
+        anglePID.enableContinuousInput(-Math.PI, Math.PI);
     }
 
     public boolean shouldExecute(DoubleControl _controls) {
@@ -17,7 +18,10 @@ public class XboxDPad {
     }
 
     public double calculate(DoubleControl _controls, Pose2d swerve_position) {
-        return _autoOrient.calculate(_controls.getAngleDPad().getFirst(), swerve_position);
+        double spin = anglePID.calculate(swerve_position.getRotation().getRadians(),
+                _controls.getAngleDPad().getFirst().getRadians());
+
+        return spin;
     }
 
 }

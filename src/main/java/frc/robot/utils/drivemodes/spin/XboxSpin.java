@@ -2,7 +2,6 @@ package frc.robot.utils.drivemodes.spin;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.control.DoubleControl;
 import frc.robot.utils.SimpleMath;
 
@@ -14,10 +13,6 @@ public class XboxSpin {
     public XboxSpin() {
         // Enables continious input for PID
         anglePID.enableContinuousInput(-Math.PI, Math.PI);
-    }
-
-    public static boolean shouldUpdateAngle(Translation2d robotPosition, Translation2d targetPosition) {
-        return robotPosition.getDistance(targetPosition) > 0.05; // TODO: just a placeholder value, change later
     }
 
     public boolean shouldExecute(DoubleControl _controls) {
