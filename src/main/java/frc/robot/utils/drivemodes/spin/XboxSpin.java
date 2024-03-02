@@ -1,4 +1,5 @@
-package frc.robot.utils.drivemodes;
+package frc.robot.utils.drivemodes.spin;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -21,7 +22,7 @@ public class XboxSpin {
 
     public boolean shouldExecute(DoubleControl _controls) {
         boolean is_over_threshold = _controls.getXboxSpinAngle().getSecond() > 0;
-        return is_over_threshold; 
+        return is_over_threshold;
     }
 
     public double calculate(DoubleControl _controls, Pose2d swerve_position) {
@@ -33,7 +34,7 @@ public class XboxSpin {
         double robot_angle = swerve_position.getRotation().getRadians();
 
         double spin = anglePID.calculate(robot_angle, xbox_angle);
-            
+
         // Returns spin
         return spin * scaled_magnitude;
     }

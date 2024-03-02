@@ -1,5 +1,5 @@
 // Imports
-package frc.robot.utils.drivemodes;
+package frc.robot.utils.drivemodes.drive;
 
 import frc.robot.Constants;
 

@@ -10,16 +10,15 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.DriverStationUtils;
 import frc.robot.utils.OrientTarget;
-import frc.robot.utils.drivemodes.AutoOrient;
+import frc.robot.utils.drivemodes.spin.AutoOrient;
 
 public class OrientTowards extends Command {
     private final Drivetrain _drivetrain;
 
     private AutoOrient _autoOrient;
 
-    private Translation2d targetPos;   
+    private Translation2d targetPos;
     private Rotation2d targetRot;
-
 
     public OrientTowards(Drivetrain drivetrain, Translation2d target) {
         _autoOrient = new AutoOrient();
@@ -57,7 +56,7 @@ public class OrientTowards extends Command {
     @Override
     public void execute() {
         double spin = 0;
-        if(targetPos != null){
+        if (targetPos != null) {
             spin = _autoOrient.calculate(targetPos, _drivetrain.poseFilter.getEstimatedPosition());
         }
 
@@ -79,13 +78,12 @@ public class OrientTowards extends Command {
     @Override
     public boolean isFinished() {
         double spin = 0;
-        if(targetPos != null){
+        if (targetPos != null) {
             spin = _autoOrient.calculate(targetPos, _drivetrain.poseFilter.getEstimatedPosition());
-        }
-        else if (targetRot != null) {
+        } else if (targetRot != null) {
             spin = _autoOrient.calculate(targetRot, _drivetrain.poseFilter.getEstimatedPosition());
         }
-        
+
         SmartDashboard.putNumber("autospin", spin);
         if (Math.abs(spin) <= 0.04) {
             return true;

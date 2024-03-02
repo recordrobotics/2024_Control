@@ -14,6 +14,7 @@ import frc.robot.utils.drivemodes.spin.AutoOrient;
 import frc.robot.utils.drivemodes.spin.DefaultSpin;
 import frc.robot.utils.drivemodes.spin.KnobSpin;
 import frc.robot.utils.drivemodes.spin.SpinLock;
+import frc.robot.utils.drivemodes.spin.XboxDPad;
 import frc.robot.utils.drivemodes.spin.XboxSpin;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,6 +43,7 @@ public class ManualSwerve extends Command {
   public AutoOrient autoOrient = new AutoOrient();
   public KnobSpin spinDrive = new KnobSpin();
   public XboxSpin xboxSpin = new XboxSpin();
+  public XboxDPad xboxDPad = new XboxDPad();
   public SpinLock spinLock = new SpinLock();
 
   /**
@@ -105,22 +107,19 @@ public class ManualSwerve extends Command {
       spinLock.setAngle(_drivetrain.poseFilter.getEstimatedPosition().getRotation());
     }
 
-
     // Auto-orient function
     // If normal orient should activate
     if (_controls.getAutoOrientSpeaker()) {
       spin = autoOrient.calculateSpeaker(swerve_position);
-    }
-    else if (_controls.getAutoOrientAmp()) {
+    } else if (_controls.getAutoOrientAmp()) {
       spin = autoOrient.calculateAmp(swerve_position);
-    }
-    else if (_controls.getSpinLockPressed()) {
+    } else if (_controls.getSpinLockPressed()) {
       spin = spinLock.calculate(swerve_position);
-    }
-    else if (xboxSpin.shouldExecute(_controls)) {
+    } else if (xboxSpin.shouldExecute(_controls)) {
       spin = xboxSpin.calculate(_controls, swerve_position);
-    }
-    else {
+    } else if (xboxDPad.shouldExecute(_controls)) {
+      spin = xboxDPad.calculate(_controls, swerve_position);
+    } else {
       spin = DefaultSpin.calculate(_controls);
 
       // If auto orient shouldn't run

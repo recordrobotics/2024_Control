@@ -1,6 +1,7 @@
 package frc.robot.control;
 
 import edu.wpi.first.math.Pair;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -173,12 +174,12 @@ public class DoubleControl {
 		return stickpad.getRawButtonPressed(3);
 	}
 
-	public Pair<Double, Boolean> getAngleDPad() {
+	public Pair<Rotation2d, Boolean> getAngleDPad() {
 		double pov = xbox_controller.getPOV();
 		if (pov == -1) {
-			return new Pair<Double, Boolean>(0.0, false);
+			return new Pair<Rotation2d, Boolean>(new Rotation2d(), false);
 		} else {
-			return new Pair<Double, Boolean>(pov, true);
+			return new Pair<Rotation2d, Boolean>(Rotation2d.fromDegrees(pov), true);
 		}
 	}
 
@@ -296,10 +297,10 @@ public class DoubleControl {
 		return SimpleMath.Remap(extra_controller.getRawAxis(0), -1, 1, -Math.PI, Math.PI);
 	}
 
-
 	/**
 	 * @return
-	 * Whether the spin lock button has gone from being not pressed to pressed (one time)
+	 *         Whether the spin lock button has gone from being not pressed to
+	 *         pressed (one time)
 	 */
 	public boolean getSpinLockSet() {
 		return stickpad.getRawButtonPressed(1);
@@ -307,7 +308,7 @@ public class DoubleControl {
 
 	/**
 	 * @return
-	 * Whether the spinlock button is currently held down
+	 *         Whether the spinlock button is currently held down
 	 */
 	public boolean getSpinLockPressed() {
 		return stickpad.getRawButton(1);
