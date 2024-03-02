@@ -8,13 +8,13 @@ import frc.robot.control.DoubleControl;
 import frc.robot.control.JoystickOrientation;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
-
-import frc.robot.utils.drivemodes.AutoOrient;
-import frc.robot.utils.drivemodes.DefaultSpin;
-import frc.robot.utils.drivemodes.SpinDrive;
-import frc.robot.utils.drivemodes.DefaultDrive;
-import frc.robot.utils.drivemodes.TabletDrive;
-import frc.robot.utils.drivemodes.XboxSpin;
+import frc.robot.utils.drivemodes.drive.DefaultDrive;
+import frc.robot.utils.drivemodes.drive.TabletDrive;
+import frc.robot.utils.drivemodes.spin.AutoOrient;
+import frc.robot.utils.drivemodes.spin.DefaultSpin;
+import frc.robot.utils.drivemodes.spin.KnobSpin;
+import frc.robot.utils.drivemodes.spin.SpinLock;
+import frc.robot.utils.drivemodes.spin.XboxSpin;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -40,8 +40,9 @@ public class ManualSwerve extends Command {
 
   // Sets up spin modes
   public AutoOrient autoOrient = new AutoOrient();
-  public SpinDrive spinDrive = new SpinDrive();
+  public KnobSpin spinDrive = new KnobSpin();
   public XboxSpin xboxSpin = new XboxSpin();
+  public SpinLock spinLock = new SpinLock();
 
   /**
    * @param drivetrain
@@ -99,13 +100,22 @@ public class ManualSwerve extends Command {
     // Sets up spin
     double spin;
 
+    // Sets spinlock if spinlock is pressed
+    if (_controls.getSpinLockSet()) {
+      spinLock.setAngle(_drivetrain.poseFilter.getEstimatedPosition().getRotation());
+    }
+
+
     // Auto-orient function
     // If normal orient should activate
     if (_controls.getAutoOrientSpeaker()) {
       spin = autoOrient.calculateSpeaker(swerve_position);
     }
-    if (_controls.getAutoOrientAmp()) {
+    else if (_controls.getAutoOrientAmp()) {
       spin = autoOrient.calculateAmp(swerve_position);
+    }
+    else if (_controls.getSpinLockPressed()) {
+      spin = spinLock.calculate(swerve_position);
     }
     else if (xboxSpin.shouldExecute(_controls)) {
       spin = xboxSpin.calculate(_controls, swerve_position);

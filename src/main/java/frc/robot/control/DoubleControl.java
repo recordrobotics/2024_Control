@@ -296,6 +296,23 @@ public class DoubleControl {
 		return SimpleMath.Remap(extra_controller.getRawAxis(0), -1, 1, -Math.PI, Math.PI);
 	}
 
+
+	/**
+	 * @return
+	 * Whether the spin lock button has gone from being not pressed to pressed (one time)
+	 */
+	public boolean getSpinLockSet() {
+		return stickpad.getRawButtonPressed(1);
+	}
+
+	/**
+	 * @return
+	 * Whether the spinlock button is currently held down
+	 */
+	public boolean getSpinLockPressed() {
+		return stickpad.getRawButton(1);
+	}
+
 	/**
 	 * TODO: documentation
 	 * 
