@@ -229,6 +229,10 @@ public class DoubleControl {
 		return xbox_controller.getRawAxis(5) > 0.5;
 	}
 
+	public boolean getClimberToggle() {
+		return stickpad.getRawButton(7);
+	}
+
 	/*
 	 * public boolean getCrashbarExtend() {
 	 * return xbox_controller.getRawAxis(5) < -0.5;

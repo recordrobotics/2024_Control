@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.RobotKill;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.manual.ManualAcquisition;
+import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
 import frc.robot.commands.manual.ManualSwerve;
@@ -68,13 +69,14 @@ public class RobotContainer {
   private Reverse _reverse;
   private ShootSpeaker _shootSpeaker;
   private ShootAmp _shootAmp;
-  private ClimberUp _climberUp;
-  private ClimberDown _climberDown;
+  //private ClimberUp _climberUp;
+  //private ClimberDown _climberDown;
 
   private ManualShooter _manualShootSpeaker;
   private ManualShooter _manualShootAmp;
   private ManualAcquisition _manualAcquisition;
   private ManualCrashbar _manualCrashbar;
+  private ManualClimbers _manualClimbers;
 
   private RobotKill _robotKill;
 
@@ -130,8 +132,8 @@ public class RobotContainer {
     _reverse = new Reverse(_acquisition, _channel);
 
     // Solenoid commands
-    _climberUp = new ClimberUp(_climbers);
-    _climberDown = new ClimberDown(_climbers);
+    //_climberUp = new ClimberUp(_climbers);
+    //_climberDown = new ClimberDown(_climbers);
 
     // Robot kill command
     _robotKill = new RobotKill(_drivetrain);
@@ -168,11 +170,14 @@ public class RobotContainer {
     reverseTrigger.whileTrue(_reverse);
 
     // Solenoid triggers
-    Trigger ClimberUpTrigger = new Trigger(_controlInput::getClimberUp);
-    ClimberUpTrigger.toggleOnTrue(_climberUp);
+    // Trigger ClimberUpTrigger = new Trigger(_controlInput::getClimberUp);
+    // ClimberUpTrigger.toggleOnTrue(_climberUp);
 
-    Trigger ClimberDownTrigger = new Trigger(_controlInput::getClimberDown);
-    ClimberDownTrigger.toggleOnTrue(_climberDown);
+    // Trigger ClimberDownTrigger = new Trigger(_controlInput::getClimberDown);
+    // ClimberDownTrigger.toggleOnTrue(_climberDown);
+
+    Trigger ClimberToggleTrigger = new Trigger(_controlInput::getClimberToggle);
+    ClimberToggleTrigger.toggleOnTrue(_manualClimbers);
 
     // Manual triggers
     Trigger ManualShootAmpTrigger = new Trigger(_controlInput::getManualShootAmp);
@@ -189,7 +194,6 @@ public class RobotContainer {
 
     Trigger AutoAcquireTrigger = new Trigger(_controlInput::getAutoAcquireCorner);
     AutoAcquireTrigger.onTrue(new PathPlannerAuto("Acquire In corner"));
-
   }
 
   /**

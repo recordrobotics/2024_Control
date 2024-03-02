@@ -30,7 +30,7 @@ public class XboxSpin {
         double xbox_magnitutde = _controls.getXboxSpinAngle().getSecond();
         double scaled_magnitude = SimpleMath.Remap(xbox_magnitutde, 0, 1);
 
-        double xbox_angle = _controls.getXboxSpinAngle().getFirst();
+        double xbox_angle = _controls.getXboxSpinAngle().getFirst() + Math.PI;
         double robot_angle = swerve_position.getRotation().getRadians();
 
         double spin = anglePID.calculate(robot_angle, xbox_angle);
