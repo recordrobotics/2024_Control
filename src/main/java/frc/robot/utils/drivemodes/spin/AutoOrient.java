@@ -11,7 +11,7 @@ import frc.robot.utils.DriverStationUtils;
 public class AutoOrient {
 
     // Init variables
-    private static PIDController anglePID = new PIDController(2, 0, 0);
+    private static PIDController anglePID = new PIDController(3, 0, 0);
 
     public AutoOrient() {
         // Enables continious input for PID
@@ -45,19 +45,18 @@ public class AutoOrient {
     public double calculateSpeaker(Pose2d swerve_position) {
         Translation2d targetPos = new Translation2d(0, 0);
         targetPos = DriverStationUtils.getCurrentAlliance() == Alliance.Red
-            ? Constants.FieldConstants.TEAM_RED_SPEAKER
-            : Constants.FieldConstants.TEAM_BLUE_SPEAKER;
+                ? Constants.FieldConstants.TEAM_RED_SPEAKER
+                : Constants.FieldConstants.TEAM_BLUE_SPEAKER;
         return calculate(targetPos, swerve_position);
     }
 
     public double calculateAmp(Pose2d swerve_position) {
         Rotation2d targetRotation = new Rotation2d(0);
         targetRotation = DriverStationUtils.getCurrentAlliance() == Alliance.Red
-            ? Constants.FieldConstants.TEAM_RED_AMP
-            : Constants.FieldConstants.TEAM_BLUE_AMP;
+                ? Constants.FieldConstants.TEAM_RED_AMP
+                : Constants.FieldConstants.TEAM_BLUE_AMP;
         return calculate(targetRotation, swerve_position);
     }
-
 
     public double calculate(Translation2d targetPos, Pose2d swerve_position) {
         double spin;
@@ -70,7 +69,6 @@ public class AutoOrient {
         // Returns spin
         return spin;
     }
-
 
     public double calculate(Rotation2d targetAngle, Pose2d swerve_position) {
         double spin;
