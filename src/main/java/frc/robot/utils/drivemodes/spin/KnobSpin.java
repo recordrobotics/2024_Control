@@ -1,14 +1,14 @@
-package frc.robot.utils.drivemodes;
+package frc.robot.utils.drivemodes.spin;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.control.DoubleControl;
 
-public class SpinDrive {
+public class KnobSpin {
 
     // Init variables
     private PIDController anglePID = new PIDController(3.36, 0, 0);
 
-    public SpinDrive() {
+    public KnobSpin() {
         // Enables continious input for PID
         anglePID.enableContinuousInput(-Math.PI, Math.PI);
     }

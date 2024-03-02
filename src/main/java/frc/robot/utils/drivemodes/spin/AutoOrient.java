@@ -1,4 +1,4 @@
-package frc.robot.utils.drivemodes;
+package frc.robot.utils.drivemodes.spin;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;

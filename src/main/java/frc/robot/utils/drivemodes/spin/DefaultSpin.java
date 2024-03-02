@@ -1,4 +1,4 @@
-package frc.robot.utils.drivemodes;
+package frc.robot.utils.drivemodes.spin;
 import frc.robot.control.DoubleControl;
 
 public class DefaultSpin {
