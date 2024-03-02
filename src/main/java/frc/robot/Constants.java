@@ -80,7 +80,7 @@ public final class Constants {
         public static final double DIRECTIONAL_SPEED_METER_LOW = 0.25;
         public static final double DIRECTIONAL_SPEED_METER_HIGH = 4.0;
         public static final double SPIN_SPEED_METER_LOW = 0.5;
-        public static final double SPIN_SPEED_METER_HIGH = 3.0;
+        public static final double SPIN_SPEED_METER_HIGH = 4.3;
 
         // Thresholds for directional controls (XY) and spin (theta)
         public static final double JOYSTICK_X_THRESHOLD = 0.15;
