@@ -23,8 +23,6 @@ import frc.robot.commands.notes.Acquire;
 import frc.robot.commands.notes.Reverse;
 import frc.robot.commands.notes.ShootAmp;
 import frc.robot.commands.notes.ShootSpeaker;
-import frc.robot.commands.solenoid.ClimberDown;
-import frc.robot.commands.solenoid.ClimberUp;
 import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.AutoPath;
 import frc.robot.subsystems.Channel;
@@ -69,8 +67,8 @@ public class RobotContainer {
   private Reverse _reverse;
   private ShootSpeaker _shootSpeaker;
   private ShootAmp _shootAmp;
-  //private ClimberUp _climberUp;
-  //private ClimberDown _climberDown;
+  // private ClimberUp _climberUp;
+  // private ClimberDown _climberDown;
 
   private ManualShooter _manualShootSpeaker;
   private ManualShooter _manualShootAmp;
@@ -133,8 +131,8 @@ public class RobotContainer {
     _reverse = new Reverse(_acquisition, _channel);
 
     // Solenoid commands
-    //_climberUp = new ClimberUp(_climbers);
-    //_climberDown = new ClimberDown(_climbers);
+    // _climberUp = new ClimberUp(_climbers);
+    // _climberDown = new ClimberDown(_climbers);
 
     // Robot kill command
     _robotKill = new RobotKill(_drivetrain);
