@@ -48,8 +48,8 @@ public final class Constants {
 
         public static final Translation2d TEAM_RED_SPEAKER = new Translation2d(16, 5.5);
         public static final Translation2d TEAM_BLUE_SPEAKER = new Translation2d(0.6, 5.6);
-        public static final Rotation2d TEAM_RED_AMP = Rotation2d.fromDegrees(90); //new Translation2d(14.7, 8.5);
-        public static final Rotation2d TEAM_BLUE_AMP = Rotation2d.fromDegrees(90); //new Translation2d(2.775, 8.5);
+        public static final Rotation2d TEAM_RED_AMP = Rotation2d.fromDegrees(90); // new Translation2d(14.7, 8.5);
+        public static final Rotation2d TEAM_BLUE_AMP = Rotation2d.fromDegrees(90); // new Translation2d(2.775, 8.5);
 
         // Field width and length
         // TODO: Remove testing values
@@ -58,7 +58,7 @@ public final class Constants {
         public static final double FIELD_X_DIMENSION = 4.5; // Length
         public static final double FIELD_Y_DIMENSION = 3; // Width
 
-        public static final Pose2d TEAM_RED_STARTING_POSE = new Pose2d(16, 4.2, Rotation2d.fromDegrees(180));
+        public static final Pose2d TEAM_RED_STARTING_POSE = new Pose2d(16.373, 6.965, Rotation2d.fromDegrees(180));
         // TODO: Remove testing values
         // public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(0.5, 4.2,
         // Rotation2d.fromDegrees(0));
