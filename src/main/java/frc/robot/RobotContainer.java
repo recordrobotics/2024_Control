@@ -64,12 +64,12 @@ public class RobotContainer {
   private DoubleControl _controlInput;
 
   private Acquire _acquire;
-  private ManualReverse _reverse;
   private ShootSpeaker _shootSpeaker;
   private ShootAmp _shootAmp;
   // private ClimberUp _climberUp;
   // private ClimberDown _climberDown;
 
+  private ManualReverse _manualReverse;
   private ManualShooter _manualShootSpeaker;
   private ManualShooter _manualShootAmp;
   private ManualAcquisition _manualAcquisition;
@@ -128,11 +128,7 @@ public class RobotContainer {
     _acquire = new Acquire(_acquisition, _channel, _photosensor);
     _shootSpeaker = new ShootSpeaker(_channel, _shooter);
     _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
-    _reverse = new ManualReverse(_acquisition, _channel);
-
-    // Solenoid commands
-    // _climberUp = new ClimberUp(_climbers);
-    // _climberDown = new ClimberDown(_climbers);
+    _manualReverse = new ManualReverse(_acquisition, _channel);
 
     // Robot kill command
     _killSpecified = new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers);
@@ -167,7 +163,7 @@ public class RobotContainer {
     shootAmpTrigger.toggleOnTrue(_shootAmp);
 
     Trigger reverseTrigger = new Trigger(_controlInput::getReverse);
-    reverseTrigger.whileTrue(_reverse);
+    reverseTrigger.whileTrue(_manualReverse);
 
     // Solenoid triggers
     // Trigger ClimberUpTrigger = new Trigger(_controlInput::getClimberUp);
