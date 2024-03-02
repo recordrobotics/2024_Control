@@ -127,9 +127,7 @@ public class ManualSwerve extends Command {
         driveCommandData = DefaultDrive.calculate(_controls, spin, swerve_position, true);
         break;
     }
-
-    driveCommandData = new DriveCommandData(0, 0, SmartDashboard.getNumber("tspeed", 0.0), false);
-
+    
     // Drive command
     _drivetrain.drive(driveCommandData);
   }
