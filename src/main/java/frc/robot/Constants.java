@@ -49,7 +49,7 @@ public final class Constants {
         public static final Translation2d TEAM_RED_SPEAKER = new Translation2d(16, 5.5);
         public static final Translation2d TEAM_BLUE_SPEAKER = new Translation2d(0.6, 5.6);
         public static final Translation2d TEAM_RED_AMP = new Translation2d(14.7, 8.5);
-        public static final Translation2d TEAM_BLUE_AMP = new Translation2d(1.88, 8.5);
+        public static final Translation2d TEAM_BLUE_AMP = new Translation2d(2.775, 8.5);
 
         // Field width and length
         // TODO: Remove testing values
