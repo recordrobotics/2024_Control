@@ -88,8 +88,8 @@ public class SwerveModule {
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelTurnOffset());
 
-    SmartDashboard.putNumber("kS", driveFeedForward.ks);
-    SmartDashboard.putNumber("kV", driveFeedForward.kv);
+    //SmartDashboard.putNumber("kS", driveFeedForward.ks);
+    //SmartDashboard.putNumber("kV", driveFeedForward.kv);
   }
 
   /**
@@ -187,8 +187,8 @@ public class SwerveModule {
     double driveFeedforwardOutput = driveFeedForward.calculate(optimizedState.speedMetersPerSecond);
     m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
 
-    SmartDashboard.putNumberArray("speed " + m_driveMotor.getDeviceID(),
-        new double[] { getDriveWheelVelocity(), optimizedState.speedMetersPerSecond });
+    //SmartDashboard.putNumberArray("speed " + m_driveMotor.getDeviceID(),
+    //    new double[] { getDriveWheelVelocity(), optimizedState.speedMetersPerSecond });
 
     // Calculate the turning motor output from the turning PID controller then set
     // turn motor.

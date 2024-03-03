@@ -43,15 +43,15 @@ public class TabletDrive {
     public static DriveCommandData calculate(DoubleControl _controls, double spin, Pose2d swerve_position) {
 
         // Puts raw tablet data on Smartdashboard
-        SmartDashboard.putNumber("pressure", _controls.getTabletPressure());
-        SmartDashboard.putNumber("tablet x", _controls.getTabletX());
-        SmartDashboard.putNumber("tablet y", _controls.getTabletY());
+        // SmartDashboard.putNumber("pressure", _controls.getTabletPressure());
+        // SmartDashboard.putNumber("tablet x", _controls.getTabletX());
+        // SmartDashboard.putNumber("tablet y", _controls.getTabletY());
 
         // Gets target speed, x, and y
         double speed = speedFromPressure(_controls.getTabletPressure());
         double target_x = _controls.getTabletX() * Constants.FieldConstants.FIELD_X_DIMENSION;
         double target_y = _controls.getTabletY() * Constants.FieldConstants.FIELD_Y_DIMENSION;
-        SmartDashboard.putNumber("speed", speed);
+        // SmartDashboard.putNumber("speed", speed);
 
         // Adds target pose
         ShuffleboardField.setTabletPos(target_x, target_y);

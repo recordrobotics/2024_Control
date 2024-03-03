@@ -75,7 +75,7 @@ public class ManualSwerve extends Command {
     SmartDashboard.putData("Drive Mode", driveMode);
     SmartDashboard.putData("Joystick Orientation", joystickOrientation);
 
-    SmartDashboard.putNumber("tspeed", 0.0);
+    //SmartDashboard.putNumber("tspeed", 0.0);
   }
 
   // Called when the command is initially scheduled.

@@ -14,8 +14,8 @@ public class ShuffleboardField {
 
     public static void setRobotPose(Pose2d pose) {
         field.setRobotPose(pose);
-        SmartDashboard.putNumber("x", pose.getX());
-        SmartDashboard.putNumber("y", pose.getY());
+        //SmartDashboard.putNumber("x", pose.getX());
+        //SmartDashboard.putNumber("y", pose.getY());
         putData();
     }
 
