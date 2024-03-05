@@ -8,8 +8,6 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterStates;
 import frc.robot.subsystems.Crashbar;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.KillSpecified;
@@ -102,7 +100,7 @@ public class RobotContainer {
     _climbers = new Climbers();
 
     // Sets up auto chooser
-    _autoPath = new AutoPath(_drivetrain, _channel, _shooter, _crashbar);
+    _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
     _autoPath.putAutoChooser();
 
     // Bindings and Teleop
@@ -187,9 +185,6 @@ public class RobotContainer {
 
     Trigger ManualAcquisitionTrigger = new Trigger(_controlInput::getManualAcquisition);
     ManualAcquisitionTrigger.whileTrue(_manualAcquisition);
-
-    Trigger AutoAcquireTrigger = new Trigger(_controlInput::getAutoAcquireCorner);
-    AutoAcquireTrigger.onTrue(new PathPlannerAuto("Acquire In corner"));
   }
 
   /**

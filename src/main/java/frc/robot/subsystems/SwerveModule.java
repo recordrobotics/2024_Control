@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.ShuffleboardUI;
@@ -39,7 +40,7 @@ public class SwerveModule {
 
   static {
     ShuffleboardTab tab = ShuffleboardUI.Autonomous.getTab();
-    tab.addDoubleArray("Velocity", () -> {
+    var velocityWidget = tab.addDoubleArray("Velocity", () -> {
       var values = velocityGraphData.values().toArray();
       double[] db = new double[values.length * 2];
       for (int i = 0; i < values.length; i++) {
@@ -50,6 +51,9 @@ public class SwerveModule {
       }
       return db;
     });
+    velocityWidget.withWidget(BuiltInWidgets.kGraph);
+    velocityWidget.withPosition(6, 1);
+    velocityWidget.withSize(4, 3);
   }
 
   // Creates variables for motors and absolute encoders

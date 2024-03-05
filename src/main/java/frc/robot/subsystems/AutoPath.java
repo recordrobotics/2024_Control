@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
 import frc.robot.commands.auto.OrientTowards;
+import frc.robot.commands.notes.AcquireSmart;
 import frc.robot.commands.notes.ShootAmp;
 import frc.robot.commands.notes.ShootSpeaker;
 import frc.robot.utils.DriveCommandData;
@@ -19,7 +20,8 @@ public class AutoPath {
 
     private final SendableChooser<Command> autoChooser;
 
-    public AutoPath(Drivetrain drivetrain, Channel channel, Shooter shooter, Crashbar crashbar) {
+    public AutoPath(Drivetrain drivetrain, Acquisition acquisition, Photosensor photosensor, Channel channel,
+            Shooter shooter, Crashbar crashbar) {
         NamedCommands.registerCommand("Stop", new InstantCommand(() -> {
             drivetrain.stop();
         }));
@@ -28,6 +30,7 @@ public class AutoPath {
         NamedCommands.registerCommand("ShootAmp", new ShootAmp(channel, shooter, crashbar));
         NamedCommands.registerCommand("OrientSpeaker", new OrientTowards(drivetrain, OrientTarget.Speaker));
         NamedCommands.registerCommand("OrientAmp", new OrientTowards(drivetrain, OrientTarget.Amp));
+        NamedCommands.registerCommand("Acquire", new AcquireSmart(acquisition, channel, photosensor));
 
         AutoBuilder.configureHolonomic(
                 drivetrain.poseFilter::getEstimatedPosition, // Robot pose supplier
