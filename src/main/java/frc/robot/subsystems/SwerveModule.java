@@ -4,7 +4,11 @@
 
 package frc.robot.subsystems;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.ctre.phoenix6.hardware.TalonFX;
+
 //import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -14,11 +18,39 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.ShuffleboardUI;
 import frc.robot.utils.ModuleConstants;
 
 public class SwerveModule {
+
+  class Double2 {
+    public Double a;
+    public Double b;
+
+    public Double2(double a1, double b1) {
+      a = a1;
+      b = b1;
+    }
+  }
+
+  private final static Map<Integer, Double2> velocityGraphData = new HashMap<>();
+
+  static {
+    ShuffleboardTab tab = ShuffleboardUI.Autonomous.getTab();
+    tab.addDoubleArray("Velocity", () -> {
+      var values = velocityGraphData.values().toArray();
+      double[] db = new double[values.length * 2];
+      for (int i = 0; i < values.length; i++) {
+        if (values[i] instanceof Double2 p) {
+          db[i * 2] = p.a;
+          db[i * 2 + 1] = p.b;
+        }
+      }
+      return db;
+    });
+  }
 
   // Creates variables for motors and absolute encoders
   private final TalonFX m_driveMotor;
@@ -88,8 +120,8 @@ public class SwerveModule {
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelTurnOffset());
 
-    //SmartDashboard.putNumber("kS", driveFeedForward.ks);
-    //SmartDashboard.putNumber("kV", driveFeedForward.kv);
+    // SmartDashboard.putNumber("kS", driveFeedForward.ks);
+    // SmartDashboard.putNumber("kV", driveFeedForward.kv);
   }
 
   /**
@@ -187,8 +219,8 @@ public class SwerveModule {
     double driveFeedforwardOutput = driveFeedForward.calculate(optimizedState.speedMetersPerSecond);
     m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
 
-    //SmartDashboard.putNumberArray("speed " + m_driveMotor.getDeviceID(),
-    //    new double[] { getDriveWheelVelocity(), optimizedState.speedMetersPerSecond });
+    velocityGraphData.put(m_driveMotor.getDeviceID(),
+        new Double2(getDriveWheelVelocity(), optimizedState.speedMetersPerSecond));
 
     // Calculate the turning motor output from the turning PID controller then set
     // turn motor.

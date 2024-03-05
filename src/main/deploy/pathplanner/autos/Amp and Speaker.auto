@@ -8,13 +8,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Up to speaker"
+            "pathName": "To Amp"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Stop"
+            "name": "OrientAmp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootAmp"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp to Note"
           }
         },
         {

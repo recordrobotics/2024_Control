@@ -16,6 +16,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Autonomous/Starting Location": "String Chooser",
       "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Drive Mode": "String Chooser",
       "/SmartDashboard/Field": "Field2d",

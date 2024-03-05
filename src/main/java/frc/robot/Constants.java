@@ -11,7 +11,6 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
@@ -52,22 +51,8 @@ public final class Constants {
         public static final Rotation2d TEAM_BLUE_AMP = Rotation2d.fromDegrees(90); // new Translation2d(2.775, 8.5);
 
         // Field width and length
-        // TODO: Remove testing values
-        // public static final double FIELD_X_DIMENSION = 16.54; // Length
-        // public static final double FIELD_Y_DIMENSION = 8.21; // Width
-        public static final double FIELD_X_DIMENSION = 4.5; // Length
-        public static final double FIELD_Y_DIMENSION = 3; // Width
-
-        public static final Pose2d TEAM_RED_STARTING_POSE = new Pose2d(16.373, 6.965, Rotation2d.fromDegrees(180));
-        // TODO: Remove testing values
-        // public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(0.5, 4.2,
-        // Rotation2d.fromDegrees(0));
-        // public static final Pose2d TEAM_BLUE_STARTING_POSE = new
-        // Pose2d(FIELD_X_DIMENSION / 2, FIELD_Y_DIMENSION / 2,
-        // Rotation2d.fromDegrees(0));
-        // public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(2, 2,
-        // Rotation2d.fromDegrees(0));
-        public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(3.322, 5.633, Rotation2d.fromDegrees(0));
+        public static final double FIELD_X_DIMENSION = 16.54; // Length
+        public static final double FIELD_Y_DIMENSION = 8.21; // Width
     }
 
     public final class Control {
