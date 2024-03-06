@@ -15,5 +15,4 @@ public class PlannedAuto extends SequentialCommandGroup {
                 new InstantCommand(()->drivetrain.stop()),
                 new WaitCommand(1));
     }
-
 }

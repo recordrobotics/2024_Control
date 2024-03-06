@@ -222,27 +222,9 @@ public class DoubleControl {
 		return xbox_controller.getRightBumper() || stickpad.getRawButton(6); // aka the right trigger button
 	}
 
-	public boolean getClimberUp() {
-		return xbox_controller.getRawAxis(5) < -0.5;
-	}
-
-	public boolean getClimberDown() {
-		return xbox_controller.getRawAxis(5) > 0.5;
-	}
-
 	public boolean getClimberToggle() {
 		return xbox_controller.getRawButton(7);
 	}
-
-	/*
-	 * public boolean getCrashbarExtend() {
-	 * return xbox_controller.getRawAxis(5) < -0.5;
-	 * }
-	 * 
-	 * public boolean getCrashbarRetract() {
-	 * return xbox_controller.getRawAxis(5) > 0.5;
-	 * }
-	 */
 
 	public boolean getKillAuto() {
 		return xbox_controller.getRawButton(8);

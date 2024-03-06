@@ -42,5 +42,3 @@ public class PushAmp extends SequentialCommandGroup {
     );
   }
 }
-
-// TODO: use handle interrupt with a kill command

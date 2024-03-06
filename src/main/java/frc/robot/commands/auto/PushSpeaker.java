@@ -21,7 +21,6 @@ public class PushSpeaker extends SequentialCommandGroup {
   protected Timer m_timer = new Timer();
 
   public PushSpeaker (Channel channel, Shooter shooter) {
-
     _channel = channel;
     _shooter = shooter;
     addRequirements(channel);

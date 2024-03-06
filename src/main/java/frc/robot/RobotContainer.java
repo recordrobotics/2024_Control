@@ -7,7 +7,6 @@ package frc.robot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterStates;
 import frc.robot.subsystems.Crashbar;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.KillSpecified;
@@ -64,8 +63,6 @@ public class RobotContainer {
   private AcquireSmart _acquire;
   private ShootSpeaker _shootSpeaker;
   private ShootAmp _shootAmp;
-  // private ClimberUp _climberUp;
-  // private ClimberDown _climberDown;
 
   private ManualReverse _manualReverse;
   private ManualShooter _manualShootSpeaker;
@@ -151,6 +148,7 @@ public class RobotContainer {
     Trigger robotKillTrigger = new Trigger(_controlInput::getKillAuto);
     robotKillTrigger.whileTrue(_killSpecified);
 
+    // Triggers
     Trigger acquireTrigger = new Trigger(_controlInput::getAcquire);
     acquireTrigger.toggleOnTrue(_acquire);
 
@@ -162,13 +160,6 @@ public class RobotContainer {
 
     Trigger reverseTrigger = new Trigger(_controlInput::getReverse);
     reverseTrigger.whileTrue(_manualReverse);
-
-    // Solenoid triggers
-    // Trigger ClimberUpTrigger = new Trigger(_controlInput::getClimberUp);
-    // ClimberUpTrigger.toggleOnTrue(_climberUp);
-
-    // Trigger ClimberDownTrigger = new Trigger(_controlInput::getClimberDown);
-    // ClimberDownTrigger.toggleOnTrue(_climberDown);
 
     Trigger ClimberToggleTrigger = new Trigger(_controlInput::getClimberToggle);
     ClimberToggleTrigger.toggleOnTrue(_manualClimbers);
