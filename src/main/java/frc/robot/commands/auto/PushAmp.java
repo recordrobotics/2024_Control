@@ -40,8 +40,6 @@ public class PushAmp extends SequentialCommandGroup {
       new InstantCommand(()-> _channel.toggle(ChannelStates.OFF), _channel).handleInterrupt(killSpecified),
       new InstantCommand(()-> _crashbar.toggle(CrashbarStates.RETRACTED), _crashbar).handleInterrupt(killSpecified)
     );
-
-
   }
 }
 
