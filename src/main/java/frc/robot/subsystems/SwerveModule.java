@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.ShuffleboardUI;
 import frc.robot.utils.ModuleConstants;
 
@@ -123,9 +122,6 @@ public class SwerveModule {
 
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelTurnOffset());
-
-    // SmartDashboard.putNumber("kS", driveFeedForward.ks);
-    // SmartDashboard.putNumber("kV", driveFeedForward.kv);
   }
 
   /**
@@ -212,9 +208,6 @@ public class SwerveModule {
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState,
         getTurnWheelRotation2d());
-
-    driveFeedForward = new SimpleMotorFeedforward(SmartDashboard.getNumber("kS", 0),
-        SmartDashboard.getNumber("kV", 0));
 
     // Calculate the drive output from the drive PID controller then set drive
     // motor.

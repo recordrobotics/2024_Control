@@ -18,17 +18,17 @@ public class DriverStationUtils {
                 // Red
                 new Pose2d(16.19, 6.82, Rotation2d.fromDegrees(180)),
                 // Blue
-                new Pose2d(3.322, 5.633, Rotation2d.fromDegrees(0))),
+                new Pose2d(0.37, 6.82, Rotation2d.fromDegrees(0))),
         Placeholder2(
                 // Red
                 new Pose2d(16.19, 6.82, Rotation2d.fromDegrees(180)),
                 // Blue
-                new Pose2d(3.322, 5.633, Rotation2d.fromDegrees(0))),
+                new Pose2d(0.37, 6.82, Rotation2d.fromDegrees(0))),
         Placeholder3(
                 // Red
                 new Pose2d(16.19, 6.82, Rotation2d.fromDegrees(180)),
                 // Blue
-                new Pose2d(3.322, 5.633, Rotation2d.fromDegrees(0))),
+                new Pose2d(0.37, 6.82, Rotation2d.fromDegrees(0))),
                 ;
 
         private final Pose2d m_transformRed;

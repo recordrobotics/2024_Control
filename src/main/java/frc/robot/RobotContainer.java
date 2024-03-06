@@ -18,7 +18,7 @@ import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
 import frc.robot.commands.manual.ManualSwerve;
 import frc.robot.commands.manual.ManualReverse;
-import frc.robot.commands.notes.Acquire;
+import frc.robot.commands.notes.AcquireSmart;
 import frc.robot.commands.notes.ShootAmp;
 import frc.robot.commands.notes.ShootSpeaker;
 import frc.robot.control.DoubleControl;
@@ -61,7 +61,7 @@ public class RobotContainer {
   //
   private DoubleControl _controlInput;
 
-  private Acquire _acquire;
+  private AcquireSmart _acquire;
   private ShootSpeaker _shootSpeaker;
   private ShootAmp _shootAmp;
   // private ClimberUp _climberUp;
@@ -123,7 +123,7 @@ public class RobotContainer {
     _manualClimbers = new ManualClimbers(_climbers);
 
     // Sets up higher level manual notes commands
-    _acquire = new Acquire(_acquisition, _channel, _photosensor);
+    _acquire = new AcquireSmart(_acquisition, _channel, _photosensor);
     _shootSpeaker = new ShootSpeaker(_channel, _shooter);
     _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
     _manualReverse = new ManualReverse(_acquisition, _channel);

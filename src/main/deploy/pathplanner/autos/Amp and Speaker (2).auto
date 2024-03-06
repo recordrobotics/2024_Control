@@ -20,19 +20,31 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootAmp"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.5
+            "name": "PushAmp"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Amp to Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PushSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Shoot note 2"
           }
         },
         {

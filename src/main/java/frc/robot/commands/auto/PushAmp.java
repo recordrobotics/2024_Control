@@ -1,4 +1,4 @@
-package frc.robot.commands.notes;
+package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -11,22 +11,19 @@ import frc.robot.subsystems.Crashbar.CrashbarStates;
 import frc.robot.subsystems.Shooter.ShooterStates;
 import edu.wpi.first.wpilibj.Timer;
 
-public class ShootAmp extends SequentialCommandGroup {
+public class PushAmp extends SequentialCommandGroup {
 
   private static Channel _channel;
   private static Shooter _shooter;
   private static Crashbar _crashbar;
 
-  /** Number of seconds it takes for the flywheel to spin up */
-  private final double flywheelSpinupTime = 0.3;
-  private final double crashbarExtendTime = 0.4;
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
-  private final double shootTime = 0.7;
+  private final double shootTime = 1;
 
   // Init timer
   protected Timer m_timer = new Timer();
 
-  public ShootAmp (Channel channel, Shooter shooter, Crashbar crashbar) {
+  public PushAmp (Channel channel, Shooter shooter, Crashbar crashbar) {
     _channel = channel;
     _shooter = shooter;
     _crashbar = crashbar;
@@ -37,9 +34,6 @@ public class ShootAmp extends SequentialCommandGroup {
     final Runnable killSpecified = () -> new KillSpecified(_shooter, _channel, _crashbar);
 
     addCommands(
-      new InstantCommand(()->_shooter.toggle(ShooterStates.AMP), _shooter).handleInterrupt(killSpecified),
-      new InstantCommand(()->_crashbar.toggle(CrashbarStates.EXTENDED), _crashbar).handleInterrupt(killSpecified),
-      new WaitCommand(Math.max(flywheelSpinupTime, crashbarExtendTime)),
       new InstantCommand(()->_channel.toggle(ChannelStates.SHOOT), _channel).handleInterrupt(killSpecified),
       new WaitCommand(shootTime),
       new InstantCommand(()-> _shooter.toggle(ShooterStates.OFF), _shooter).handleInterrupt(killSpecified),

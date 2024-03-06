@@ -1,6 +1,7 @@
 package frc.robot.commands.notes;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.commands.KillSpecified;
 import frc.robot.subsystems.Acquisition;
@@ -35,7 +36,7 @@ public class AcquireSmart extends SequentialCommandGroup {
       new InstantCommand(() -> _acquisition.toggle(AcquisitionStates.OFF), _acquisition).handleInterrupt(killSpecified),
       // waits until photosensor off, extra time
       new WaitUntilCommand(()->!_photosensor.getDebouncedValue()).handleInterrupt(killSpecified),
-      new WaitUntilCommand(0.5),
+      new WaitCommand(0.15),
       // Turns channel reverse
       new InstantCommand(() -> _channel.toggle(ChannelStates.REVERSE), _channel).handleInterrupt(killSpecified),
       // Waits until photosensor on, then toggle channel off

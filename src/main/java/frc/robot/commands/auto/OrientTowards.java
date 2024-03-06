@@ -68,6 +68,8 @@ public class OrientTowards extends Command {
                 true);
 
         _drivetrain.drive(driveCommandData);
+
+        System.out.println("orient " + spin);
     }
 
     @Override
@@ -84,8 +86,8 @@ public class OrientTowards extends Command {
             spin = _autoOrient.calculate(targetRot, _drivetrain.poseFilter.getEstimatedPosition());
         }
 
-        //SmartDashboard.putNumber("autospin", spin);
-        if (Math.abs(spin) <= 0.04) {
+        // SmartDashboard.putNumber("autospin", spin);
+        if (Math.abs(spin) <= 0.06) {
             return true;
         } else {
             return false;

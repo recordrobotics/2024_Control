@@ -10,9 +10,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
 import frc.robot.commands.auto.OrientTowards;
+import frc.robot.commands.auto.PushAmp;
+import frc.robot.commands.auto.PushSpeaker;
 import frc.robot.commands.notes.AcquireSmart;
 import frc.robot.commands.notes.ShootAmp;
 import frc.robot.commands.notes.ShootSpeaker;
+import frc.robot.subsystems.Crashbar.CrashbarStates;
+import frc.robot.subsystems.Shooter.ShooterStates;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.OrientTarget;
 
@@ -26,8 +30,13 @@ public class AutoPath {
             drivetrain.stop();
         }));
 
-        NamedCommands.registerCommand("ShootSpeaker", new ShootSpeaker(channel, shooter));
-        NamedCommands.registerCommand("ShootAmp", new ShootAmp(channel, shooter, crashbar));
+        NamedCommands.registerCommand("PushSpeaker", new PushSpeaker(channel, shooter));
+        NamedCommands.registerCommand("FlywheelSpeaker", new InstantCommand(()->shooter.toggle(ShooterStates.SPEAKER)));
+        NamedCommands.registerCommand("PushAmp", new PushAmp(channel, shooter, crashbar));
+        NamedCommands.registerCommand("FlywheelAmp", new InstantCommand(()->{
+            shooter.toggle(ShooterStates.AMP);
+            crashbar.toggle(CrashbarStates.EXTENDED);
+        }));
         NamedCommands.registerCommand("OrientSpeaker", new OrientTowards(drivetrain, OrientTarget.Speaker));
         NamedCommands.registerCommand("OrientAmp", new OrientTowards(drivetrain, OrientTarget.Amp));
         NamedCommands.registerCommand("Acquire", new AcquireSmart(acquisition, channel, photosensor));

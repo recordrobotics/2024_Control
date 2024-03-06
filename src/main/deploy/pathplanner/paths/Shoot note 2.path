@@ -3,56 +3,55 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.3729523848596406,
-        "y": 6.82483075179927
+        "x": 1.39,
+        "y": 5.557362183607978
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.045685701822712,
-        "y": 6.698083894980141
+        "x": 2.556898225435407,
+        "y": 5.323367986403432
+      },
+      "isLocked": false,
+      "linkedName": "ShootPoint"
+    },
+    {
+      "anchor": {
+        "x": 2.7031445986882483,
+        "y": 5.264869437102295
+      },
+      "prevControl": {
+        "x": 2.8493909719410895,
+        "y": 5.264869437102295
+      },
+      "nextControl": {
+        "x": 2.203144598688248,
+        "y": 5.264869437102295
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.8159166009543433,
-        "y": 7.72
+        "x": 1.39,
+        "y": 5.557362183607978
       },
       "prevControl": {
-        "x": 1.7533346526075504,
-        "y": 6.969268617302079
+        "x": 1.8549156338217678,
+        "y": 5.557362183607978
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Amp Shoot"
+      "linkedName": "ShootPoint"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.6,
-      "rotationDegrees": -90.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "New Constraints Zone",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.9,
+      "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 1.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
-    },
-    {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0.9,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 0.2,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
@@ -61,8 +60,8 @@
   ],
   "eventMarkers": [
     {
-      "name": "Flywheel",
-      "waypointRelativePos": 0.3,
+      "name": "Intake",
+      "waypointRelativePos": 0.5,
       "command": {
         "type": "parallel",
         "data": {
@@ -70,7 +69,24 @@
             {
               "type": "named",
               "data": {
-                "name": "FlywheelAmp"
+                "name": "Acquire"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Flywheel",
+      "waypointRelativePos": 1.5,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "FlywheelSpeaker"
               }
             }
           ]
@@ -86,13 +102,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Real Auto",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

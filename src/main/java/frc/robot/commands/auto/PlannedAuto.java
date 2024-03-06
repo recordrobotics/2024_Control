@@ -9,7 +9,7 @@ import frc.robot.subsystems.Drivetrain;
 public class PlannedAuto extends SequentialCommandGroup {
     public PlannedAuto(Drivetrain drivetrain, AutoPath autoPath) {
         addCommands(
-                new PathPlannerAuto("Amp and Speaker"),
+                new PathPlannerAuto("Amp and Speaker (2)"),
                 new StopAndWait(drivetrain, 1));
     }
 
