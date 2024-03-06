@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.3729523848596406,
-        "y": 6.82483075179927
+        "x": 1.65,
+        "y": 7.27
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.045685701822712,
-        "y": 6.698083894980141
+        "x": 1.65,
+        "y": 7.369999999999999
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.8159166009543433,
+        "x": 1.82,
         "y": 7.72
       },
       "prevControl": {
-        "x": 1.7533346526075504,
-        "y": 6.969268617302079
+        "x": 1.8116843930555218,
+        "y": 7.620346346373327
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,7 +62,7 @@
   "eventMarkers": [
     {
       "name": "Flywheel",
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -92,7 +92,7 @@
   "reversed": false,
   "folder": "Real Auto",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": -90.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

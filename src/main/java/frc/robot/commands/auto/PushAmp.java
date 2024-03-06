@@ -17,15 +17,12 @@ public class PushAmp extends SequentialCommandGroup {
   private static Crashbar _crashbar;
 
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
-  private final double shootTime = 1;
+  private final double shootTime = 1.5;
 
   public PushAmp (Channel channel, Shooter shooter, Crashbar crashbar) {
     _channel = channel;
     _shooter = shooter;
     _crashbar = crashbar;
-    addRequirements(channel);
-    addRequirements(shooter);
-    addRequirements(crashbar);
 
     final Runnable killSpecified = () -> new KillSpecified(_shooter, _channel, _crashbar);
 

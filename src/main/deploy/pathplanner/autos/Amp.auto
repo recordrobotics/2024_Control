@@ -22,24 +22,6 @@
           "data": {
             "name": "PushAmp"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Amp to Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Stop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PushSpeaker"
-          }
         }
       ]
     }

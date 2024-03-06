@@ -19,8 +19,6 @@ public class PushSpeaker extends SequentialCommandGroup {
   public PushSpeaker (Channel channel, Shooter shooter) {
     _channel = channel;
     _shooter = shooter;
-    addRequirements(channel);
-    addRequirements(shooter);
 
     final Runnable killSpecified = () -> new KillSpecified(_shooter, _channel);
 

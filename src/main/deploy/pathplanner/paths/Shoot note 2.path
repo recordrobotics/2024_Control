@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.39,
-        "y": 5.557362183607978
+        "x": 1.3966769976295312,
+        "y": 5.47
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.556898225435407,
-        "y": 5.323367986403432
+        "x": 2.5635752230649387,
+        "y": 5.236005802795454
       },
       "isLocked": false,
       "linkedName": "ShootPoint"
@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 1.39,
-        "y": 5.557362183607978
+        "x": 1.3966769976295312,
+        "y": 5.47
       },
       "prevControl": {
-        "x": 1.8549156338217678,
-        "y": 5.557362183607978
+        "x": 1.8615926314512992,
+        "y": 5.47
       },
       "nextControl": null,
       "isLocked": false,
@@ -61,7 +61,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.15,
       "command": {
         "type": "parallel",
         "data": {
