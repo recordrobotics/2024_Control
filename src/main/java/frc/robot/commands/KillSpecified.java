@@ -1,8 +1,6 @@
 package frc.robot.commands;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Acquisition;
@@ -19,7 +17,7 @@ import frc.robot.subsystems.Climbers.ClimberStates;;
 public class KillSpecified extends Command {
 
     private SubsystemBase[] _subsytems;
-    private Boolean _shouldExecute;
+    private Boolean _shouldContinuouslyExecute;
 
     /**
      * Kills whatever subsystem you put into the system
@@ -27,10 +25,9 @@ public class KillSpecified extends Command {
      * 
      */
     public KillSpecified (SubsystemBase... subsystems) {
-
         addRequirements(subsystems); //TODO: is this necessary/helpful?
         _subsytems = subsystems;
-        _shouldExecute = false;
+        _shouldContinuouslyExecute = false;
     }
 
     /**
@@ -38,13 +35,11 @@ public class KillSpecified extends Command {
      * @param execute whether or not the command should run continuously
      * @param subsystems 
      */
-    public KillSpecified (Boolean shouldExecute, SubsystemBase... subsystems) {
-
+    public KillSpecified (Boolean shouldContinuouslyExecute, SubsystemBase... subsystems) {
         addRequirements(subsystems); //TODO: is this necessary/helpful?
         _subsytems = subsystems;
-        _shouldExecute = shouldExecute;
+        _shouldContinuouslyExecute = shouldContinuouslyExecute;
     }
-
 
     @Override
     public void initialize() {
@@ -86,7 +81,7 @@ public class KillSpecified extends Command {
 
     @Override
     public boolean isFinished() {
-        return !_shouldExecute;
+        return !_shouldContinuouslyExecute;
     }
 
 }

@@ -9,7 +9,6 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Channel.ChannelStates;
 import frc.robot.subsystems.Crashbar.CrashbarStates;
 import frc.robot.subsystems.Shooter.ShooterStates;
-import edu.wpi.first.wpilibj.Timer;
 
 public class PushAmp extends SequentialCommandGroup {
 
@@ -19,9 +18,6 @@ public class PushAmp extends SequentialCommandGroup {
 
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
   private final double shootTime = 1;
-
-  // Init timer
-  protected Timer m_timer = new Timer();
 
   public PushAmp (Channel channel, Shooter shooter, Crashbar crashbar) {
     _channel = channel;

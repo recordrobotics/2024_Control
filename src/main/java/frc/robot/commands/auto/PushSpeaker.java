@@ -7,7 +7,6 @@ import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Channel.ChannelStates;
 import frc.robot.subsystems.Shooter.ShooterStates;
-import edu.wpi.first.wpilibj.Timer;
 
 public class PushSpeaker extends SequentialCommandGroup {
 
@@ -16,9 +15,6 @@ public class PushSpeaker extends SequentialCommandGroup {
 
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
   private final double shootTime = 1;
-
-  // Init timer
-  protected Timer m_timer = new Timer();
 
   public PushSpeaker (Channel channel, Shooter shooter) {
     _channel = channel;
