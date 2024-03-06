@@ -16,8 +16,7 @@ public class KnobSpin {
     /**
      * runs calculations for auto-orient
      * 
-     * @return
-     *         DriveCommandData object with drive directions
+     * @return DriveCommandData object with drive directions
      */
     public double calculate(DoubleControl _controls, Pose2d swerve_position) {
 
