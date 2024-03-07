@@ -153,7 +153,6 @@ public class ManualSwerve extends Command {
         driveCommandData = DefaultDrive.calculate(_controls, spin, swerve_position, true);
         break;
     }
-
     // Drive command
     _drivetrain.drive(driveCommandData);
   }
