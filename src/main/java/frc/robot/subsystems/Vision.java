@@ -55,12 +55,13 @@ public class Vision extends SubsystemBase {
     }
 
     public Rotation2d ringDirection(){
-        // Gets a frame from the camera
-		var result = camera.getLatestResult();
-
-		// Gets target object from apriltag perspective photonvision
-		PhotonTrackedTarget target = result.getBestTarget();
-        return Rotation2d.fromDegrees(target.getSkew());
+		// Gets target object orientation from orange photonvision
+        System.out.println(camera.getLatestResult().getBestTarget() != null);
+            if(checkForTarget()){
+                return Rotation2d.fromDegrees(camera.getLatestResult().getBestTarget().getYaw());
+            } else {
+                return Rotation2d.fromDegrees(0);
+            }
     }
 
 	public static boolean checkForTarget(){
@@ -76,8 +77,4 @@ public class Vision extends SubsystemBase {
         return targetID;
     }
 
-    @Override
-    public void periodic() {
-        estimateGlobalPose();
-    }
 }
