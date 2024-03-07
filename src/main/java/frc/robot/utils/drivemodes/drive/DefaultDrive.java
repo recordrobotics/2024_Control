@@ -18,8 +18,6 @@ public class DefaultDrive {
         // Gets speed level from controller
         double speedLevel = _controls.getDirectionalSpeedLevel();
 
-        //SmartDashboard.putNumber("CONTROLLER SPEED", speedLevel);
-
         // Gets information needed to drive
         DriveCommandData driveCommandData = new DriveCommandData(
                 _controls.getX() * speedLevel,
