@@ -191,7 +191,7 @@ public final class Constants {
 
     public final class Vision {
 
-        public static final String cameraID = new String("OV5647");
+        public static final String cameraID = new String("photonvision");
 
         //The offset from the center of the robot to the camera, and from facing exactly forward to the orientation of the camera.
 	    public static final Transform3d robotToCam = new Transform3d(

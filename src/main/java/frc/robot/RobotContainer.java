@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.function.BooleanSupplier;
 
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Crashbar;
 
 import edu.wpi.first.math.Pair;
@@ -55,6 +56,7 @@ public class RobotContainer {
   private ManualClimbers _manualClimbers;
   private ManualCrashbar _manualCrashbar;
   private DoubleControl _controlInput;
+  private Vision _vision;
 
   private ComplexTeleAuto _complexTeleAuto;
   private RobotKill _robotKill;
@@ -72,6 +74,7 @@ public class RobotContainer {
     _climbers = new Climbers();
     _crashbar = new Crashbar();
     _autoPath = new AutoPath(_drivetrain);
+    _vision = new Vision();
 
     // Sets up auto chooser
     _autoPath.putAutoChooser();
@@ -126,18 +129,18 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    BooleanSupplier getTeleAutoStart = () -> _controlInput.getTeleAutoStart();
-    Trigger teleAutoStartTrigger = new Trigger(getTeleAutoStart);
-    teleAutoStartTrigger.toggleOnTrue(_complexTeleAuto);
+    // BooleanSupplier getTeleAutoStart = () -> _controlInput.getTeleAutoStart();
+    // Trigger teleAutoStartTrigger = new Trigger(getTeleAutoStart);
+    // teleAutoStartTrigger.toggleOnTrue(_complexTeleAuto);
 
-    // BooleanSupplier getTeleAutoKill = () -> _controlInput.getKillAuto();
-    // Trigger teleAutoKillTrigger = new Trigger(getTeleAutoKill);
-    // //teleAutoStartTrigger.onTrue(_complexTeleAuto);
-    // teleAutoStartTrigger.negate()
+    // // BooleanSupplier getTeleAutoKill = () -> _controlInput.getKillAuto();
+    // // Trigger teleAutoKillTrigger = new Trigger(getTeleAutoKill);
+    // // //teleAutoStartTrigger.onTrue(_complexTeleAuto);
+    // // teleAutoStartTrigger.negate()
 
-    BooleanSupplier getRobotKill = () -> _controlInput.getKillAuto();
-    Trigger robotKillTrigger = new Trigger(getRobotKill);
-    robotKillTrigger.whileTrue(_robotKill);
+    // BooleanSupplier getRobotKill = () -> _controlInput.getKillAuto();
+    // Trigger robotKillTrigger = new Trigger(getRobotKill);
+    // robotKillTrigger.whileTrue(_robotKill);
   }
 
   /**

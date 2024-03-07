@@ -60,7 +60,7 @@ public class Vision extends SubsystemBase {
 
 		// Gets target object from apriltag perspective photonvision
 		PhotonTrackedTarget target = result.getBestTarget();
-        return Rotation2d.fromDegrees((result.getSkew());
+        return Rotation2d.fromDegrees(target.getSkew());
     }
 
 	public static boolean checkForTarget(){
@@ -76,4 +76,8 @@ public class Vision extends SubsystemBase {
         return targetID;
     }
 
+    @Override
+    public void periodic() {
+        estimateGlobalPose();
+    }
 }
