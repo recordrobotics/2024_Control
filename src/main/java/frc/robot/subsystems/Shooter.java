@@ -3,12 +3,10 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Shooter extends SubsystemBase {
@@ -19,9 +17,6 @@ public class Shooter extends SubsystemBase {
     private static final double SPEAKER_SPEED = Constants.Shooter.SPEAKER_SPEED;
     private static final double AMP_SPEED = Constants.Shooter.AMP_SPEED;
     private static final double REVERSE_SPEED = Constants.Shooter.REVERSE_SPEED;
-
-    public ShooterStates shooterState = ShooterStates.OFF;
-
 
     public Shooter() {
         toggle(ShooterStates.OFF);
@@ -38,7 +33,6 @@ public class Shooter extends SubsystemBase {
     }
 
     public void toggle(ShooterStates state) {
-        shooterState = state;
         switch (state) {
             case SPEAKER:
                 flywheelL.set(-SPEAKER_SPEED);

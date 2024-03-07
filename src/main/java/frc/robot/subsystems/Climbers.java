@@ -12,8 +12,6 @@ import frc.robot.RobotMap;
 
 public class Climbers extends SubsystemBase {
 
-    public ClimberStates climberState = ClimberStates.OFF;
-
     private DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotMap.Climbers.FORWARD_PORT,
             RobotMap.Climbers.REVERSE_PORT);
 
@@ -29,7 +27,6 @@ public class Climbers extends SubsystemBase {
     }
 
     public void toggle(ClimberStates state) {
-        climberState = state;
         switch (state) {
             case UP:
                 solenoid.set(DoubleSolenoid.Value.kForward);

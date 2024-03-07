@@ -7,9 +7,6 @@ import frc.robot.RobotMap;
 
 public class Crashbar extends SubsystemBase {
 
-    // Creates crashbar state object
-    public CrashbarStates crashbarState = CrashbarStates.OFF;
-
     // Creates solenoid
     private DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
             RobotMap.Crashbar.FORWARD_PORT,
@@ -23,7 +20,6 @@ public class Crashbar extends SubsystemBase {
     }
 
     public void toggle(CrashbarStates state) {
-        crashbarState = state;
         switch (state) {
             case EXTENDED:
                 solenoid.set(DoubleSolenoid.Value.kReverse);

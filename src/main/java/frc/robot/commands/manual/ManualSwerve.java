@@ -93,9 +93,9 @@ public class ManualSwerve extends Command {
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
 
     // Puts robot position information on shuffleboard
-    SmartDashboard.putNumber("Rotation", swerve_position.getRotation().getDegrees());
-    SmartDashboard.putNumber("X", swerve_position.getX());
-    SmartDashboard.putNumber("Y", swerve_position.getY());
+    // SmartDashboard.putNumber("Rotation", swerve_position.getRotation().getDegrees());
+    // SmartDashboard.putNumber("X", swerve_position.getX());
+    // SmartDashboard.putNumber("Y", swerve_position.getY());
 
     // Control to reset pose if reset button is pressed
     if (_controls.getResetPressed()) {

@@ -13,14 +13,12 @@ import frc.robot.RobotMap;
 public class Channel extends SubsystemBase {
     private Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);
     private static final double channelDefaultSpeed = Constants.Channel.CHANNEL_SPEED;
-    public ChannelStates channelState = ChannelStates.OFF;
 
     public Channel() {
         toggle(ChannelStates.OFF);
     }
 
     public void toggle(ChannelStates state, double speed) {
-        channelState = state;
         switch (state) {
             case THROUGH:
                 channelMotor.set(speed);
