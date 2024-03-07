@@ -402,5 +402,4 @@ public class DoubleControl {
 
 		return new Pair<Double, Double>(adjusted_angle, proportion);
 	}
-
 }

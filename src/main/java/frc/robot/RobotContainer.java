@@ -53,6 +53,7 @@ public class RobotContainer {
 
   // Autonomous
   private final AutoPath _autoPath;
+  private Command autoCommand;
 
   // Manual (default) commands
   private ManualSwerve _manualSwerve;
@@ -71,9 +72,8 @@ public class RobotContainer {
   private ShootSpeaker _shootSpeaker;
   private ShootAmp _shootAmp;
 
+  // Misc commands
   private KillSpecified _killSpecified;
-
-  private Command autoCommand;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -124,7 +124,6 @@ public class RobotContainer {
     _shootSpeaker = new ShootSpeaker(_channel, _shooter);
     _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
     _manualReverse = new ManualReverse(_acquisition, _channel);
-
   }
 
   public void teleopInit() {

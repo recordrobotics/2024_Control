@@ -25,7 +25,7 @@ public final class RobotMap {
         public static final int REVERSE_PORT = 3;
     }
 
-    public static class Control {
+    public static final class Control {
         public static final int STICKPAD_PORT = 0;
         public static final int XBOX_PORT = 1;
     }
