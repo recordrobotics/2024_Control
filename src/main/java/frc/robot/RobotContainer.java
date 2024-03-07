@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.function.BooleanSupplier;
 
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Crashbar;
 
 import edu.wpi.first.math.Pair;
@@ -17,6 +18,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.RobotKill;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.hybrid.ComplexTeleAuto;
+import frc.robot.commands.hybrid.NoteOrient;
 import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
@@ -46,6 +48,7 @@ public class RobotContainer {
   private final Shooter _shooter;
   private final Crashbar _crashbar;
   private final Climbers _climbers;
+  private final Vision _vision;
 
   private final AutoPath _autoPath;
 
@@ -57,6 +60,7 @@ public class RobotContainer {
   private DoubleControl _controlInput;
 
   private ComplexTeleAuto _complexTeleAuto;
+  private NoteOrient _noteOrient;
   private RobotKill _robotKill;
 
   private Command autoCommand;
@@ -71,6 +75,7 @@ public class RobotContainer {
     _shooter = new Shooter();
     _climbers = new Climbers();
     _crashbar = new Crashbar();
+    _vision = new Vision();
     _autoPath = new AutoPath(_drivetrain);
 
     // Sets up auto chooser
@@ -108,6 +113,7 @@ public class RobotContainer {
 
     // Configure default bindings
     // _complexTeleAuto = new ComplexTeleAuto(_drivetrain);
+    _noteOrient = new NoteOrient(_drivetrain, _vision, _controlInput);
     _robotKill = new RobotKill(_drivetrain);
   }
 
@@ -126,9 +132,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    BooleanSupplier getTeleAutoStart = () -> _controlInput.getTeleAutoStart();
-    Trigger teleAutoStartTrigger = new Trigger(getTeleAutoStart);
-    teleAutoStartTrigger.toggleOnTrue(_complexTeleAuto);
+    BooleanSupplier getNoteOrient = () -> _controlInput.getTeleAutoStart();
+    Trigger noteOrientTrigger = new Trigger(getNoteOrient);
+    noteOrientTrigger.toggleOnTrue(_noteOrient);
 
     // BooleanSupplier getTeleAutoKill = () -> _controlInput.getKillAuto();
     // Trigger teleAutoKillTrigger = new Trigger(getTeleAutoKill);
