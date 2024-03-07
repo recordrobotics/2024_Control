@@ -18,6 +18,7 @@ public class Shooter extends SubsystemBase {
 
     private static final double SPEAKER_SPEED = Constants.Shooter.SPEAKER_SPEED;
     private static final double AMP_SPEED = Constants.Shooter.AMP_SPEED;
+    private static final double REVERSE_SPEED = Constants.Shooter.REVERSE_SPEED;
 
     public ShooterStates shooterState = ShooterStates.OFF;
 
@@ -31,6 +32,11 @@ public class Shooter extends SubsystemBase {
         flywheelR.set(speed);
     }
 
+    public void toggle(double speedL, double speedR) {
+        flywheelL.set(-speedL);
+        flywheelR.set(speedR);
+    }
+
     public void toggle(ShooterStates state) {
         shooterState = state;
         switch (state) {
@@ -42,6 +48,10 @@ public class Shooter extends SubsystemBase {
                 flywheelL.set(-AMP_SPEED);
                 flywheelR.set(AMP_SPEED);
                 break;
+            case REVERSE:
+                flywheelL.set(-REVERSE_SPEED);
+                flywheelR.set(REVERSE_SPEED);
+                break;
             default:
                 flywheelL.set(0);
                 flywheelR.set(0);
@@ -52,6 +62,7 @@ public class Shooter extends SubsystemBase {
     public enum ShooterStates {
         SPEAKER,
         AMP,
+        REVERSE,
         OFF;
     }
 }

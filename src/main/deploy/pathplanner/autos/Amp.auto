@@ -8,24 +8,24 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Example Path"
+            "pathName": "To Amp"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "StopAndWaitOneSecond"
+            "name": "Stop"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "New Path"
+            "name": "PushAmp"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Real Auto",
   "choreoAuto": false
 }

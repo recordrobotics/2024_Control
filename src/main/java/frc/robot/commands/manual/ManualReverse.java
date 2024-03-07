@@ -1,16 +1,16 @@
-package frc.robot.commands.notes;
+package frc.robot.commands.manual;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Acquisition.AcquisitionStates;
 import frc.robot.subsystems.Channel.ChannelStates;
 
-public class Reverse extends Command {
+public class ManualReverse extends Command {
 
   private static Acquisition _acquisition;
   private static Channel _channel;
 
-  public Reverse (Acquisition acquisition, Channel channel) {
+  public ManualReverse (Acquisition acquisition, Channel channel) {
     _acquisition = acquisition;
     _channel = channel;
     addRequirements(acquisition);

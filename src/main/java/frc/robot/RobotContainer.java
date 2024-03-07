@@ -3,25 +3,23 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterStates;
 import frc.robot.subsystems.Crashbar;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.RobotKill;
+import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.manual.ManualAcquisition;
+import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
 import frc.robot.commands.manual.ManualSwerve;
-import frc.robot.commands.notes.Acquire;
-import frc.robot.commands.notes.Reverse;
+import frc.robot.commands.manual.ManualReverse;
+import frc.robot.commands.notes.AcquireSmart;
 import frc.robot.commands.notes.ShootAmp;
 import frc.robot.commands.notes.ShootSpeaker;
-import frc.robot.commands.solenoid.ClimberDown;
-import frc.robot.commands.solenoid.ClimberUp;
-import frc.robot.commands.solenoid.CrashbarRetract;
-import frc.robot.commands.solenoid.CrashbarExtend;
 import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.AutoPath;
 import frc.robot.subsystems.Channel;
@@ -62,21 +60,18 @@ public class RobotContainer {
   //
   private DoubleControl _controlInput;
 
-  private Acquire _acquire;
-  private Reverse _reverse;
+  private AcquireSmart _acquire;
   private ShootSpeaker _shootSpeaker;
   private ShootAmp _shootAmp;
-  private ClimberUp _climberUp;
-  private ClimberDown _climberDown;
-  private CrashbarRetract _crashbarRetract;
-  private CrashbarExtend _crashbarExtend;
 
+  private ManualReverse _manualReverse;
   private ManualShooter _manualShootSpeaker;
   private ManualShooter _manualShootAmp;
   private ManualAcquisition _manualAcquisition;
   private ManualCrashbar _manualCrashbar;
+  private ManualClimbers _manualClimbers;
 
-  private RobotKill _robotKill;
+  private KillSpecified _killSpecified;
 
   private Command autoCommand;
 
@@ -102,7 +97,7 @@ public class RobotContainer {
     _climbers = new Climbers();
 
     // Sets up auto chooser
-    _autoPath = new AutoPath(_drivetrain);
+    _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
     _autoPath.putAutoChooser();
 
     // Bindings and Teleop
@@ -114,7 +109,6 @@ public class RobotContainer {
 
     // Creates control input & manual swerve object, adds it to _teleopPairs
     _controlInput = new DoubleControl(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.XBOX_PORT);
-
     // Adds default drivetrain & manual swerve to teleop commands
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
 
@@ -123,21 +117,16 @@ public class RobotContainer {
     _manualShootSpeaker = new ManualShooter(_shooter, ShooterStates.SPEAKER);
     _manualShootAmp = new ManualShooter(_shooter, ShooterStates.AMP);
     _manualCrashbar = new ManualCrashbar(_crashbar);
+    _manualClimbers = new ManualClimbers(_climbers);
 
     // Sets up higher level manual notes commands
-    _acquire = new Acquire(_acquisition, _channel, _photosensor);
+    _acquire = new AcquireSmart(_acquisition, _channel, _photosensor, _shooter);
     _shootSpeaker = new ShootSpeaker(_channel, _shooter);
     _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
-    _reverse = new Reverse(_acquisition, _channel);
-
-    // Solenoid commands
-    _climberUp = new ClimberUp(_climbers);
-    _climberDown = new ClimberDown(_climbers);
-    _crashbarRetract = new CrashbarRetract(_crashbar);
-    _crashbarExtend = new CrashbarExtend(_crashbar);
+    _manualReverse = new ManualReverse(_acquisition, _channel);
 
     // Robot kill command
-    _robotKill = new RobotKill(_drivetrain, _acquisition, _channel, _climbers, _shooter, _crashbar);
+    _killSpecified = new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers);
   }
 
   public void teleopInit() {
@@ -155,9 +144,11 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    // Command to kill robot
     Trigger robotKillTrigger = new Trigger(_controlInput::getKillAuto);
-    robotKillTrigger.whileTrue(_robotKill);
+    robotKillTrigger.whileTrue(_killSpecified);
 
+    // Triggers
     Trigger acquireTrigger = new Trigger(_controlInput::getAcquire);
     acquireTrigger.toggleOnTrue(_acquire);
 
@@ -168,22 +159,10 @@ public class RobotContainer {
     shootAmpTrigger.toggleOnTrue(_shootAmp);
 
     Trigger reverseTrigger = new Trigger(_controlInput::getReverse);
-    reverseTrigger.whileTrue(_reverse);
+    reverseTrigger.whileTrue(_manualReverse);
 
-
-    // Solenoid triggers
-    Trigger ClimberUpTrigger = new Trigger(_controlInput::getClimberUp);
-    ClimberUpTrigger.onTrue(_climberUp);
-
-    Trigger ClimberDownTrigger = new Trigger(_controlInput::getClimberDown);
-    ClimberDownTrigger.onTrue(_climberDown);
-
-    Trigger CrashbarExtendTrigger = new Trigger(_controlInput::getCrashbarExtend);
-    CrashbarExtendTrigger.onTrue(_crashbarExtend);
-
-    Trigger CrashbarRetractTrigger = new Trigger(_controlInput::getCrashbarRetract);
-    CrashbarRetractTrigger.onTrue(_crashbarRetract);
-
+    Trigger ClimberToggleTrigger = new Trigger(_controlInput::getClimberToggle);
+    ClimberToggleTrigger.toggleOnTrue(_manualClimbers);
 
     // Manual triggers
     Trigger ManualShootAmpTrigger = new Trigger(_controlInput::getManualShootAmp);
@@ -191,13 +170,12 @@ public class RobotContainer {
 
     Trigger ManualShootSpeakerTrigger = new Trigger(_controlInput::getManualShootSpeaker);
     ManualShootSpeakerTrigger.toggleOnTrue(_manualShootSpeaker);
-    
+
     Trigger ManualCrashbarTrigger = new Trigger(_controlInput::getManualCrashbar);
     ManualCrashbarTrigger.toggleOnTrue(_manualCrashbar);
 
     Trigger ManualAcquisitionTrigger = new Trigger(_controlInput::getManualAcquisition);
-    ManualAcquisitionTrigger.onTrue(_manualAcquisition);
-    
+    ManualAcquisitionTrigger.whileTrue(_manualAcquisition);
   }
 
   /**

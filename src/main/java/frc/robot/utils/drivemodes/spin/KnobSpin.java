@@ -1,32 +1,30 @@
-package frc.robot.utils.drivemodes;
-import edu.wpi.first.math.MathUtil;
+package frc.robot.utils.drivemodes.spin;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.control.DoubleControl;
 
-
-public class SpinDrive {
+public class KnobSpin {
 
     // Init variables
-    private static PIDController anglePID = new PIDController(0.4, 0, 0);
+    private PIDController anglePID = new PIDController(3.36, 0, 0);
 
-    public SpinDrive() {
+    public KnobSpin() {
         // Enables continious input for PID
         anglePID.enableContinuousInput(-Math.PI, Math.PI);
     }
 
     /**
      * runs calculations for auto-orient
-     * @return 
-     * DriveCommandData object with drive directions
+     * 
+     * @return DriveCommandData object with drive directions
      */
-    public static double calculate(DoubleControl _controls, Pose2d swerve_position) {
+    public double calculate(DoubleControl _controls, Pose2d swerve_position) {
 
-        // Calculates spin (I don't know how  it works, TODO: get vlad to explain to me)
+        // Calculates spin (I don't know how it works, TODO: get vlad to explain to me)
         double target_rotation = _controls.getSpinKnob();
         double swerve_rotation = swerve_position.getRotation().getRadians();
         double PID_calculation = anglePID.calculate(swerve_rotation, target_rotation);
-        double spin = MathUtil.clamp(PID_calculation, -0.5, 0.5);
+        double spin = PID_calculation;
 
         // Returns spin
         return spin;
