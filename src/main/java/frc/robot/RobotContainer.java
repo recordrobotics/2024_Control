@@ -56,20 +56,20 @@ public class RobotContainer {
 
   // Manual (default) commands
   private ManualSwerve _manualSwerve;
-
-  //
-  private DoubleControl _controlInput;
-
-  private AcquireSmart _acquire;
-  private ShootSpeaker _shootSpeaker;
-  private ShootAmp _shootAmp;
-
   private ManualReverse _manualReverse;
   private ManualShooter _manualShootSpeaker;
   private ManualShooter _manualShootAmp;
   private ManualAcquisition _manualAcquisition;
   private ManualCrashbar _manualCrashbar;
   private ManualClimbers _manualClimbers;
+
+  // Control
+  private DoubleControl _controlInput;
+
+  // Smart Commands
+  private AcquireSmart _acquire;
+  private ShootSpeaker _shootSpeaker;
+  private ShootAmp _shootAmp;
 
   private KillSpecified _killSpecified;
 
@@ -83,17 +83,13 @@ public class RobotContainer {
     // Init Nav
     NavSensor.initNav();
 
-    // Init Swerve
+    // Init subsystems
     _drivetrain = new Drivetrain();
-
-    // Init note systems
     _channel = new Channel();
     _acquisition = new Acquisition();
     _shooter = new Shooter();
     _crashbar = new Crashbar();
     _photosensor = new Photosensor();
-
-    // Init climbers
     _climbers = new Climbers();
 
     // Sets up auto chooser
@@ -109,8 +105,12 @@ public class RobotContainer {
 
     // Creates control input & manual swerve object, adds it to _teleopPairs
     _controlInput = new DoubleControl(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.XBOX_PORT);
+    
     // Adds default drivetrain & manual swerve to teleop commands
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
+
+    // Robot kill command
+    _killSpecified = new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers);
 
     // Sets up manual commands
     _manualAcquisition = new ManualAcquisition(_acquisition, _channel);
@@ -125,8 +125,6 @@ public class RobotContainer {
     _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
     _manualReverse = new ManualReverse(_acquisition, _channel);
 
-    // Robot kill command
-    _killSpecified = new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers);
   }
 
   public void teleopInit() {
@@ -145,37 +143,20 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // Command to kill robot
-    Trigger robotKillTrigger = new Trigger(_controlInput::getKillAuto);
-    robotKillTrigger.whileTrue(_killSpecified);
+    new Trigger(_controlInput::getKillAuto).whileTrue(_killSpecified);
 
     // Triggers
-    Trigger acquireTrigger = new Trigger(_controlInput::getAcquire);
-    acquireTrigger.toggleOnTrue(_acquire);
-
-    Trigger shootSpeakerTrigger = new Trigger(_controlInput::getShootSpeaker);
-    shootSpeakerTrigger.toggleOnTrue(_shootSpeaker);
-
-    Trigger shootAmpTrigger = new Trigger(_controlInput::getShootAmp);
-    shootAmpTrigger.toggleOnTrue(_shootAmp);
-
-    Trigger reverseTrigger = new Trigger(_controlInput::getReverse);
-    reverseTrigger.whileTrue(_manualReverse);
-
-    Trigger ClimberToggleTrigger = new Trigger(_controlInput::getClimberToggle);
-    ClimberToggleTrigger.toggleOnTrue(_manualClimbers);
+    new Trigger(_controlInput::getAcquire).toggleOnTrue(_acquire);;
+    new Trigger(_controlInput::getShootSpeaker).toggleOnTrue(_shootSpeaker);;
+    new Trigger(_controlInput::getShootAmp).toggleOnTrue(_shootAmp);
+    new Trigger(_controlInput::getReverse).whileTrue(_manualReverse);
+    new Trigger(_controlInput::getClimberToggle).toggleOnTrue(_manualClimbers);
 
     // Manual triggers
-    Trigger ManualShootAmpTrigger = new Trigger(_controlInput::getManualShootAmp);
-    ManualShootAmpTrigger.toggleOnTrue(_manualShootAmp);
-
-    Trigger ManualShootSpeakerTrigger = new Trigger(_controlInput::getManualShootSpeaker);
-    ManualShootSpeakerTrigger.toggleOnTrue(_manualShootSpeaker);
-
-    Trigger ManualCrashbarTrigger = new Trigger(_controlInput::getManualCrashbar);
-    ManualCrashbarTrigger.toggleOnTrue(_manualCrashbar);
-
-    Trigger ManualAcquisitionTrigger = new Trigger(_controlInput::getManualAcquisition);
-    ManualAcquisitionTrigger.whileTrue(_manualAcquisition);
+    new Trigger(_controlInput::getManualShootAmp).toggleOnTrue(_manualShootAmp);
+    new Trigger(_controlInput::getManualShootSpeaker).toggleOnTrue(_manualShootSpeaker);
+    new Trigger(_controlInput::getManualCrashbar).toggleOnTrue(_manualCrashbar);
+    new Trigger(_controlInput::getManualAcquisition).whileTrue(_manualAcquisition);
   }
 
   /**
