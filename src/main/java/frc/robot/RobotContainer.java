@@ -166,10 +166,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     if (autoCommand == null) {
-      autoCommand = new PlannedAuto(_drivetrain, _autoPath).andThen(() -> {
-        _drivetrain.stop();
-        System.out.println("ContainerAuto End");
-      }, _drivetrain);
+      autoCommand = new PlannedAuto(_drivetrain, _autoPath);
     }
     return autoCommand;
   }

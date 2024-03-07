@@ -62,7 +62,7 @@ public class KillSpecified extends Command {
             }
 
             if (subsystem instanceof Climbers) {
-                ((Climbers)subsystem).toggle(ClimberStates.DOWN);
+                ((Climbers)subsystem).toggle(ClimberStates.OFF);
             }
 
             if (subsystem instanceof Drivetrain) {
