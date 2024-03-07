@@ -41,7 +41,7 @@ public class AutoPath {
         }));
         NamedCommands.registerCommand("OrientSpeaker", new OrientTowards(drivetrain, OrientTarget.Speaker));
         NamedCommands.registerCommand("OrientAmp", new OrientTowards(drivetrain, OrientTarget.Amp));
-        NamedCommands.registerCommand("Acquire", new AcquireSmart(acquisition, channel, photosensor));
+        NamedCommands.registerCommand("Acquire", new AcquireSmart(acquisition, channel, photosensor, shooter));
 
 
         // Configures auto builder

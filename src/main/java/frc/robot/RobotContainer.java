@@ -120,7 +120,7 @@ public class RobotContainer {
     _manualClimbers = new ManualClimbers(_climbers);
 
     // Sets up higher level manual notes commands
-    _acquire = new AcquireSmart(_acquisition, _channel, _photosensor);
+    _acquire = new AcquireSmart(_acquisition, _channel, _photosensor, _shooter);
     _shootSpeaker = new ShootSpeaker(_channel, _shooter);
     _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
     _manualReverse = new ManualReverse(_acquisition, _channel);

@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3966769976295312,
+        "x": 1.45,
         "y": 5.47
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5635752230649387,
+        "x": 2.616898225435407,
         "y": 5.236005802795454
       },
       "isLocked": false,
@@ -32,11 +32,11 @@
     },
     {
       "anchor": {
-        "x": 1.3966769976295312,
+        "x": 1.45,
         "y": 5.47
       },
       "prevControl": {
-        "x": 1.8615926314512992,
+        "x": 1.9149156338217679,
         "y": 5.47
       },
       "nextControl": null,
@@ -49,9 +49,20 @@
     {
       "name": "New Constraints Zone",
       "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 1.55,
+      "constraints": {
+        "maxVelocity": 1.3,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    },
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 1.55,
       "maxWaypointRelativePos": 2.0,
       "constraints": {
-        "maxVelocity": 1.0,
+        "maxVelocity": 0.7,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
@@ -78,7 +89,7 @@
     },
     {
       "name": "Flywheel",
-      "waypointRelativePos": 1.5,
+      "waypointRelativePos": 1.65,
       "command": {
         "type": "parallel",
         "data": {

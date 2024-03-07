@@ -17,7 +17,7 @@ public class PushAmp extends SequentialCommandGroup {
   private static Crashbar _crashbar;
 
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
-  private final double shootTime = 1.5;
+  private final double shootTime = 1.2;
 
   public PushAmp (Channel channel, Shooter shooter, Crashbar crashbar) {
     _channel = channel;
