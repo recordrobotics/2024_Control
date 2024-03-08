@@ -8,13 +8,15 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterStates;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Crashbar;
+
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.manual.ManualAcquisition;
 
-import frc.robot.commands.hybrid.ComplexTeleAuto;
 import frc.robot.commands.hybrid.NoteOrient;
 import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
@@ -78,7 +80,6 @@ public class RobotContainer {
   private ShootAmp _shootAmp;
 
   private NoteOrient _noteOrient;
-  private RobotKill _robotKill;
 
   // Misc commands
   private KillSpecified _killSpecified;
@@ -100,7 +101,6 @@ public class RobotContainer {
     _photosensor = new Photosensor();
     _climbers = new Climbers();
     _vision = new Vision();
-    _autoPath = new AutoPath(_drivetrain);
 
     // Sets up auto chooser
     _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
@@ -160,10 +160,6 @@ public class RobotContainer {
     // Trigger teleAutoKillTrigger = new Trigger(getTeleAutoKill);
     // //teleAutoStartTrigger.onTrue(_complexTeleAuto);
     // teleAutoStartTrigger.negate()
-
-    BooleanSupplier getRobotKill = () -> _controlInput.getKillAuto();
-    Trigger robotKillTrigger = new Trigger(getRobotKill);
-    robotKillTrigger.whileTrue(_robotKill);
   }
 
   /**
