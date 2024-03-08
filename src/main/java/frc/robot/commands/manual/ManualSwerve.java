@@ -38,7 +38,7 @@ public class ManualSwerve extends Command {
   @Override
   public void execute() {
 
-    _controls = ShuffleboardChoosers.getDriveMode();
+    _controls = ShuffleboardChoosers.getDriveControl();
 
     // Gets swerve position and sets to field position
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();

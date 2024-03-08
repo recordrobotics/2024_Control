@@ -15,6 +15,11 @@ public class ShuffleboardChoosers {
     // Drive Modes
     private static SendableChooser<AbstractControl> driveMode = new SendableChooser<AbstractControl>();
     
+    /**
+     * Initializes the control object
+     * @param defaultControl the first term will always be the default control object
+     * @param controls any other control objects you want to initialize
+     */
     public static void initialize (AbstractControl defaultControl, AbstractControl... controls) {
         // Sets up joystick orientation
         driverOrientation.addOption("X Axis", DriverOrientation.XAxisTowardsTrigger);
@@ -34,7 +39,7 @@ public class ShuffleboardChoosers {
         return driverOrientation.getSelected();
     }
 
-    public static AbstractControl getDriveMode() {
+    public static AbstractControl getDriveControl() {
         return driveMode.getSelected();
     }
 }

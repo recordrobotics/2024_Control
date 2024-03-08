@@ -66,7 +66,7 @@ public class DoubleXbox extends AbstractControl {
     @Override
     public Double getSpin() {
         return null;
-    }  
+    }
 
     /**
      * 
