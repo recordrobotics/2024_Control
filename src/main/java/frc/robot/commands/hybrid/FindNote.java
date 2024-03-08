@@ -8,15 +8,15 @@ import frc.robot.subsystems.Photosensor;
 import frc.robot.subsystems.Vision;
 import frc.robot.utils.DriveCommandData;
 
-public class NoteOrient extends Command{
-
+public class FindNote extends Command{
+    
     Drivetrain driveTrain;
     Vision vision;
     PIDController anglePID;
     DoubleControl controls;
     Photosensor photosensor;
 
-    public NoteOrient(Drivetrain drivetrain, Vision vision, DoubleControl controls, Photosensor photosensor){
+    public FindNote(Drivetrain drivetrain, Vision vision, DoubleControl controls, Photosensor photosensor){
         addRequirements(drivetrain);
         setSubsystem(drivetrain.getName());
         this.driveTrain = drivetrain;
@@ -35,16 +35,16 @@ public class NoteOrient extends Command{
 
     @Override
     public void execute() {
-        driveTrain.drive(new DriveCommandData(0, 0, anglePID.calculate(vision.ringDirection().getRadians()), false));
+        driveTrain.drive(new DriveCommandData(0, 0, 0.1, false));
     }
 
     @Override
     public boolean isFinished(){
-        return vision.ringDirection().getRadians() < 0.1 && vision.ringDirection().getRadians() > -0.1;
+        return vision.checkForTarget();
     }
 
     @Override
     public void end(boolean interrupted) {
-        new GetNote(driveTrain, vision, controls, 0.1, photosensor);
+        new NoteOrient(driveTrain, vision, controls, photosensor);
     }
 }
