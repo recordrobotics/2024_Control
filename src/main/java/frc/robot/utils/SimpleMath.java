@@ -31,7 +31,7 @@ public class SimpleMath {
     }
 
     /**
-     * Scales an input value between -1 and 1 and scales it to 
+     * Takes an input value between -1 and 1 and scales it to 
      * the proportion to which it's absolute value is between a minimum threshold and 1 
      * (Function returns 0 if input < threshold)
      * Then multiplies by sensitivity and returns

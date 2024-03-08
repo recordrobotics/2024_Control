@@ -14,10 +14,6 @@ public class Shooter extends SubsystemBase {
     private CANSparkMax flywheelL = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID, MotorType.kBrushless);
     private CANSparkMax flywheelR = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID, MotorType.kBrushless);
 
-    private static final double SPEAKER_SPEED = Constants.Shooter.SPEAKER_SPEED;
-    private static final double AMP_SPEED = Constants.Shooter.AMP_SPEED;
-    private static final double REVERSE_SPEED = Constants.Shooter.REVERSE_SPEED;
-
     public Shooter() {
         toggle(ShooterStates.OFF);
     }
@@ -35,13 +31,13 @@ public class Shooter extends SubsystemBase {
     public void toggle(ShooterStates state) {
         switch (state) {
             case SPEAKER:
-                toggle(SPEAKER_SPEED);
+                toggle(Constants.Shooter.SPEAKER_SPEED);
                 break;
             case AMP:
-                toggle(AMP_SPEED);
+                toggle(Constants.Shooter.AMP_SPEED);
                 break;
             case REVERSE:
-                toggle(REVERSE_SPEED);
+                toggle(Constants.Shooter.REVERSE_SPEED);
                 break;
             default:
                 toggle(0);

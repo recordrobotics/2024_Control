@@ -30,19 +30,20 @@ public class DoubleXbox extends AbstractControl {
     @Override
     public DriveCommandData getDriveCommandData(Pose2d swerve_position) {
 
+        // Calculates spin
         double robot_angle = swerve_position.getRotation().getRadians();
         double target_angle = super.OrientAngle(getAngle().getFirst()).getRadians();
         double spin = anglePID.calculate(robot_angle, target_angle);
-        
+        // Calculates proportion of PID to multiply by
         double magnitude = getAngle().getSecond();
-        double scaled_magnitude = SimpleMath.Remap(magnitude, 0, 1);
 
         // Gets information needed to drive
         DriveCommandData driveCommandData = new DriveCommandData(
                 getXY().getFirst() * getDirectionalSpeedLevel(),
                 getXY().getSecond() * getDirectionalSpeedLevel(),
-                spin * scaled_magnitude,
+                spin * magnitude,
                 true);
+
         // Returns
         return driveCommandData;
     }
@@ -53,7 +54,8 @@ public class DoubleXbox extends AbstractControl {
         new Trigger(drivebox::getXButton).onTrue(new InstantCommand(()->speed_level = 0.35 * Constants.Swerve.robotMaxSpeed));
         new Trigger(drivebox::getYButton).onTrue(new InstantCommand(()->speed_level = 0.6 * Constants.Swerve.robotMaxSpeed));
     }
-
+    
+ 
     @Override
     public Pair<Double,Double> getXY() {
         double X = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(0), Constants.Control.XBOX_X_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
