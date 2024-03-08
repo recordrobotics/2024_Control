@@ -70,6 +70,7 @@ public class RobotContainer {
   // Control
   private JoystickXbox _joystickXbox;
   private DoubleXbox _doubleXbox;
+  private AbstractControl _controlInput;
 
   // Smart Commands
   private AcquireSmart _acquire;
