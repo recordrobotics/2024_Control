@@ -71,7 +71,6 @@ public class RobotContainer {
   private JoystickXbox _joystickXbox;
   private DoubleXbox _doubleXbox;
   private AbstractControl _controlInput;
-  private final ShuffleboardChoosers _shuffleboardChoosers;
 
   // Smart Commands
   private AcquireSmart _acquire;
@@ -80,7 +79,6 @@ public class RobotContainer {
 
   // Misc commands
   private KillSpecified _killSpecified;
-  
 
 
   /**
@@ -104,20 +102,12 @@ public class RobotContainer {
     _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
     _autoPath.putAutoChooser();
 
-    // Sets up Control scheme chooser
-    _shuffleboardChoosers = new ShuffleboardChoosers();
     // Creates control input & manual swerve object, adds it to _teleopPairs
     _joystickXbox = new JoystickXbox(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.XBOX_PORT);
     _doubleXbox = new DoubleXbox(0, 1);
-    // Runs switch
-    switch (ShuffleboardChoosers.getDriveMode()) {
-      case JoystickXbox:
-        _controlInput = _joystickXbox;
-      case DoubleXbox:
-        _controlInput = _doubleXbox;
-      default:
-        _controlInput = _doubleXbox;
-    }
+    // Sets up Control scheme chooser
+    ShuffleboardChoosers.initialize(_doubleXbox, _joystickXbox);
+    _controlInput = ShuffleboardChoosers.getDriveMode();
 
     // Bindings and Teleop
     initTeleopCommands();
@@ -127,7 +117,7 @@ public class RobotContainer {
   private void initTeleopCommands() {
     
     // Adds default drivetrain & manual swerve to teleop commands
-    _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
+    _manualSwerve = new ManualSwerve(_drivetrain);
 
     // Robot kill command
     _killSpecified = new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers);

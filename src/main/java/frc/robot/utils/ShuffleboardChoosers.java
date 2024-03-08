@@ -1,6 +1,7 @@
 package frc.robot.utils;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.control.AbstractControl;
 
 public class ShuffleboardChoosers {
 
@@ -11,15 +12,10 @@ public class ShuffleboardChoosers {
     }
     private static SendableChooser<DriverOrientation> driverOrientation = new SendableChooser<DriverOrientation>();
 
-    // Drivemodes
-    public enum DriveMode {
-        JoystickXbox, 
-        DoubleXbox
-    }
-    private static SendableChooser<DriveMode> driveMode = new SendableChooser<DriveMode>();
-
+    // Drive Modes
+    private static SendableChooser<AbstractControl> driveMode = new SendableChooser<AbstractControl>();
     
-    public ShuffleboardChoosers () {
+    public static void initialize (AbstractControl defaultControl, AbstractControl... controls) {
         // Sets up joystick orientation
         driverOrientation.addOption("X Axis", DriverOrientation.XAxisTowardsTrigger);
         driverOrientation.addOption("Y Axis", DriverOrientation.YAxisTowardsTrigger);
@@ -27,9 +23,10 @@ public class ShuffleboardChoosers {
         SmartDashboard.putData("Joystick Orientation", driverOrientation);
 
         // Sets up shuffleboard
-        driveMode.addOption("JoystickXbox", DriveMode.JoystickXbox);
-        driveMode.addOption("DoubleXbox", DriveMode.DoubleXbox);
-        driveMode.setDefaultOption("2Xbox", DriveMode.DoubleXbox);
+        driveMode.setDefaultOption(defaultControl.getClass().getName(), defaultControl);
+        for (AbstractControl abstractControl : controls) {
+            driveMode.addOption(abstractControl.getClass().getName(), abstractControl);
+        }
         SmartDashboard.putData("Drive Mode", driveMode);
     }
 
@@ -37,8 +34,7 @@ public class ShuffleboardChoosers {
         return driverOrientation.getSelected();
     }
 
-    public static DriveMode getDriveMode() {
+    public static AbstractControl getDriveMode() {
         return driveMode.getSelected();
     }
-
 }

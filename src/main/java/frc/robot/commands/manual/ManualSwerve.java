@@ -6,6 +6,7 @@ package frc.robot.commands.manual;
 import frc.robot.control.AbstractControl;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
+import frc.robot.utils.ShuffleboardChoosers;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -21,11 +22,9 @@ public class ManualSwerve extends Command {
   /**
    * @param drivetrain
    */
-  public ManualSwerve(Drivetrain drivetrain, AbstractControl controls) {
-
+  public ManualSwerve(Drivetrain drivetrain) {
     // Init variables
     _drivetrain = drivetrain;
-    _controls = controls;
     addRequirements(drivetrain);
 
   }
@@ -38,6 +37,8 @@ public class ManualSwerve extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    _controls = ShuffleboardChoosers.getDriveMode();
 
     // Gets swerve position and sets to field position
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
