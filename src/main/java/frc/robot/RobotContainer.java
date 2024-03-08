@@ -6,12 +6,16 @@ package frc.robot;
 
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterStates;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Crashbar;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.manual.ManualAcquisition;
+
+import frc.robot.commands.hybrid.ComplexTeleAuto;
+import frc.robot.commands.hybrid.NoteOrient;
 import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
@@ -50,6 +54,7 @@ public class RobotContainer {
   private final Acquisition _acquisition;
   private final Channel _channel;
   private final Photosensor _photosensor;
+  private final Vision _vision;
 
   // Autonomous
   private final AutoPath _autoPath;
@@ -72,6 +77,9 @@ public class RobotContainer {
   private ShootSpeaker _shootSpeaker;
   private ShootAmp _shootAmp;
 
+  private NoteOrient _noteOrient;
+  private RobotKill _robotKill;
+
   // Misc commands
   private KillSpecified _killSpecified;
 
@@ -91,6 +99,8 @@ public class RobotContainer {
     _crashbar = new Crashbar();
     _photosensor = new Photosensor();
     _climbers = new Climbers();
+    _vision = new Vision();
+    _autoPath = new AutoPath(_drivetrain);
 
     // Sets up auto chooser
     _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
@@ -124,6 +134,7 @@ public class RobotContainer {
     _shootSpeaker = new ShootSpeaker(_channel, _shooter);
     _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
     _manualReverse = new ManualReverse(_acquisition, _channel);
+
   }
 
   public void teleopInit() {
@@ -141,21 +152,18 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    // Command to kill robot
-    new Trigger(_controlInput::getKillAuto).whileTrue(_killSpecified);
+    BooleanSupplier getNoteOrient = () -> _controlInput.getTeleAutoStart();
+    Trigger noteOrientTrigger = new Trigger(getNoteOrient);
+    noteOrientTrigger.toggleOnTrue(_noteOrient);
 
-    // Triggers
-    new Trigger(_controlInput::getAcquire).toggleOnTrue(_acquire);;
-    new Trigger(_controlInput::getShootSpeaker).toggleOnTrue(_shootSpeaker);;
-    new Trigger(_controlInput::getShootAmp).toggleOnTrue(_shootAmp);
-    new Trigger(_controlInput::getReverse).whileTrue(_manualReverse);
-    new Trigger(_controlInput::getClimberToggle).toggleOnTrue(_manualClimbers);
+    // BooleanSupplier getTeleAutoKill = () -> _controlInput.getKillAuto();
+    // Trigger teleAutoKillTrigger = new Trigger(getTeleAutoKill);
+    // //teleAutoStartTrigger.onTrue(_complexTeleAuto);
+    // teleAutoStartTrigger.negate()
 
-    // Manual triggers
-    new Trigger(_controlInput::getManualShootAmp).toggleOnTrue(_manualShootAmp);
-    new Trigger(_controlInput::getManualShootSpeaker).toggleOnTrue(_manualShootSpeaker);
-    new Trigger(_controlInput::getManualCrashbar).toggleOnTrue(_manualCrashbar);
-    new Trigger(_controlInput::getManualAcquisition).whileTrue(_manualAcquisition);
+    BooleanSupplier getRobotKill = () -> _controlInput.getKillAuto();
+    Trigger robotKillTrigger = new Trigger(getRobotKill);
+    robotKillTrigger.whileTrue(_robotKill);
   }
 
   /**
