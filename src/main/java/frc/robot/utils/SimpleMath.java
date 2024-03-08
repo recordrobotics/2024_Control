@@ -3,7 +3,7 @@ package frc.robot.utils;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.control.JoystickOrientation;
+import frc.robot.control.AbstractControl.DriverOrientation;;;
 
 public class SimpleMath {
     /**
@@ -34,7 +34,7 @@ public class SimpleMath {
         return Remap(MathUtil.clamp(value01, 0, 1), 0, 1, min, max);
     }
 
-    public static double JoystickToFieldPolar(JoystickOrientation joystickOrientation, double joystickPolar) {
+    public static double JoystickToFieldPolar(DriverOrientation joystickOrientation, double joystickPolar) {
         switch (joystickOrientation) {
             case XAxisTowardsTrigger:
                 if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
@@ -51,7 +51,17 @@ public class SimpleMath {
         }
     }
 
-    public static Rotation2d JoystickToFieldPolar(JoystickOrientation joystickOrientation, Rotation2d joystickPolar) {
+    public static Rotation2d JoystickToFieldPolar(DriverOrientation joystickOrientation, Rotation2d joystickPolar) {
         return new Rotation2d(JoystickToFieldPolar(joystickOrientation, joystickPolar.getRadians()));
+    }
+
+
+    public static double ApplyThresholdAndSensitivity(double input, double threshold, double sensitivity) {
+        // How much the input is above the threshold (absolute value)
+		double subtract_threshold = Math.max(0, Math.abs(input) - threshold);
+		// What proportion (threshold to value) is of (threshold to 1)
+		double proportion = subtract_threshold / (1 - threshold);
+		// Multiplies by spin sensitivity and returns
+		return Math.signum(input) * proportion * sensitivity;
     }
 }

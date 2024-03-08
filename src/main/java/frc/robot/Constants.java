@@ -55,20 +55,24 @@ public final class Constants {
 
     public final class Control {
 
-        // Sensitivies for directional controls (XY) and spin (theta)
-        public static final double JOSYSTICK_DIRECTIONAL_SENSITIVITY = 1;
-        public static final double JOYSTICK_SPIN_SENSITIVITY = 1;
-
         // Sensitivity for speed meter
         public static final double DIRECTIONAL_SPEED_METER_LOW = 0.25;
         public static final double DIRECTIONAL_SPEED_METER_HIGH = 4.0;
         public static final double SPIN_SPEED_METER_LOW = 0.5;
         public static final double SPIN_SPEED_METER_HIGH = 4.3;
 
-        // Thresholds for directional controls (XY) and spin (theta)
+        // Sensitivies for directional controls (XY) and spin (theta)
+        public static final double JOSYSTICK_DIRECTIONAL_SENSITIVITY = 1;
+        public static final double JOYSTICK_SPIN_SENSITIVITY = 1;
         public static final double JOYSTICK_X_THRESHOLD = 0.15;
-        public static final double JOSYTICK_Y_THRESHOLD = 0.15;
+        public static final double JOYSTICK_Y_THRESHOLD = 0.15;
         public static final double JOYSTICK_SPIN_THRESHOLD = 0.76;
+
+        // Thresholds for directional controls (XY) and spin (theta)
+        public static final double XBOX_DIRECTIONAL_SENSITIVITY = 1;
+        public static final double XBOX_X_THRESHOLD = 0.15;
+        public static final double XBOX_Y_THRESHOLD = 0.15;
+        public static final double XBOX_SPIN_THRESHOLD = 0.3;
 
         // Tablet drive constants
         public final class Tablet {

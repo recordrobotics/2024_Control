@@ -13,7 +13,7 @@ public class PlannedAuto extends SequentialCommandGroup {
         addCommands(
                 new PathPlannerAuto("Amp and Speaker (2)"),
                 new InstantCommand(() -> drivetrain.stop()),
-                new WaitCommand(1),
+                new WaitCommand(0.1),
                 new InstantCommand(() -> System.out.println("ContainerAuto End"))
                 );
     }

@@ -20,7 +20,9 @@ import frc.robot.commands.manual.ManualReverse;
 import frc.robot.commands.notes.AcquireSmart;
 import frc.robot.commands.notes.ShootAmp;
 import frc.robot.commands.notes.ShootSpeaker;
-import frc.robot.control.DoubleControl;
+import frc.robot.control.AbstractControl;
+import frc.robot.control.DoubleXbox;
+import frc.robot.control.JoystickXbox;
 import frc.robot.subsystems.AutoPath;
 import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Climbers;
@@ -29,6 +31,7 @@ import frc.robot.subsystems.NavSensor;
 import frc.robot.subsystems.Photosensor;
 import frc.robot.subsystems.Acquisition;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -65,7 +68,8 @@ public class RobotContainer {
   private ManualClimbers _manualClimbers;
 
   // Control
-  private DoubleControl _controlInput;
+  private JoystickXbox _joystickXbox;
+  private DoubleXbox _doubleXbox;
 
   // Smart Commands
   private AcquireSmart _acquire;
@@ -104,7 +108,7 @@ public class RobotContainer {
   private void initTeleopCommands() {
 
     // Creates control input & manual swerve object, adds it to _teleopPairs
-    _controlInput = new DoubleControl(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.XBOX_PORT);
+    _controlInput = new JoystickXbox(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.XBOX_PORT);
     
     // Adds default drivetrain & manual swerve to teleop commands
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
@@ -144,18 +148,21 @@ public class RobotContainer {
     // Command to kill robot
     new Trigger(_controlInput::getKillAuto).whileTrue(_killSpecified);
 
-    // Triggers
+    // Smart triggers
     new Trigger(_controlInput::getAcquire).toggleOnTrue(_acquire);;
     new Trigger(_controlInput::getShootSpeaker).toggleOnTrue(_shootSpeaker);;
     new Trigger(_controlInput::getShootAmp).toggleOnTrue(_shootAmp);
     new Trigger(_controlInput::getReverse).whileTrue(_manualReverse);
-    new Trigger(_controlInput::getClimberToggle).toggleOnTrue(_manualClimbers);
 
     // Manual triggers
     new Trigger(_controlInput::getManualShootAmp).toggleOnTrue(_manualShootAmp);
     new Trigger(_controlInput::getManualShootSpeaker).toggleOnTrue(_manualShootSpeaker);
     new Trigger(_controlInput::getManualCrashbar).toggleOnTrue(_manualCrashbar);
     new Trigger(_controlInput::getManualAcquisition).whileTrue(_manualAcquisition);
+    new Trigger(_controlInput::getManualClimbers).toggleOnTrue(_manualClimbers);
+
+    // Reset pose trigger
+    new Trigger(_controlInput::getPoseReset).onTrue(new InstantCommand(_drivetrain::resetPose));
   }
 
   /**
