@@ -3,17 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
 import frc.robot.utils.ModuleConstants;
 import frc.robot.utils.ModuleConstants.MotorType;
-
 import java.util.HashMap;
 
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
-
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
@@ -36,28 +32,31 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+    public final class Shooter {
+        public static final double SPEAKER_SPEED = 1;
+        public static final double AMP_SPEED = 0.45;
+        public static final double REVERSE_SPEED = -0.1;
+    }
+
+    public final class Channel {
+        public static final double CHANNEL_SPEED = 1;
+    }
+
+    public final class Acquisition {
+        /** Constant; The speed and direction of the acquisition on intake */
+        public static final double ACQUISITION_SPEED = 1;
+    }
+
     public final class FieldConstants {
 
         public static final Translation2d TEAM_RED_SPEAKER = new Translation2d(16, 5.5);
         public static final Translation2d TEAM_BLUE_SPEAKER = new Translation2d(0.6, 5.6);
-        public static final Translation2d TEAM_RED_AMP = new Translation2d(14.7, 8.5);
-        public static final Translation2d TEAM_BLUE_AMP = new Translation2d(1.88, 8.5);
+        public static final Rotation2d TEAM_RED_AMP = Rotation2d.fromDegrees(90); // new Translation2d(14.7, 8.5);
+        public static final Rotation2d TEAM_BLUE_AMP = Rotation2d.fromDegrees(90); // new Translation2d(2.775, 8.5);
 
         // Field width and length
-        // TODO: Remove testing values
-        // public static final double FIELD_X_DIMENSION = 16.54; // Length
-        // public static final double FIELD_Y_DIMENSION = 8.21; // Width
-        public static final double FIELD_X_DIMENSION = 4.5; // Length
-        public static final double FIELD_Y_DIMENSION = 3; // Width
-
-        public static final Pose2d TEAM_RED_STARTING_POSE = new Pose2d(16, 4.2, Rotation2d.fromDegrees(180));
-        // TODO: Remove testing values
-        // public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(0.5, 4.2,
-        // Rotation2d.fromDegrees(0));
-        // public static final Pose2d TEAM_BLUE_STARTING_POSE = new
-        // Pose2d(FIELD_X_DIMENSION / 2, FIELD_Y_DIMENSION / 2,
-        // Rotation2d.fromDegrees(0));
-        public static final Pose2d TEAM_BLUE_STARTING_POSE = new Pose2d(2, 2, Rotation2d.fromDegrees(0));
+        public static final double FIELD_X_DIMENSION = 16.54; // Length
+        public static final double FIELD_Y_DIMENSION = 8.21; // Width
     }
 
     public final class Control {
@@ -66,15 +65,23 @@ public final class Constants {
         public static final double JOSYSTICK_DIRECTIONAL_SENSITIVITY = 1;
         public static final double JOYSTICK_SPIN_SENSITIVITY = 1;
 
+        // Sensitivity for speed meter
+        public static final double DIRECTIONAL_SPEED_METER_LOW = 0.25;
+        public static final double DIRECTIONAL_SPEED_METER_HIGH = 4.0;
+        public static final double SPIN_SPEED_METER_LOW = 0.5;
+        public static final double SPIN_SPEED_METER_HIGH = 4.3;
+
         // Thresholds for directional controls (XY) and spin (theta)
         public static final double JOYSTICK_X_THRESHOLD = 0.15;
         public static final double JOSYTICK_Y_THRESHOLD = 0.15;
-        public static final double JOYSTICK_SPIN_THRESHOLD = 0.5;
+        public static final double JOYSTICK_SPIN_THRESHOLD = 0.76;
 
         // Tablet drive constants
         public final class Tablet {
             // Will fill in later, but for now it's convenient to have it in the TabletDrive
-            // file
+            public static final double PRESSURE_THRESHOLD = 0.2;
+            public static final double MIN_SPEED = 0.2;
+            public static final double STEEPNESS = 2.6; // Linear = 1, <1 = faster scaling, >1 = slower scaling
         }
     }
 
@@ -106,8 +113,8 @@ public final class Constants {
         public static final double FALCON_DRIVE_KI = 0;
         public static final double FALCON_DRIVE_KD = 0;
 
-        public static final double FALCON_DRIVE_FEEDFORWARD_KS = 0.1205;
-        public static final double FALCON_DRIVE_FEEDFORWARD_KV = 2.4915;
+        public static final double FALCON_DRIVE_FEEDFORWARD_KS = 0.1586;
+        public static final double FALCON_DRIVE_FEEDFORWARD_KV = 2.4408;
 
         public static final double KRAKEN_TURN_KP = 2.3;
         public static final double KRAKEN_TURN_KI = 0;
@@ -120,12 +127,13 @@ public final class Constants {
         public static final double KRAKEN_DRIVE_FEEDFORWARD_KS = 0.1205;
         public static final double KRAKEN_DRIVE_FEEDFORWARD_KV = 2.4915;
 
-        // Shared
-        public static final double RELATIVE_ENCODER_RATIO = 2048; // Same between Falcon and Kraken since they share the
-                                                                  // same encoders
-        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
-        // public static final double WHEEL_DIAMETER = 0.1016;
+        // Same between Falcon and Kraken since they share the same encoders
+        public static final double RELATIVE_ENCODER_RATIO = 2048;
 
+        // Wheel diameter
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
+
+        // Turn & Drive max velocity and acceleration
         public static final double TurnMaxAngularVelocity = 17; // Drivetrain.kMaxAngularSpeed;
         public static final double TurnMaxAngularAcceleration = 34; // 2 * Math.PI; // radians per second squared
         public static final double DriveMaxAngularVelocity = 15; // Drivetrain.kMaxAngularSpeed;
@@ -146,35 +154,35 @@ public final class Constants {
         public static final ModuleConstants frontLeftConstants = new ModuleConstants(
                 2,
                 1,
-                2,
-                0.597,
+                1,
+                0.620, // 0.12363, //0.597
                 frontLeftLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
         public static final ModuleConstants frontRightConstants = new ModuleConstants(
                 4,
                 3,
-                3,
-                0.886,
+                2,
+                0.924, // 0.41599, //0.886
                 frontRightLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
         public static final ModuleConstants backLeftConstants = new ModuleConstants(
                 8,
                 7,
-                1,
-                0.857,
+                4,
+                0.676, // 0.17245, //0.857
                 backLeftLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
         public static final ModuleConstants backRightConstants = new ModuleConstants(
                 6,
                 5,
-                4,
-                0.556,
+                3,
+                0.371, // 0.86499, //0.556
                 backRightLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
     }
 
     public final class Frame {

@@ -4,32 +4,35 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BooleanSupplier;
-
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.ShooterStates;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Crashbar;
-
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.RobotKill;
+import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
+import frc.robot.commands.manual.ManualAcquisition;
+
 import frc.robot.commands.hybrid.ComplexTeleAuto;
 import frc.robot.commands.hybrid.NoteOrient;
 import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
 import frc.robot.commands.manual.ManualSwerve;
+import frc.robot.commands.manual.ManualReverse;
+import frc.robot.commands.notes.AcquireSmart;
+import frc.robot.commands.notes.ShootAmp;
+import frc.robot.commands.notes.ShootSpeaker;
 import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.AutoPath;
+import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.NavSensor;
+import frc.robot.subsystems.Photosensor;
+import frc.robot.subsystems.Acquisition;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -48,79 +51,95 @@ public class RobotContainer {
   private final Shooter _shooter;
   private final Crashbar _crashbar;
   private final Climbers _climbers;
+  private final Acquisition _acquisition;
+  private final Channel _channel;
+  private final Photosensor _photosensor;
   private final Vision _vision;
 
+  // Autonomous
   private final AutoPath _autoPath;
+  private Command autoCommand;
 
-  private List<Pair<Subsystem, Command>> _teleopPairs;
+  // Manual (default) commands
   private ManualSwerve _manualSwerve;
-  private ManualShooter _manualShooter;
-  private ManualClimbers _manualClimbers;
+  private ManualReverse _manualReverse;
+  private ManualShooter _manualShootSpeaker;
+  private ManualShooter _manualShootAmp;
+  private ManualAcquisition _manualAcquisition;
   private ManualCrashbar _manualCrashbar;
+  private ManualClimbers _manualClimbers;
+
+  // Control
   private DoubleControl _controlInput;
 
-  private ComplexTeleAuto _complexTeleAuto;
+  // Smart Commands
+  private AcquireSmart _acquire;
+  private ShootSpeaker _shootSpeaker;
+  private ShootAmp _shootAmp;
+
   private NoteOrient _noteOrient;
   private RobotKill _robotKill;
 
-  private Command autoCommand;
+  // Misc commands
+  private KillSpecified _killSpecified;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
 
-    // Init Swerve
+    // Init Nav
+    NavSensor.initNav();
+
+    // Init subsystems
     _drivetrain = new Drivetrain();
+    _channel = new Channel();
+    _acquisition = new Acquisition();
     _shooter = new Shooter();
-    _climbers = new Climbers();
     _crashbar = new Crashbar();
+    _photosensor = new Photosensor();
+    _climbers = new Climbers();
     _vision = new Vision();
     _autoPath = new AutoPath(_drivetrain);
 
     // Sets up auto chooser
+    _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
     _autoPath.putAutoChooser();
-
-    // Init Nav
-    NavSensor.initNav();
 
     // Bindings and Teleop
     initTeleopCommands();
     configureButtonBindings();
-
   }
 
   private void initTeleopCommands() {
 
-    // Creates teleopPairs object
-    _teleopPairs = new ArrayList<>();
-
     // Creates control input & manual swerve object, adds it to _teleopPairs
     _controlInput = new DoubleControl(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.XBOX_PORT);
-
-    // Adds drivetrain & manual swerve to teleop commands
+    
+    // Adds default drivetrain & manual swerve to teleop commands
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
-    _teleopPairs.add(new Pair<Subsystem, Command>(_drivetrain, _manualSwerve));
 
-    _manualShooter = new ManualShooter(_shooter, _controlInput);
-    _teleopPairs.add(new Pair<Subsystem, Command>(_shooter, _manualShooter));
+    // Robot kill command
+    _killSpecified = new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers);
 
-    _manualClimbers = new ManualClimbers(_climbers, _controlInput);
-    _teleopPairs.add(new Pair<Subsystem, Command>(_climbers, _manualClimbers));
+    // Sets up manual commands
+    _manualAcquisition = new ManualAcquisition(_acquisition, _channel);
+    _manualShootSpeaker = new ManualShooter(_shooter, ShooterStates.SPEAKER);
+    _manualShootAmp = new ManualShooter(_shooter, ShooterStates.AMP);
+    _manualCrashbar = new ManualCrashbar(_crashbar);
+    _manualClimbers = new ManualClimbers(_climbers);
 
-    _manualCrashbar = new ManualCrashbar(_crashbar, _controlInput);
-    _teleopPairs.add(new Pair<Subsystem, Command>(_crashbar, _manualCrashbar));
+    // Sets up higher level manual notes commands
+    _acquire = new AcquireSmart(_acquisition, _channel, _photosensor, _shooter);
+    _shootSpeaker = new ShootSpeaker(_channel, _shooter);
+    _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
+    _manualReverse = new ManualReverse(_acquisition, _channel);
 
-    // Configure default bindings
-    // _complexTeleAuto = new ComplexTeleAuto(_drivetrain);
-    _noteOrient = new NoteOrient(_drivetrain, _vision, _controlInput);
-    _robotKill = new RobotKill(_drivetrain);
   }
 
   public void teleopInit() {
-    for (Pair<Subsystem, Command> pair : _teleopPairs) {
-      pair.getFirst().setDefaultCommand(pair.getSecond());
-    }
+    // Sets default command for manual swerve. It is the only one right now
+    _drivetrain.setDefaultCommand(_manualSwerve);
   }
 
   /**
@@ -132,6 +151,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
     BooleanSupplier getNoteOrient = () -> _controlInput.getTeleAutoStart();
     Trigger noteOrientTrigger = new Trigger(getNoteOrient);
     noteOrientTrigger.toggleOnTrue(_noteOrient);
@@ -153,14 +173,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     if (autoCommand == null) {
-      autoCommand = new PlannedAuto(_drivetrain, _autoPath).andThen(() -> {
-        _drivetrain.stop();
-        System.out.println("ContainerAuto End");
-      }, _drivetrain);
+      autoCommand = new PlannedAuto(_drivetrain, _autoPath);
     }
     return autoCommand;
-  }
-
-  public void testSwerve() {
   }
 }

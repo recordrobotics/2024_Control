@@ -10,8 +10,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
@@ -53,9 +51,7 @@ public class Drivetrain extends SubsystemBase {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                DriverStationUtils.getCurrentAlliance() == Alliance.Red
-                                                ? Constants.FieldConstants.TEAM_RED_STARTING_POSE
-                                                : Constants.FieldConstants.TEAM_BLUE_STARTING_POSE);
+                                DriverStationUtils.getStartingLocation().getPose());
         }
 
         /**
@@ -130,9 +126,7 @@ public class Drivetrain extends SubsystemBase {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                DriverStationUtils.getCurrentAlliance() == Alliance.Red
-                                                ? Constants.FieldConstants.TEAM_RED_STARTING_POSE
-                                                : Constants.FieldConstants.TEAM_BLUE_STARTING_POSE);
+                                DriverStationUtils.getStartingLocation().getPose());
         }
 
         /**

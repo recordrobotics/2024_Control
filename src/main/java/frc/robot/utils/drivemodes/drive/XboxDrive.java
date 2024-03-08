@@ -1,13 +1,10 @@
 // Imports
-package frc.robot.utils.drivemodes;
-
+package frc.robot.utils.drivemodes.drive;
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.control.DoubleControl;
 import frc.robot.utils.DriveCommandData;
-import frc.robot.utils.SimpleMath;
 
-//
-public class DefaultDrive {
+public class XboxDrive {
 
     /**
      * runs calculations for auto-orient
@@ -19,14 +16,13 @@ public class DefaultDrive {
             boolean field_relative) {
 
         // Gets speed level from controller
-        double speedLevel = _controls.getSpeedLevel();
-        double spinSpeedLevel = SimpleMath.Remap(_controls.getSpeedLevelNormalized(), 1.4, 7.0);
+        double speedLevel = _controls.getDirectionalSpeedLevel();
 
         // Gets information needed to drive
         DriveCommandData driveCommandData = new DriveCommandData(
-                _controls.getX() * speedLevel,
-                _controls.getY() * speedLevel,
-                spin * spinSpeedLevel,
+                _controls.getXboxDriveX() * speedLevel,
+                _controls.getXboxDriveY() * speedLevel,
+                spin,
                 field_relative);
 
         // Returns

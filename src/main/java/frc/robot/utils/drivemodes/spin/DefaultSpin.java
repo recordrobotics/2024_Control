@@ -1,4 +1,4 @@
-package frc.robot.utils.drivemodes;
+package frc.robot.utils.drivemodes.spin;
 import frc.robot.control.DoubleControl;
 
 public class DefaultSpin {
@@ -8,7 +8,7 @@ public class DefaultSpin {
      * spin given by the joystick
      */
     public static double calculate(DoubleControl _controls) {
-        return _controls.getSpin(); 
+        return _controls.getSpin() * _controls.getSpinSpeedLevel(); 
     }
 
 }

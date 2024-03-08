@@ -3,17 +3,20 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.manual;
+
 import frc.robot.control.DoubleControl;
 import frc.robot.control.JoystickOrientation;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
-
-import frc.robot.utils.drivemodes.AutoOrient;
-import frc.robot.utils.drivemodes.DefaultSpin;
-
-import frc.robot.utils.drivemodes.DefaultDrive;
-import frc.robot.utils.drivemodes.TabletDrive;
-
+import frc.robot.utils.drivemodes.drive.DefaultDrive;
+import frc.robot.utils.drivemodes.drive.TabletDrive;
+import frc.robot.utils.drivemodes.drive.XboxDrive;
+import frc.robot.utils.drivemodes.spin.AutoOrient;
+import frc.robot.utils.drivemodes.spin.DefaultSpin;
+import frc.robot.utils.drivemodes.spin.KnobSpin;
+import frc.robot.utils.drivemodes.spin.SpinLock;
+import frc.robot.utils.drivemodes.spin.XboxDPad;
+import frc.robot.utils.drivemodes.spin.XboxSpin;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -30,14 +33,20 @@ public class ManualSwerve extends Command {
 
   // Sets up sendable chooser for drivemode
   public enum DriveMode {
-    Robot, Field, Tablet
+    Robot, Field, Tablet, Spin, Xbox
   }
 
+  // Sets up sendable choosers
   private SendableChooser<DriveMode> driveMode = new SendableChooser<DriveMode>();
   private SendableChooser<JoystickOrientation> joystickOrientation = new SendableChooser<JoystickOrientation>();
 
   // Sets up spin modes
   public AutoOrient autoOrient = new AutoOrient();
+  public KnobSpin spinDrive = new KnobSpin();
+  public XboxSpin xboxSpin = new XboxSpin();
+  public XboxDPad xboxDPad = new XboxDPad();
+  public SpinLock spinLock = new SpinLock();
+  public XboxDrive xboxDrive = new XboxDrive();
 
   /**
    * @param drivetrain
@@ -54,6 +63,8 @@ public class ManualSwerve extends Command {
     driveMode.addOption("Robot", DriveMode.Robot);
     driveMode.addOption("Field", DriveMode.Field);
     driveMode.addOption("Tablet", DriveMode.Tablet);
+    driveMode.addOption("Xbox", DriveMode.Xbox);
+    driveMode.addOption("Spin", DriveMode.Spin);
     driveMode.setDefaultOption("Field", DriveMode.Field);
 
     joystickOrientation.addOption("X Axis", JoystickOrientation.XAxisTowardsTrigger);
@@ -63,6 +74,8 @@ public class ManualSwerve extends Command {
     // puts selector data on Smartdashboard
     SmartDashboard.putData("Drive Mode", driveMode);
     SmartDashboard.putData("Joystick Orientation", joystickOrientation);
+
+    //SmartDashboard.putNumber("tspeed", 0.0);
   }
 
   // Called when the command is initially scheduled.
@@ -75,14 +88,14 @@ public class ManualSwerve extends Command {
   public void execute() {
 
     _controls.setJoystickOrientation(joystickOrientation.getSelected());
-    
+
     // Gets swerve position and sets to field position
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
 
     // Puts robot position information on shuffleboard
-    SmartDashboard.putNumber("Rotation", swerve_position.getRotation().getDegrees());
-    SmartDashboard.putNumber("X", swerve_position.getX());
-    SmartDashboard.putNumber("Y", swerve_position.getY());
+    // SmartDashboard.putNumber("Rotation", swerve_position.getRotation().getDegrees());
+    // SmartDashboard.putNumber("X", swerve_position.getX());
+    // SmartDashboard.putNumber("Y", swerve_position.getY());
 
     // Control to reset pose if reset button is pressed
     if (_controls.getResetPressed()) {
@@ -92,11 +105,35 @@ public class ManualSwerve extends Command {
     // Sets up spin
     double spin;
 
+    // Sets spinlock if spinlock is pressed
+    if (_controls.getSpinLockSet()) {
+      spinLock.setAngle(_drivetrain.poseFilter.getEstimatedPosition().getRotation());
+    }
+
     // Auto-orient function
-    if (autoOrient.shouldExecute(_controls)) {
-      spin = autoOrient.calculate(_controls, swerve_position);
+    // If normal orient should activate
+    if (_controls.getAutoOrientSpeaker()) {
+      spin = autoOrient.calculateSpeaker(swerve_position);
+    } else if (_controls.getAutoOrientAmp()) {
+      spin = autoOrient.calculateAmp(swerve_position);
+    } else if (_controls.getSpinLockPressed()) {
+      spin = spinLock.calculate(swerve_position);
+    } else if (xboxSpin.shouldExecute(_controls)) {
+      spin = xboxSpin.calculate(_controls, swerve_position);
+    } else if (xboxDPad.shouldExecute(_controls)) {
+      spin = xboxDPad.calculate(_controls, swerve_position);
     } else {
       spin = DefaultSpin.calculate(_controls);
+
+      // If auto orient shouldn't run
+      switch (driveMode.getSelected()) {
+        case Spin:
+          spin = spinDrive.calculate(_controls, swerve_position);
+          break;          
+        default:
+          spin = DefaultSpin.calculate(_controls);
+          break;
+      }
     }
 
     // Sets up driveCommandData object
@@ -109,11 +146,13 @@ public class ManualSwerve extends Command {
       case Robot:
         driveCommandData = DefaultDrive.calculate(_controls, spin, swerve_position, false);
         break;
+      case Xbox:
+        driveCommandData = XboxDrive.calculate(_controls, spin, swerve_position, true);
+        break;
       default:
         driveCommandData = DefaultDrive.calculate(_controls, spin, swerve_position, true);
         break;
     }
-
     // Drive command
     _drivetrain.drive(driveCommandData);
   }

@@ -8,7 +8,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "cool thing 1"
+            "pathName": "To Amp"
           }
         },
         {
@@ -18,20 +18,32 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 3.0
+            "name": "PushAmp"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "cool thing 2"
+            "pathName": "Amp to Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PushSpeaker"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Real Auto",
   "choreoAuto": false
 }
