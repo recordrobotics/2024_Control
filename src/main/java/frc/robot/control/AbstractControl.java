@@ -56,7 +56,6 @@ public abstract class AbstractControl {
 		}
     }
 
-
     // Orient Angle
     public static Rotation2d OrientAngle(Rotation2d angle) {
         switch (ShuffleboardChoosers.getDriverOrientation()) {
