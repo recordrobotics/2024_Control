@@ -8,15 +8,14 @@ import frc.robot.RobotMap;
 public class Crashbar extends SubsystemBase {
 
     // Creates solenoid
-    private DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
-            RobotMap.Crashbar.FORWARD_PORT,
-            RobotMap.Crashbar.REVERSE_PORT);
+    private DoubleSolenoid solenoid = new DoubleSolenoid(
+        PneumaticsModuleType.CTREPCM,
+        RobotMap.Crashbar.FORWARD_PORT,
+        RobotMap.Crashbar.REVERSE_PORT
+    );
 
     public Crashbar() {
         solenoid.set(DoubleSolenoid.Value.kOff);
-    }
-
-    public void periodic () {
     }
 
     public void toggle(CrashbarStates state) {

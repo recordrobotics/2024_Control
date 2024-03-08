@@ -25,6 +25,6 @@ public class Photosensor extends SubsystemBase {
 
     /** Gets the current state of the photosensor (true = object detected, false = no object detected) */
     public Boolean getCurrentValue() {
-        return photosensor.get();
+        return !photosensor.get();
     }
 }

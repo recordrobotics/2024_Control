@@ -28,10 +28,9 @@ public class ShuffleboardChoosers {
 
         // Sets up shuffleboard
         driveMode.addOption("JoystickXbox", DriveMode.JoystickXbox);
-        driveMode.addOption("2Xbox", DriveMode.DoubleXbox);
+        driveMode.addOption("DoubleXbox", DriveMode.DoubleXbox);
         driveMode.setDefaultOption("2Xbox", DriveMode.DoubleXbox);
         SmartDashboard.putData("Drive Mode", driveMode);
-
     }
 
     public static DriverOrientation getDriverOrientation() {

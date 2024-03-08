@@ -22,33 +22,29 @@ public class Shooter extends SubsystemBase {
         toggle(ShooterStates.OFF);
     }
 
-    public void toggle(double speed) {
-        flywheelL.set(-speed);
-        flywheelR.set(speed);
-    }
-
     public void toggle(double speedL, double speedR) {
         flywheelL.set(-speedL);
         flywheelR.set(speedR);
     }
 
+    public void toggle(double speed) {
+        flywheelL.set(-speed);
+        flywheelR.set(speed);
+    }
+
     public void toggle(ShooterStates state) {
         switch (state) {
             case SPEAKER:
-                flywheelL.set(-SPEAKER_SPEED);
-                flywheelR.set(SPEAKER_SPEED);
+                toggle(SPEAKER_SPEED);
                 break;
             case AMP:
-                flywheelL.set(-AMP_SPEED);
-                flywheelR.set(AMP_SPEED);
+                toggle(AMP_SPEED);
                 break;
             case REVERSE:
-                flywheelL.set(-REVERSE_SPEED);
-                flywheelR.set(REVERSE_SPEED);
+                toggle(REVERSE_SPEED);
                 break;
             default:
-                flywheelL.set(0);
-                flywheelR.set(0);
+                toggle(0);
                 break;
         }
     }

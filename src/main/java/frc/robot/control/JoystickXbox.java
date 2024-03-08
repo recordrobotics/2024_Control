@@ -10,8 +10,8 @@ import frc.robot.utils.SimpleMath;
 
 public class JoystickXbox extends AbstractControl {
 
-    Joystick joystick;
-    XboxController xbox_controller;
+    private Joystick joystick;
+    private XboxController xbox_controller;
 
     public JoystickXbox(int joystickPort, int xboxPort) {
 		joystick = new Joystick(joystickPort);
@@ -51,8 +51,13 @@ public class JoystickXbox extends AbstractControl {
     @Override
     public Double getDirectionalSpeedLevel() {
 		// Remaps speed meter from -1 -> 1 to 0.5 -> 4, then returns
-		return SimpleMath.Remap(joystick.getRawAxis(3), 1, -1, Constants.Control.DIRECTIONAL_SPEED_METER_LOW,
-				Constants.Control.DIRECTIONAL_SPEED_METER_HIGH);
+        // TODO: I reversed the getrawaxis and made min and max -1 -> 1. Is this ok?
+		return SimpleMath.Remap(
+            joystick.getRawAxis(3), 
+            1, 
+            -1, 
+            Constants.Control.DIRECTIONAL_SPEED_METER_LOW,
+			Constants.Control.DIRECTIONAL_SPEED_METER_HIGH);
 	}
 
     @Override

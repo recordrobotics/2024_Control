@@ -9,34 +9,32 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 
-
 public class Channel extends SubsystemBase {
     private Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);
-    private static final double channelDefaultSpeed = Constants.Channel.CHANNEL_SPEED;
 
     public Channel() {
         toggle(ChannelStates.OFF);
     }
 
-    public void toggle(ChannelStates state, double speed) {
+    public void toggle(double speed) {
+        channelMotor.set(speed);
+    }
+
+    public void toggle(ChannelStates state) {
         switch (state) {
             case THROUGH:
-                channelMotor.set(speed);
+                channelMotor.set(Constants.Channel.THROUGH_SPEED);
                 break;
             case SHOOT:
-                channelMotor.set(speed);
+                channelMotor.set(Constants.Channel.SHOOT_SPEED);
                 break;
             case REVERSE:
-                channelMotor.set(-speed);
+                channelMotor.set(Constants.Channel.REVERSE_SPEED);
                 break;
             default:
                 channelMotor.set(0);
                 break;
         }
-    }
-
-    public void toggle(ChannelStates state) {
-        toggle(state, channelDefaultSpeed);
     }
 
     public enum ChannelStates {

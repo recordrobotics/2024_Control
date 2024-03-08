@@ -33,7 +33,9 @@ public final class Constants {
     }
 
     public final class Channel {
-        public static final double CHANNEL_SPEED = 1;
+        public static final double SHOOT_SPEED = 1;
+        public static final double THROUGH_SPEED = 1;
+        public static final double REVERSE_SPEED = -1;
     }
 
     public final class Acquisition {
@@ -96,12 +98,12 @@ public final class Constants {
         private static final Translation2d backRightLocation = new Translation2d(-locX, -locY);
 
         // Gear ratios for falcon and kraken
-        public static final double KRAKEN_TURN_GEAR_RATIO = 13.3714;
-        public static final double KRAKEN_DRIVE_GEAR_RATIO = 6.75; // X1 12 pinion
-
         public static final double FALCON_TURN_GEAR_RATIO = 15.43; // (https://web.archive.org/web/20230117081053/https://docs.wcproducts.com/wcp-swervex/general-info/ratio-options)
         public static final double FALCON_DRIVE_GEAR_RATIO = 7.36; // (https://web.archive.org/web/20230117081053/https://docs.wcproducts.com/wcp-swervex/general-info/ratio-options)
 
+        public static final double KRAKEN_TURN_GEAR_RATIO = 13.3714;
+        public static final double KRAKEN_DRIVE_GEAR_RATIO = 6.75; // X1 12 pinion
+        
         // PID Values
         public static final double FALCON_TURN_KP = 1;
         public static final double FALCON_TURN_KI = 0;
@@ -132,7 +134,7 @@ public final class Constants {
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
 
         // Turn & Drive max velocity and acceleration
-        public static final double TurnMaxAngularVelocity = 17; // Drivetrain.kMaxAngularSpeed;
+        public static final double TurnMaxAngularVelocity = 25; // Drivetrain.kMaxAngularSpeed;
         public static final double TurnMaxAngularAcceleration = 34; // 2 * Math.PI; // radians per second squared
         public static final double DriveMaxAngularVelocity = 15; // Drivetrain.kMaxAngularSpeed;
         public static final double DriveMaxAngularAcceleration = 30; // 2 * Math.PI; // radians per second squared

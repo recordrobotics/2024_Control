@@ -12,28 +12,26 @@ import frc.robot.utils.SimpleMath;
 
 public class DoubleXbox extends AbstractControl {
 
-    XboxController drivebox;
-    XboxController notesbox;
+    private XboxController drivebox;
+    private XboxController notesbox;
     private double speed_level = 0.1;
     private PIDController anglePID = new PIDController(3.36, 0, 0);
 
     public DoubleXbox(int driveboxID, int notesboxID) {
+        // Sets up xbox controllers
 		drivebox = new XboxController(driveboxID);
 		notesbox = new XboxController(notesboxID);
-
+        // Sets triggers that map to speeds
+        setSpeedTriggers();
+        // Sets up PID
         anglePID.enableContinuousInput(-Math.PI, Math.PI);
-
-        new Trigger(drivebox::getAButton).onTrue(new InstantCommand(()->speed_level = 0.1 * Constants.Swerve.robotMaxSpeed));
-        new Trigger(drivebox::getBButton).onTrue(new InstantCommand(()->speed_level = 0.2 * Constants.Swerve.robotMaxSpeed));
-        new Trigger(drivebox::getXButton).onTrue(new InstantCommand(()->speed_level = 0.35 * Constants.Swerve.robotMaxSpeed));
-        new Trigger(drivebox::getYButton).onTrue(new InstantCommand(()->speed_level = 0.6 * Constants.Swerve.robotMaxSpeed));
 	}
 
     @Override
     public DriveCommandData getDriveCommandData(Pose2d swerve_position) {
 
         double robot_angle = swerve_position.getRotation().getRadians();
-        double target_angle = getAngle().getFirst().getRadians() + Math.PI;
+        double target_angle = super.OrientAngle(getAngle().getFirst()).getRadians();
         double spin = anglePID.calculate(robot_angle, target_angle);
         
         double magnitude = getAngle().getSecond();
@@ -49,6 +47,13 @@ public class DoubleXbox extends AbstractControl {
         return driveCommandData;
     }
 
+    public void setSpeedTriggers() {
+        new Trigger(drivebox::getAButton).onTrue(new InstantCommand(()->speed_level = 0.1 * Constants.Swerve.robotMaxSpeed));
+        new Trigger(drivebox::getBButton).onTrue(new InstantCommand(()->speed_level = 0.2 * Constants.Swerve.robotMaxSpeed));
+        new Trigger(drivebox::getXButton).onTrue(new InstantCommand(()->speed_level = 0.35 * Constants.Swerve.robotMaxSpeed));
+        new Trigger(drivebox::getYButton).onTrue(new InstantCommand(()->speed_level = 0.6 * Constants.Swerve.robotMaxSpeed));
+    }
+
     @Override
     public Pair<Double,Double> getXY() {
         double X = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(0), Constants.Control.XBOX_X_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
@@ -59,8 +64,11 @@ public class DoubleXbox extends AbstractControl {
     @Override
     public Double getSpin() {
         return null;
-    }
+    }  
 
+    /**
+     * 
+     */
     @Override
     public Pair<Rotation2d,Double> getAngle() {
 

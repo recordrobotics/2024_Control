@@ -30,6 +30,16 @@ public class SimpleMath {
         return Remap(MathUtil.clamp(value01, 0, 1), 0, 1, min, max);
     }
 
+    /**
+     * Scales an input value between -1 and 1 and scales it to 
+     * the proportion to which it's absolute value is between a minimum threshold and 1 
+     * (Function returns 0 if input < threshold)
+     * Then multiplies by sensitivity and returns
+     * @param input
+     * @param threshold
+     * @param sensitivity
+     * @return
+     */
     public static double ApplyThresholdAndSensitivity(double input, double threshold, double sensitivity) {
         // How much the input is above the threshold (absolute value)
 		double subtract_threshold = Math.max(0, Math.abs(input) - threshold);
@@ -38,4 +48,5 @@ public class SimpleMath {
 		// Multiplies by spin sensitivity and returns
 		return Math.signum(input) * proportion * sensitivity;
     }
+
 }
