@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.DriverStationUtils;
+import frc.robot.utils.ShuffleboardChoosers;
 import edu.wpi.first.math.Pair;
 
 
@@ -34,20 +35,12 @@ public abstract class AbstractControl {
     public abstract Boolean getManualCrashbar();
     public abstract Boolean getManualClimbers();
 
-
-    // Orient stuff
-    public enum DriverOrientation {
-        XAxisTowardsTrigger,
-        YAxisTowardsTrigger
-    }
-    public static DriverOrientation driverOrientation = DriverOrientation.XAxisTowardsTrigger;
-
     // Orient XY
-    public static Pair<Double,Double> OrientXY(Pair<Double,Double> input) {
+    public static Pair<Double,Double>OrientXY(Pair<Double,Double> input) {
         double inputX = input.getFirst();
         double inputY = input.getSecond();
 
-		switch (driverOrientation) {
+		switch (ShuffleboardChoosers.getDriverOrientation()) {
 			case XAxisTowardsTrigger:
 				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
                     return new Pair<Double,Double>(-inputY, -inputX);
@@ -66,7 +59,7 @@ public abstract class AbstractControl {
 
     // Orient Angle
     public static Rotation2d OrientAngle(Rotation2d angle) {
-        switch (driverOrientation) {
+        switch (ShuffleboardChoosers.getDriverOrientation()) {
             case XAxisTowardsTrigger:
                 if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
                     return new Rotation2d(angle.getRadians() - Math.PI / 2);

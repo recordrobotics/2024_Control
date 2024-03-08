@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterStates;
 import frc.robot.subsystems.Crashbar;
@@ -21,6 +20,7 @@ import frc.robot.commands.notes.AcquireSmart;
 import frc.robot.commands.notes.ShootAmp;
 import frc.robot.commands.notes.ShootSpeaker;
 import frc.robot.control.AbstractControl;
+import frc.robot.utils.ShuffleboardChoosers;
 import frc.robot.control.DoubleXbox;
 import frc.robot.control.JoystickXbox;
 import frc.robot.subsystems.AutoPath;
@@ -71,6 +71,7 @@ public class RobotContainer {
   private JoystickXbox _joystickXbox;
   private DoubleXbox _doubleXbox;
   private AbstractControl _controlInput;
+  private final ShuffleboardChoosers _shuffleboardChoosers;
 
   // Smart Commands
   private AcquireSmart _acquire;
@@ -79,6 +80,8 @@ public class RobotContainer {
 
   // Misc commands
   private KillSpecified _killSpecified;
+  
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -101,15 +104,27 @@ public class RobotContainer {
     _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
     _autoPath.putAutoChooser();
 
+    // Sets up Control scheme chooser
+    _shuffleboardChoosers = new ShuffleboardChoosers();
+    // Creates control input & manual swerve object, adds it to _teleopPairs
+    _joystickXbox = new JoystickXbox(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.XBOX_PORT);
+    _doubleXbox = new DoubleXbox(0, 1);
+    // Runs switch
+    switch (ShuffleboardChoosers.getDriveMode()) {
+      case JoystickXbox:
+        _controlInput = _joystickXbox;
+      case DoubleXbox:
+        _controlInput = _doubleXbox;
+      default:
+        _controlInput = _doubleXbox;
+    }
+
     // Bindings and Teleop
     initTeleopCommands();
     configureButtonBindings();
   }
 
   private void initTeleopCommands() {
-
-    // Creates control input & manual swerve object, adds it to _teleopPairs
-    _controlInput = new JoystickXbox(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.XBOX_PORT);
     
     // Adds default drivetrain & manual swerve to teleop commands
     _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
