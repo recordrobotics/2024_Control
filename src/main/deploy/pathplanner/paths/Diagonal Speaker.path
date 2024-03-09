@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.56,
-        "y": 4.4
+        "x": 0.6222795351573609,
+        "y": 4.3385312981452175
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.892460921537104,
-        "y": 2.0247333827376215
+        "x": 1.8267774427286747,
+        "y": 1.274662834225955
       },
       "isLocked": false,
       "linkedName": "DiagSpeakerRight"
     },
     {
       "anchor": {
-        "x": 8.29950581516365,
-        "y": 0.7702308991316326
+        "x": 8.714634409325798,
+        "y": 0.7601200387585969
       },
       "prevControl": {
-        "x": 4.009612199746966,
-        "y": 1.3259671174924308
+        "x": 3.4522649102278278,
+        "y": 0.7133434209888364
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,7 +51,7 @@
   "eventMarkers": [
     {
       "name": "Aqcuire",
-      "waypointRelativePos": 0.85,
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "parallel",
         "data": {
