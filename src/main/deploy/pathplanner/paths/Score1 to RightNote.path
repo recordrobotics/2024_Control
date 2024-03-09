@@ -3,66 +3,55 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.65,
-        "y": 7.27
+        "x": 1.49,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.65,
-        "y": 7.369999999999999
+        "x": 2.187947304022381,
+        "y": 4.093721905278771
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Score1"
     },
     {
       "anchor": {
-        "x": 1.82,
-        "y": 7.735
+        "x": 3.076620030791082,
+        "y": 4.108290310635635
       },
       "prevControl": {
-        "x": 1.8116843930555218,
-        "y": 7.6353463463733275
+        "x": 1.9766200307910817,
+        "y": 4.108290310635635
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Amp Shoot"
+      "linkedName": "RightNote2"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.6,
-      "rotationDegrees": -90.0,
+      "waypointRelativePos": 0.25,
+      "rotationDegrees": 0.0,
       "rotateFast": false
     }
   ],
   "constraintZones": [
     {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.7,
-      "constraints": {
-        "maxVelocity": 0.8,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
-    },
-    {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0.7,
+      "name": "slow",
+      "minWaypointRelativePos": 0.8,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 0.2,
+        "maxVelocity": 0.5,
         "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
+        "maxAngularVelocity": 1000.0,
         "maxAngularAcceleration": 720.0
       }
     }
   ],
   "eventMarkers": [
     {
-      "name": "Flywheel",
-      "waypointRelativePos": 0.0,
+      "name": "Acquire",
+      "waypointRelativePos": 0.15,
       "command": {
         "type": "parallel",
         "data": {
@@ -70,7 +59,7 @@
             {
               "type": "named",
               "data": {
-                "name": "FlywheelAmp"
+                "name": "Acquire"
               }
             }
           ]
@@ -79,21 +68,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.5,
+    "maxVelocity": 2.0,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
+    "maxAngularVelocity": 1000.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Real Auto",
+  "folder": "4 Note Speaker",
   "previewStartingState": {
-    "rotation": -90.0,
+    "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
