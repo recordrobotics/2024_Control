@@ -16,8 +16,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.manual.ManualAcquisition;
-
-import frc.robot.commands.hybrid.NoteOrient;
+import frc.robot.commands.hybrid.FindNote;
 import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
@@ -79,7 +78,7 @@ public class RobotContainer {
   private ShootSpeaker _shootSpeaker;
   private ShootAmp _shootAmp;
 
-  private NoteOrient _noteOrient;
+  private FindNote _findNote;
 
   // Misc commands
   private KillSpecified _killSpecified;
@@ -134,6 +133,7 @@ public class RobotContainer {
     _shootSpeaker = new ShootSpeaker(_channel, _shooter);
     _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
     _manualReverse = new ManualReverse(_acquisition, _channel);
+    _findNote = new FindNote(_drivetrain, _vision, _controlInput, _photosensor);
 
   }
 
@@ -152,9 +152,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    BooleanSupplier getNoteOrient = () -> _controlInput.getTeleAutoStart();
-    Trigger noteOrientTrigger = new Trigger(getNoteOrient);
-    noteOrientTrigger.toggleOnTrue(_noteOrient);
+    BooleanSupplier findNote = () -> _controlInput.getTeleAutoStart();
+    Trigger findNoteTrigger = new Trigger(findNote);
+    findNoteTrigger.toggleOnTrue(_findNote);
 
     // BooleanSupplier getTeleAutoKill = () -> _controlInput.getKillAuto();
     // Trigger teleAutoKillTrigger = new Trigger(getTeleAutoKill);

@@ -30,7 +30,13 @@ public class GetNote extends Command{
         driveTrain.drive(new DriveCommandData(speed, 0, 0, false));
     }
 
+    @Override
     public boolean isFinished(){
         return photosensor.getDebouncedValue();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        driveTrain.stop();
     }
 }
