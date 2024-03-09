@@ -8,38 +8,50 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.144276934099541,
-        "y": 4.799195047850283
+        "x": 2.187947304022381,
+        "y": 4.093721905278771
       },
       "isLocked": false,
       "linkedName": "Score1"
     },
     {
       "anchor": {
-        "x": 2.84939097194109,
-        "y": 4.114397967513275
+        "x": 3.076620030791082,
+        "y": 4.108290310635635
       },
       "prevControl": {
-        "x": 2.7781148771008564,
-        "y": 4.1845386711333985
+        "x": 1.9766200307910817,
+        "y": 4.108290310635635
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RightNote"
+      "linkedName": "RightNote2"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": -44.77999999999997,
+      "waypointRelativePos": 0.25,
+      "rotationDegrees": 0.0,
       "rotateFast": false
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "slow",
+      "minWaypointRelativePos": 0.8,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 0.5,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 1000.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
       "name": "Acquire",
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.15,
       "command": {
         "type": "parallel",
         "data": {
@@ -63,7 +75,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -46.79357894760398,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
