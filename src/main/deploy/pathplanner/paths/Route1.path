@@ -3,55 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.56,
-        "y": 4.4
+        "x": 0.63,
+        "y": 6.643192842729962
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.892460921537104,
-        "y": 2.0247333827376215
+        "x": 1.4312714083953617,
+        "y": 7.021952102283829
       },
       "isLocked": false,
-      "linkedName": "DiagSpeakerRight"
+      "linkedName": "DiagSpeakerLeft"
     },
     {
       "anchor": {
-        "x": 8.29950581516365,
-        "y": 0.7702308991316326
+        "x": 2.8872307611518506,
+        "y": 7.00011877397313
       },
       "prevControl": {
-        "x": 4.009612199746966,
-        "y": 1.3259671174924308
+        "x": 1.8872307611518506,
+        "y": 7.00011877397313
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "FarNote"
+      "linkedName": "LeftNoteStraight"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.6,
-      "rotationDegrees": 0,
+      "waypointRelativePos": 0,
+      "rotationDegrees": 56.6,
       "rotateFast": false
     }
   ],
-  "constraintZones": [
-    {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0.95,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
-    }
-  ],
+  "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Aqcuire",
-      "waypointRelativePos": 0.85,
+      "name": "Acquire",
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "parallel",
         "data": {
@@ -68,7 +56,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 1.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -79,10 +67,10 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Speaker Far Note",
+  "folder": "SpeakerPlusOne",
   "previewStartingState": {
-    "rotation": -60.84899999999999,
+    "rotation": 56.6,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

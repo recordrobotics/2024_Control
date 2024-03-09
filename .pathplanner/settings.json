@@ -5,8 +5,9 @@
   "pathFolders": [
     "2 Note Speaker",
     "4 Note Speaker",
-    "Speaker Far Note",
-    "Real Auto"
+    "SpeakerPlusOne",
+    "Real Auto",
+    "Speaker Far Note"
   ],
   "autoFolders": [
     "Real Auto"
