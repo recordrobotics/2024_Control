@@ -57,7 +57,8 @@ public class RobotContainer {
     Amp_Speaker_2_note("Amp and Speaker (2)"),
     Amp_Speaker_1_note("Amp and Speaker"),
     Amp("Amp"),
-    FarSpeaker("Far Speaker")
+    FarSpeaker("Far Speaker"),
+    DiagLeftOneNote("DiagLeftOneNote")
     ;
 
     private String pathref;
