@@ -44,6 +44,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
+  public enum AutoName{
+    Speaker_2_note("2 Note Speaker")
+    ;
+
+    private String pathref;
+
+    private AutoName(String pathplannerRef){
+        pathref=pathplannerRef;
+    }
+  }
+
   // The robot's subsystems and commands are defined here
   private final Drivetrain _drivetrain;
   private final Shooter _shooter;
@@ -91,6 +102,9 @@ public class RobotContainer {
     _doubleXboxSpin = new DoubleXboxSpin(0, 1);
     // Sets up Control scheme chooser
     ShuffleboardChoosers.initialize(_joystickXbox, _doubleXbox, _doubleXboxSpin);
+
+    EnumSet.allOf(AutoName.class)
+        .forEach(v -> )
 
     // Bindings and Teleop
     configureButtonBindings();
