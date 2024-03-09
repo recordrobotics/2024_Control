@@ -1,6 +1,8 @@
 package frc.robot.commands.hybrid;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Photosensor;
 import frc.robot.subsystems.Vision;
@@ -11,25 +13,34 @@ public class GetNote extends Command{
     Drivetrain driveTrain;
     Vision vision;
     double speed;
-    Photosensor photosensor;
+    Photosensor _photosensor;
+    Acquisition _acquisition;
+    Channel _channel;
 
-    public GetNote(Drivetrain drivetrain, Vision vision, double speed, Photosensor photosensor){
+    public GetNote(Drivetrain drivetrain, Vision vision, double speed, Photosensor photosensor, Acquisition acquisition, Channel channel){
         addRequirements(drivetrain);
-        setSubsystem(drivetrain.getName());
+        addRequirements(acquisition);
+        addRequirements(channel);
+        addRequirements(photosensor);
+
         this.driveTrain = drivetrain;
         this.vision = vision;
         this.speed = speed;
-        this.photosensor = photosensor;
+
+        _acquisition = acquisition;
+        _channel = channel;
+        _photosensor = photosensor;
     }
 
     @Override
     public void execute(){
         driveTrain.drive(new DriveCommandData(speed, 0, 0, false));
+        
     }
 
     @Override
     public boolean isFinished(){
-        return photosensor.getDebouncedValue();
+        return _photosensor.getDebouncedValue();
     }
 
     @Override
