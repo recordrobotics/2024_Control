@@ -14,7 +14,7 @@ public class PCMCompressor extends SubsystemBase {
         var widget = ShuffleboardUI.Overview.getTab().addBoolean("Compressor", ()->compressor.isEnabled());
         widget.withWidget(BuiltInWidgets.kBooleanBox);
         widget.withPosition(8, 0);
-        widget.withSize(2, 1);
+        widget.withSize(1, 1);
     }
 
     public void disable() {
