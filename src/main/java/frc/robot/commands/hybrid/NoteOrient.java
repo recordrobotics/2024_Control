@@ -2,7 +2,6 @@ package frc.robot.commands.hybrid;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.control.DoubleControl;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Photosensor;
 import frc.robot.subsystems.Vision;
@@ -13,15 +12,13 @@ public class NoteOrient extends Command{
     Drivetrain driveTrain;
     Vision vision;
     PIDController anglePID;
-    DoubleControl controls;
     Photosensor photosensor;
 
-    public NoteOrient(Drivetrain drivetrain, Vision vision, DoubleControl controls, Photosensor photosensor){
+    public NoteOrient(Drivetrain drivetrain, Vision vision, Photosensor photosensor){
         addRequirements(drivetrain);
         setSubsystem(drivetrain.getName());
         this.driveTrain = drivetrain;
         this.vision = vision;
-        this.controls = controls;
         this.photosensor = photosensor;
 
         anglePID = new PIDController(0.4, 0, 0);
@@ -45,6 +42,6 @@ public class NoteOrient extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        new GetNote(driveTrain, vision, controls, 0.1, photosensor);
+        new GetNote(driveTrain, vision, 0.1, photosensor);
     }
 }
