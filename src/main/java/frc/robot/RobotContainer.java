@@ -61,6 +61,10 @@ public class RobotContainer {
 
     private String pathref;
 
+    public String getPathRef(){
+      return pathref;
+    }
+
     private AutoName(String pathplannerRef){
         pathref=pathplannerRef;
     }
