@@ -3,6 +3,8 @@
   "robotLength": 0.59,
   "holonomicMode": true,
   "pathFolders": [
+    "2 Note Speaker",
+    "4 Note Speaker",
     "Real Auto"
   ],
   "autoFolders": [
