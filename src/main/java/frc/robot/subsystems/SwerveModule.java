@@ -51,7 +51,7 @@ public class SwerveModule {
       return db;
     });
     velocityWidget.withWidget(BuiltInWidgets.kGraph);
-    velocityWidget.withPosition(6, 1);
+    velocityWidget.withPosition(6, 2);
     velocityWidget.withSize(4, 3);
   }
 

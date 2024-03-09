@@ -22,6 +22,11 @@ public class Acquisition extends SubsystemBase {
         widget.withWidget(BuiltInWidgets.kNumberBar);
         widget.withPosition(6, 0);
         widget.withSize(2, 1);
+
+        widget = ShuffleboardUI.Autonomous.getTab().addDouble("Acquisition", ()->acquisitionMotor.get());
+        widget.withWidget(BuiltInWidgets.kNumberBar);
+        widget.withPosition(9, 0);
+        widget.withSize(2, 1);
     }
 
     public void toggle(AcquisitionStates state, double speed) {
