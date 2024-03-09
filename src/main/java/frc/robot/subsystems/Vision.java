@@ -24,7 +24,6 @@ public class Vision extends SubsystemBase {
 
     public Rotation2d ringDirection(){
 		// Gets target object orientation from orange photonvision
-        System.out.println(camera.getLatestResult().getBestTarget() != null);
             if(checkForTarget()){
                 return Rotation2d.fromDegrees(camera.getLatestResult().getBestTarget().getYaw());
             } else {
