@@ -21,6 +21,7 @@ import frc.robot.commands.notes.ShootAmp;
 import frc.robot.commands.notes.ShootSpeaker;
 import frc.robot.utils.ShuffleboardChoosers;
 import frc.robot.control.DoubleXbox;
+import frc.robot.control.DoubleXboxSpin;
 import frc.robot.control.JoystickXbox;
 import frc.robot.subsystems.AutoPath;
 import frc.robot.subsystems.Channel;
@@ -62,6 +63,7 @@ public class RobotContainer {
   // Control
   private JoystickXbox _joystickXbox;
   private DoubleXbox _doubleXbox;
+  private DoubleXboxSpin _doubleXboxSpin;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -84,10 +86,11 @@ public class RobotContainer {
     _autoPath.putAutoChooser();
 
     // Creates control input & manual swerve object, adds it to _teleopPairs
-    _joystickXbox = new JoystickXbox(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.XBOX_PORT);
+    _joystickXbox = new JoystickXbox(2,0);
     _doubleXbox = new DoubleXbox(0, 1);
+    _doubleXboxSpin = new DoubleXboxSpin(0, 1);
     // Sets up Control scheme chooser
-    ShuffleboardChoosers.initialize(_doubleXbox, _joystickXbox);
+    ShuffleboardChoosers.initialize(_joystickXbox, _doubleXbox, _doubleXboxSpin);
 
     // Bindings and Teleop
     configureButtonBindings();

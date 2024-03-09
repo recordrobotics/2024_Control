@@ -76,6 +76,9 @@ public final class Constants {
         public static final double XBOX_Y_THRESHOLD = 0.15;
         public static final double XBOX_SPIN_THRESHOLD = 0.3;
 
+        public static final double XBOX_SPIN_ROT_THRESHOLD = 0.1;
+        public static final double XBOX_SPIN_ROT_SENSITIVITY = 1.0;
+
         // Tablet drive constants
         public final class Tablet {
             // Will fill in later, but for now it's convenient to have it in the TabletDrive
