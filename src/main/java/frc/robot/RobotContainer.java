@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterStates;
 import frc.robot.subsystems.Vision;
@@ -20,6 +21,7 @@ import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.manual.ManualAcquisition;
 import frc.robot.commands.hybrid.FindNote;
+import frc.robot.commands.hybrid.NoteOrient;
 import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
@@ -54,7 +56,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
-  public enum AutoName{
+  public enum AutoName {
     Speaker_2_note("2 Note Speaker"),
     Speaker_4_note("4 Note Speaker"),
     Amp_Speaker_2_note("Amp and Speaker (2)"),
@@ -63,17 +65,16 @@ public class RobotContainer {
     FarSpeaker("Far Speaker"),
     DiagLeftOneNote("DiagLeftOneNote"),
     DiagJustShoot("DiagJustShoot"),
-    Speaker_3_Note("3NoteSpeaker")
-    ;
+    Speaker_3_Note("3NoteSpeaker");
 
     private String pathref;
 
-    public String getPathRef(){
+    public String getPathRef() {
       return pathref;
     }
 
-    private AutoName(String pathplannerRef){
-        pathref=pathplannerRef;
+    private AutoName(String pathplannerRef) {
+      pathref = pathplannerRef;
     }
   }
 
@@ -102,7 +103,6 @@ public class RobotContainer {
 
   public static SendableChooser<AutoName> autoChooser = new SendableChooser<>();
 
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -126,7 +126,7 @@ public class RobotContainer {
     _autoPath.putAutoChooser();
 
     // Creates control input & manual swerve object, adds it to _teleopPairs
-    _joystickXbox = new JoystickXbox(2,0);
+    _joystickXbox = new JoystickXbox(2, 0);
     _doubleXbox = new DoubleXbox(0, 1);
     _doubleXboxSpin = new DoubleXboxSpin(0, 1);
     // Sets up Control scheme chooser
@@ -134,13 +134,13 @@ public class RobotContainer {
 
     EnumSet.allOf(AutoName.class)
         .forEach(v -> autoChooser.addOption(v.pathref, v));
-      autoChooser.setDefaultOption(AutoName.Speaker_2_note.pathref, AutoName.Speaker_2_note);
+    autoChooser.setDefaultOption(AutoName.Speaker_2_note.pathref, AutoName.Speaker_2_note);
 
     ShuffleboardTab tab = ShuffleboardUI.Autonomous.getTab();
-        var autoWidget = tab.add("Auto Code", autoChooser);
-        autoWidget.withWidget(BuiltInWidgets.kComboBoxChooser);
-        autoWidget.withSize(3, 1);
-        autoWidget.withPosition(6, 1);
+    var autoWidget = tab.add("Auto Code", autoChooser);
+    autoWidget.withWidget(BuiltInWidgets.kComboBoxChooser);
+    autoWidget.withSize(3, 1);
+    autoWidget.withPosition(6, 1);
 
     // Bindings and Teleop
     configureButtonBindings();
@@ -179,6 +179,8 @@ public class RobotContainer {
     new Trigger(()->ShuffleboardChoosers.getDriveControl().getReverse()).
       whileTrue(new ManualReverse(_acquisition, _channel));
 
+    new Trigger(() ->  ShuffleboardChoosers.getDriveControl().turnToNote()).onTrue(new NoteOrient(_drivetrain, _vision, _photosensor, () ->  ShuffleboardChoosers.getDriveControl().turnToNote()));
+
 
     // Manual triggers
     new Trigger(()->ShuffleboardChoosers.getDriveControl().getManualShootAmp()).
@@ -203,7 +205,7 @@ public class RobotContainer {
     
   }
 
-  public void testPeriodic(){
+  public void testPeriodic() {
     _shooter.testPeriodic();
 
   }

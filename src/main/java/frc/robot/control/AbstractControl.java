@@ -27,6 +27,7 @@ public abstract class AbstractControl {
     public abstract Boolean getReverse();
     public abstract Boolean getShootSpeaker();
     public abstract Boolean getShootAmp();
+    public abstract Boolean turnToNote();
 
     // Manual
     public abstract Boolean getManualShootSpeaker();
@@ -34,6 +35,7 @@ public abstract class AbstractControl {
     public abstract Boolean getManualAcquisition();
     public abstract Boolean getManualCrashbar();
     public abstract Boolean getManualClimbers();
+     
 
     // Orient XY
     public static Pair<Double,Double>OrientXY(Pair<Double,Double> input) {

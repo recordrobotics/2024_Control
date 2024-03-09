@@ -128,4 +128,9 @@ public class DoubleXboxSpin extends AbstractControl {
     public Boolean getManualClimbers() {
         return notesbox.getRawButton(7);
     }
+
+    @Override
+    public Boolean turnToNote() {
+        return drivebox.getRawButton(7);
+    }
 }
