@@ -16,12 +16,6 @@ public class PushSpeaker extends SequentialCommandGroup {
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
   private final double shootTime = 1;
 
-  /**
-   * Command that assumes the flywheel is already on and moves the channel to shoot the note into the speaker. 
-   * Then, turns everything off. 
-   * @param channel
-   * @param shooter
-   */
   public PushSpeaker (Channel channel, Shooter shooter) {
     _channel = channel;
     _shooter = shooter;

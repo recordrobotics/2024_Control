@@ -16,11 +16,14 @@ public class NavSensor extends SubsystemBase {
 	// variable to keep track of a reference angle whenever you reset
 	private static double referenceAngle;
 
-	//TODO: unhappy with this because
-	static {
+	public static void initNav() {
 		_nav.reset();
 		_nav.resetDisplacement();
 		referenceAngle = _nav.getAngle();
+	}
+
+	// Navsensor Constructor, Create instance
+	public NavSensor() {
 	}
 
 	// stores the reference angle as whatever the angle is currently measured to be
@@ -33,4 +36,7 @@ public class NavSensor extends SubsystemBase {
 		return Rotation2d.fromDegrees(-(_nav.getAngle() - referenceAngle));
 	}
 
+	@Override
+	public void periodic() {
+	}
 }

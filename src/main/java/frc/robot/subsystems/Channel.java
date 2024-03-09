@@ -6,39 +6,37 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-import frc.robot.ShuffleboardUI;
+
 
 public class Channel extends SubsystemBase {
     private Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);
+    private static final double channelDefaultSpeed = Constants.Channel.CHANNEL_SPEED;
 
     public Channel() {
         toggle(ChannelStates.OFF);
-        var widget = ShuffleboardUI.Test.getTab().add("Channel", channelMotor);
-        widget.withWidget(BuiltInWidgets.kMotorController);
     }
 
-    public void toggle(double speed) {
-        channelMotor.set(speed);
-    }
-
-    public void toggle(ChannelStates state) {
+    public void toggle(ChannelStates state, double speed) {
         switch (state) {
             case THROUGH:
-                channelMotor.set(Constants.Channel.THROUGH_SPEED);
+                channelMotor.set(speed);
                 break;
             case SHOOT:
-                channelMotor.set(Constants.Channel.SHOOT_SPEED);
+                channelMotor.set(speed);
                 break;
             case REVERSE:
-                channelMotor.set(Constants.Channel.REVERSE_SPEED);
+                channelMotor.set(-speed);
                 break;
             default:
                 channelMotor.set(0);
                 break;
         }
+    }
+
+    public void toggle(ChannelStates state) {
+        toggle(state, channelDefaultSpeed);
     }
 
     public enum ChannelStates {

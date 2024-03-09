@@ -51,7 +51,7 @@ public class SwerveModule {
       return db;
     });
     velocityWidget.withWidget(BuiltInWidgets.kGraph);
-    velocityWidget.withPosition(6, 2);
+    velocityWidget.withPosition(6, 1);
     velocityWidget.withSize(4, 3);
   }
 
@@ -82,11 +82,6 @@ public class SwerveModule {
     // Creates TalonFX objects
     m_driveMotor = new TalonFX(m.driveMotorChannel);
     m_turningMotor = new TalonFX(m.turningMotorChannel);
-
-    var widgetDrv = ShuffleboardUI.Test.getTab().add("Drive "+m.driveMotorChannel, m_driveMotor);
-    widgetDrv.withWidget(BuiltInWidgets.kMotorController);
-    var widgetTurn = ShuffleboardUI.Test.getTab().add("Turn "+m.turningMotorChannel,m_turningMotor);
-    widgetTurn.withWidget(BuiltInWidgets.kMotorController);
 
     // Creates Motor Encoder object and gets offset
     absoluteTurningMotorEncoder = new DutyCycleEncoder(m.absoluteTurningMotorEncoderChannel);

@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 public enum ShuffleboardUI {
     Autonomous("Autonomous"),
     Overview("Overview"),
-    Test("Test")
     ;
 
     private final String m_tabName;

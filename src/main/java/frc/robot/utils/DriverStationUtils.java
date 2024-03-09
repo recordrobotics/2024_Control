@@ -14,21 +14,21 @@ import frc.robot.ShuffleboardUI;
 
 public class DriverStationUtils {
     public enum FieldStartingLocation {
-        FrontSpeaker(
+        Placeholder1(
                 // Red
-                new Pose2d(14.169, 5.584, Rotation2d.fromDegrees(180)),
+                new Pose2d(16.19, 6.82, Rotation2d.fromDegrees(180)),
                 // Blue
-                new Pose2d(2.371, 5.584, Rotation2d.fromDegrees(0))),
-        AtAmp(
+                new Pose2d(0.37, 6.82, Rotation2d.fromDegrees(0))),
+        Placeholder2(
                 // Red
                 new Pose2d(14.89, 7.27, Rotation2d.fromDegrees(-90)),
                 // Blue
                 new Pose2d(1.65, 7.27, Rotation2d.fromDegrees(-90))),
-        DiagonalSpeaker(
+        Placeholder3(
                 // Red
-                new Pose2d(16.268, 4.454, Rotation2d.fromDegrees(-120.665)),
+                new Pose2d(16.19, 6.82, Rotation2d.fromDegrees(180)),
                 // Blue
-                new Pose2d(1.564, 4.403, Rotation2d.fromDegrees(-60.849))),
+                new Pose2d(0.37, 6.82, Rotation2d.fromDegrees(0))),
                 ;
 
         private final Pose2d m_transformRed;
@@ -50,8 +50,8 @@ public class DriverStationUtils {
 
         EnumSet.allOf(FieldStartingLocation.class)
                 .forEach(v -> fieldStartingLocationChooser.addOption(v.toString(), v));
-        fieldStartingLocationChooser.setDefaultOption(FieldStartingLocation.AtAmp.toString(),
-                FieldStartingLocation.AtAmp);
+        fieldStartingLocationChooser.setDefaultOption(FieldStartingLocation.Placeholder1.toString(),
+                FieldStartingLocation.Placeholder1);
 
         ShuffleboardTab tab = ShuffleboardUI.Autonomous.getTab();
         var fieldStartingLocationWidget = tab.add("Starting Location", fieldStartingLocationChooser);

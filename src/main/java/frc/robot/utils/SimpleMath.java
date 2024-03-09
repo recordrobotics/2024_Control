@@ -1,5 +1,9 @@
 package frc.robot.utils;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.control.JoystickOrientation;
 
 public class SimpleMath {
     /**
@@ -30,23 +34,24 @@ public class SimpleMath {
         return Remap(MathUtil.clamp(value01, 0, 1), 0, 1, min, max);
     }
 
-    /**
-     * Takes an input value between -1 and 1 and scales it to 
-     * the proportion to which it's absolute value is between a minimum threshold and 1 
-     * (Function returns 0 if input < threshold)
-     * Then multiplies by sensitivity and returns
-     * @param input
-     * @param threshold
-     * @param sensitivity
-     * @return
-     */
-    public static double ApplyThresholdAndSensitivity(double input, double threshold, double sensitivity) {
-        // How much the input is above the threshold (absolute value)
-		double subtract_threshold = Math.max(0, Math.abs(input) - threshold);
-		// What proportion (threshold to value) is of (threshold to 1)
-		double proportion = subtract_threshold / (1 - threshold);
-		// Multiplies by spin sensitivity and returns
-		return Math.signum(input) * proportion * sensitivity;
+    public static double JoystickToFieldPolar(JoystickOrientation joystickOrientation, double joystickPolar) {
+        switch (joystickOrientation) {
+            case XAxisTowardsTrigger:
+                if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+                    return joystickPolar - Math.PI / 2;
+                else
+                    return joystickPolar + Math.PI / 2;
+            case YAxisTowardsTrigger:
+                if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+                    return joystickPolar;
+                else
+                    return joystickPolar + Math.PI;
+            default:
+                return joystickPolar;
+        }
     }
 
+    public static Rotation2d JoystickToFieldPolar(JoystickOrientation joystickOrientation, Rotation2d joystickPolar) {
+        return new Rotation2d(JoystickToFieldPolar(joystickOrientation, joystickPolar.getRadians()));
+    }
 }
