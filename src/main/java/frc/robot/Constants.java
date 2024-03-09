@@ -195,7 +195,7 @@ public final class Constants {
          * between front and back).
          * Used for calculating wheel locations on the robot
          */
-        public static final double ROBOT_WHEEL_DISTANCE_WIDTH = 0.59;
-        public static final double ROBOT_WHEEL_DISTANCE_LENGTH = 0.59;
+        public static final double ROBOT_WHEEL_DISTANCE_WIDTH = 0.46;
+        public static final double ROBOT_WHEEL_DISTANCE_LENGTH = 0.46;
     }
 }
