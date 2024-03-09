@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.69,
-        "y": 5.55
+        "x": 2.7269783022263474,
+        "y": 4.27582697223957
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7399999999999998,
-        "y": 5.55
+        "x": 2.661280243143247,
+        "y": 4.200436223253282
       },
       "isLocked": false,
-      "linkedName": "CenterNote"
+      "linkedName": "RightNote"
     },
     {
       "anchor": {
@@ -20,20 +20,31 @@
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.44,
-        "y": 5.55
+        "x": 1.5609816657041726,
+        "y": 5.620438648012729
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Score1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 0,
+      "rotationDegrees": -44.77999999999997,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "StartFlywheel",
-      "waypointRelativePos": 0.35,
+      "name": "Flywheel",
+      "waypointRelativePos": 0.55,
       "command": {
         "type": "parallel",
         "data": {
@@ -50,21 +61,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 2.0,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
+    "maxAngularVelocity": 1000.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "2 Note Speaker",
+  "folder": "4 Note Speaker",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

@@ -52,6 +52,54 @@
           "data": {
             "name": "PushSpeaker"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score1 to LeftNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftNote to Score1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PushSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score1 to RightNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RightNote to Score1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PushSpeaker"
+          }
         }
       ]
     }

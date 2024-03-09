@@ -3,37 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.69,
+        "x": 1.49,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7399999999999998,
-        "y": 5.55
+        "x": 2.144276934099541,
+        "y": 4.799195047850283
       },
       "isLocked": false,
-      "linkedName": "CenterNote"
+      "linkedName": "Score1"
     },
     {
       "anchor": {
-        "x": 1.49,
-        "y": 5.55
+        "x": 2.7269783022263474,
+        "y": 4.27582697223957
       },
       "prevControl": {
-        "x": 1.44,
-        "y": 5.55
+        "x": 2.655702207386114,
+        "y": 4.3459676758596935
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Score1"
+      "linkedName": "RightNote"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -44.77999999999997,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "StartFlywheel",
-      "waypointRelativePos": 0.35,
+      "name": "Acquire",
+      "waypointRelativePos": 0.3,
       "command": {
         "type": "parallel",
         "data": {
@@ -41,7 +47,7 @@
             {
               "type": "named",
               "data": {
-                "name": "FlywheelSpeaker"
+                "name": "Acquire"
               }
             }
           ]
@@ -50,21 +56,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 2.0,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
+    "maxAngularVelocity": 1000.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -46.79357894760398,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "2 Note Speaker",
+  "folder": "4 Note Speaker",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
