@@ -11,6 +11,7 @@ import frc.robot.subsystems.Drivetrain;
 public class PlannedAuto extends SequentialCommandGroup {
     public PlannedAuto(Drivetrain drivetrain, AutoPath autoPath) {
         addCommands(
+                new InstantCommand(() -> drivetrain.resetPose()),
                 new PathPlannerAuto("Amp and Speaker (2)"),
                 new InstantCommand(() -> drivetrain.stop()),
                 new WaitCommand(0.1),
