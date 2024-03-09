@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.27545480269107947,
-        "y": 0.5947352512282235
+        "x": 3.892615101144693,
+        "y": 2.02794970910607
       },
       "isLocked": false,
       "linkedName": "DiagSpeakerRight"
@@ -20,8 +20,8 @@
         "y": 0.7702308991316326
       },
       "prevControl": {
-        "x": 3.60012235463901,
-        "y": 0.8287294484327696
+        "x": 4.009612199746966,
+        "y": 1.3259671174924308
       },
       "nextControl": null,
       "isLocked": false,
