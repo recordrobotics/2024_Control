@@ -1,6 +1,6 @@
 {
-  "robotWidth": 0.59,
-  "robotLength": 0.59,
+  "robotWidth": 0.46,
+  "robotLength": 0.46,
   "holonomicMode": true,
   "pathFolders": [
     "2 Note Speaker",
@@ -14,5 +14,5 @@
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
-  "maxModuleSpeed": 1.0
+  "maxModuleSpeed": 7.0
 }
