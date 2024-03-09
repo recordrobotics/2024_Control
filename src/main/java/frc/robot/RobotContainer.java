@@ -59,6 +59,7 @@ public class RobotContainer {
     Amp("Amp"),
     FarSpeaker("Far Speaker"),
     DiagLeftOneNote("DiagLeftOneNote"),
+    DiagJustShoot("DiagJustShoot"),
     Speaker_3_Note("3NoteSpeaker")
     ;
 

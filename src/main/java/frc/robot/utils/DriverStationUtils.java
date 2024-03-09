@@ -26,7 +26,7 @@ public class DriverStationUtils {
                 new Pose2d(1.65, 7.27, Rotation2d.fromDegrees(-90))),
         DiagonalSpeaker(
                 // Red
-                new Pose2d(14.976, 4.403, Rotation2d.fromDegrees(180)),
+                new Pose2d(16.268, 4.454, Rotation2d.fromDegrees(-120.665)),
                 // Blue
                 new Pose2d(1.564, 4.403, Rotation2d.fromDegrees(-60.849))),
                 ;
