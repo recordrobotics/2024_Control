@@ -77,6 +77,8 @@ public class RobotContainer {
     _photosensor = new Photosensor();
     _climbers = new Climbers();
 
+    _manualSwerve = new ManualSwerve(_drivetrain);
+
     // Sets up auto chooser
     _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
     _autoPath.putAutoChooser();
