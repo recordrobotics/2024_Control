@@ -5,9 +5,11 @@
 package frc.robot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterStates;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Crashbar;
 
 import java.util.EnumSet;
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -17,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.manual.ManualAcquisition;
+import frc.robot.commands.hybrid.FindNote;
 import frc.robot.commands.manual.ManualClimbers;
 import frc.robot.commands.manual.ManualCrashbar;
 import frc.robot.commands.manual.ManualShooter;
@@ -83,6 +86,7 @@ public class RobotContainer {
   private final Channel _channel;
   private final Photosensor _photosensor;
   private final PCMCompressor _compressor;
+  private final Vision _vision;
 
   // Autonomous
   private final AutoPath _autoPath;
@@ -97,6 +101,7 @@ public class RobotContainer {
   private DoubleXboxSpin _doubleXboxSpin;
 
   public static SendableChooser<AutoName> autoChooser = new SendableChooser<>();
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -114,6 +119,7 @@ public class RobotContainer {
     _compressor = new PCMCompressor();
 
     _manualSwerve = new ManualSwerve(_drivetrain);
+    _vision = new Vision();
 
     // Sets up auto chooser
     _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
@@ -199,6 +205,7 @@ public class RobotContainer {
 
   public void testPeriodic(){
     _shooter.testPeriodic();
+
   }
 
   /**
