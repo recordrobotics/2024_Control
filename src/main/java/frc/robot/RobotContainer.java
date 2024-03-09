@@ -6,8 +6,14 @@ package frc.robot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterStates;
 import frc.robot.subsystems.Crashbar;
+
+import java.util.EnumSet;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.manual.ManualAcquisition;
@@ -44,6 +50,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
+  public enum AutoName{
+    Speaker_2_note("2 Note Speaker")
+    ;
+
+    private String pathref;
+
+    private AutoName(String pathplannerRef){
+        pathref=pathplannerRef;
+    }
+  }
+
   // The robot's subsystems and commands are defined here
   private final Drivetrain _drivetrain;
   private final Shooter _shooter;
@@ -64,6 +81,8 @@ public class RobotContainer {
   private JoystickXbox _joystickXbox;
   private DoubleXbox _doubleXbox;
   private DoubleXboxSpin _doubleXboxSpin;
+
+  public static SendableChooser<AutoName> autoChooser = new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -91,6 +110,16 @@ public class RobotContainer {
     _doubleXboxSpin = new DoubleXboxSpin(0, 1);
     // Sets up Control scheme chooser
     ShuffleboardChoosers.initialize(_joystickXbox, _doubleXbox, _doubleXboxSpin);
+
+    EnumSet.allOf(AutoName.class)
+        .forEach(v -> autoChooser.addOption(v.pathref, v));
+      autoChooser.setDefaultOption(AutoName.Speaker_2_note.pathref, AutoName.Speaker_2_note);
+
+    ShuffleboardTab tab = ShuffleboardUI.Autonomous.getTab();
+        var autoWidget = tab.add("Auto Code", autoChooser);
+        autoWidget.withWidget(BuiltInWidgets.kComboBoxChooser);
+        autoWidget.withSize(3, 1);
+        autoWidget.withPosition(6, 1);
 
     // Bindings and Teleop
     configureButtonBindings();
