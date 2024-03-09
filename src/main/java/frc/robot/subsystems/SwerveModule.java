@@ -83,6 +83,11 @@ public class SwerveModule {
     m_driveMotor = new TalonFX(m.driveMotorChannel);
     m_turningMotor = new TalonFX(m.turningMotorChannel);
 
+    var widgetDrv = ShuffleboardUI.Test.getTab().add("Drive "+m.driveMotorChannel, m_driveMotor);
+    widgetDrv.withWidget(BuiltInWidgets.kMotorController);
+    var widgetTurn = ShuffleboardUI.Test.getTab().add("Turn "+m.turningMotorChannel,m_turningMotor);
+    widgetTurn.withWidget(BuiltInWidgets.kMotorController);
+
     // Creates Motor Encoder object and gets offset
     absoluteTurningMotorEncoder = new DutyCycleEncoder(m.absoluteTurningMotorEncoderChannel);
     turningEncoderOffset = m.turningEncoderOffset;

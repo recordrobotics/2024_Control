@@ -51,7 +51,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
 
   public enum AutoName{
-    Speaker_2_note("2 Note Speaker")
+    Speaker_2_note("2 Note Speaker"),
+    Speaker_4_note("4 Note Speaker"),
+    Amp_Speaker_2_note("Amp and Speaker (2)"),
+    Amp_Speaker_1_note("Amp and Speaker"),
+    Amp("Amp")
     ;
 
     private String pathref;

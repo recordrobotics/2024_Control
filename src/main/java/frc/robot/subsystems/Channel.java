@@ -6,14 +6,18 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.robot.ShuffleboardUI;
 
 public class Channel extends SubsystemBase {
     private Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);
 
     public Channel() {
         toggle(ChannelStates.OFF);
+        var widget = ShuffleboardUI.Test.getTab().add("Channel", channelMotor);
+        widget.withWidget(BuiltInWidgets.kMotorController);
     }
 
     public void toggle(double speed) {

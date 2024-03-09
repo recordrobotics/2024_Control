@@ -4,9 +4,13 @@
 
 package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
+
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.robot.ShuffleboardUI;
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Shooter extends SubsystemBase {
@@ -16,6 +20,11 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {
         toggle(ShooterStates.OFF);
+
+        var widgetL = ShuffleboardUI.Test.getTab().add("Flywheel Left", flywheelL);
+        widgetL.withWidget(BuiltInWidgets.kMotorController);
+        var widgetR = ShuffleboardUI.Test.getTab().add("Flywheel Right", flywheelR);
+        widgetR.withWidget(BuiltInWidgets.kMotorController);
     }
 
     public void toggle(double speedL, double speedR) {

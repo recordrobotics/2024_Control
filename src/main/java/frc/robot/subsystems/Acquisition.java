@@ -27,6 +27,9 @@ public class Acquisition extends SubsystemBase {
         widget.withWidget(BuiltInWidgets.kNumberBar);
         widget.withPosition(9, 0);
         widget.withSize(2, 1);
+
+        var widget1 = ShuffleboardUI.Test.getTab().add("Acquisition", acquisitionMotor);
+        widget1.withWidget(BuiltInWidgets.kMotorController);
     }
 
     public void toggle(AcquisitionStates state, double speed) {
