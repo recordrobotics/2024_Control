@@ -10,8 +10,8 @@ public class PCMCompressor extends SubsystemBase {
     // Creates AHRS _nav object
     private static final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
-    static {
-        var widget = ShuffleboardUI.Overview.getTab().addBoolean("Compressor", ()->compressor.isEnabled());
+    public PCMCompressor() {
+        var widget = ShuffleboardUI.Overview.getTab().addBoolean("Compressor", compressor::isEnabled);
         widget.withWidget(BuiltInWidgets.kBooleanBox);
         widget.withPosition(8, 0);
         widget.withSize(1, 1);
@@ -35,10 +35,6 @@ public class PCMCompressor extends SubsystemBase {
 
     public boolean isPumping() {
         return compressor.getPressureSwitchValue();
-    }
-
-    // Navsensor Constructor, Create instance
-    public PCMCompressor() {
     }
 
     @Override

@@ -33,6 +33,7 @@ import frc.robot.subsystems.AutoPath;
 import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.PCMCompressor;
 import frc.robot.subsystems.Photosensor;
 import frc.robot.subsystems.Acquisition;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -78,6 +79,7 @@ public class RobotContainer {
   private final Acquisition _acquisition;
   private final Channel _channel;
   private final Photosensor _photosensor;
+  private final PCMCompressor _compressor;
 
   // Autonomous
   private final AutoPath _autoPath;
@@ -106,6 +108,7 @@ public class RobotContainer {
     _crashbar = new Crashbar();
     _photosensor = new Photosensor();
     _climbers = new Climbers();
+    _compressor = new PCMCompressor();
 
     _manualSwerve = new ManualSwerve(_drivetrain);
 
