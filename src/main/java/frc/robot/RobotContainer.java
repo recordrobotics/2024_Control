@@ -60,7 +60,8 @@ public class RobotContainer {
     FarSpeaker("Far Speaker"),
     DiagLeftOneNote("DiagLeftOneNote"),
     DiagJustShoot("DiagJustShoot"),
-    Speaker_3_Note("3NoteSpeaker")
+    Speaker_3_Note("3NoteSpeaker"),
+    Nutron1("Nutron1")
     ;
 
     private String pathref;
