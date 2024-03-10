@@ -34,6 +34,11 @@ public class DriverStationUtils {
                 new Pose2d(16.268, 4.454, Rotation2d.fromDegrees(-120.665)),
                 // Blue
                 new Pose2d(1.564, 4.403, Rotation2d.fromDegrees(-60.849))),
+        DiaAmpSpeaker(
+                // Red
+                new Pose2d(16.199, 6.730, Rotation2d.fromDegrees(119.8)),
+                // Blue
+                new Pose2d(1.776, 6.703, Rotation2d.fromDegrees(58.762))),
                 ;
 
         private final Pose2d m_transformRed;
