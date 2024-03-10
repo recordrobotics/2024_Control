@@ -3,37 +3,48 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3336313575910204,
-        "y": 6.970981963259401
+        "x": 0.63,
+        "y": 6.643192842729962
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.28677040495163486,
-        "y": 6.93456094986724
+        "x": 1.6197794951046867,
+        "y": 7.014687179329994
       },
       "isLocked": false,
-      "linkedName": "LeftNoteStraight"
+      "linkedName": "DiagSpeakerLeft"
     },
     {
       "anchor": {
-        "x": 0.6291279308379378,
-        "y": 6.643192842729962
+        "x": 2.3336313575910204,
+        "y": 6.970981963259401
       },
       "prevControl": {
-        "x": 0.5476961136054864,
-        "y": 6.585150968688709
+        "x": 0.8403698085124649,
+        "y": 6.919992544510378
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "DiagSpeakerLeft"
+      "linkedName": "LeftNoteStraight"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0,
+      "rotationDegrees": 56.6,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Flywheel",
-      "waypointRelativePos": 0.2,
+      "name": "Acquire",
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "parallel",
         "data": {
@@ -41,7 +52,7 @@
             {
               "type": "named",
               "data": {
-                "name": "FlywheelSpeaker"
+                "name": "Acquire"
               }
             }
           ]
@@ -57,13 +68,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 56.6,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "SpeakerPlusOne",
+  "folder": "Nutron1",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 56.6,
     "velocity": 0
   },
   "useDefaultConstraints": true
