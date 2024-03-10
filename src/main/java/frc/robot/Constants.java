@@ -168,16 +168,16 @@ public final class Constants {
                 2,
                 0.924, // 0.41599, //0.886
                 frontRightLocation,
-                MotorType.Falcon,
-                MotorType.Falcon);
+                MotorType.Kraken,
+                MotorType.Kraken);
         public static final ModuleConstants backLeftConstants = new ModuleConstants(
                 8,
                 7,
                 4,
                 0.676, // 0.17245, //0.857
                 backLeftLocation,
-                MotorType.Falcon,
-                MotorType.Falcon);
+                MotorType.Kraken,
+                MotorType.Kraken);
         public static final ModuleConstants backRightConstants = new ModuleConstants(
                 6,
                 5,
