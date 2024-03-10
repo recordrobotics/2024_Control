@@ -18,15 +18,15 @@ public class Acquisition extends SubsystemBase {
 
     public Acquisition() {
         toggle(AcquisitionStates.OFF);
-        var widget = ShuffleboardUI.Overview.getTab().addDouble("Acquisition", ()->acquisitionMotor.get());
-        widget.withWidget(BuiltInWidgets.kNumberBar);
-        widget.withPosition(6, 0);
-        widget.withSize(2, 1);
+        var widget = ShuffleboardUI.Overview.getTab().addBoolean("Acquisition", ()->acquisitionMotor.get()!=0);
+        widget.withWidget(BuiltInWidgets.kBooleanBox);
+        widget.withPosition(7, 0);
+        widget.withSize(1, 1);
 
-        widget = ShuffleboardUI.Autonomous.getTab().addDouble("Acquisition", ()->acquisitionMotor.get());
-        widget.withWidget(BuiltInWidgets.kNumberBar);
+        widget = ShuffleboardUI.Autonomous.getTab().addBoolean("Acquisition", ()->acquisitionMotor.get()!=0);
+        widget.withWidget(BuiltInWidgets.kBooleanBox);
         widget.withPosition(9, 0);
-        widget.withSize(2, 1);
+        widget.withSize(1, 1);
 
         var widget1 = ShuffleboardUI.Test.getTab().add("Acquisition", acquisitionMotor);
         widget1.withWidget(BuiltInWidgets.kMotorController);
