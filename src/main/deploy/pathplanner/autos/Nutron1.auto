@@ -12,6 +12,12 @@
     "data": {
       "commands": [
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 10.5
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "FlywheelSpeaker"
@@ -27,12 +33,6 @@
           "type": "named",
           "data": {
             "name": "PushSpeaker"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 10.5
           }
         },
         {
