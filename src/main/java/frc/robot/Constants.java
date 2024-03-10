@@ -65,10 +65,10 @@ public final class Constants {
 
         // Sensitivies for directional controls (XY) and spin (theta)
         public static final double JOSYSTICK_DIRECTIONAL_SENSITIVITY = 1;
-        public static final double JOYSTICK_SPIN_SENSITIVITY = 1;
+        public static final double JOYSTICK_SPIN_SENSITIVITY = 2;
         public static final double JOYSTICK_X_THRESHOLD = 0.15;
         public static final double JOYSTICK_Y_THRESHOLD = 0.15;
-        public static final double JOYSTICK_SPIN_THRESHOLD = 0.76;
+        public static final double JOYSTICK_SPIN_THRESHOLD = 0.3;
 
         // Thresholds for directional controls (XY) and spin (theta)
         public static final double XBOX_DIRECTIONAL_SENSITIVITY = 1;
@@ -158,7 +158,7 @@ public final class Constants {
                 2,
                 1,
                 1,
-                0.620, // 0.12363, //0.597
+                0.633,//0.620, // 0.12363, //0.597
                 frontLeftLocation,
                 MotorType.Kraken,
                 MotorType.Kraken);
@@ -168,21 +168,21 @@ public final class Constants {
                 2,
                 0.924, // 0.41599, //0.886
                 frontRightLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
         public static final ModuleConstants backLeftConstants = new ModuleConstants(
                 8,
                 7,
                 4,
                 0.676, // 0.17245, //0.857
                 backLeftLocation,
-                MotorType.Kraken,
-                MotorType.Kraken);
+                MotorType.Falcon,
+                MotorType.Falcon);
         public static final ModuleConstants backRightConstants = new ModuleConstants(
                 6,
                 5,
                 3,
-                0.371, // 0.86499, //0.556
+                0.554,//0.371, // 0.86499, //0.556
                 backRightLocation,
                 MotorType.Kraken,
                 MotorType.Kraken);
