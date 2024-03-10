@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6197794951046867,
-        "y": 7.014687179329994
+        "x": 1.2410009558262238,
+        "y": 7.021971382008425
       },
       "isLocked": false,
       "linkedName": "DiagSpeakerLeft"
     },
     {
       "anchor": {
-        "x": 2.3336313575910204,
-        "y": 6.970981963259401
+        "x": 2.3700523709831804,
+        "y": 7.00011877397313
       },
       "prevControl": {
-        "x": 0.8403698085124649,
-        "y": 6.919992544510378
+        "x": 1.7654635486733263,
+        "y": 6.978266165937835
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,11 +32,6 @@
     {
       "waypointRelativePos": 0,
       "rotationDegrees": 56.6,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 0.0,
       "rotateFast": false
     }
   ],
