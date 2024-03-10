@@ -193,7 +193,7 @@ public class RobotContainer {
 
     // Reset pose trigger
     new Trigger(()->ShuffleboardChoosers.getDriveControl().getPoseReset()).
-			onTrue(new InstantCommand(_drivetrain::resetPose));
+			onTrue(new InstantCommand(_drivetrain::resetDefaultPose));
     
   }
 

@@ -15,6 +15,7 @@ import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
 import frc.robot.utils.DriverStationUtils;
 import frc.robot.utils.ShuffleboardField;
+import frc.robot.utils.DriverStationUtils.FieldStartingLocation;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends SubsystemBase {
@@ -127,6 +128,23 @@ public class Drivetrain extends SubsystemBase {
                                                 m_backRight.getModulePosition()
                                 },
                                 DriverStationUtils.getStartingLocation().getPose());
+        }
+
+        public void resetDefaultPose(){
+                _nav.resetAngleAdjustment();
+                m_frontLeft.resetDriveMotorPosition();
+                m_frontRight.resetDriveMotorPosition();
+                m_backLeft.resetDriveMotorPosition();
+                m_backRight.resetDriveMotorPosition();
+                poseFilter.resetPosition(
+                                _nav.getAdjustedAngle(),
+                                new SwerveModulePosition[] {
+                                                m_frontLeft.getModulePosition(),
+                                                m_frontRight.getModulePosition(),
+                                                m_backLeft.getModulePosition(),
+                                                m_backRight.getModulePosition()
+                                },
+                                FieldStartingLocation.FrontSpeakerClose.getPose());
         }
 
         /**
