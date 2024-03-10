@@ -40,7 +40,7 @@ public class JoystickXbox extends AbstractControl {
     @Override
     public Double getSpin() {
         // Gets raw twist value
-        return SimpleMath.ApplyThresholdAndSensitivity(-SimpleMath.Remap(joystick.getTwist(), -0.8, 1.0, -1.0, 1.0), Constants.Control.JOYSTICK_SPIN_THRESHOLD, Constants.Control.JOYSTICK_SPIN_SENSITIVITY);
+        return SimpleMath.ApplyThresholdAndSensitivity(-SimpleMath.Remap(joystick.getTwist(), -1.0, 1.0, -1.0, 1.0), Constants.Control.JOYSTICK_SPIN_THRESHOLD, Constants.Control.JOYSTICK_SPIN_SENSITIVITY);
     }
 
     @Override
