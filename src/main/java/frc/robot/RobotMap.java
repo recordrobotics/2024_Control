@@ -20,7 +20,7 @@ public final class RobotMap {
         // todo change to correct ports
         public static final int[] SPEED_MOTOR_DEVICE_IDS = { 4, 2, 6, 8 };
         public static final int[] DIRECTION_MOTOR_DEVICE_IDS = { 3, 1, 5, 7 };
-        public static final int[] ENCODER_DEVICE_IDS = { 3, 2, 4, 5 };
+        public static final int[] ENCODER_DEVICE_IDS = { 4,3,2,1 };
     }
 
     public static class Control {
