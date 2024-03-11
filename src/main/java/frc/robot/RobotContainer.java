@@ -3,12 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Shooter.ShooterStates;
-import frc.robot.subsystems.Crashbar;
-
 import java.util.EnumSet;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -16,26 +11,13 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
-import frc.robot.commands.manual.ManualAcquisition;
-import frc.robot.commands.manual.ManualClimbers;
-import frc.robot.commands.manual.ManualCrashbar;
-import frc.robot.commands.manual.ManualShooter;
-import frc.robot.commands.manual.ManualSwerve;
-import frc.robot.commands.manual.ManualReverse;
-import frc.robot.commands.notes.AcquireSmart;
-import frc.robot.commands.notes.ShootAmp;
-import frc.robot.commands.notes.ShootSpeaker;
+import frc.robot.commands.manual.*;
+import frc.robot.commands.notes.*;
 import frc.robot.utils.ShuffleboardChoosers;
 import frc.robot.control.DoubleXbox;
 import frc.robot.control.DoubleXboxSpin;
 import frc.robot.control.JoystickXbox;
-import frc.robot.subsystems.AutoPath;
-import frc.robot.subsystems.Channel;
-import frc.robot.subsystems.Climbers;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.PCMCompressor;
-import frc.robot.subsystems.Photosensor;
-import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -177,10 +159,10 @@ public class RobotContainer {
 
     // Manual triggers
     new Trigger(()->ShuffleboardChoosers.getDriveControl().getManualShootAmp()).
-      toggleOnTrue(new ManualShooter(_shooter, ShooterStates.AMP));
+      toggleOnTrue(new ManualShooter(_shooter, Shooter.ShooterStates.AMP));
 
     new Trigger(()->ShuffleboardChoosers.getDriveControl().getManualShootSpeaker()).
-			toggleOnTrue(new ManualShooter(_shooter, ShooterStates.SPEAKER));
+			toggleOnTrue(new ManualShooter(_shooter, Shooter.ShooterStates.SPEAKER));
 
     new Trigger(()->ShuffleboardChoosers.getDriveControl().getManualCrashbar()).
 			toggleOnTrue(new ManualCrashbar(_crashbar));
