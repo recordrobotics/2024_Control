@@ -227,5 +227,11 @@ public final class Constants {
             new Transform3d(new Translation3d(1.02743, 2.748026, 0.462788), new Rotation3d(0,0,0)),
             new Transform3d(new Translation3d(1.02743, 1.071626, 0.462788), new Rotation3d(0,0,0))
         };
+
+        public static final String leftCameraID = null;
+
+        public static final String rightCameraID = null;
+
+        public static final double cameraWidth = 0;
     }
 }

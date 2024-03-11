@@ -8,40 +8,40 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import frc.robot.Constants;
 
 
 public class Vision extends SubsystemBase {
     
-    private static PhotonCamera camera;
+    private static PhotonCamera left;
+    private static PhotonCamera right;
 	
     public Vision() {
-        camera = new PhotonCamera(Constants.Vision.cameraID);
+        left = new PhotonCamera(Constants.Vision.leftCameraID);
+        right = new PhotonCamera(Constants.Vision.rightCameraID);
     }
 
-    
+    // public void periodic()  {
+    //     // Gets a frame from the camera
+	// 	var result = camera.getLatestResult();
+    // }
 
-    public Rotation2d ringDirection(){
-		// Gets target object orientation from orange photonvision
+
+    public Translation2d ringLocation(){
             if(checkForTarget()){
-                return Rotation2d.fromDegrees(camera.getLatestResult().getBestTarget().getYaw());
+                double leftSlope = Math.tan(left.getLatestResult().getBestTarget().getYaw() * Math.PI / 180);
+                double rightSlope = Math.tan(right.getLatestResult().getBestTarget().getYaw() * Math.PI / 180);
+                double xPos = (Constants.Vision.cameraWidth * (leftSlope + rightSlope))/(leftSlope - rightSlope);
+                double yPos = leftSlope * (xPos - (Constants.Vision.cameraWidth / 2));
+                return new Translation2d(xPos, yPos + Constants.Vision.robotToCam.getY());
             } else {
-                return Rotation2d.fromDegrees(0);
+                return new Translation2d(0, 0);
             }
     }
 
 	public boolean checkForTarget(){
-		var result = camera.getLatestResult();//get a frame from the camera
-		boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
-		return hasTargets;
+		return left.getLatestResult().hasTargets() && right.getLatestResult().hasTargets();
 	}
-
-    public double getTargetID() {
-        var result = camera.getLatestResult();
-        PhotonTrackedTarget target = result.getBestTarget();
-        int targetID = target.getFiducialId();
-        return targetID;
-    }
-
 }
