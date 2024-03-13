@@ -12,7 +12,7 @@ public class PlannedAuto extends SequentialCommandGroup {
     public PlannedAuto(Drivetrain drivetrain, AutoPath autoPath) {
         addCommands(
                 new InstantCommand(() -> drivetrain.resetStartingPose()),
-                new PathPlannerAuto(ShuffleboardChoosers.autoChooser.getSelected().getPathRef()),
+                new PathPlannerAuto(ShuffleboardChoosers.autoChooser.getSelected().pathref),
                 new InstantCommand(() -> drivetrain.stop()),
                 new WaitCommand(0.1),
                 new InstantCommand(() -> System.out.println("Auto End"))

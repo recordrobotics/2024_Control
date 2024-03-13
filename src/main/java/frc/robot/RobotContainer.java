@@ -9,6 +9,7 @@ import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.manual.*;
 import frc.robot.commands.notes.*;
+import frc.robot.utils.AutoPath;
 import frc.robot.utils.ShuffleboardChoosers;
 import frc.robot.control.DoubleXbox;
 import frc.robot.control.DoubleXboxSpin;
@@ -61,11 +62,9 @@ public class RobotContainer {
     _crashbar = new Crashbar();
     _photosensor = new Photosensor();
     _climbers = new Climbers();
-    //_compressor = new PCMCompressor();
 
     // Sets up auto chooser
     _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
-    _autoPath.putAutoChooser();
 
     // Creates control input & manual swerve object, adds it to _teleopPairs
     _joystickXbox = new JoystickXbox(2,0);

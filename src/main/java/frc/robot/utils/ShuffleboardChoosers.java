@@ -13,14 +13,8 @@ public class ShuffleboardChoosers {
         XAxisTowardsTrigger,
         YAxisTowardsTrigger
     }
-    private static SendableChooser<DriverOrientation> driverOrientation = new SendableChooser<DriverOrientation>();
 
-    public static SendableChooser<AutoName> autoChooser = new SendableChooser<>();
-
-    // Drive Modes
-    private static SendableChooser<AbstractControl> driveMode = new SendableChooser<AbstractControl>();
-    private static AbstractControl _defaultControl;
-
+    // Auto routines
     public enum AutoName{
         Speaker_2_note("2 Note Speaker"),
         Speaker_4_note("4 Note Speaker"),
@@ -34,16 +28,20 @@ public class ShuffleboardChoosers {
         Nutron1("Nutron1")
         ;
     
-        private String pathref;
+        public final String pathref;
     
-        public String getPathRef(){
-          return pathref;
-        }
-    
-        private AutoName(String pathplannerRef){
+        AutoName(String pathplannerRef){
             pathref=pathplannerRef;
         }
       }
+    
+    // Sets up sendable choosers
+    private static SendableChooser<DriverOrientation> driverOrientation = new SendableChooser<DriverOrientation>();
+    public static SendableChooser<AutoName> autoChooser = new SendableChooser<>();
+    private static SendableChooser<AbstractControl> driveMode = new SendableChooser<AbstractControl>();
+    
+    // Creates default control var
+    private static AbstractControl _defaultControl;
 
     /**
      * Initializes the control object
@@ -53,41 +51,46 @@ public class ShuffleboardChoosers {
     public static void initialize (AbstractControl defaultControl, AbstractControl... controls) {
         _defaultControl = defaultControl;
 
-        // Sets up joystick orientation
-        driverOrientation.addOption("X Axis", DriverOrientation.XAxisTowardsTrigger);
-        driverOrientation.addOption("Y Axis", DriverOrientation.YAxisTowardsTrigger);
-        driverOrientation.setDefaultOption("X Axis", DriverOrientation.XAxisTowardsTrigger);
-        
-        var driverOrientationWidget = ShuffleboardUI.Overview.getTab()
-            .add("Driver Orientation", driverOrientation);
-        driverOrientationWidget.withWidget(BuiltInWidgets.kSplitButtonChooser);
-        driverOrientationWidget.withPosition(0, 0);
-        driverOrientationWidget.withSize(2, 1);
 
-        // Sets up shuffleboard
-        driveMode.setDefaultOption(defaultControl.getClass().getSimpleName(), defaultControl);
+        // Sets up driver orientation options //TODO: do you need to add the default option (and what it means for the abstractcontrols setup)
+        driverOrientation.addOption("Competition", DriverOrientation.XAxisTowardsTrigger);
+        driverOrientation.addOption("Y Axis", DriverOrientation.YAxisTowardsTrigger);
+        driverOrientation.setDefaultOption("Competition", DriverOrientation.XAxisTowardsTrigger);
+
+        // Sets up drive mode options
         for (AbstractControl abstractControl : controls) {
             driveMode.addOption(abstractControl.getClass().getSimpleName(), abstractControl);
         }
+        driveMode.setDefaultOption(defaultControl.getClass().getSimpleName(), defaultControl);
 
-        var driveModeWidget = ShuffleboardUI.Overview.getTab()
-            .add("Drive Mode", driveMode);
-        driveModeWidget.withWidget(BuiltInWidgets.kSplitButtonChooser);
-        driveModeWidget.withPosition(0, 1);
-        driveModeWidget.withSize(3, 1);
-
-
-        // Deals with shuffleboard chooser TODO: move to somewhere else
+        // Sets up auto routine options
         EnumSet.allOf(AutoName.class)
             .forEach(v -> autoChooser.addOption(v.pathref, v));
         autoChooser.setDefaultOption(AutoName.Speaker_2_note.pathref, AutoName.Speaker_2_note);
 
+
+        // Creates the UI for driverOrientation
+        ShuffleboardUI.Overview.getTab()
+            .add("Driver Orientation", driverOrientation)
+            .withWidget(BuiltInWidgets.kSplitButtonChooser)
+            .withPosition(0, 0)
+            .withSize(2, 1);
+
+        // Creates the UI for drive mode
+        ShuffleboardUI.Overview.getTab()
+            .add("Drive Mode", driveMode)
+            .withWidget(BuiltInWidgets.kSplitButtonChooser)
+            .withPosition(0, 1)
+            .withSize(3, 1);
+
+        // Creates the UI for auto routines
         ShuffleboardUI.Autonomous.getTab()
-        .add("Auto Code", autoChooser)
-        .withWidget(BuiltInWidgets.kComboBoxChooser)
-        .withSize(3, 1)
-        .withPosition(6, 1);
+            .add("Auto Code", autoChooser)
+            .withWidget(BuiltInWidgets.kComboBoxChooser)
+            .withSize(3, 1)
+            .withPosition(6, 1);
     }
+
 
     public static DriverOrientation getDriverOrientation() {
         return driverOrientation.getSelected();

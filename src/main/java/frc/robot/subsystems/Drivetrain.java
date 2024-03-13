@@ -150,7 +150,7 @@ public class Drivetrain extends SubsystemBase {
         /**
          * Returns the current robot relative chassis speeds of the swerve kinematics
          */
-        public ChassisSpeeds getRobotRelativeSpeeds() {
+        public ChassisSpeeds getChassisSpeeds() {
                 return m_kinematics.toChassisSpeeds(
                                 m_frontLeft.getModuleState(),
                                 m_frontRight.getModuleState(),
