@@ -130,6 +130,9 @@ public class Drivetrain extends SubsystemBase {
                                 DriverStationUtils.getStartingLocation().getPose());
         }
 
+        /**
+         * Resets the pose to FrontSpeakerClose (shooter facing towards speaker)
+         */
         public void resetDriverPose(){
                 _nav.resetAngleAdjustment();
                 m_frontLeft.resetDriveMotorPosition();

@@ -38,7 +38,7 @@ public class RobotContainer {
   private final Acquisition _acquisition;
   private final Channel _channel;
   private final Photosensor _photosensor;
-  //private final PCMCompressor _compressor;
+  private final PCMCompressor _compressor;
 
   // Autonomous
   private final AutoPath _autoPath;
@@ -62,6 +62,7 @@ public class RobotContainer {
     _crashbar = new Crashbar();
     _photosensor = new Photosensor();
     _climbers = new Climbers();
+    _compressor = new PCMCompressor();
 
     // Sets up auto chooser
     _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);

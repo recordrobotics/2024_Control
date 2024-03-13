@@ -1,8 +1,6 @@
 package frc.robot.utils;
-
 import java.util.EnumSet;
 import java.util.Optional;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
