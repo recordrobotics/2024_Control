@@ -71,9 +71,6 @@ public class RobotContainer {
   private final AutoPath _autoPath;
   private Command autoCommand;
 
-  // Manual (default) commands
-  private ManualSwerve _manualSwerve;
-
   // Control
   private JoystickXbox _joystickXbox;
   private DoubleXbox _doubleXbox;
@@ -96,8 +93,6 @@ public class RobotContainer {
     _climbers = new Climbers();
     //_compressor = new PCMCompressor();
 
-    _manualSwerve = new ManualSwerve(_drivetrain);
-
     // Sets up auto chooser
     _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
     _autoPath.putAutoChooser();
@@ -109,15 +104,17 @@ public class RobotContainer {
     // Sets up Control scheme chooser
     ShuffleboardChoosers.initialize(_joystickXbox, _doubleXbox, _doubleXboxSpin);
 
+
+    // Deals with shuffleboard chooser TODO: move to somewhere else
     EnumSet.allOf(AutoName.class)
         .forEach(v -> autoChooser.addOption(v.pathref, v));
-      autoChooser.setDefaultOption(AutoName.Speaker_2_note.pathref, AutoName.Speaker_2_note);
+    autoChooser.setDefaultOption(AutoName.Speaker_2_note.pathref, AutoName.Speaker_2_note);
 
-    ShuffleboardTab tab = ShuffleboardUI.Autonomous.getTab();
-        var autoWidget = tab.add("Auto Code", autoChooser);
-        autoWidget.withWidget(BuiltInWidgets.kComboBoxChooser);
-        autoWidget.withSize(3, 1);
-        autoWidget.withPosition(6, 1);
+    ShuffleboardUI.Autonomous.getTab()
+        .add("Auto Code", autoChooser)
+        .withWidget(BuiltInWidgets.kComboBoxChooser)
+        .withSize(3, 1)
+        .withPosition(6, 1);
 
     // Bindings and Teleop
     configureButtonBindings();
@@ -125,7 +122,7 @@ public class RobotContainer {
 
   public void teleopInit() {
     // Sets default command for manual swerve. It is the only one right now
-    _drivetrain.setDefaultCommand(_manualSwerve);
+    _drivetrain.setDefaultCommand(new ManualSwerve(_drivetrain));
   }
 
   /**
