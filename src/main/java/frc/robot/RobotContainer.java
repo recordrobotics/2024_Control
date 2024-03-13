@@ -3,11 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import java.util.EnumSet;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
 import frc.robot.commands.manual.*;
@@ -32,30 +29,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
-  public enum AutoName{
-    Speaker_2_note("2 Note Speaker"),
-    Speaker_4_note("4 Note Speaker"),
-    Amp_Speaker_2_note("Amp and Speaker (2)"),
-    Amp_Speaker_1_note("Amp and Speaker"),
-    Amp("Amp"),
-    FarSpeaker("Far Speaker"),
-    DiagLeftOneNote("DiagLeftOneNote"),
-    DiagJustShoot("DiagJustShoot"),
-    Speaker_3_Note("3NoteSpeaker"),
-    Nutron1("Nutron1")
-    ;
-
-    private String pathref;
-
-    public String getPathRef(){
-      return pathref;
-    }
-
-    private AutoName(String pathplannerRef){
-        pathref=pathplannerRef;
-    }
-  }
-
   // The robot's subsystems and commands are defined here
   private final Drivetrain _drivetrain;
   private final Shooter _shooter;
@@ -74,8 +47,6 @@ public class RobotContainer {
   private JoystickXbox _joystickXbox;
   private DoubleXbox _doubleXbox;
   private DoubleXboxSpin _doubleXboxSpin;
-
-  public static SendableChooser<AutoName> autoChooser = new SendableChooser<>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -100,21 +71,10 @@ public class RobotContainer {
     _joystickXbox = new JoystickXbox(2,0);
     _doubleXbox = new DoubleXbox(0, 1);
     _doubleXboxSpin = new DoubleXboxSpin(0, 1);
+
     // Sets up Control scheme chooser
     ShuffleboardChoosers.initialize(_joystickXbox, _doubleXbox, _doubleXboxSpin);
-
-
-    // Deals with shuffleboard chooser TODO: move to somewhere else
-    EnumSet.allOf(AutoName.class)
-        .forEach(v -> autoChooser.addOption(v.pathref, v));
-    autoChooser.setDefaultOption(AutoName.Speaker_2_note.pathref, AutoName.Speaker_2_note);
-
-    ShuffleboardUI.Autonomous.getTab()
-        .add("Auto Code", autoChooser)
-        .withWidget(BuiltInWidgets.kComboBoxChooser)
-        .withSize(3, 1)
-        .withPosition(6, 1);
-
+    
     // Bindings and Teleop
     configureButtonBindings();
   }
@@ -138,7 +98,6 @@ public class RobotContainer {
     new Trigger(()->ShuffleboardChoosers.getDriveControl().getKillAuto()).
       whileTrue(new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers));
 
-
     // Smart triggers
     new Trigger(()->ShuffleboardChoosers.getDriveControl().getAcquire()).
       toggleOnTrue(new AcquireSmart(_acquisition, _channel, _photosensor, _shooter));
@@ -151,7 +110,6 @@ public class RobotContainer {
 
     new Trigger(()->ShuffleboardChoosers.getDriveControl().getReverse()).
       whileTrue(new ManualReverse(_acquisition, _channel));
-
 
     // Manual triggers
     new Trigger(()->ShuffleboardChoosers.getDriveControl().getManualShootAmp()).
@@ -169,10 +127,9 @@ public class RobotContainer {
     new Trigger(()->ShuffleboardChoosers.getDriveControl().getManualClimbers()).
 			toggleOnTrue(new ManualClimbers(_climbers));
 
-
     // Reset pose trigger
     new Trigger(()->ShuffleboardChoosers.getDriveControl().getPoseReset()).
-			onTrue(new InstantCommand(_drivetrain::resetDefaultPose));
+			onTrue(new InstantCommand(_drivetrain::resetDriverPose));
     
   }
 

@@ -26,7 +26,6 @@ public class ManualSwerve extends Command {
     // Init variables
     _drivetrain = drivetrain;
     addRequirements(drivetrain);
-
   }
 
   // Called when the command is initially scheduled.
@@ -38,12 +37,9 @@ public class ManualSwerve extends Command {
   @Override
   public void execute() {
 
-    _controls = ShuffleboardChoosers.getDriveControl();
-
-    // Gets swerve position and sets to field position
+    AbstractControl _controls = ShuffleboardChoosers.getDriveControl();
     Pose2d swerve_position = _drivetrain.poseFilter.getEstimatedPosition();
 
-    // Sets up driveCommandData object
     DriveCommandData driveCommandData = _controls.getDriveCommandData(swerve_position);
     _drivetrain.drive(driveCommandData);
   }

@@ -113,7 +113,7 @@ public class Drivetrain extends SubsystemBase {
         }
 
         /** Resets the field relative position of the robot (mostly for testing). */
-        public void resetPose() {
+        public void resetStartingPose() {
                 _nav.resetAngleAdjustment();
                 m_frontLeft.resetDriveMotorPosition();
                 m_frontRight.resetDriveMotorPosition();
@@ -130,7 +130,7 @@ public class Drivetrain extends SubsystemBase {
                                 DriverStationUtils.getStartingLocation().getPose());
         }
 
-        public void resetDefaultPose(){
+        public void resetDriverPose(){
                 _nav.resetAngleAdjustment();
                 m_frontLeft.resetDriveMotorPosition();
                 m_frontRight.resetDriveMotorPosition();
