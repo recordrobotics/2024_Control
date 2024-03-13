@@ -14,15 +14,15 @@ public class Photosensor extends SubsystemBase {
     public Photosensor() {
         photosensor = new DigitalInput(0);
 
-        var widget = ShuffleboardUI.Overview.getTab().addBoolean("Has Note", this::getDebouncedValue);
-        widget.withWidget(BuiltInWidgets.kBooleanBox);
-        widget.withPosition(9, 0);
-        widget.withSize(1, 1);
+        ShuffleboardUI.Overview.getTab().addBoolean("Has Note", this::getDebouncedValue)
+            .withWidget(BuiltInWidgets.kBooleanBox)
+            .withPosition(9, 0)
+            .withSize(1, 1);
 
-        widget = ShuffleboardUI.Autonomous.getTab().addBoolean("Has Note", this::getDebouncedValue);
-        widget.withWidget(BuiltInWidgets.kBooleanBox);
-        widget.withPosition(9, 1);
-        widget.withSize(1, 1);
+        ShuffleboardUI.Autonomous.getTab().addBoolean("Has Note", this::getDebouncedValue)
+        	.withWidget(BuiltInWidgets.kBooleanBox)
+        	.withPosition(9, 1)
+        	.withSize(1, 1);
     }
 
     public void periodic() {
