@@ -4,31 +4,20 @@
 
 package frc.robot;
 
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Shooter.ShooterStates;
-import frc.robot.subsystems.Crashbar;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
-import frc.robot.commands.manual.ManualAcquisition;
-import frc.robot.commands.manual.ManualClimbers;
-import frc.robot.commands.manual.ManualCrashbar;
-import frc.robot.commands.manual.ManualShooter;
-import frc.robot.commands.manual.ManualSwerve;
-import frc.robot.commands.manual.ManualReverse;
-import frc.robot.commands.notes.AcquireSmart;
-import frc.robot.commands.notes.ShootAmp;
-import frc.robot.commands.notes.ShootSpeaker;
-import frc.robot.control.DoubleControl;
-import frc.robot.subsystems.AutoPath;
-import frc.robot.subsystems.Channel;
-import frc.robot.subsystems.Climbers;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.NavSensor;
-import frc.robot.subsystems.Photosensor;
-import frc.robot.subsystems.Acquisition;
+import frc.robot.commands.manual.*;
+import frc.robot.commands.notes.*;
+import frc.robot.utils.AutoPath;
+import frc.robot.utils.ShuffleboardChoosers;
+import frc.robot.control.DoubleXbox;
+import frc.robot.control.DoubleXboxSpin;
+import frc.robot.control.JoystickXbox;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -50,38 +39,23 @@ public class RobotContainer {
   private final Acquisition _acquisition;
   private final Channel _channel;
   private final Photosensor _photosensor;
+  @SuppressWarnings("unused") // Required to call constructor of PCMCompressor to initialize ShuffleboardUI
+  // TODO: make this better
+  private final PCMCompressor _compressor;
 
   // Autonomous
   private final AutoPath _autoPath;
   private Command autoCommand;
 
-  // Manual (default) commands
-  private ManualSwerve _manualSwerve;
-  private ManualReverse _manualReverse;
-  private ManualShooter _manualShootSpeaker;
-  private ManualShooter _manualShootAmp;
-  private ManualAcquisition _manualAcquisition;
-  private ManualCrashbar _manualCrashbar;
-  private ManualClimbers _manualClimbers;
-
   // Control
-  private DoubleControl _controlInput;
-
-  // Smart Commands
-  private AcquireSmart _acquire;
-  private ShootSpeaker _shootSpeaker;
-  private ShootAmp _shootAmp;
-
-  // Misc commands
-  private KillSpecified _killSpecified;
+  private JoystickXbox _joystickXbox;
+  private DoubleXbox _doubleXbox;
+  private DoubleXboxSpin _doubleXboxSpin;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-
-    // Init Nav
-    NavSensor.initNav();
 
     // Init subsystems
     _drivetrain = new Drivetrain();
@@ -91,44 +65,28 @@ public class RobotContainer {
     _crashbar = new Crashbar();
     _photosensor = new Photosensor();
     _climbers = new Climbers();
+    // Required to call constructor of PCMCompressor to initialize ShuffleboardUI
+    // TODO: make this better
+    _compressor = new PCMCompressor();
 
     // Sets up auto chooser
     _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
-    _autoPath.putAutoChooser();
-
-    // Bindings and Teleop
-    initTeleopCommands();
-    configureButtonBindings();
-  }
-
-  private void initTeleopCommands() {
 
     // Creates control input & manual swerve object, adds it to _teleopPairs
-    _controlInput = new DoubleControl(RobotMap.Control.STICKPAD_PORT, RobotMap.Control.XBOX_PORT);
-    
-    // Adds default drivetrain & manual swerve to teleop commands
-    _manualSwerve = new ManualSwerve(_drivetrain, _controlInput);
+    _joystickXbox = new JoystickXbox(2, 0);
+    _doubleXbox = new DoubleXbox(0, 1);
+    _doubleXboxSpin = new DoubleXboxSpin(0, 1);
 
-    // Robot kill command
-    _killSpecified = new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers);
+    // Sets up Control scheme chooser
+    ShuffleboardChoosers.initialize(_joystickXbox, _doubleXbox, _doubleXboxSpin);
 
-    // Sets up manual commands
-    _manualAcquisition = new ManualAcquisition(_acquisition, _channel);
-    _manualShootSpeaker = new ManualShooter(_shooter, ShooterStates.SPEAKER);
-    _manualShootAmp = new ManualShooter(_shooter, ShooterStates.AMP);
-    _manualCrashbar = new ManualCrashbar(_crashbar);
-    _manualClimbers = new ManualClimbers(_climbers);
-
-    // Sets up higher level manual notes commands
-    _acquire = new AcquireSmart(_acquisition, _channel, _photosensor, _shooter);
-    _shootSpeaker = new ShootSpeaker(_channel, _shooter);
-    _shootAmp = new ShootAmp(_channel, _shooter, _crashbar);
-    _manualReverse = new ManualReverse(_acquisition, _channel);
+    // Bindings and Teleop
+    configureButtonBindings();
   }
 
   public void teleopInit() {
     // Sets default command for manual swerve. It is the only one right now
-    _drivetrain.setDefaultCommand(_manualSwerve);
+    _drivetrain.setDefaultCommand(new ManualSwerve(_drivetrain));
   }
 
   /**
@@ -142,20 +100,46 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // Command to kill robot
-    new Trigger(_controlInput::getKillAuto).whileTrue(_killSpecified);
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getKillAuto())
+        .whileTrue(new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers));
 
-    // Triggers
-    new Trigger(_controlInput::getAcquire).toggleOnTrue(_acquire);;
-    new Trigger(_controlInput::getShootSpeaker).toggleOnTrue(_shootSpeaker);;
-    new Trigger(_controlInput::getShootAmp).toggleOnTrue(_shootAmp);
-    new Trigger(_controlInput::getReverse).whileTrue(_manualReverse);
-    new Trigger(_controlInput::getClimberToggle).toggleOnTrue(_manualClimbers);
+    // Smart triggers
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getAcquire())
+        .toggleOnTrue(new AcquireSmart(_acquisition, _channel, _photosensor, _shooter));
+
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getShootSpeaker())
+        .toggleOnTrue(new ShootSpeaker(_channel, _shooter));
+
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getShootAmp())
+        .toggleOnTrue(new ShootAmp(_channel, _shooter, _crashbar));
+
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getReverse())
+        .whileTrue(new ManualReverse(_acquisition, _channel));
 
     // Manual triggers
-    new Trigger(_controlInput::getManualShootAmp).toggleOnTrue(_manualShootAmp);
-    new Trigger(_controlInput::getManualShootSpeaker).toggleOnTrue(_manualShootSpeaker);
-    new Trigger(_controlInput::getManualCrashbar).toggleOnTrue(_manualCrashbar);
-    new Trigger(_controlInput::getManualAcquisition).whileTrue(_manualAcquisition);
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualShootAmp())
+        .toggleOnTrue(new ManualShooter(_shooter, Shooter.ShooterStates.AMP));
+
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualShootSpeaker())
+        .toggleOnTrue(new ManualShooter(_shooter, Shooter.ShooterStates.SPEAKER));
+
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualCrashbar())
+        .toggleOnTrue(new ManualCrashbar(_crashbar));
+
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualAcquisition())
+        .whileTrue(new ManualAcquisition(_acquisition, _channel));
+
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualClimbers())
+        .toggleOnTrue(new ManualClimbers(_climbers));
+
+    // Reset pose trigger
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getPoseReset())
+        .onTrue(new InstantCommand(_drivetrain::resetDriverPose));
+
+  }
+
+  public void testPeriodic() {
+    _shooter.testPeriodic();
   }
 
   /**

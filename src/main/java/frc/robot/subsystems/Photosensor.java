@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
+
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.ShuffleboardUI;
 
 public class Photosensor extends SubsystemBase {
 
@@ -12,20 +14,35 @@ public class Photosensor extends SubsystemBase {
 
     public Photosensor() {
         photosensor = new DigitalInput(0);
+
+        ShuffleboardUI.Overview.getTab().addBoolean("Has Note", this::getDebouncedValue)
+                .withWidget(BuiltInWidgets.kBooleanBox)
+                .withPosition(9, 0)
+                .withSize(1, 1);
+
+        ShuffleboardUI.Autonomous.getTab().addBoolean("Has Note", this::getDebouncedValue)
+                .withWidget(BuiltInWidgets.kBooleanBox)
+                .withPosition(9, 1)
+                .withSize(1, 1);
     }
 
     public void periodic() {
-        debounced_value = m_debouncer.calculate(getCurrentValue());
-        SmartDashboard.putBoolean("Has Note", !debounced_value);
+        debounced_value = !m_debouncer.calculate(getCurrentValue());
     }
 
-    /** Gets the debounced state of the photosensor, meaning that x time must pass before the sensor returns true
-     * (true = object detected, false = no object detected) */
-    public Boolean getDebouncedValue () {
-        return !debounced_value;
+    /**
+     * Gets the debounced state of the photosensor, meaning that x time must pass
+     * before the sensor returns true
+     * (true = object detected, false = no object detected)
+     */
+    public Boolean getDebouncedValue() {
+        return debounced_value;
     }
 
-    /** Gets the current state of the photosensor (true = object detected, false = no object detected) */
+    /**
+     * Gets the current state of the photosensor (true = object detected, false = no
+     * object detected)
+     */
     public Boolean getCurrentValue() {
         return photosensor.get();
     }

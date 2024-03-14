@@ -4,9 +4,16 @@
 
 package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
+
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.robot.ShuffleboardUI;
+
+import java.util.Map;
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Shooter extends SubsystemBase {
@@ -14,17 +21,26 @@ public class Shooter extends SubsystemBase {
     private CANSparkMax flywheelL = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID, MotorType.kBrushless);
     private CANSparkMax flywheelR = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID, MotorType.kBrushless);
 
-    private static final double SPEAKER_SPEED = Constants.Shooter.SPEAKER_SPEED;
-    private static final double AMP_SPEED = Constants.Shooter.AMP_SPEED;
-    private static final double REVERSE_SPEED = Constants.Shooter.REVERSE_SPEED;
+    GenericEntry widgetL;
+    GenericEntry widgetR;
 
     public Shooter() {
         toggle(ShooterStates.OFF);
+
+        widgetL = ShuffleboardUI.Test.getTab().add("Flywheel Left", flywheelL.get())
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", -1, "max", 1))
+            .getEntry();
+
+        widgetR = ShuffleboardUI.Test.getTab().add("Flywheel Right", flywheelR.get())
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", -1, "max", 1))
+            .getEntry();
     }
 
-    public void toggle(double speed) {
-        flywheelL.set(-speed);
-        flywheelR.set(speed);
+    public void testPeriodic(){
+        flywheelL.set(widgetL.getDouble(0));
+        flywheelR.set(widgetR.getDouble(0));
     }
 
     public void toggle(double speedL, double speedR) {
@@ -32,23 +48,24 @@ public class Shooter extends SubsystemBase {
         flywheelR.set(speedR);
     }
 
+    public void toggle(double speed) {
+        flywheelL.set(-speed);
+        flywheelR.set(speed);
+    }
+
     public void toggle(ShooterStates state) {
         switch (state) {
             case SPEAKER:
-                flywheelL.set(-SPEAKER_SPEED);
-                flywheelR.set(SPEAKER_SPEED);
+                toggle(Constants.Shooter.SPEAKER_SPEED);
                 break;
             case AMP:
-                flywheelL.set(-AMP_SPEED);
-                flywheelR.set(AMP_SPEED);
+                toggle(Constants.Shooter.AMP_SPEED);
                 break;
             case REVERSE:
-                flywheelL.set(-REVERSE_SPEED);
-                flywheelR.set(REVERSE_SPEED);
+                toggle(Constants.Shooter.REVERSE_SPEED);
                 break;
             default:
-                flywheelL.set(0);
-                flywheelR.set(0);
+                toggle(0);
                 break;
         }
     }

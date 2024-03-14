@@ -15,6 +15,7 @@ import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
 import frc.robot.utils.DriverStationUtils;
 import frc.robot.utils.ShuffleboardField;
+import frc.robot.utils.DriverStationUtils.FieldStartingLocation;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends SubsystemBase {
@@ -112,7 +113,7 @@ public class Drivetrain extends SubsystemBase {
         }
 
         /** Resets the field relative position of the robot (mostly for testing). */
-        public void resetPose() {
+        public void resetStartingPose() {
                 _nav.resetAngleAdjustment();
                 m_frontLeft.resetDriveMotorPosition();
                 m_frontRight.resetDriveMotorPosition();
@@ -130,9 +131,29 @@ public class Drivetrain extends SubsystemBase {
         }
 
         /**
+         * Resets the pose to FrontSpeakerClose (shooter facing towards speaker)
+         */
+        public void resetDriverPose(){
+                _nav.resetAngleAdjustment();
+                m_frontLeft.resetDriveMotorPosition();
+                m_frontRight.resetDriveMotorPosition();
+                m_backLeft.resetDriveMotorPosition();
+                m_backRight.resetDriveMotorPosition();
+                poseFilter.resetPosition(
+                                _nav.getAdjustedAngle(),
+                                new SwerveModulePosition[] {
+                                                m_frontLeft.getModulePosition(),
+                                                m_frontRight.getModulePosition(),
+                                                m_backLeft.getModulePosition(),
+                                                m_backRight.getModulePosition()
+                                },
+                                FieldStartingLocation.FrontSpeakerClose.getPose());
+        }
+
+        /**
          * Returns the current robot relative chassis speeds of the swerve kinematics
          */
-        public ChassisSpeeds getRobotRelativeSpeeds() {
+        public ChassisSpeeds getChassisSpeeds() {
                 return m_kinematics.toChassisSpeeds(
                                 m_frontLeft.getModuleState(),
                                 m_frontRight.getModuleState(),

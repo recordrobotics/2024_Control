@@ -1,0 +1,58 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.63,
+        "y": 6.643192842729962
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.2410009558262238,
+        "y": 7.021971382008425
+      },
+      "isLocked": false,
+      "linkedName": "DiagSpeakerLeft"
+    },
+    {
+      "anchor": {
+        "x": 2.282849465983832,
+        "y": 6.993104356579084
+      },
+      "prevControl": {
+        "x": 1.678260643673978,
+        "y": 6.971251748543789
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "LeftNoteStraight"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0,
+      "rotationDegrees": 56.6,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 0.5,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Nutron1",
+  "previewStartingState": {
+    "rotation": 56.6,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

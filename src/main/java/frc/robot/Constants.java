@@ -11,6 +11,9 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -28,12 +31,14 @@ public final class Constants {
 
     public final class Shooter {
         public static final double SPEAKER_SPEED = 1;
-        public static final double AMP_SPEED = 0.45;
+        public static final double AMP_SPEED = 0.25;
         public static final double REVERSE_SPEED = -0.1;
     }
 
     public final class Channel {
-        public static final double CHANNEL_SPEED = 1;
+        public static final double SHOOT_SPEED = 1;
+        public static final double THROUGH_SPEED = 1;
+        public static final double REVERSE_SPEED = -1;
     }
 
     public final class Acquisition {
@@ -55,20 +60,27 @@ public final class Constants {
 
     public final class Control {
 
-        // Sensitivies for directional controls (XY) and spin (theta)
-        public static final double JOSYSTICK_DIRECTIONAL_SENSITIVITY = 1;
-        public static final double JOYSTICK_SPIN_SENSITIVITY = 1;
-
         // Sensitivity for speed meter
         public static final double DIRECTIONAL_SPEED_METER_LOW = 0.25;
         public static final double DIRECTIONAL_SPEED_METER_HIGH = 4.0;
         public static final double SPIN_SPEED_METER_LOW = 0.5;
         public static final double SPIN_SPEED_METER_HIGH = 4.3;
 
-        // Thresholds for directional controls (XY) and spin (theta)
+        // Sensitivies for directional controls (XY) and spin (theta)
+        public static final double JOSYSTICK_DIRECTIONAL_SENSITIVITY = 1;
+        public static final double JOYSTICK_SPIN_SENSITIVITY = 2;
         public static final double JOYSTICK_X_THRESHOLD = 0.15;
-        public static final double JOSYTICK_Y_THRESHOLD = 0.15;
-        public static final double JOYSTICK_SPIN_THRESHOLD = 0.76;
+        public static final double JOYSTICK_Y_THRESHOLD = 0.15;
+        public static final double JOYSTICK_SPIN_THRESHOLD = 0.3;
+
+        // Thresholds for directional controls (XY) and spin (theta)
+        public static final double XBOX_DIRECTIONAL_SENSITIVITY = 1;
+        public static final double XBOX_X_THRESHOLD = 0.15;
+        public static final double XBOX_Y_THRESHOLD = 0.15;
+        public static final double XBOX_SPIN_THRESHOLD = 0.3;
+
+        public static final double XBOX_SPIN_ROT_THRESHOLD = 0.1;
+        public static final double XBOX_SPIN_ROT_SENSITIVITY = 1.0;
 
         // Tablet drive constants
         public final class Tablet {
@@ -92,12 +104,12 @@ public final class Constants {
         private static final Translation2d backRightLocation = new Translation2d(-locX, -locY);
 
         // Gear ratios for falcon and kraken
-        public static final double KRAKEN_TURN_GEAR_RATIO = 13.3714;
-        public static final double KRAKEN_DRIVE_GEAR_RATIO = 6.75; // X1 12 pinion
-
         public static final double FALCON_TURN_GEAR_RATIO = 15.43; // (https://web.archive.org/web/20230117081053/https://docs.wcproducts.com/wcp-swervex/general-info/ratio-options)
         public static final double FALCON_DRIVE_GEAR_RATIO = 7.36; // (https://web.archive.org/web/20230117081053/https://docs.wcproducts.com/wcp-swervex/general-info/ratio-options)
 
+        public static final double KRAKEN_TURN_GEAR_RATIO = 13.3714;
+        public static final double KRAKEN_DRIVE_GEAR_RATIO = 6.75; // X1 12 pinion
+        
         // PID Values
         public static final double FALCON_TURN_KP = 1;
         public static final double FALCON_TURN_KI = 0;
@@ -118,8 +130,8 @@ public final class Constants {
         public static final double KRAKEN_DRIVE_KI = 0;
         public static final double KRAKEN_DRIVE_KD = 0;
 
-        public static final double KRAKEN_DRIVE_FEEDFORWARD_KS = 0.1205;
-        public static final double KRAKEN_DRIVE_FEEDFORWARD_KV = 2.4915;
+        public static final double KRAKEN_DRIVE_FEEDFORWARD_KS = 0.1586;
+        public static final double KRAKEN_DRIVE_FEEDFORWARD_KV = 2.4408;
 
         // Same between Falcon and Kraken since they share the same encoders
         public static final double RELATIVE_ENCODER_RATIO = 2048;
@@ -128,7 +140,7 @@ public final class Constants {
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
 
         // Turn & Drive max velocity and acceleration
-        public static final double TurnMaxAngularVelocity = 17; // Drivetrain.kMaxAngularSpeed;
+        public static final double TurnMaxAngularVelocity = 25; // Drivetrain.kMaxAngularSpeed;
         public static final double TurnMaxAngularAcceleration = 34; // 2 * Math.PI; // radians per second squared
         public static final double DriveMaxAngularVelocity = 15; // Drivetrain.kMaxAngularSpeed;
         public static final double DriveMaxAngularAcceleration = 30; // 2 * Math.PI; // radians per second squared
@@ -149,34 +161,34 @@ public final class Constants {
                 2,
                 1,
                 1,
-                0.620, // 0.12363, //0.597
+                0.633,//0.620, // 0.12363, //0.597
                 frontLeftLocation,
-                MotorType.Falcon,
-                MotorType.Falcon);
+                MotorType.Kraken,
+                MotorType.Kraken);
         public static final ModuleConstants frontRightConstants = new ModuleConstants(
                 4,
                 3,
                 2,
-                0.924, // 0.41599, //0.886
+                0.848,//0.924, // 0.41599, //0.886
                 frontRightLocation,
-                MotorType.Falcon,
-                MotorType.Falcon);
+                MotorType.Kraken,
+                MotorType.Kraken);
         public static final ModuleConstants backLeftConstants = new ModuleConstants(
                 8,
                 7,
                 4,
-                0.676, // 0.17245, //0.857
+                0.857,//0.676, // 0.17245, //0.857
                 backLeftLocation,
-                MotorType.Falcon,
-                MotorType.Falcon);
+                MotorType.Kraken,
+                MotorType.Kraken);
         public static final ModuleConstants backRightConstants = new ModuleConstants(
                 6,
                 5,
                 3,
-                0.371, // 0.86499, //0.556
+                0.554,//0.371, // 0.86499, //0.556
                 backRightLocation,
-                MotorType.Falcon,
-                MotorType.Falcon);
+                MotorType.Kraken,
+                MotorType.Kraken);
     }
 
     public final class Frame {
@@ -186,7 +198,32 @@ public final class Constants {
          * between front and back).
          * Used for calculating wheel locations on the robot
          */
-        public static final double ROBOT_WHEEL_DISTANCE_WIDTH = 0.59;
-        public static final double ROBOT_WHEEL_DISTANCE_LENGTH = 0.59;
+        public static final double ROBOT_WHEEL_DISTANCE_WIDTH = 0.46;
+        public static final double ROBOT_WHEEL_DISTANCE_LENGTH = 0.46;
     }
+
+    public final class Vision {
+
+        public static final String cameraID = new String("photonvision");
+
+        //The offset from the center of the robot to the camera, and from facing exactly forward to the orientation of the camera.
+	    public static final Transform3d robotToCam = new Transform3d(
+            new Translation3d(Units.inchesToMeters(11), -1*Units.inchesToMeters(9), 0.1725), 
+            new Rotation3d(0,0,0)
+        ); 
+
+        public static final Transform3d[] tagTransforms = {//april tags 1-8 in order. values contained are x, y, z, theta, in that order. x, y, z are distances in meters, theta is in radians.
+            new Transform3d(new Translation3d(15.513558, 1.071626, 0.462788), new Rotation3d(0,0,Math.PI)),
+            new Transform3d(new Translation3d(15.513558, 2.748026, 0.462788), new Rotation3d(0,0,Math.PI)),
+            new Transform3d(new Translation3d(15.513558, 4.424426, 0.462788), new Rotation3d(0,0,Math.PI)),
+            new Transform3d(new Translation3d(16.178784, 6.749796, 0.695452), new Rotation3d(0,0,Math.PI)),
+            new Transform3d(new Translation3d(0.36195, 6.749796, 0.695452), new Rotation3d(0,0,0)),
+            // This transform below is the only one that is currently relevant.
+            new Transform3d(new Translation3d(1.8415, 8.2042, 1.355852), new Rotation3d(0,0,4.71239)),
+            new Transform3d(new Translation3d(1.02743, 2.748026, 0.462788), new Rotation3d(0,0,0)),
+            new Transform3d(new Translation3d(1.02743, 1.071626, 0.462788), new Rotation3d(0,0,0))
+        };
+    }
+
+    
 }

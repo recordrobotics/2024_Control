@@ -6,8 +6,10 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.robot.ShuffleboardUI;
 
 public class Acquisition extends SubsystemBase {
     private Spark acquisitionMotor = new Spark(RobotMap.Acquisition.ACQUISITION_MOTOR_ID);
@@ -16,6 +18,18 @@ public class Acquisition extends SubsystemBase {
 
     public Acquisition() {
         toggle(AcquisitionStates.OFF);
+        var widget = ShuffleboardUI.Overview.getTab().addBoolean("Acquisition", ()->acquisitionMotor.get()!=0);
+        widget.withWidget(BuiltInWidgets.kBooleanBox);
+        widget.withPosition(7, 0);
+        widget.withSize(1, 1);
+
+        widget = ShuffleboardUI.Autonomous.getTab().addBoolean("Acquisition", ()->acquisitionMotor.get()!=0);
+        widget.withWidget(BuiltInWidgets.kBooleanBox);
+        widget.withPosition(9, 0);
+        widget.withSize(1, 1);
+
+        var widget1 = ShuffleboardUI.Test.getTab().add("Acquisition", acquisitionMotor);
+        widget1.withWidget(BuiltInWidgets.kMotorController);
     }
 
     public void toggle(AcquisitionStates state, double speed) {

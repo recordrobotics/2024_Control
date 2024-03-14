@@ -17,12 +17,6 @@ public class ShuffleboardField {
         fieldWidget.withWidget(BuiltInWidgets.kField);
         fieldWidget.withSize(6, 4);
         fieldWidget.withPosition(0, 0);
-
-        tab = ShuffleboardUI.Overview.getTab();
-        fieldWidget = tab.add(field2);
-        fieldWidget.withWidget(BuiltInWidgets.kField);
-        fieldWidget.withSize(6, 4);
-        fieldWidget.withPosition(0, 0);
     }
 
     public static void setRobotPose(Pose2d pose) {

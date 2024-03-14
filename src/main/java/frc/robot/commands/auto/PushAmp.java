@@ -19,6 +19,13 @@ public class PushAmp extends SequentialCommandGroup {
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
   private final double shootTime = 1.2;
 
+  /**
+   * Command that assumes the flywheel and crashbar are already in position and moves the channel to shoot the note into the amp.
+   * Then, turns everything off. 
+   * @param channel
+   * @param shooter
+   * @param crashbar
+   */
   public PushAmp (Channel channel, Shooter shooter, Crashbar crashbar) {
     _channel = channel;
     _shooter = shooter;

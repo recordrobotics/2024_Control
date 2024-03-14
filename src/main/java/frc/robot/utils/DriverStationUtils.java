@@ -1,8 +1,6 @@
 package frc.robot.utils;
-
 import java.util.EnumSet;
 import java.util.Optional;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -14,21 +12,31 @@ import frc.robot.ShuffleboardUI;
 
 public class DriverStationUtils {
     public enum FieldStartingLocation {
-        Placeholder1(
+        FrontSpeaker(
                 // Red
-                new Pose2d(16.19, 6.82, Rotation2d.fromDegrees(180)),
+                new Pose2d(14.169, 5.584, Rotation2d.fromDegrees(180)),
                 // Blue
-                new Pose2d(0.37, 6.82, Rotation2d.fromDegrees(0))),
-        Placeholder2(
+                new Pose2d(2.371, 5.584, Rotation2d.fromDegrees(0))),
+        FrontSpeakerClose(
+                // Red
+                new Pose2d(14.169, 5.584, Rotation2d.fromDegrees(180)),
+                // Blue
+                new Pose2d(2.371, 5.584, Rotation2d.fromDegrees(0))),
+        AtAmp(
                 // Red
                 new Pose2d(14.89, 7.27, Rotation2d.fromDegrees(-90)),
                 // Blue
                 new Pose2d(1.65, 7.27, Rotation2d.fromDegrees(-90))),
-        Placeholder3(
+        DiagonalSpeaker(
                 // Red
-                new Pose2d(16.19, 6.82, Rotation2d.fromDegrees(180)),
+                new Pose2d(16.268, 4.454, Rotation2d.fromDegrees(-120.665)),
                 // Blue
-                new Pose2d(0.37, 6.82, Rotation2d.fromDegrees(0))),
+                new Pose2d(1.564, 4.403, Rotation2d.fromDegrees(-60.849))),
+        DiaAmpSpeaker(
+                // Red
+                new Pose2d(16.199, 6.730, Rotation2d.fromDegrees(119.8)),
+                // Blue
+                new Pose2d(1.776, 6.703, Rotation2d.fromDegrees(58.762))),
                 ;
 
         private final Pose2d m_transformRed;
@@ -50,8 +58,8 @@ public class DriverStationUtils {
 
         EnumSet.allOf(FieldStartingLocation.class)
                 .forEach(v -> fieldStartingLocationChooser.addOption(v.toString(), v));
-        fieldStartingLocationChooser.setDefaultOption(FieldStartingLocation.Placeholder1.toString(),
-                FieldStartingLocation.Placeholder1);
+        fieldStartingLocationChooser.setDefaultOption(FieldStartingLocation.AtAmp.toString(),
+                FieldStartingLocation.AtAmp);
 
         ShuffleboardTab tab = ShuffleboardUI.Autonomous.getTab();
         var fieldStartingLocationWidget = tab.add("Starting Location", fieldStartingLocationChooser);
