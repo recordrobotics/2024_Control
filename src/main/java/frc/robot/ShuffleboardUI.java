@@ -15,10 +15,6 @@ public enum ShuffleboardUI {
         m_tabName = tabName;
     }
 
-    public String getTabName() {
-        return m_tabName;
-    }
-
     public ShuffleboardTab getTab() {
         return Shuffleboard.getTab(m_tabName);
     }
