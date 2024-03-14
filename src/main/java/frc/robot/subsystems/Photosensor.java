@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -15,27 +16,33 @@ public class Photosensor extends SubsystemBase {
         photosensor = new DigitalInput(0);
 
         ShuffleboardUI.Overview.getTab().addBoolean("Has Note", this::getDebouncedValue)
-            .withWidget(BuiltInWidgets.kBooleanBox)
-            .withPosition(9, 0)
-            .withSize(1, 1);
+                .withWidget(BuiltInWidgets.kBooleanBox)
+                .withPosition(9, 0)
+                .withSize(1, 1);
 
         ShuffleboardUI.Autonomous.getTab().addBoolean("Has Note", this::getDebouncedValue)
-        	.withWidget(BuiltInWidgets.kBooleanBox)
-        	.withPosition(9, 1)
-        	.withSize(1, 1);
+                .withWidget(BuiltInWidgets.kBooleanBox)
+                .withPosition(9, 1)
+                .withSize(1, 1);
     }
 
     public void periodic() {
         debounced_value = !m_debouncer.calculate(getCurrentValue());
     }
 
-    /** Gets the debounced state of the photosensor, meaning that x time must pass before the sensor returns true
-     * (true = object detected, false = no object detected) */
-    public Boolean getDebouncedValue () {
+    /**
+     * Gets the debounced state of the photosensor, meaning that x time must pass
+     * before the sensor returns true
+     * (true = object detected, false = no object detected)
+     */
+    public Boolean getDebouncedValue() {
         return debounced_value;
     }
 
-    /** Gets the current state of the photosensor (true = object detected, false = no object detected) */
+    /**
+     * Gets the current state of the photosensor (true = object detected, false = no
+     * object detected)
+     */
     public Boolean getCurrentValue() {
         return photosensor.get();
     }
