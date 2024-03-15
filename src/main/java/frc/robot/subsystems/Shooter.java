@@ -64,7 +64,6 @@ public class Shooter extends KillableSubsystem {
         toggle(ShooterStates.OFF);
     }
 
-
     public void testPeriodic(){
         flywheelL.set(widgetL.getDouble(0));
         flywheelR.set(widgetR.getDouble(0));
