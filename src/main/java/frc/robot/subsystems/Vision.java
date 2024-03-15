@@ -12,7 +12,7 @@
 // import frc.robot.Constants;
 
 
-// public class Vision extends SubsystemBase {
+// public class Vision extends KillableSubsystem {
     
 //     private static PhotonCamera camera;
 	

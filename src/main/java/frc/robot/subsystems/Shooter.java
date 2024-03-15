@@ -6,14 +6,14 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleboardUI;
+
 import java.util.Map;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-public class Shooter extends SubsystemBase {
+public class Shooter extends KillableSubsystem {
 
     private CANSparkMax flywheelL = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID, MotorType.kBrushless);
     private CANSparkMax flywheelR = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID, MotorType.kBrushless);
@@ -65,6 +65,11 @@ public class Shooter extends SubsystemBase {
                 toggle(0);
                 break;
         }
+    }
+
+    @Override
+    public void kill() {
+        toggle(ShooterStates.OFF);
     }
 
     public enum ShooterStates {

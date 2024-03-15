@@ -121,5 +121,15 @@ public class JoystickXbox extends AbstractControl {
     public Boolean getManualClimbers() {
         return xbox_controller.getRawButton(7);
     }
+
+    @Override
+    public Boolean getTeleAmp() {
+        return joystick.getRawButton(11);
+    }
+
+    @Override
+    public Boolean getTeleSpeaker() {
+        return joystick.getRawButton(12);
+    }
     
 }

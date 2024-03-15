@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
 import frc.robot.commands.auto.PushAmp;
 import frc.robot.commands.auto.PushSpeaker;
+import frc.robot.commands.auto.SetupAmp;
+import frc.robot.commands.auto.SetupSpeaker;
 import frc.robot.commands.notes.AcquireSmart;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Crashbar.CrashbarStates;
-import frc.robot.subsystems.Shooter.ShooterStates;
 
 public class AutoPath {
 
@@ -25,12 +25,9 @@ public class AutoPath {
         NamedCommands.registerCommand("Stop", new InstantCommand(() -> drivetrain.stop()));
         NamedCommands.registerCommand("Acquire", new AcquireSmart(acquisition, channel, photosensor, shooter));
         NamedCommands.registerCommand("PushSpeaker", new PushSpeaker(channel, shooter));
-        NamedCommands.registerCommand("FlywheelSpeaker", new InstantCommand(() -> shooter.toggle(ShooterStates.SPEAKER)));
+        NamedCommands.registerCommand("FlywheelSpeaker", new SetupSpeaker(shooter));
         NamedCommands.registerCommand("PushAmp", new PushAmp(channel, shooter, crashbar));
-        NamedCommands.registerCommand("FlywheelAmp", new InstantCommand(() -> {
-            shooter.toggle(ShooterStates.AMP);
-            crashbar.toggle(CrashbarStates.EXTENDED);
-        }));
+        NamedCommands.registerCommand("FlywheelAmp", new SetupAmp(shooter, crashbar, true));
 
         // Configures auto builder
         AutoBuilder.configureHolonomic(

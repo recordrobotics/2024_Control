@@ -7,10 +7,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class Climbers extends SubsystemBase {
+public class Climbers extends KillableSubsystem {
 
     private DoubleSolenoid solenoid = new DoubleSolenoid(
         PneumaticsModuleType.CTREPCM, 
@@ -34,6 +33,11 @@ public class Climbers extends SubsystemBase {
                 solenoid.set(DoubleSolenoid.Value.kOff);
                 break;
         }
+    }
+
+    @Override
+    public void kill() {
+        toggle(ClimberStates.OFF);
     }
 
     public enum ClimberStates {

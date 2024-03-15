@@ -35,6 +35,10 @@ public abstract class AbstractControl {
     public abstract Boolean getManualCrashbar();
     public abstract Boolean getManualClimbers();
 
+    // 
+    public abstract Boolean getTeleAmp();
+    public abstract Boolean getTeleSpeaker();
+
     // Orient XY
     public static Pair<Double,Double>OrientXY(Pair<Double,Double> input) {
         double inputX = input.getFirst();

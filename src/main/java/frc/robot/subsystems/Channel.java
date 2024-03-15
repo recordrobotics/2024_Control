@@ -4,14 +4,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleboardUI;
 
-public class Channel extends SubsystemBase {
+public class Channel extends KillableSubsystem {
     private Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);
 
     public Channel() {
@@ -39,6 +38,11 @@ public class Channel extends SubsystemBase {
                 channelMotor.set(0);
                 break;
         }
+    }
+
+    @Override
+    public void kill() {
+        toggle(ChannelStates.OFF);
     }
 
     public enum ChannelStates {

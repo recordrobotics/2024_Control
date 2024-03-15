@@ -128,4 +128,14 @@ public class DoubleXboxSpin extends AbstractControl {
     public Boolean getManualClimbers() {
         return notesbox.getRawButton(7);
     }
+
+    @Override
+    public Boolean getTeleAmp() {
+        return false;
+    }
+
+    @Override
+    public Boolean getTeleSpeaker() {
+        return false;
+    }
 }

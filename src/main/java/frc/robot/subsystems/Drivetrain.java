@@ -3,14 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
 import frc.robot.utils.DriverStationUtils;
@@ -18,7 +16,7 @@ import frc.robot.utils.ShuffleboardField;
 import frc.robot.utils.DriverStationUtils.FieldStartingLocation;
 
 /** Represents a swerve drive style drivetrain. */
-public class Drivetrain extends SubsystemBase {
+public class Drivetrain extends KillableSubsystem {
 
         // Creates Nav object
         private final NavSensor _nav = new NavSensor();
@@ -97,6 +95,11 @@ public class Drivetrain extends SubsystemBase {
                 m_frontRight.stop();
                 m_backLeft.stop();
                 m_backRight.stop();
+        }
+        //TODO: replace
+        @Override
+        public void kill() {
+                stop();
         }
 
         @Override

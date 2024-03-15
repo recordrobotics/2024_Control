@@ -25,7 +25,7 @@ public class AcquireSmart extends SequentialCommandGroup {
     _photosensor = photosensor;
     _shooter = shooter;
 
-    final Runnable killSpecified = () -> new KillSpecified(_acquisition, _channel, _photosensor, _shooter);
+    final Runnable killSpecified = () -> new KillSpecified(_acquisition, _channel, _shooter);
 
     addCommands(
       // Turns acq on

@@ -4,14 +4,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleboardUI;
 
-public class Acquisition extends SubsystemBase {
+public class Acquisition extends KillableSubsystem {
     private Spark acquisitionMotor = new Spark(RobotMap.Acquisition.ACQUISITION_MOTOR_ID);
     private static final double acquisitionDefaultSpeed = Constants.Acquisition.ACQUISITION_SPEED;
     public AcquisitionStates acquisitionState = AcquisitionStates.OFF;
@@ -49,6 +48,11 @@ public class Acquisition extends SubsystemBase {
 
     public void toggle(AcquisitionStates state) {
         toggle(state, acquisitionDefaultSpeed);
+    }
+
+    @Override
+    public void kill() {
+        toggle(AcquisitionStates.OFF);
     }
 
     public enum AcquisitionStates {

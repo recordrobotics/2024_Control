@@ -23,7 +23,7 @@ public class Acquire extends SequentialCommandGroup {
     addRequirements(channel);
     addRequirements(photosensor);
 
-    final Runnable killSpecified = () -> new KillSpecified(_acquisition, _channel, _photosensor);
+    final Runnable killSpecified = () -> new KillSpecified(_acquisition, _channel);
 
     addCommands(
       // Turns acq on

@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.PlannedAuto;
+import frc.robot.commands.hybrid.TeleAmpScore;
+import frc.robot.commands.hybrid.TeleSpeakerScore;
 import frc.robot.commands.manual.*;
 import frc.robot.commands.notes.*;
 import frc.robot.utils.AutoPath;
@@ -135,6 +137,12 @@ public class RobotContainer {
     // Reset pose trigger
     new Trigger(() -> ShuffleboardChoosers.getDriveControl().getPoseReset())
         .onTrue(new InstantCommand(_drivetrain::resetDriverPose));
+
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleAmp())
+        .onTrue(new TeleAmpScore(_channel, _shooter, _crashbar));
+
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleSpeaker())
+        .onTrue(new TeleSpeakerScore(_channel, _shooter));
 
   }
 
