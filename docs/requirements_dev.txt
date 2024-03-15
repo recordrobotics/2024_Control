@@ -1,0 +1,5 @@
+-r requirements.txt
+esbonio==0.16.4
+docutils==0.20.1
+doc8==1.1.1
+rstcheck==6.2.0
