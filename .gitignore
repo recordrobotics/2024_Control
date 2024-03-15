@@ -176,3 +176,8 @@ logs/
 
 # Folder that has CTRE Phoenix Sim device config storage
 ctre_sim/
+
+
+# Sphinx build
+docs/build
+docs/build/*
