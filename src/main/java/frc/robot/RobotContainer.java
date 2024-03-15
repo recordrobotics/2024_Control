@@ -138,6 +138,7 @@ public class RobotContainer {
     new Trigger(() -> ShuffleboardChoosers.getDriveControl().getPoseReset())
         .onTrue(new InstantCommand(_drivetrain::resetDriverPose));
 
+    // Tele-auto triggers
     new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleAmp())
         .onTrue(new TeleAmpScore(_channel, _shooter, _crashbar));
 
