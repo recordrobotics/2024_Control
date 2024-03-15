@@ -11,14 +11,22 @@ import frc.robot.RobotMap;
 
 public class Climbers extends KillableSubsystem {
 
+    // Sets up solenoid
     private DoubleSolenoid solenoid = new DoubleSolenoid(
         PneumaticsModuleType.CTREPCM, 
         RobotMap.Climbers.FORWARD_PORT,
         RobotMap.Climbers.REVERSE_PORT
     );
 
+    public enum ClimberStates {
+        UP,
+        DOWN,
+        OFF;
+    }
+
     public Climbers() {
-        solenoid.set(DoubleSolenoid.Value.kOff);
+        toggle(ClimberStates.OFF);
+        setupShuffleboard();
     }
 
     public void toggle(ClimberStates state) {
@@ -40,9 +48,6 @@ public class Climbers extends KillableSubsystem {
         toggle(ClimberStates.OFF);
     }
 
-    public enum ClimberStates {
-        UP,
-        DOWN,
-        OFF;
+    private void setupShuffleboard() {
     }
 }

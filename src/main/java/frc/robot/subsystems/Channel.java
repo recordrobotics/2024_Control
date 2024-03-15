@@ -15,8 +15,14 @@ public class Channel extends KillableSubsystem {
 
     public Channel() {
         toggle(ChannelStates.OFF);
-        var widget = ShuffleboardUI.Test.getTab().add("Channel", channelMotor);
-        widget.withWidget(BuiltInWidgets.kMotorController);
+        setupShuffleboard();
+    }
+
+    public enum ChannelStates {
+        THROUGH,
+        SHOOT,
+        REVERSE,
+        OFF;
     }
 
     public void toggle(double speed) {
@@ -26,16 +32,16 @@ public class Channel extends KillableSubsystem {
     public void toggle(ChannelStates state) {
         switch (state) {
             case THROUGH:
-                channelMotor.set(Constants.Channel.THROUGH_SPEED);
+                toggle(Constants.Channel.THROUGH_SPEED);
                 break;
             case SHOOT:
-                channelMotor.set(Constants.Channel.SHOOT_SPEED);
+                toggle(Constants.Channel.SHOOT_SPEED);
                 break;
             case REVERSE:
-                channelMotor.set(Constants.Channel.REVERSE_SPEED);
+                toggle(Constants.Channel.REVERSE_SPEED);
                 break;
             default:
-                channelMotor.set(0);
+                toggle(0);
                 break;
         }
     }
@@ -45,10 +51,9 @@ public class Channel extends KillableSubsystem {
         toggle(ChannelStates.OFF);
     }
 
-    public enum ChannelStates {
-        THROUGH,
-        SHOOT,
-        REVERSE,
-        OFF;
+    private void setupShuffleboard() {
+        var widget = ShuffleboardUI.Test.getTab().add("Channel", channelMotor);
+        widget.withWidget(BuiltInWidgets.kMotorController);
     }
+    
 }

@@ -17,18 +17,13 @@ public class Acquisition extends KillableSubsystem {
 
     public Acquisition() {
         toggle(AcquisitionStates.OFF);
-        var widget = ShuffleboardUI.Overview.getTab().addBoolean("Acquisition", ()->acquisitionMotor.get()!=0);
-        widget.withWidget(BuiltInWidgets.kBooleanBox);
-        widget.withPosition(7, 0);
-        widget.withSize(1, 1);
+        setupShuffleboard();
+    }
 
-        widget = ShuffleboardUI.Autonomous.getTab().addBoolean("Acquisition", ()->acquisitionMotor.get()!=0);
-        widget.withWidget(BuiltInWidgets.kBooleanBox);
-        widget.withPosition(9, 0);
-        widget.withSize(1, 1);
-
-        var widget1 = ShuffleboardUI.Test.getTab().add("Acquisition", acquisitionMotor);
-        widget1.withWidget(BuiltInWidgets.kMotorController);
+    public enum AcquisitionStates {
+        IN,
+        REVERSE,
+        OFF;
     }
 
     public void toggle(AcquisitionStates state, double speed) {
@@ -55,9 +50,18 @@ public class Acquisition extends KillableSubsystem {
         toggle(AcquisitionStates.OFF);
     }
 
-    public enum AcquisitionStates {
-        IN,
-        REVERSE,
-        OFF;
+    private void setupShuffleboard() {
+        var widget = ShuffleboardUI.Overview.getTab().addBoolean("Acquisition", ()->acquisitionMotor.get()!=0);
+        widget.withWidget(BuiltInWidgets.kBooleanBox);
+        widget.withPosition(7, 0);
+        widget.withSize(1, 1);
+
+        widget = ShuffleboardUI.Autonomous.getTab().addBoolean("Acquisition", ()->acquisitionMotor.get()!=0);
+        widget.withWidget(BuiltInWidgets.kBooleanBox);
+        widget.withPosition(9, 0);
+        widget.withSize(1, 1);
+
+        var widget1 = ShuffleboardUI.Test.getTab().add("Acquisition", acquisitionMotor);
+        widget1.withWidget(BuiltInWidgets.kMotorController);
     }
 }

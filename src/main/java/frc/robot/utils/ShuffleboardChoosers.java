@@ -96,6 +96,10 @@ public class ShuffleboardChoosers {
         return driverOrientation.getSelected();
     }
 
+    public static String getAutoChooser() {
+        return autoChooser.getSelected().pathref;
+    }
+
     public static AbstractControl getDriveControl() {
         if(driveMode.getSelected() == null)
             return _defaultControl;

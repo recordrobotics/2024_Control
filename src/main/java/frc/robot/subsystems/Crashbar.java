@@ -13,7 +13,14 @@ public class Crashbar extends KillableSubsystem {
     );
 
     public Crashbar() {
-        solenoid.set(DoubleSolenoid.Value.kOff);
+        toggle(CrashbarStates.OFF);
+        setupShuffleboard();
+    }
+
+    public enum CrashbarStates {
+        EXTENDED,
+        RETRACTED,
+        OFF;
     }
 
     public void toggle(CrashbarStates state) {
@@ -34,11 +41,8 @@ public class Crashbar extends KillableSubsystem {
     public void kill() {
         toggle(CrashbarStates.OFF);
     }
-    
 
-    public enum CrashbarStates {
-        EXTENDED,
-        RETRACTED,
-        OFF;
+    private void setupShuffleboard() {
     }
+    
 }

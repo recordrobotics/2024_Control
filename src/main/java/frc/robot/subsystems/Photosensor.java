@@ -13,16 +13,7 @@ public class Photosensor extends SubsystemBase {
 
     public Photosensor() {
         photosensor = new DigitalInput(0);
-
-        ShuffleboardUI.Overview.getTab().addBoolean("Has Note", this::getDebouncedValue)
-                .withWidget(BuiltInWidgets.kBooleanBox)
-                .withPosition(9, 0)
-                .withSize(1, 1);
-
-        ShuffleboardUI.Autonomous.getTab().addBoolean("Has Note", this::getDebouncedValue)
-                .withWidget(BuiltInWidgets.kBooleanBox)
-                .withPosition(9, 1)
-                .withSize(1, 1);
+        setupShuffleboard();
     }
 
     public void periodic() {
@@ -44,5 +35,17 @@ public class Photosensor extends SubsystemBase {
      */
     public Boolean getCurrentValue() {
         return photosensor.get();
+    }
+
+    private void setupShuffleboard() {
+        ShuffleboardUI.Overview.getTab().addBoolean("Has Note", this::getDebouncedValue)
+                .withWidget(BuiltInWidgets.kBooleanBox)
+                .withPosition(9, 0)
+                .withSize(1, 1);
+
+        ShuffleboardUI.Autonomous.getTab().addBoolean("Has Note", this::getDebouncedValue)
+                .withWidget(BuiltInWidgets.kBooleanBox)
+                .withPosition(9, 1)
+                .withSize(1, 1);
     }
 }

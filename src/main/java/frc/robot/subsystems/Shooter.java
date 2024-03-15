@@ -23,21 +23,14 @@ public class Shooter extends KillableSubsystem {
 
     public Shooter() {
         toggle(ShooterStates.OFF);
-
-        widgetL = ShuffleboardUI.Test.getTab().add("Flywheel Left", flywheelL.get())
-            .withWidget(BuiltInWidgets.kNumberSlider)
-            .withProperties(Map.of("min", -1, "max", 1))
-            .getEntry();
-
-        widgetR = ShuffleboardUI.Test.getTab().add("Flywheel Right", flywheelR.get())
-            .withWidget(BuiltInWidgets.kNumberSlider)
-            .withProperties(Map.of("min", -1, "max", 1))
-            .getEntry();
+        setupShuffleboard();
     }
 
-    public void testPeriodic(){
-        flywheelL.set(widgetL.getDouble(0));
-        flywheelR.set(widgetR.getDouble(0));
+    public enum ShooterStates {
+        SPEAKER,
+        AMP,
+        REVERSE,
+        OFF;
     }
 
     public void toggle(double speedL, double speedR) {
@@ -46,8 +39,7 @@ public class Shooter extends KillableSubsystem {
     }
 
     public void toggle(double speed) {
-        flywheelL.set(-speed);
-        flywheelR.set(speed);
+        toggle(speed, speed);
     }
 
     public void toggle(ShooterStates state) {
@@ -72,10 +64,23 @@ public class Shooter extends KillableSubsystem {
         toggle(ShooterStates.OFF);
     }
 
-    public enum ShooterStates {
-        SPEAKER,
-        AMP,
-        REVERSE,
-        OFF;
+
+    public void testPeriodic(){
+        flywheelL.set(widgetL.getDouble(0));
+        flywheelR.set(widgetR.getDouble(0));
     }
+
+
+    private void setupShuffleboard() {
+        widgetL = ShuffleboardUI.Test.getTab().add("Flywheel Left", flywheelL.get())
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", -1, "max", 1))
+            .getEntry();
+
+        widgetR = ShuffleboardUI.Test.getTab().add("Flywheel Right", flywheelR.get())
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", -1, "max", 1))
+            .getEntry();
+    }
+
 }
