@@ -19,6 +19,11 @@ public class ShootAmp extends SequentialCommandGroup {
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
   private final double shootTime = 0.7;  
 
+  /**
+   * Command that shoots the note into the amp. Manages all relevant subsystems to do so (including lowering crashbar, waiting for the shooter to speed up, etc)
+   * @param channel
+   * @param shooter
+   */
   public ShootAmp (Channel channel, Shooter shooter, Crashbar crashbar) {
     _channel = channel;
     _shooter = shooter;

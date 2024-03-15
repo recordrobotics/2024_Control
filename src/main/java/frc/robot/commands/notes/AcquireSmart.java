@@ -19,6 +19,13 @@ public class AcquireSmart extends SequentialCommandGroup {
   private static Photosensor _photosensor;
   private static Shooter _shooter;
 
+  /**
+   * Command that acquires the note in a way that centers it within the channel. 
+   * @param acquisition
+   * @param channel
+   * @param photosensor
+   * @param shooter
+   */
   public AcquireSmart (Acquisition acquisition, Channel channel, Photosensor photosensor, Shooter shooter) {
     _acquisition = acquisition;
     _channel = channel;

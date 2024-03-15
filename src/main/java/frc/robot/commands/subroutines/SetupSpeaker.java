@@ -10,6 +10,10 @@ public class SetupSpeaker extends SequentialCommandGroup {
 
   private static Shooter _shooter;
 
+  /**
+   * Sets up the shooter to get the 
+   * @param shooter
+   */
   public SetupSpeaker (Shooter shooter) {
     _shooter = shooter;
 

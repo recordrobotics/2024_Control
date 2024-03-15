@@ -13,6 +13,12 @@ public class SetupAmp extends SequentialCommandGroup {
   private static Shooter _shooter;
   private static Crashbar _crashbar;
 
+  /**
+   * Command that sets up to get ready for amp scoring by speeding up shooter and lowering crashbar (if "lowerCrashbar" is set to true)
+   * @param shooter
+   * @param crashbar
+   * @param lowerCrashbar
+   */
   public SetupAmp (Shooter shooter, Crashbar crashbar, Boolean lowerCrashbar) {
     _shooter = shooter;
     _crashbar = crashbar;
@@ -27,5 +33,15 @@ public class SetupAmp extends SequentialCommandGroup {
             }
         }).handleInterrupt(killSpecified)
     );
+  }
+
+  /**
+   * Command that sets up to get ready for amp scoring by speeding up shooter and lowering crashbar
+   * @param shooter
+   * @param crashbar
+   * @param lowerCrashbar
+   */
+  public SetupAmp(Shooter shooter, Crashbar crashbar) {
+    this(shooter, crashbar, true);
   }
 }

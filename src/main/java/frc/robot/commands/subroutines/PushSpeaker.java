@@ -15,7 +15,7 @@ public class PushSpeaker extends SequentialCommandGroup {
 
   /**
    * Command that assumes the flywheel is already on and moves the channel to shoot the note into the speaker. 
-   * Then, turns everything off. 
+   * Then, turns everything off.
    * @param channel
    * @param shooter
    */

@@ -15,6 +15,12 @@ public class Acquire extends SequentialCommandGroup {
   private static Channel _channel;
   private static Photosensor _photosensor;
 
+  /**
+   * Command that picks up the note, steopping the acquision once note is acquired
+   * @param acquisition
+   * @param channel
+   * @param photosensor
+   */
   public Acquire (Acquisition acquisition, Channel channel, Photosensor photosensor) {
     _acquisition = acquisition;
     _channel = channel;

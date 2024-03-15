@@ -9,7 +9,7 @@ public class KillSpecified extends Command {
     private Boolean _shouldContinuouslyExecute;
 
     /**
-     * Kills whatever subsystem you put into the system
+     * Kills all subsystems inputted
      * @param subsystems
      * 
      */
@@ -18,7 +18,7 @@ public class KillSpecified extends Command {
     }
 
     /**
-     * 
+     * Kills all subsystems inputted
      * @param execute whether or not the command should run continuously
      * @param subsystems 
      */
