@@ -17,36 +17,6 @@ import frc.robot.utils.ModuleConstants;
 
 public class SwerveModule {
 
-  class Double2 {
-    public Double a;
-    public Double b;
-
-    public Double2(double a1, double b1) {
-      a = a1;
-      b = b1;
-    }
-  }
-
-  private final static Map<Integer, Double2> velocityGraphData = new HashMap<>();
-
-  static {
-    ShuffleboardTab tab = ShuffleboardUI.Autonomous.getTab();
-    var velocityWidget = tab.addDoubleArray("Velocity", () -> {
-      var values = velocityGraphData.values().toArray();
-      double[] db = new double[values.length * 2];
-      for (int i = 0; i < values.length; i++) {
-        if (values[i] instanceof Double2 p) {
-          db[i * 2] = p.a;
-          db[i * 2 + 1] = p.b;
-        }
-      }
-      return db;
-    });
-    velocityWidget.withWidget(BuiltInWidgets.kGraph);
-    velocityWidget.withPosition(6, 2);
-    velocityWidget.withSize(4, 3);
-  }
-
   // Creates variables for motors and absolute encoders
   private final TalonFX m_driveMotor;
   private final TalonFX m_turningMotor;
@@ -71,14 +41,11 @@ public class SwerveModule {
    */
   public SwerveModule(ModuleConstants m) {
 
+    setupShuffleboard(m.driveMotorChannel, m.turningMotorChannel);
+
     // Creates TalonFX objects
     m_driveMotor = new TalonFX(m.driveMotorChannel);
     m_turningMotor = new TalonFX(m.turningMotorChannel);
-
-    var widgetDrv = ShuffleboardUI.Test.getTab().add("Drive "+m.driveMotorChannel, m_driveMotor);
-    widgetDrv.withWidget(BuiltInWidgets.kMotorController);
-    var widgetTurn = ShuffleboardUI.Test.getTab().add("Turn "+m.turningMotorChannel,m_turningMotor);
-    widgetTurn.withWidget(BuiltInWidgets.kMotorController);
 
     // Creates Motor Encoder object and gets offset
     absoluteTurningMotorEncoder = new DutyCycleEncoder(m.absoluteTurningMotorEncoderChannel);
@@ -225,5 +192,46 @@ public class SwerveModule {
   public void stop() {
     m_driveMotor.setVoltage(0);
     m_turningMotor.set(0);
+  }
+
+
+
+  // SHUFFLEBOARD STUFF
+
+  private void setupShuffleboard(double driveMotorChannel, double turningMotorChannel) {
+    var widgetDrv = ShuffleboardUI.Test.getTab().add("Drive "+ driveMotorChannel, m_driveMotor);
+    widgetDrv.withWidget(BuiltInWidgets.kMotorController);
+    var widgetTurn = ShuffleboardUI.Test.getTab().add("Turn "+ turningMotorChannel, m_turningMotor);
+    widgetTurn.withWidget(BuiltInWidgets.kMotorController);
+  }
+
+  class Double2 {
+    public Double a;
+    public Double b;
+
+    public Double2(double a1, double b1) {
+      a = a1;
+      b = b1;
+    }
+  }
+
+  private final static Map<Integer, Double2> velocityGraphData = new HashMap<>();
+
+  static {
+    ShuffleboardTab tab = ShuffleboardUI.Autonomous.getTab();
+    var velocityWidget = tab.addDoubleArray("Velocity", () -> {
+      var values = velocityGraphData.values().toArray();
+      double[] db = new double[values.length * 2];
+      for (int i = 0; i < values.length; i++) {
+        if (values[i] instanceof Double2 p) {
+          db[i * 2] = p.a;
+          db[i * 2 + 1] = p.b;
+        }
+      }
+      return db;
+    });
+    velocityWidget.withWidget(BuiltInWidgets.kGraph);
+    velocityWidget.withPosition(6, 2);
+    velocityWidget.withSize(4, 3);
   }
 }
