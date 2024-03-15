@@ -35,7 +35,7 @@ public abstract class AbstractControl {
     public abstract Boolean getManualCrashbar();
     public abstract Boolean getManualClimbers();
 
-    // 
+    // Tele scoring
     public abstract Boolean getTeleAmp();
     public abstract Boolean getTeleSpeaker();
 
