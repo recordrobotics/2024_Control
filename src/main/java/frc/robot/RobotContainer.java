@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.KillSpecified;
@@ -67,8 +66,6 @@ public class RobotContainer {
     _crashbar = new Crashbar();
     _photosensor = new Photosensor();
     _climbers = new Climbers();
-    // Required to call constructor of PCMCompressor to initialize ShuffleboardUI
-    // TODO: make this better
     _compressor = new PCMCompressor();
 
     // Sets up auto chooser
@@ -102,48 +99,27 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // Command to kill robot
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getKillAuto())
-        .whileTrue(new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers));
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getKillAuto()).whileTrue(new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers));
 
     // Smart triggers
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getAcquire())
-        .toggleOnTrue(new AcquireSmart(_acquisition, _channel, _photosensor, _shooter));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getShootSpeaker())
-        .toggleOnTrue(new ShootSpeaker(_channel, _shooter));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getShootAmp())
-        .toggleOnTrue(new ShootAmp(_channel, _shooter, _crashbar));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getReverse())
-        .whileTrue(new ManualReverse(_acquisition, _channel));
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getAcquire()).toggleOnTrue(new AcquireSmart(_acquisition, _channel, _photosensor, _shooter));
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getShootSpeaker()).toggleOnTrue(new ShootSpeaker(_channel, _shooter));
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getShootAmp()).toggleOnTrue(new ShootAmp(_channel, _shooter, _crashbar));
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getReverse()).whileTrue(new ManualReverse(_acquisition, _channel));
 
     // Manual triggers
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualShootAmp())
-        .toggleOnTrue(new ManualShooter(_shooter, Shooter.ShooterStates.AMP));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualShootSpeaker())
-        .toggleOnTrue(new ManualShooter(_shooter, Shooter.ShooterStates.SPEAKER));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualCrashbar())
-        .toggleOnTrue(new ManualCrashbar(_crashbar));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualAcquisition())
-        .whileTrue(new ManualAcquisition(_acquisition, _channel));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualClimbers())
-        .toggleOnTrue(new ManualClimbers(_climbers));
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualShootAmp()).toggleOnTrue(new ManualShooter(_shooter, Shooter.ShooterStates.AMP));
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualShootSpeaker()).toggleOnTrue(new ManualShooter(_shooter, Shooter.ShooterStates.SPEAKER));
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualCrashbar()).toggleOnTrue(new ManualCrashbar(_crashbar));
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualAcquisition()).whileTrue(new ManualAcquisition(_acquisition, _channel));
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualClimbers()).toggleOnTrue(new ManualClimbers(_climbers));
 
     // Reset pose trigger
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getPoseReset())
-        .onTrue(new InstantCommand(_drivetrain::resetDriverPose));
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getPoseReset()).onTrue(new InstantCommand(_drivetrain::resetDriverPose));
 
     // Tele-auto triggers
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleAmp())
-        .onTrue(new TeleAmpScore(_channel, _shooter, _crashbar));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleSpeaker())
-        .onTrue(new TeleSpeakerScore(_channel, _shooter));
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleAmp()).onTrue(new TeleAmpScore(_channel, _shooter, _crashbar));
+    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleSpeaker()).onTrue(new TeleSpeakerScore(_channel, _shooter));
 
   }
 

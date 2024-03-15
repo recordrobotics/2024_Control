@@ -51,17 +51,17 @@ public class Acquisition extends KillableSubsystem {
     }
 
     private void setupShuffleboard() {
-        var widget = ShuffleboardUI.Overview.getTab().addBoolean("Acquisition", ()->acquisitionMotor.get()!=0);
-        widget.withWidget(BuiltInWidgets.kBooleanBox);
-        widget.withPosition(7, 0);
-        widget.withSize(1, 1);
+        ShuffleboardUI.Overview.getTab().addBoolean("Acquisition", ()->acquisitionMotor.get()!=0)
+            .withWidget(BuiltInWidgets.kBooleanBox)
+            .withPosition(7, 0)
+            .withSize(1, 1);
 
-        widget = ShuffleboardUI.Autonomous.getTab().addBoolean("Acquisition", ()->acquisitionMotor.get()!=0);
-        widget.withWidget(BuiltInWidgets.kBooleanBox);
-        widget.withPosition(9, 0);
-        widget.withSize(1, 1);
+        ShuffleboardUI.Autonomous.getTab().addBoolean("Acquisition", ()->acquisitionMotor.get()!=0)
+        	.withWidget(BuiltInWidgets.kBooleanBox)
+        	.withPosition(9, 0)
+        	.withSize(1, 1);
 
-        var widget1 = ShuffleboardUI.Test.getTab().add("Acquisition", acquisitionMotor);
-        widget1.withWidget(BuiltInWidgets.kMotorController);
+        ShuffleboardUI.Test.getTab().add("Acquisition", acquisitionMotor)
+            .withWidget(BuiltInWidgets.kMotorController);
     }
 }
