@@ -1,12 +1,10 @@
 package frc.robot.commands.notes;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.KillSpecified;
+import frc.robot.commands.auto.PushSpeaker;
+import frc.robot.commands.auto.SetupSpeaker;
 import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Channel.ChannelStates;
-import frc.robot.subsystems.Shooter.ShooterStates;
 
 public class ShootSpeaker extends SequentialCommandGroup {
 
@@ -24,15 +22,10 @@ public class ShootSpeaker extends SequentialCommandGroup {
     addRequirements(channel);
     addRequirements(shooter);
 
-    final Runnable killSpecified = () -> new KillSpecified(_shooter, _channel);
-
     addCommands(
-      new InstantCommand(()->_shooter.toggle(ShooterStates.SPEAKER), _shooter).handleInterrupt(killSpecified),
+      new SetupSpeaker(_shooter),
       new WaitCommand(flywheelSpinupTime),
-      new InstantCommand(()->_channel.toggle(ChannelStates.SHOOT), _channel).handleInterrupt(killSpecified),
-      new WaitCommand(shootTime),
-      new InstantCommand(()-> _shooter.toggle(ShooterStates.OFF), _shooter).handleInterrupt(killSpecified),
-      new InstantCommand(()-> _channel.toggle(ChannelStates.OFF), _channel).handleInterrupt(killSpecified)
+      new PushSpeaker(_channel, shooter, shootTime)
     );
   }
 }
