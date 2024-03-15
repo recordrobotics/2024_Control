@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
-import frc.robot.commands.auto.PushAmp;
-import frc.robot.commands.auto.PushSpeaker;
-import frc.robot.commands.auto.SetupAmp;
-import frc.robot.commands.auto.SetupSpeaker;
 import frc.robot.commands.notes.AcquireSmart;
+import frc.robot.commands.subroutines.PushAmp;
+import frc.robot.commands.subroutines.PushSpeaker;
+import frc.robot.commands.subroutines.SetupAmp;
+import frc.robot.commands.subroutines.SetupSpeaker;
 import frc.robot.subsystems.*;
 
 public class AutoPath {

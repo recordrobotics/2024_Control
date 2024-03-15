@@ -4,8 +4,8 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.auto.PushSpeaker;
-import frc.robot.commands.auto.SetupSpeaker;
+import frc.robot.commands.subroutines.PushSpeaker;
+import frc.robot.commands.subroutines.SetupSpeaker;
 import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Shooter;
 
