@@ -11,13 +11,12 @@ public class NavSensor extends SubsystemBase {
 	private static AHRS _nav = new AHRS(SerialPort.Port.kUSB1);
 
 	// variable to keep track of a reference angle whenever you reset
-	private static double referenceAngle;
+	private static double referenceAngle = _nav.getAngle();
 
-	//TODO: unhappy with this because
+	// Resets nav
 	static {
 		_nav.reset();
-		_nav.resetDisplacement();
-		referenceAngle = _nav.getAngle();
+		_nav.resetDisplacement(); //Technically not necessary but whatever
 	}
 
 	// stores the reference angle as whatever the angle is currently measured to be

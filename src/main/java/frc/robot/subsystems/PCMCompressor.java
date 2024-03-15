@@ -10,12 +10,10 @@ public class PCMCompressor extends SubsystemBase {
     private static final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
     public PCMCompressor() {
-        var widget = ShuffleboardUI.Overview.getTab().addBoolean("Compressor", compressor::isEnabled);
-        widget.withWidget(BuiltInWidgets.kBooleanBox);
-        widget.withPosition(8, 0);
-        widget.withSize(1, 1);
+        setupShuffleboard();
     }
 
+    // TODO: could turn these into CompressorState objects
     public void disable() {
         compressor.disable();
     }
@@ -38,5 +36,12 @@ public class PCMCompressor extends SubsystemBase {
 
     @Override
     public void periodic() {
+    }
+
+    private void setupShuffleboard() {
+        var widget = ShuffleboardUI.Overview.getTab().addBoolean("Compressor", compressor::isEnabled);
+        widget.withWidget(BuiltInWidgets.kBooleanBox);
+        widget.withPosition(8, 0);
+        widget.withSize(1, 1);
     }
 }
