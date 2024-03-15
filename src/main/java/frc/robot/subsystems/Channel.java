@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-import frc.robot.ShuffleboardUI;
+import frc.robot.utils.ShuffleboardUI;
 
 public class Channel extends KillableSubsystem {
     private Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);

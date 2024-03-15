@@ -8,7 +8,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-import frc.robot.ShuffleboardUI;
+import frc.robot.utils.ShuffleboardUI;
 
 import java.util.Map;
 import com.revrobotics.CANSparkLowLevel.MotorType;
