@@ -1,9 +1,7 @@
 package frc.robot.utils;
 import java.util.EnumSet;
-
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.ShuffleboardUI;
 import frc.robot.control.AbstractControl;
 
 public class ShuffleboardChoosers {
