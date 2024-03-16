@@ -102,7 +102,7 @@ and run ``Live Preview: Start Server`` while an ``rst`` file is open.
 .. note::
 
  If the live preview window can't find the html file, try to cause a rebuild by editing
- a `rst` file. Make sure that the ``docs/build`` directory is being created since that
+ a ``rst`` file. Make sure that the ``docs/build`` directory is being created since that
  is where the live preview points to. Finally, if it still doesn't work, open the output panel
  by pressing :kbd:`Ctrl+Shift+U` and select ``Esbonio Language Server`` from the dropdown
  in the top right. If everything is working, the output should show something about ``build succeeded.``.
