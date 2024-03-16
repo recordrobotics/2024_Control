@@ -94,6 +94,8 @@ public class ShuffleboardChoosers {
     }
 
     public static FieldStartingLocation getStartingLocation() {
+        if(fieldStartingLocationChooser.getSelected() == null)
+            return FieldStartingLocation.FrontSpeaker;
         return fieldStartingLocationChooser.getSelected();
     }
 

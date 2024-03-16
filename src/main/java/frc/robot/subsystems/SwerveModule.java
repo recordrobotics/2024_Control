@@ -41,7 +41,6 @@ public class SwerveModule {
    */
   public SwerveModule(ModuleConstants m) {
 
-    setupShuffleboard(m.driveMotorChannel, m.turningMotorChannel);
 
     // Creates TalonFX objects
     m_driveMotor = new TalonFX(m.driveMotorChannel);
@@ -85,7 +84,9 @@ public class SwerveModule {
 
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelTurnOffset());
-  }
+    
+    setupShuffleboard(m.driveMotorChannel, m.turningMotorChannel);
+}
 
   /**
    * *custom function
