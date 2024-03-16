@@ -181,3 +181,5 @@ ctre_sim/
 # Sphinx build
 docs/build
 docs/build/*
+docs/source/_build
+docs/source/_build/*
