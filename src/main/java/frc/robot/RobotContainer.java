@@ -41,17 +41,11 @@ public class RobotContainer {
   private final Channel _channel;
   private final Photosensor _photosensor;
   @SuppressWarnings("unused") // Required to call constructor of PCMCompressor to initialize ShuffleboardUI
-  // TODO: make this better
   private final PCMCompressor _compressor;
 
   // Autonomous
   private final AutoPath _autoPath;
   private Command autoCommand;
-
-  // Control
-  private JoystickXbox _joystickXbox;
-  private DoubleXbox _doubleXbox;
-  private DoubleXboxSpin _doubleXboxSpin;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -68,17 +62,16 @@ public class RobotContainer {
     _climbers = new Climbers();
     _compressor = new PCMCompressor();
 
-    // Sets up auto chooser
+    // Sets up auto path
     _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
 
-    // Creates control input & manual swerve object, adds it to _teleopPairs
-    _joystickXbox = new JoystickXbox(2, 0);
-    _doubleXbox = new DoubleXbox(0, 1);
-    _doubleXboxSpin = new DoubleXboxSpin(0, 1);
-
     // Sets up Control scheme chooser
-    ShuffleboardChoosers.initialize(_joystickXbox, _doubleXbox, _doubleXboxSpin);
-
+    ShuffleboardChoosers.initialize(
+      new JoystickXbox(2, 0),
+      new DoubleXbox(0, 1),
+      new DoubleXboxSpin(0, 1)
+    );
+    
     // Bindings and Teleop
     configureButtonBindings();
   }
