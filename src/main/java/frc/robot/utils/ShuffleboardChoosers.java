@@ -12,9 +12,9 @@ public class ShuffleboardChoosers {
 
     // Sets up sendable choosers
     private static SendableChooser<DriverOrientation> driverOrientation = new SendableChooser<DriverOrientation>();
-    public static SendableChooser<AutoName> autoChooser = new SendableChooser<>();
+    private static SendableChooser<AutoName> autoChooser = new SendableChooser<>();
     private static SendableChooser<AbstractControl> driveMode = new SendableChooser<AbstractControl>();
-    public static SendableChooser<FieldStartingLocation> fieldStartingLocationChooser = new SendableChooser<>();
+    private static SendableChooser<FieldStartingLocation> fieldStartingLocationChooser = new SendableChooser<>();
     
     // Creates default control var
     private static AbstractControl _defaultControl;
@@ -70,6 +70,7 @@ public class ShuffleboardChoosers {
             .withSize(3, 1)
             .withPosition(6, 1);
 
+        // 
         ShuffleboardUI.Autonomous.getTab()
             .add("Starting Location", fieldStartingLocationChooser)
             .withWidget(BuiltInWidgets.kSplitButtonChooser)
