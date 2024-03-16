@@ -13,7 +13,7 @@ public class Photosensor extends SubsystemBase {
 
     public Photosensor() {
         photosensor = new DigitalInput(0);
-    setupShuffleboard();
+        setupShuffleboard();
     }
 
     public void periodic() {

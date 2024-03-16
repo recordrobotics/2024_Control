@@ -85,6 +85,7 @@ public class SwerveModule {
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelTurnOffset());
     
+    // Sets up shuffleboard
     setupShuffleboard(m.driveMotorChannel, m.turningMotorChannel);
 }
 
