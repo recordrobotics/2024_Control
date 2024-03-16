@@ -18,7 +18,7 @@ Prerequisites
 - `Live Preview <https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server>`__
 - `File Watcher <https://marketplace.visualstudio.com/items?itemName=appulate.filewatcher>`__
 
-.. note:: 
+.. note::
     Don't forget to add the ``make`` binary to path, it is called during building.
 
 Configuration
