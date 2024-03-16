@@ -28,8 +28,17 @@
     },
   ],
   "java.test.defaultConfig": "WPIlibUnitTests",
-  "esbonio.server.logLevel": "debug",
-  "esbonio.server.debugLaunch": true,
-  "esbonio.sphinx.buildDir": "${workspaceFolder}/docs/build",
-  "esbonio.sphinx.confDir": "docs/source"
+  "esbonio.sphinx.buildDir": "docs\\build",
+  "esbonio.sphinx.confDir": "${workspaceFolder}\\docs\\source",
+  "filewatcher.commands": [
+    {
+      "event": "onFileChangeImmediate",
+      "match": "\\.rst*",
+      "cmd":"${workspaceRoot}\\docs\\make.bat html"
+    }
+  ],
+  "livePreview.defaultPreviewPath": "docs/build/html/index.html",
+  "livePreview.previewDebounceDelay": 3000,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000
 }
