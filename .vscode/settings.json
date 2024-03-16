@@ -39,7 +39,7 @@
     {
       "event": "onFileChange",
       "match": "\\.rst*",
-      "cmd": "${workspaceRoot}\\docs\\make.bat html"
+      "cmd": "\"${workspaceRoot}\\docs\\make.bat\" html"
     }
   ],
   "livePreview.defaultPreviewPath": "docs/build/html/index.html",
