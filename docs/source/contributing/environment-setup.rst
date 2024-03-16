@@ -106,3 +106,18 @@ and run ``Live Preview: Start Server`` while an ``rst`` file is open.
  is where the live preview points to. Finally, if it still doesn't work, open the output panel
  by pressing :kbd:`Ctrl+Shift+U` and select ``Esbonio Language Server`` from the dropdown
  in the top right. If everything is working, the output should show something about ``build succeeded.``.
+
+Manual Building
+---------------
+
+If you just pulled new changes or want to preview the documentation without live editing the files,
+it is possible to build it through the terminal.
+
+.. code-block:: pwsh
+
+  cd docs
+  ./make html # run make.bat, if using command prompt ./ is not needed
+
+The output html files should be put in the same ``docs/build`` directory
+that the live preview builds in. Now you can open them in a browser or
+start the Live Preview server to view them inside VSCode.
