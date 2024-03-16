@@ -6,7 +6,7 @@ FRC 2024 Robot Control System
    This is a placeholder.
 
 .. code-block:: java
-   
+
    Hello
 
 .. toctree::
