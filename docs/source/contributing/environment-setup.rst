@@ -24,10 +24,14 @@ Prerequisites
 Configuration
 -------------
 
-Once all of the extensions are installed, open settings and make sure to set the esbonio paths.
+Once all of the extensions are installed, open the ``settings.json`` from the ``Command Palette`` and make sure to set the esbonio and lint paths.
 
 .. code-block:: json
 
+    "restructuredtext.linter.doc8.extraArgs": [
+      "--config",
+      "${workspaceFolder}/docs/doc8.ini"
+    ],
     "esbonio.sphinx.numJobs": 0,
     "esbonio.sphinx.buildDir": "docs\\build",
     "esbonio.sphinx.confDir": "${workspaceFolder}\\docs\\source"
@@ -40,7 +44,7 @@ To view the ``rst`` file updates live, we use the ``filewatcher`` and ``livePrev
       {
         "event": "onFileChange",
         "match": "\\.rst*",
-        "cmd":"${workspaceRoot}\\docs\\make.bat html"
+        "cmd":"\"${workspaceRoot}\\docs\\make.bat\" html"
       }
     ],
     "livePreview.defaultPreviewPath": "docs/build/html/index.html",
