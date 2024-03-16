@@ -7,9 +7,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
-import frc.robot.utils.DriverStationUtils;
+import frc.robot.utils.ShuffleboardChoosers;
 import frc.robot.utils.ShuffleboardField;
-import frc.robot.utils.DriverStationUtils.FieldStartingLocation;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends KillableSubsystem {
@@ -46,7 +45,7 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                DriverStationUtils.getStartingLocation().getPose());
+                                ShuffleboardChoosers.getStartingLocation().getPose());
         }
 
         /**
@@ -126,7 +125,7 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                DriverStationUtils.getStartingLocation().getPose());
+                                ShuffleboardChoosers.getStartingLocation().getPose());
         }
 
         /**
@@ -146,7 +145,7 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                FieldStartingLocation.FrontSpeakerClose.getPose());
+                                ShuffleboardChoosers.FieldStartingLocation.FrontSpeakerClose.getPose());
         }
 
         /**
