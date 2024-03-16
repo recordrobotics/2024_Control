@@ -53,3 +53,8 @@ Additionally, to have the preview automatically change as you type, set the auto
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 1000
 
+Editing
+-------
+
+When editing the documentation, open the ``Command Palette`` by pressing ``Ctrl+Shift+P``
+and run ``Live Preview: Start Server`` while an ``rst`` file is open.
