@@ -91,11 +91,22 @@ public final class Constants {
         }
     }
 
+    public final class Frame {
+
+        /**
+         * Distance between wheels (width aka between left and right and length aka
+         * between front and back).
+         * Used for calculating wheel locations on the robot
+         */
+        public static final double ROBOT_WHEEL_DISTANCE_WIDTH = 0.46;
+        public static final double ROBOT_WHEEL_DISTANCE_LENGTH = 0.46;
+    }
+
     public final class Swerve {
 
         // Works out module locations
-        private static final double locX = Constants.Frame.ROBOT_WHEEL_DISTANCE_WIDTH / 2;
-        private static final double locY = Constants.Frame.ROBOT_WHEEL_DISTANCE_LENGTH / 2;
+        private static final double locX = Frame.ROBOT_WHEEL_DISTANCE_WIDTH / 2;
+        private static final double locY = Frame.ROBOT_WHEEL_DISTANCE_LENGTH / 2;
         public static final double locDist = Math.sqrt(locX * locX + locY * locY);
 
         private static final Translation2d frontLeftLocation = new Translation2d(locX, locY);
@@ -191,17 +202,6 @@ public final class Constants {
                 MotorType.Kraken);
     }
 
-    public final class Frame {
-
-        /**
-         * Distance between wheels (width aka between left and right and length aka
-         * between front and back).
-         * Used for calculating wheel locations on the robot
-         */
-        public static final double ROBOT_WHEEL_DISTANCE_WIDTH = 0.46;
-        public static final double ROBOT_WHEEL_DISTANCE_LENGTH = 0.46;
-    }
-
     public final class Vision {
 
         public static final String cameraID = new String("photonvision");
@@ -224,6 +224,4 @@ public final class Constants {
             new Transform3d(new Translation3d(1.02743, 1.071626, 0.462788), new Rotation3d(0,0,0))
         };
     }
-
-    
 }
