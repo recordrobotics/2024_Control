@@ -1,25 +1,20 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
+// WPILib imports
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.KillSpecified;
-import frc.robot.commands.auto.PlannedAuto;
-import frc.robot.commands.hybrid.TeleAmpScore;
-import frc.robot.commands.hybrid.TeleSpeakerScore;
-import frc.robot.commands.manual.*;
-import frc.robot.commands.notes.*;
-import frc.robot.utils.AutoPath;
-import frc.robot.utils.ShuffleboardChoosers;
-import frc.robot.control.DoubleXbox;
-import frc.robot.control.DoubleXboxSpin;
-import frc.robot.control.JoystickXbox;
-import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+// Local imports
+import frc.robot.commands.KillSpecified;
+import frc.robot.commands.auto.*;
+import frc.robot.commands.hybrid.*;
+import frc.robot.commands.manual.*;
+import frc.robot.commands.notes.*;
+import frc.robot.control.*;
+import frc.robot.subsystems.*;
+import frc.robot.utils.AutoPath;
+import frc.robot.utils.ShuffleboardChoosers;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -71,7 +66,7 @@ public class RobotContainer {
       new DoubleXbox(0, 1),
       new DoubleXboxSpin(0, 1)
     );
-    
+
     // Bindings and Teleop
     configureButtonBindings();
   }
@@ -94,7 +89,7 @@ public class RobotContainer {
     // Command to kill robot
     new Trigger(() -> ShuffleboardChoosers.getDriveControl().getKillAuto()).whileTrue(new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers));
 
-    // Smart triggers
+    // Notes triggers
     new Trigger(() -> ShuffleboardChoosers.getDriveControl().getAcquire()).toggleOnTrue(new AcquireSmart(_acquisition, _channel, _photosensor, _shooter));
     new Trigger(() -> ShuffleboardChoosers.getDriveControl().getShootSpeaker()).toggleOnTrue(new ShootSpeaker(_channel, _shooter));
     new Trigger(() -> ShuffleboardChoosers.getDriveControl().getShootAmp()).toggleOnTrue(new ShootAmp(_channel, _shooter, _crashbar));
@@ -116,10 +111,6 @@ public class RobotContainer {
 
   }
 
-  public void testPeriodic() {
-    _shooter.testPeriodic();
-  }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -130,5 +121,9 @@ public class RobotContainer {
       autoCommand = new PlannedAuto(_drivetrain, _autoPath);
     }
     return autoCommand;
+  }
+
+  public void testPeriodic() {
+    _shooter.testPeriodic();
   }
 }
