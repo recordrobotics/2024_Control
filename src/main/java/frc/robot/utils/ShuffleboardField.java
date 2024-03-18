@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
 public class ShuffleboardField {
     private static final Field2d field1 = new Field2d();
-    private static final Field2d field2 = new Field2d();
 
     static {
         ShuffleboardTab tab = ShuffleboardUI.Autonomous.getTab();
@@ -18,6 +17,5 @@ public class ShuffleboardField {
 
     public static void setRobotPose(Pose2d pose) {
         field1.setRobotPose(pose);
-        field2.setRobotPose(pose);
     }
 }
