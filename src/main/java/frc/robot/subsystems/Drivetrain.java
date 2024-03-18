@@ -1,10 +1,13 @@
 package frc.robot.subsystems;
+import java.util.Optional;
+
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.utils.ApriltagMeasurement;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
 import frc.robot.utils.ShuffleboardChoosers;
@@ -16,6 +19,7 @@ public class Drivetrain extends KillableSubsystem {
 
         // Creates Nav object
         private final NavSensor _nav = new NavSensor();
+        private final Vision _vision = new Vision();
 
         // Creates swerve module objects
         private final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
@@ -105,6 +109,16 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backRight.getModulePosition()
                                 });
                 ShuffleboardField.setRobotPose(poseFilter.getEstimatedPosition());
+                
+                // Adds vision measurement 
+                Optional<ApriltagMeasurement> measurement = _vision.getMeasurement();
+                if (measurement.isPresent()) {
+                        poseFilter.addVisionMeasurement(
+                                measurement.get().pose, 
+                                measurement.get().timeStamp
+                                //TODO: figure out std devs
+                        );
+                }
         }
 
         /** Resets the field relative position of the robot (mostly for testing). */

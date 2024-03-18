@@ -1,47 +1,56 @@
-// package frc.robot.subsystems;
-// import edu.wpi.first.math.geometry.Rotation3d;
-// import edu.wpi.first.math.geometry.Transform3d;
-// import edu.wpi.first.math.geometry.Translation3d;
-// import edu.wpi.first.math.geometry.Pose2d;
-// import edu.wpi.first.math.geometry.Translation2d;
-// import edu.wpi.first.math.geometry.Rotation2d;
-// import edu.wpi.first.math.util.Units;
-// import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import org.photonvision.PhotonCamera;
-// import org.photonvision.targeting.PhotonTrackedTarget;
-// import frc.robot.Constants;
+package frc.robot.subsystems;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.Optional;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableValue;
+import frc.robot.utils.ApriltagMeasurement;
 
 
-// public class Vision extends KillableSubsystem {
-    
-//     private static PhotonCamera camera;
-	
-//     public Vision() {
-//         camera = new PhotonCamera(Constants.Vision.cameraID);
-//     }
+public class Vision extends SubsystemBase {
 
-    
+    private static NetworkTable _networkTable;
 
-//     public Rotation2d ringDirection(){
-// 		// Gets target object orientation from orange photonvision
-//             if(checkForTarget()){
-//                 return Rotation2d.fromDegrees(camera.getLatestResult().getBestTarget().getYaw());
-//             } else {
-//                 return Rotation2d.fromDegrees(0);
-//             }
-//     }
+    public Vision() {
+        _networkTable = NetworkTableInstance.getDefault().getTable("JetsonVision");
+    }
 
-// 	public boolean checkForTarget(){
-// 		var result = camera.getLatestResult();//get a frame from the camera
-// 		boolean hasTargets = result.hasTargets();//check for targets. This MUST be checked for, otherwise an error will occur if there isn't a target.
-// 		return hasTargets;
-// 	}
+    public Optional<ApriltagMeasurement> getMeasurement() {
 
-//     public double getTargetID() {
-//         var result = camera.getLatestResult();
-//         PhotonTrackedTarget target = result.getBestTarget();
-//         int targetID = target.getFiducialId();
-//         return targetID;
-//     }
+        // If no measurement or measurement does not exist, return Optional.empty()
+        try {
+            if (!_networkTable.getValue("Has pose").getBoolean()) 
+                return Optional.empty();
+        } catch (Exception e) {
+            return Optional.empty();
+        }
 
-// }
+        // Gets last pose
+        NetworkTableValue lastMeasurement = _networkTable.getValue("Pose");
+        double[] poseArray = lastMeasurement.getDoubleArray();
+
+        // Gets last time
+        long lastDetectedTime = lastMeasurement.getTime();
+        double latency = poseArray[4];
+        long timeStamp = lastDetectedTime - (long) latency;
+        
+        // Gets pose data
+        double tagX = poseArray[0];
+        double tagY = poseArray[1];
+        double tagRot = poseArray[2];
+        int tagID = (int) poseArray[3];
+        // Gets last detected pose
+        Pose2d pose = new Pose2d(
+                new Translation2d(tagX, tagY),
+                new Rotation2d(tagRot));
+
+        // Creates an Apriltag measurement based off of the data and returns
+        ApriltagMeasurement lastApriltagMeasurement = new ApriltagMeasurement(pose, timeStamp, tagRot, tagID);
+        return Optional.of(lastApriltagMeasurement);
+
+    }
+
+}
