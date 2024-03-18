@@ -9,6 +9,7 @@ import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
 import frc.robot.utils.ShuffleboardChoosers;
 import frc.robot.utils.ShuffleboardField;
+//import edu.wpi.first.math.ComputerVisionUtil;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends KillableSubsystem {
@@ -84,17 +85,13 @@ public class Drivetrain extends KillableSubsystem {
         }
 
         // set PID target to 0 but also immediately stop all modules
-        public void stop() {
+        @Override
+        public void kill() {
                 drive(new DriveCommandData(0, 0, 0, false));
                 m_frontLeft.stop();
                 m_frontRight.stop();
                 m_backLeft.stop();
                 m_backRight.stop();
-        }
-        //TODO: replace
-        @Override
-        public void kill() {
-                stop();
         }
 
         @Override

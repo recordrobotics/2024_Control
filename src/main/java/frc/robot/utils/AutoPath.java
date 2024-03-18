@@ -22,7 +22,7 @@ public class AutoPath {
                     Crashbar crashbar) {
 
         // Registering named commands (so that the pathplanner can call them by name)
-        NamedCommands.registerCommand("Stop", new InstantCommand(() -> drivetrain.stop()));
+        NamedCommands.registerCommand("Stop", new InstantCommand(() -> drivetrain.kill()));
         NamedCommands.registerCommand("Acquire", new AcquireSmart(acquisition, channel, photosensor, shooter));
         NamedCommands.registerCommand("PushSpeaker", new PushSpeaker(channel, shooter));
         NamedCommands.registerCommand("FlywheelSpeaker", new SetupSpeaker(shooter));

@@ -31,7 +31,7 @@ package frc.robot.commands.archived;
 
 //     @Override
 //     public void initialize() {
-//         driveTrain.stop();
+//         driveTrain.kill();
 //     }
 
 //     @Override
