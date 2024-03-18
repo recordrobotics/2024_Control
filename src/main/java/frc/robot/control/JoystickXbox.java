@@ -51,7 +51,6 @@ public class JoystickXbox extends AbstractControl {
     @Override
     public Double getDirectionalSpeedLevel() {
 		// Remaps speed meter from -1 -> 1 to 0.5 -> 4, then returns
-        // TODO: I reversed the getrawaxis and made min and max -1 -> 1. Is this ok?
 		return SimpleMath.Remap(
             joystick.getRawAxis(3), 
             1, 

@@ -70,7 +70,7 @@ public class ShuffleboardChoosers {
             .withSize(3, 1)
             .withPosition(6, 1);
 
-        // 
+        // Creates the UI for starting location
         ShuffleboardUI.Autonomous.getTab()
             .add("Starting Location", fieldStartingLocationChooser)
             .withWidget(BuiltInWidgets.kSplitButtonChooser)
