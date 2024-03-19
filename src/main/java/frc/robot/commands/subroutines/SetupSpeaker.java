@@ -20,7 +20,7 @@ public class SetupSpeaker extends SequentialCommandGroup {
     final Runnable killSpecified = () -> new KillSpecified(_shooter);
 
     addCommands(
-      new InstantCommand(()->_shooter.toggle(ShooterStates.SPEAKER)).handleInterrupt(killSpecified)
+      new InstantCommand(()->_shooter.toggle(ShooterStates.SPEAKER), _shooter).handleInterrupt(killSpecified)
     );
   }
 }
