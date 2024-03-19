@@ -19,20 +19,24 @@ public class SetupAmp extends SequentialCommandGroup {
    * @param crashbar
    * @param lowerCrashbar
    */
-  public SetupAmp (Shooter shooter, Crashbar crashbar, Boolean lowerCrashbar) {
+  public SetupAmp(Shooter shooter, Crashbar crashbar, Boolean lowerCrashbar) {
     _shooter = shooter;
     _crashbar = crashbar;
 
     final Runnable killSpecified = () -> new KillSpecified(_shooter, _crashbar);
 
-    addCommands(
-      new InstantCommand(() -> {
+    if (lowerCrashbar) {
+      addCommands(
+          new InstantCommand(() -> {
             shooter.toggle(ShooterStates.AMP);
-            if (lowerCrashbar) {
-              crashbar.toggle(CrashbarStates.EXTENDED);
-            }
-        }).handleInterrupt(killSpecified)
-    );
+          }, shooter).handleInterrupt(killSpecified));
+    } else {
+      addCommands(
+          new InstantCommand(() -> {
+            shooter.toggle(ShooterStates.AMP);
+            crashbar.toggle(CrashbarStates.EXTENDED);
+          }, shooter, crashbar).handleInterrupt(killSpecified));
+    }
   }
 
   /**
