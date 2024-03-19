@@ -158,6 +158,9 @@ public final class Constants {
         /** The max speed the robot is allowed to travel */
         public static final double robotMaxSpeed = 7.0;
 
+        /** The max jerk of the robot below which the pose is certain (in G) */
+        public static final double MaxPoseCertaintyJerk = 1.0;
+
         public static final HolonomicPathFollowerConfig PathFollowerConfig = new HolonomicPathFollowerConfig(
                 new PIDConstants(1, 0.0, 0.0), // Translation PID constants
                 new PIDConstants(1, 0.0, 0.0), // Rotation PID constants

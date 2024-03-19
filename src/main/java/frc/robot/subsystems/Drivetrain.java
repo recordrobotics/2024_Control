@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 import java.util.Optional;
 
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -13,6 +13,7 @@ import frc.robot.Constants;
 import frc.robot.utils.ShuffleboardChoosers;
 import frc.robot.utils.ShuffleboardField;
 //import edu.wpi.first.math.ComputerVisionUtil;
+import frc.robot.utils.UncertainSwerveDrivePoseEstimator;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends KillableSubsystem {
@@ -35,13 +36,17 @@ public class Drivetrain extends KillableSubsystem {
                         Constants.Swerve.backRightConstants.wheelLocation);
 
         // Creates swerve post estimation filter
-        public SwerveDrivePoseEstimator poseFilter;
+        public UncertainSwerveDrivePoseEstimator poseFilter;
+
+        private final LinearFilter navJerkFilter;
 
         // Init drivetrain
         public Drivetrain() {
                 _nav.resetAngleAdjustment();
 
-                poseFilter = new SwerveDrivePoseEstimator(
+                navJerkFilter = LinearFilter.movingAverage(5); // last 5 samples
+
+                poseFilter = new UncertainSwerveDrivePoseEstimator(
                                 m_kinematics,
                                 _nav.getAdjustedAngle(),
                                 new SwerveModulePosition[] {
@@ -108,16 +113,30 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 });
-                ShuffleboardField.setRobotPose(poseFilter.getEstimatedPosition());
-                
+                ShuffleboardField.setRobotPose(poseFilter.getEstimatedPosition(), poseFilter.isCertain());
+
                 // Adds vision measurement 
                 Optional<ApriltagMeasurement> measurement = _vision.getMeasurement();
                 if (measurement.isPresent()) {
                         poseFilter.addVisionMeasurement(
-                                measurement.get().pose, 
-                                measurement.get().timeStamp
-                                //TODO: figure out std devs
+                                        measurement.get().pose,
+                                        measurement.get().timeStamp
+                        //TODO: figure out std devs
                         );
+                }
+
+                double jerk = navJerkFilter.calculate(_nav.getJerkMagnitude());
+
+                /**
+                 * Whenever the filtered jerk goes above
+                 * the max pose certainty jerk,
+                 * mark the pose filter as uncertain
+                 * and keep it there even if the jerk goes back down
+                 * because there is a chance that the pose is now off.
+                 * Only reset back to certain after seeing a tag
+                 */
+                if (jerk > Constants.Swerve.MaxPoseCertaintyJerk) {
+                        poseFilter.setCertainty(false);
                 }
         }
 
@@ -137,12 +156,13 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backRight.getModulePosition()
                                 },
                                 ShuffleboardChoosers.getStartingLocation().getPose());
+                poseFilter.setCertainty(true); // we just set a known position
         }
 
         /**
          * Resets the pose to FrontSpeakerClose (shooter facing towards speaker)
          */
-        public void resetDriverPose(){
+        public void resetDriverPose() {
                 _nav.resetAngleAdjustment();
                 m_frontLeft.resetDriveMotorPosition();
                 m_frontRight.resetDriveMotorPosition();
@@ -157,6 +177,7 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backRight.getModulePosition()
                                 },
                                 ShuffleboardChoosers.FieldStartingLocation.FrontSpeakerClose.getPose());
+                poseFilter.setCertainty(true); // we just set a known position
         }
 
         /**
@@ -181,5 +202,6 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 }, pose);
+                poseFilter.setCertainty(true); // we just set a known position
         }
 }
