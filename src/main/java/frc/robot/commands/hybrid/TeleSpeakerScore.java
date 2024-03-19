@@ -8,7 +8,10 @@ import frc.robot.commands.subroutines.PushSpeaker;
 import frc.robot.commands.subroutines.SetupSpeaker;
 import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Shooter;
+import frc.robot.utils.FieldPosition;
+import frc.robot.utils.TriggerDistance;
 
+@TriggerDistance(distance = 3, position = FieldPosition.Speaker)
 public class TeleSpeakerScore extends SequentialCommandGroup {
 
     // Load the path we want to pathfind to and follow

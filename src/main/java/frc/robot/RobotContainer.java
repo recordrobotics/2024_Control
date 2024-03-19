@@ -15,6 +15,7 @@ import frc.robot.control.*;
 import frc.robot.subsystems.*;
 import frc.robot.utils.AutoPath;
 import frc.robot.utils.ShuffleboardChoosers;
+import frc.robot.utils.TriggerProcessor;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -26,6 +27,7 @@ import frc.robot.utils.ShuffleboardChoosers;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
 
   // The robot's subsystems and commands are defined here
   private final Drivetrain _drivetrain;
@@ -106,9 +108,13 @@ public class RobotContainer {
     new Trigger(() -> ShuffleboardChoosers.getDriveControl().getPoseReset()).onTrue(new InstantCommand(_drivetrain::resetDriverPose));
 
     // Tele-auto triggers
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleAmp()).onTrue(new TeleAmpScore(_channel, _shooter, _crashbar));
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleSpeaker()).onTrue(new TeleSpeakerScore(_channel, _shooter));
+    TriggerProcessor.withAnnotation(
+      new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleAmp()), TeleAmpScore.class)
+      .onTrue(new TeleAmpScore(_channel, _shooter, _crashbar));
 
+    TriggerProcessor.withAnnotation(
+      new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleSpeaker()), TeleSpeakerScore.class)
+      .onTrue(new TeleSpeakerScore(_channel, _shooter));
   }
 
   /**
