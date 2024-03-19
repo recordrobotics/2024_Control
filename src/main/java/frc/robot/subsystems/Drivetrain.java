@@ -113,17 +113,6 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 });
-                ShuffleboardField.setRobotPose(poseFilter.getEstimatedPosition(), poseFilter.isCertain());
-
-                // Adds vision measurement 
-                Optional<ApriltagMeasurement> measurement = _vision.getMeasurement();
-                if (measurement.isPresent()) {
-                        poseFilter.addVisionMeasurement(
-                                        measurement.get().pose,
-                                        measurement.get().timeStamp
-                        //TODO: figure out std devs
-                        );
-                }
 
                 double jerk = navJerkFilter.calculate(_nav.getJerkMagnitude());
 
@@ -138,6 +127,21 @@ public class Drivetrain extends KillableSubsystem {
                 if (jerk > Constants.Swerve.MaxPoseCertaintyJerk) {
                         poseFilter.setCertainty(false);
                 }
+
+                // Adds vision measurement 
+                Optional<ApriltagMeasurement> measurement = _vision.getMeasurement();
+                if (measurement.isPresent()) {
+                        poseFilter.addVisionMeasurement(
+                                        measurement.get().pose,
+                                        measurement.get().timeStamp
+                        //TODO: figure out std devs
+                        );
+
+                        // certain with updated vision pose
+                        poseFilter.setCertainty(true);
+                }
+
+                ShuffleboardField.setRobotPose(poseFilter.getEstimatedPosition(), poseFilter.isCertain());
         }
 
         /** Resets the field relative position of the robot (mostly for testing). */
