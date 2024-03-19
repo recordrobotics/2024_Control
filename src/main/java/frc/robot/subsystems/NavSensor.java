@@ -11,9 +11,13 @@ public class NavSensor extends SubsystemBase {
 	private static double period = 0.02;
 
 	/**
-	 * Apparently the magnitude of a derivative
-	 * is not equal to the derivative of a magnitude.
-	 * idk why
+	 * The magnitude of a derivative of a vector
+	 * is not equal to the derivative of a magnitude of a vector...
+	 * because
+	 * If a vector is on a unit circle, its magnitude is always 1
+	 * however, that vector might change its angle and that is still
+	 * a change in the vector that we need
+	 * so we take the derivative first and then the magnitude.
 	 */
 	private double last_accelX;
 	private double last_accelY;
