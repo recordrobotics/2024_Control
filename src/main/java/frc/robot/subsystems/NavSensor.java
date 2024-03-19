@@ -1,13 +1,27 @@
 package frc.robot.subsystems;
+
 import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
 public class NavSensor extends SubsystemBase {
 
-	// Creates AHRS _nav object
+	private static double period = 0.02;
+
+	/**
+	 * Apparently the magnitude of a derivative
+	 * is not equal to the derivative of a magnitude.
+	 * idk why
+	 */
+	private double last_accelX;
+	private double last_accelY;
+
+	private double jerkX;
+	private double jerkY;
+
+	//Ceates AHRS _nav object
 	private static AHRS _nav = new AHRS(SerialPort.Port.kUSB1);
 
 	// variable to keep track of a reference angle whenever you reset
@@ -16,7 +30,7 @@ public class NavSensor extends SubsystemBase {
 	// Resets nav
 	static {
 		_nav.reset();
-		_nav.resetDisplacement(); //Technically not necessary but whatever
+		_nav.resetDisplacement(); // Technically not necessary but whatever
 	}
 
 	// stores the reference angle as whatever the angle is currently measured to be
@@ -27,6 +41,20 @@ public class NavSensor extends SubsystemBase {
 	// Gets the angle minus the reference angle
 	public Rotation2d getAdjustedAngle() {
 		return Rotation2d.fromDegrees(-(_nav.getAngle() - referenceAngle));
+	}
+
+	public double getJerkMagnitude() {
+		return Math.sqrt(jerkX * jerkX + jerkY * jerkY);
+	}
+
+	@Override
+	public void periodic() {
+		double accelX = _nav.getWorldLinearAccelX();
+		double accelY = _nav.getWorldLinearAccelY(); // TODO: might need to be Z, should test
+		jerkX = (accelX - last_accelX) / period;
+		jerkY = (accelY - last_accelY) / period;
+		last_accelX = accelX;
+		last_accelY = accelY;
 	}
 
 }
