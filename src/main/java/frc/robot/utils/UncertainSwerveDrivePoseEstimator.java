@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class UncertainSwerveDrivePoseEstimator extends SwerveDrivePoseEstimator {
 
@@ -74,5 +75,9 @@ public class UncertainSwerveDrivePoseEstimator extends SwerveDrivePoseEstimator 
 
     public boolean isCertain() {
         return certain;
+    }
+
+    public WaitUntilCommand waitUntilCertain() {
+        return new WaitUntilCommand(this::isCertain);
     }
 }
