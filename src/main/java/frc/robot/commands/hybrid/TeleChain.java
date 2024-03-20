@@ -2,12 +2,13 @@ package frc.robot.commands.hybrid;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
-
+import frc.robot.subsystems.Vision;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Climbers.ClimberStates;
@@ -53,9 +54,10 @@ public class TeleChain extends SequentialCommandGroup {
 
         addCommands(
             new InstantCommand(()->_climbers.toggle(ClimberStates.UP), _climbers),
+            new WaitUntilCommand(()->Vision.currentlyDetectingTag()),
             new WaitCommand(1),
             AutoBuilder.pathfindThenFollowPath(lowest_path, constraints, 0),
             new InstantCommand(()->_climbers.toggle(ClimberStates.DOWN), _climbers)
         );
     }
-}
+}  

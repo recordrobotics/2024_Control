@@ -18,6 +18,10 @@ public class Vision extends SubsystemBase {
         _networkTable = NetworkTableInstance.getDefault().getTable("JetsonVision");
     }
 
+    public static Boolean currentlyDetectingTag() {
+        return _networkTable.getValue("Has pose").getBoolean();
+    }
+
     public static Optional<ApriltagMeasurement> getMeasurement() {
 
         // If no measurement or measurement does not exist, return Optional.empty()
