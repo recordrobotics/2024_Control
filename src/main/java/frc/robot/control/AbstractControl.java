@@ -9,12 +9,6 @@ import edu.wpi.first.math.Pair;
 
 public abstract class AbstractControl {
     // Movement
-    public abstract Pair<Double,Double> getXY();
-    public abstract Double getSpin();
-    public abstract Pair<Rotation2d,Double> getAngle();
-    public abstract Double getSpinSpeedLevel();
-    public abstract Double getDirectionalSpeedLevel();
-
     public abstract DriveCommandData getDriveCommandData();
 
     // Misc

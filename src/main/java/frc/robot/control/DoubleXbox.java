@@ -56,22 +56,13 @@ public class DoubleXbox extends AbstractControl {
     }
     
  
-    @Override
     public Pair<Double,Double> getXY() {
         double X = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(0), Constants.Control.XBOX_X_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
         double Y = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(1), Constants.Control.XBOX_X_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
         return super.OrientXY(new Pair<Double,Double>(X, Y));
     }
 
-    @Override
-    public Double getSpin() {
-        return null;
-    }
-
-    /**
-     * 
-     */
-    @Override
+    
     public Pair<Rotation2d,Double> getAngle() {
 
 		// Gets x and y axis of xbox
@@ -89,15 +80,10 @@ public class DoubleXbox extends AbstractControl {
 		return new Pair<Rotation2d, Double>(adjusted_angle, proportion);
     }
 
-    @Override
     public Double getDirectionalSpeedLevel() {
 		return speed_level;
 	}
 
-    @Override
-	public Double getSpinSpeedLevel() {
-		return null;
-	}
 
     @Override
     public Boolean getPoseReset() {
