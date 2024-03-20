@@ -25,7 +25,7 @@ public class SwerveModule {
 
   private final ProfiledPIDController drivePIDController;
   private final ProfiledPIDController turningPIDController;
-  private SimpleMotorFeedforward driveFeedForward;
+  private final SimpleMotorFeedforward driveFeedForward;
 
   private final double TURN_GEAR_RATIO;
   private final double DRIVE_GEAR_RATIO;
