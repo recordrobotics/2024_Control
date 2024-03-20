@@ -111,12 +111,17 @@ public class RobotContainer {
     TriggerProcessor.withAnnotation(
         new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleAmp()), TeleAmpScore.class)
         .onTrue(new TeleAmpScore(_channel, _shooter, _crashbar)
-            .beforeStarting(_drivetrain.poseFilter.waitUntilCertain()));
+            .beforeStarting(Drivetrain.poseFilter.waitUntilCertain()));
 
     TriggerProcessor.withAnnotation(
         new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleSpeaker()), TeleSpeakerScore.class)
         .onTrue(new TeleSpeakerScore(_channel, _shooter)
-            .beforeStarting(_drivetrain.poseFilter.waitUntilCertain()));
+            .beforeStarting(Drivetrain.poseFilter.waitUntilCertain()));
+
+    // TriggerProcessor.withAnnotation(
+    //     new Trigger(() -> ShuffleboardChoosers.getDriveControl().getTeleChain()), TeleChain.class)
+    //     .onTrue(new TeleChain(_climbers, _drivetrain)
+    //         .beforeStarting(Drivetrain.poseFilter.waitUntilCertain()));
   }
 
   /**

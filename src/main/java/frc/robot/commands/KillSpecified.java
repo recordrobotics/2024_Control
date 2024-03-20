@@ -23,7 +23,7 @@ public class KillSpecified extends Command {
      * @param subsystems 
      */
     public KillSpecified (Boolean shouldContinuouslyExecute, KillableSubsystem... subsystems) {
-        addRequirements(subsystems); //TODO: is this necessary/helpful?
+        addRequirements(subsystems);
         _subsytems = subsystems;
         _shouldContinuouslyExecute = shouldContinuouslyExecute;
     }

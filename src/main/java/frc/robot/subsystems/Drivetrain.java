@@ -20,7 +20,6 @@ public class Drivetrain extends KillableSubsystem {
 
         // Creates Nav object
         private final NavSensor _nav = new NavSensor();
-        private final Vision _vision = new Vision();
 
         // Creates swerve module objects
         private final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
@@ -36,8 +35,7 @@ public class Drivetrain extends KillableSubsystem {
                         Constants.Swerve.backRightConstants.wheelLocation);
 
         // Creates swerve post estimation filter
-        public UncertainSwerveDrivePoseEstimator poseFilter;
-
+        public static UncertainSwerveDrivePoseEstimator poseFilter;
         private final LinearFilter navJerkFilter;
 
         // Init drivetrain
@@ -129,7 +127,7 @@ public class Drivetrain extends KillableSubsystem {
                 }
 
                 // Adds vision measurement 
-                Optional<ApriltagMeasurement> measurement = _vision.getMeasurement();
+                Optional<ApriltagMeasurement> measurement = Vision.getMeasurement();
                 if (measurement.isPresent()) {
                         poseFilter.addVisionMeasurement(
                                         measurement.get().pose,
@@ -140,7 +138,6 @@ public class Drivetrain extends KillableSubsystem {
                         // certain with updated vision pose
                         poseFilter.setCertainty(true);
                 }
-
                 ShuffleboardField.setRobotPose(poseFilter.getEstimatedPosition(), poseFilter.isCertain());
         }
 

@@ -1,5 +1,7 @@
 package frc.robot.utils;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Translation2d;
+import frc.robot.Constants;
 
 public class SimpleMath {
     
@@ -48,6 +50,17 @@ public class SimpleMath {
 		double proportion = subtract_threshold / (1 - threshold);
 		// Multiplies by spin sensitivity and returns
 		return Math.signum(input) * proportion * sensitivity;
+    }
+
+    /**
+     * //TODO: fix because I think the field dimension is wrong
+     * @param location
+     * @return mirrored translation2d of the translation2d you put in
+     */
+    public static Translation2d MirrorLocation(Translation2d location) {
+        double mirrored_x = Constants.FieldConstants.FIELD_X_DIMENSION - location.getX();
+        double mirrored_y = location.getY();
+        return new Translation2d(mirrored_x, mirrored_y);
     }
 
 }

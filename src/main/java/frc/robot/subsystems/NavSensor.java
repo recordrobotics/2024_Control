@@ -60,5 +60,4 @@ public class NavSensor extends SubsystemBase {
 		last_accelX = accelX;
 		last_accelY = accelY;
 	}
-
 }

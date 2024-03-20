@@ -52,6 +52,11 @@ public final class Constants {
         public static final Translation2d TEAM_RED_AMP = new Translation2d(14.7, 8.5);
         public static final Translation2d TEAM_BLUE_AMP = new Translation2d(2.775, 8.5);
 
+        public static final Translation2d TEAM_BLUE_CENTER_CHAIN = new Translation2d(4.89, 4.09);
+        public static final Translation2d TEAM_BLUE_SPEAKER_SIDE_CHAIN = new Translation2d(4.05, 2.87);
+        public static final Translation2d TEAM_BLUE_AMP_SIDE_CHAIN = new Translation2d(4.09, 5.46);
+        public static final Translation2d TEAM_BLUE_FAR_SIDE_CHAIN = new Translation2d(6.49, 4.13);
+
         // Field width and length
         public static final double FIELD_X_DIMENSION = 16.54; // Length
         public static final double FIELD_Y_DIMENSION = 8.21; // Width

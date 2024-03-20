@@ -1,12 +1,12 @@
 package frc.robot.control;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.SimpleMath;
 
@@ -28,10 +28,10 @@ public class DoubleXbox extends AbstractControl {
 	}
 
     @Override
-    public DriveCommandData getDriveCommandData(Pose2d swerve_position) {
+    public DriveCommandData getDriveCommandData() {
 
         // Calculates spin
-        double robot_angle = swerve_position.getRotation().getRadians();
+        double robot_angle = Drivetrain.poseFilter.getEstimatedPosition().getRotation().getRadians();
         double target_angle = super.OrientAngle(getAngle().getFirst()).getRadians();
         double spin = anglePID.calculate(robot_angle, target_angle);
         // Calculates proportion of PID to multiply by

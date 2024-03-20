@@ -1,5 +1,4 @@
 package frc.robot.control;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.utils.DriveCommandData;
@@ -16,7 +15,7 @@ public abstract class AbstractControl {
     public abstract Double getSpinSpeedLevel();
     public abstract Double getDirectionalSpeedLevel();
 
-    public abstract DriveCommandData getDriveCommandData(Pose2d swerve_position);
+    public abstract DriveCommandData getDriveCommandData();
 
     // Misc
     public abstract Boolean getPoseReset();

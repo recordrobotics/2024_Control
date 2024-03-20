@@ -42,17 +42,6 @@ utils.
 
 ShuffleboardChoosers/* This is a SEMICOLON */;
 
-import edu.
-
-wpi.
-
-first.
-
-math.
-
-geometry.
-
-Pose2d/* This is a SEMICOLON */;
 
 import edu.
 
@@ -132,11 +121,7 @@ getDriveControl()/* This is a SEMICOLON */;
 
 
 
-            Pose2d swerve_position = _drivetrain.
 
-poseFilter.
-
-getEstimatedPosition()/* This is a SEMICOLON */;
 
     
 
@@ -144,7 +129,7 @@ getEstimatedPosition()/* This is a SEMICOLON */;
 
 getDriveCommandData(
 
-                swerve_position)/* This is a SEMICOLON */;
+                )/* This is a SEMICOLON */;
 
     
 

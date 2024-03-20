@@ -14,11 +14,11 @@ public class Vision extends SubsystemBase {
 
     private static NetworkTable _networkTable;
 
-    public Vision() {
+    static {
         _networkTable = NetworkTableInstance.getDefault().getTable("JetsonVision");
     }
 
-    public Optional<ApriltagMeasurement> getMeasurement() {
+    public static Optional<ApriltagMeasurement> getMeasurement() {
 
         // If no measurement or measurement does not exist, return Optional.empty()
         try {
@@ -50,7 +50,5 @@ public class Vision extends SubsystemBase {
         // Creates an Apriltag measurement based off of the data and returns
         ApriltagMeasurement lastApriltagMeasurement = new ApriltagMeasurement(pose, timeStamp, tagRot, tagID);
         return Optional.of(lastApriltagMeasurement);
-
     }
-
 }

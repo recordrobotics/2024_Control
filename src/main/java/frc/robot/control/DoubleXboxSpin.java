@@ -1,6 +1,5 @@
 package frc.robot.control;
 import edu.wpi.first.math.Pair;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -24,7 +23,7 @@ public class DoubleXboxSpin extends AbstractControl {
 	}
 
     @Override
-    public DriveCommandData getDriveCommandData(Pose2d swerve_position) {
+    public DriveCommandData getDriveCommandData() {
         // Gets information needed to drive
         DriveCommandData driveCommandData = new DriveCommandData(
                 getXY().getFirst() * getDirectionalSpeedLevel(),
