@@ -3,14 +3,16 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-import frc.robot.utils.ShuffleboardUI;
+import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class Channel extends KillableSubsystem {
     private Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);
 
     public Channel() {
         toggle(ChannelStates.OFF);
-        setupShuffleboard();
+        
+        var widget = ShuffleboardUI.Test.getTab().add("Channel", channelMotor);
+        widget.withWidget(BuiltInWidgets.kMotorController);
     }
 
     public enum ChannelStates {
@@ -45,10 +47,4 @@ public class Channel extends KillableSubsystem {
     public void kill() {
         toggle(ChannelStates.OFF);
     }
-
-    private void setupShuffleboard() {
-        var widget = ShuffleboardUI.Test.getTab().add("Channel", channelMotor);
-        widget.withWidget(BuiltInWidgets.kMotorController);
-    }
-    
 }

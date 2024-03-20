@@ -3,13 +3,18 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import frc.robot.utils.DriverStationUtils;
 import frc.robot.utils.ModuleConstants;
+import frc.robot.utils.SimpleMath;
 import frc.robot.utils.ModuleConstants.MotorType;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -43,6 +48,92 @@ public final class Constants {
     public final class Acquisition {
         /** Constant; The speed and direction of the acquisition on intake */
         public static final double ACQUISITION_SPEED = 1;
+    }
+
+    public enum FieldPosition{
+        Speaker(Constants.FieldConstants.TEAM_RED_SPEAKER, Constants.FieldConstants.TEAM_BLUE_SPEAKER),
+        Amp(Constants.FieldConstants.TEAM_RED_AMP, Constants.FieldConstants.TEAM_BLUE_AMP),
+        CenterChain(SimpleMath.MirrorLocation(Constants.FieldConstants.TEAM_BLUE_CENTER_CHAIN), Constants.FieldConstants.TEAM_BLUE_CENTER_CHAIN),
+        // SpeakerSideChain(SimpleMath.MirrorLocation(Constants.FieldConstants.TEAM_BLUE_SPEAKER_SIDE_CHAIN), Constants.FieldConstants.TEAM_BLUE_SPEAKER_SIDE_CHAIN),
+        // AmpSideChain(SimpleMath.MirrorLocation(Constants.FieldConstants.TEAM_BLUE_AMP_SIDE_CHAIN), Constants.FieldConstants.TEAM_BLUE_AMP_SIDE_CHAIN),
+        // FarSideChain(SimpleMath.MirrorLocation(Constants.FieldConstants.TEAM_BLUE_FAR_SIDE_CHAIN), Constants.FieldConstants.TEAM_BLUE_FAR_SIDE_CHAIN)
+        ;
+    
+        private Translation2d red;
+        private Translation2d blue;
+    
+        private FieldPosition(Translation2d red, Translation2d blue){
+            this.red=red;        this.blue=blue;
+        }
+    
+        public Translation2d getPose(){
+            if(DriverStationUtils.getCurrentAlliance() == Alliance.Red)
+                return red;
+            else 
+                return blue;
+        }
+    }
+
+    public enum FieldStartingLocation {
+        FrontSpeaker(
+                // Red
+                new Pose2d(14.169, 5.584, Rotation2d.fromDegrees(180)),
+                // Blue
+                new Pose2d(2.371, 5.584, Rotation2d.fromDegrees(0))),
+        FrontSpeakerClose(
+                // Red
+                new Pose2d(14.169, 5.584, Rotation2d.fromDegrees(180)),
+                // Blue
+                new Pose2d(2.371, 5.584, Rotation2d.fromDegrees(0))),
+        AtAmp(
+                // Red
+                new Pose2d(14.89, 7.27, Rotation2d.fromDegrees(-90)),
+                // Blue
+                new Pose2d(1.65, 7.27, Rotation2d.fromDegrees(-90))),
+        DiagonalSpeaker(
+                // Red
+                new Pose2d(16.268, 4.454, Rotation2d.fromDegrees(-120.665)),
+                // Blue
+                new Pose2d(1.564, 4.403, Rotation2d.fromDegrees(-60.849))),
+        DiaAmpSpeaker(
+                // Red
+                new Pose2d(16.199, 6.730, Rotation2d.fromDegrees(119.8)),
+                // Blue
+                new Pose2d(1.776, 6.703, Rotation2d.fromDegrees(58.762))),
+                ;
+
+        private final Pose2d m_transformRed;
+        private final Pose2d m_transformBlue;
+
+        private FieldStartingLocation(Pose2d poseRed, Pose2d poseBlue) {
+            m_transformRed = poseRed;
+            m_transformBlue = poseBlue;
+        }
+
+        public Pose2d getPose() {
+            return DriverStationUtils.getCurrentAlliance() == Alliance.Red ? m_transformRed : m_transformBlue;
+        }
+    }
+
+    // Auto routines
+    public enum AutoName{
+        Speaker_2_note("2 Note Speaker"),
+        Speaker_4_note("4 Note Speaker"),
+        Amp_Speaker_2_note("Amp and Speaker (2)"),
+        Amp_Speaker_1_note("Amp and Speaker"),
+        Amp("Amp"),
+        FarSpeaker("Far Speaker"),
+        DiagLeftOneNote("DiagLeftOneNote"),
+        DiagJustShoot("DiagJustShoot"),
+        Speaker_3_Note("3NoteSpeaker"),
+        Nutron1("Nutron1")
+        ;
+    
+        public final String pathref;
+    
+        AutoName(String pathplannerRef){
+            pathref=pathplannerRef;
+        }
     }
 
     public final class FieldConstants {

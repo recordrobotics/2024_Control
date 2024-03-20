@@ -1,9 +1,8 @@
 package frc.robot.subsystems;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.ShuffleboardUI;
+import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class Photosensor extends SubsystemBase {
 
@@ -13,7 +12,8 @@ public class Photosensor extends SubsystemBase {
 
     public Photosensor() {
         photosensor = new DigitalInput(0);
-        setupShuffleboard();
+        ShuffleboardUI.Overview.setHasNote(this::getDebouncedValue);
+        ShuffleboardUI.Autonomous.setHasNote(this::getDebouncedValue);
     }
 
     public void periodic() {
@@ -35,17 +35,5 @@ public class Photosensor extends SubsystemBase {
      */
     public Boolean getCurrentValue() {
         return photosensor.get();
-    }
-
-    private void setupShuffleboard() {
-        ShuffleboardUI.Overview.getTab().addBoolean("Has Note", this::getDebouncedValue)
-                .withWidget(BuiltInWidgets.kBooleanBox)
-                .withPosition(9, 0)
-                .withSize(1, 1);
-
-        ShuffleboardUI.Autonomous.getTab().addBoolean("Has Note", this::getDebouncedValue)
-                .withWidget(BuiltInWidgets.kBooleanBox)
-                .withPosition(9, 1)
-                .withSize(1, 1);
     }
 }

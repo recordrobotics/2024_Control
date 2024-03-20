@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.utils.ModuleConstants;
-import frc.robot.utils.ShuffleboardUI;
+import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class SwerveModule {
 

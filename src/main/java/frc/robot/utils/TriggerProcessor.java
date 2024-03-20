@@ -2,6 +2,7 @@ package frc.robot.utils;
 import java.util.Optional;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.FieldPosition;
 import frc.robot.subsystems.Drivetrain;
 
 public class TriggerProcessor {
