@@ -131,8 +131,7 @@ public class SwerveModule {
    * @return The distance driven by the drive wheel (meters)
    */
   private double getDriveWheelDistance() {
-    double numRotationsDriveMotor = m_driveMotor.getPosition().getValueAsDouble(); // TODO: may have to multiply by
-                                                                                   // relative encoder ratio
+    double numRotationsDriveMotor = m_driveMotor.getPosition().getValueAsDouble(); 
     double numRotationsDriveWheel = numRotationsDriveMotor / DRIVE_GEAR_RATIO;
     double speedWheelDistanceMeters = numRotationsDriveWheel * Math.PI * WHEEL_DIAMETER;
     return speedWheelDistanceMeters;

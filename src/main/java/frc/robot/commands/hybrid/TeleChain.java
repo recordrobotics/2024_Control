@@ -29,7 +29,6 @@ public class TeleChain extends SequentialCommandGroup {
     private static Climbers _climbers;
 
     public TeleChain (Climbers climbers) {
-        addRequirements(climbers);
         _climbers = climbers;
 
         // Loads path

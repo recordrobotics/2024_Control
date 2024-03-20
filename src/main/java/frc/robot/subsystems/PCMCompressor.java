@@ -13,7 +13,6 @@ public class PCMCompressor extends SubsystemBase {
         setupShuffleboard();
     }
 
-    // TODO: could turn these into CompressorState objects
     public void disable() {
         compressor.disable();
     }

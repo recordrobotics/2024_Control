@@ -66,7 +66,7 @@ public class ModuleConstants {
             this.turningEncoderOffset = turningEncoderOffset;
 
             // Wheel location
-            this.wheelLocation = wheelLocation; //TODO: wheel location may be motor type dependent
+            this.wheelLocation = wheelLocation;
             
             // Max Angular Acceleration & Velocity
             this.TurnMaxAngularVelocity = Constants.Swerve.TurnMaxAngularVelocity;
