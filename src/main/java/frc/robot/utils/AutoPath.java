@@ -2,7 +2,6 @@ package frc.robot.utils;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
 import frc.robot.commands.notes.AcquireSmart;
@@ -37,8 +36,6 @@ public class AutoPath {
                 
                 // Method that will drive the robot given ROBOT RELATIVE speeds
                 (speeds) -> {
-                    SmartDashboard.putNumberArray("speeds",
-                            new double[] { speeds.vxMetersPerSecond, speeds.vyMetersPerSecond });
                     drivetrain
                             .drive(new DriveCommandData(speeds.vxMetersPerSecond,
                                     speeds.vyMetersPerSecond,

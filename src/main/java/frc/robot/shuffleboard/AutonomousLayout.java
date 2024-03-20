@@ -1,5 +1,7 @@
 package frc.robot.shuffleboard;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -18,7 +20,19 @@ public class AutonomousLayout extends Layout {
     private static SendableChooser<FieldStartingLocation> fieldStartingLocationChooser = new SendableChooser<>();
 
     private Supplier<Boolean> acquisitionValue = () -> null;
-    private Supplier<Boolean> hasNoteValue =  () -> false;
+    private Supplier<Boolean> hasNoteValue = () -> false;
+    
+    public class SwerveVelocityData {
+        public Double current;
+        public Double target;
+    
+        public SwerveVelocityData(double current, double target) {
+            this.current = current;
+            this.target = target;
+        }
+    }
+    
+    private final static Map<Integer, SwerveVelocityData> velocityGraphData = new HashMap<>();    
 
     public AutonomousLayout() {
         getTab()
@@ -51,7 +65,22 @@ public class AutonomousLayout extends Layout {
             .addBoolean("Has Note", ()->hasNoteValue.get())
             .withWidget(BuiltInWidgets.kBooleanBox)
             .withPosition(9, 1)
-            .withSize(1, 1);
+                .withSize(1, 1);
+            
+        getTab().addDoubleArray("Velocity", () -> {
+            var values = velocityGraphData.values().toArray();
+            double[] db = new double[values.length * 2];
+            for (int i = 0; i < values.length; i++) {
+            if (values[i] instanceof SwerveVelocityData p) {
+                db[i * 2] = p.current;
+                db[i * 2 + 1] = p.target;
+            }
+            }
+            return db;
+        })
+            .withWidget(BuiltInWidgets.kGraph)
+            .withPosition(6, 2)
+            .withSize(4, 3);
     }
 
     public void setRobotPose(Pose2d pose) {
@@ -66,6 +95,10 @@ public class AutonomousLayout extends Layout {
         hasNoteValue = hasNote;
     }
     
+    public void putSwerveVelocityData(int id, double current, double target) {
+        velocityGraphData.put(id, new SwerveVelocityData(current, target));
+    }
+
     @Override
     public ShuffleboardTab getTab() {
         return Shuffleboard.getTab("Autonomous");

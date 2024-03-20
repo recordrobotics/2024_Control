@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
@@ -16,9 +15,7 @@ public class Acquisition extends KillableSubsystem {
         
         ShuffleboardUI.Overview.setAcquisition(() -> acquisitionMotor.get() != 0);
         ShuffleboardUI.Autonomous.setAcquisition(() -> acquisitionMotor.get() != 0);
-
-        ShuffleboardUI.Test.getTab().add("Acquisition", acquisitionMotor)
-            .withWidget(BuiltInWidgets.kMotorController);
+        ShuffleboardUI.Test.addMotor("Acquisition", acquisitionMotor);
     }
 
     public enum AcquisitionStates {

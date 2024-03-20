@@ -137,6 +137,6 @@ public class RobotContainer {
   }
 
   public void testPeriodic() {
-    _shooter.testPeriodic();
+    ShuffleboardUI.Test.testPeriodic();
   }
 }

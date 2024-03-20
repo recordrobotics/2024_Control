@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
@@ -10,9 +9,7 @@ public class Channel extends KillableSubsystem {
 
     public Channel() {
         toggle(ChannelStates.OFF);
-        
-        var widget = ShuffleboardUI.Test.getTab().add("Channel", channelMotor);
-        widget.withWidget(BuiltInWidgets.kMotorController);
+        ShuffleboardUI.Test.addMotor("Channel", channelMotor);
     }
 
     public enum ChannelStates {

@@ -4,13 +4,10 @@
 
 package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
-import java.util.Map;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Shooter extends KillableSubsystem {
@@ -18,12 +15,10 @@ public class Shooter extends KillableSubsystem {
     private CANSparkMax flywheelL = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID, MotorType.kBrushless);
     private CANSparkMax flywheelR = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID, MotorType.kBrushless);
 
-    GenericEntry widgetL;
-    GenericEntry widgetR;
-
     public Shooter() {
         toggle(ShooterStates.OFF);
-        setupShuffleboard();
+        ShuffleboardUI.Test.addSlider("Flywheel Left", flywheelL.get(), -1, 1).subscribe(flywheelL::set);
+        ShuffleboardUI.Test.addSlider("Flywheel Right", flywheelR.get(), -1, 1).subscribe(flywheelR::set);
     }
 
     public enum ShooterStates {
@@ -63,23 +58,4 @@ public class Shooter extends KillableSubsystem {
     public void kill() {
         toggle(ShooterStates.OFF);
     }
-
-    public void testPeriodic(){
-        flywheelL.set(widgetL.getDouble(0));
-        flywheelR.set(widgetR.getDouble(0));
-    }
-
-
-    private void setupShuffleboard() {
-        widgetL = ShuffleboardUI.Test.getTab().add("Flywheel Left", flywheelL.get())
-            .withWidget(BuiltInWidgets.kNumberSlider)
-            .withProperties(Map.of("min", -1, "max", 1))
-            .getEntry();
-
-        widgetR = ShuffleboardUI.Test.getTab().add("Flywheel Right", flywheelR.get())
-            .withWidget(BuiltInWidgets.kNumberSlider)
-            .withProperties(Map.of("min", -1, "max", 1))
-            .getEntry();
-    }
-
 }
