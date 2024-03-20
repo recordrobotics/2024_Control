@@ -5,6 +5,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Drivetrain;
 
 public class TriggerProcessor {
+
+    public @interface TriggerDistance{
+        public FieldPosition position();
+        public double distance();
+    }
     
     public static <A> Optional<Boolean> isWithinDistance(Class<A> clas){
         if(!clas.isAnnotationPresent(TriggerDistance.class))

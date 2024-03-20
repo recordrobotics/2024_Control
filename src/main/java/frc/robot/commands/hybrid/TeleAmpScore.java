@@ -10,7 +10,7 @@ import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Crashbar;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utils.FieldPosition;
-import frc.robot.utils.TriggerDistance;
+import frc.robot.utils.TriggerProcessor.TriggerDistance;
 
 @TriggerDistance(distance = 3, position = FieldPosition.Amp)
 public class TeleAmpScore extends SequentialCommandGroup {

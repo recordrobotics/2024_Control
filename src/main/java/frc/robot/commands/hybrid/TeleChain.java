@@ -13,7 +13,7 @@ import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Climbers.ClimberStates;
 import frc.robot.utils.FieldPosition;
-import frc.robot.utils.TriggerDistance;
+import frc.robot.utils.TriggerProcessor.TriggerDistance;
 
 
 @TriggerDistance(distance = 5, position = FieldPosition.CenterChain)
