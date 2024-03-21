@@ -4,9 +4,9 @@
 
 package frc.robot.commands.manual;
 import frc.robot.control.AbstractControl;
+import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
-import frc.robot.utils.ShuffleboardChoosers;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
@@ -36,7 +36,7 @@ public class ManualSwerve extends Command {
   @Override
   public void execute() {
 
-    AbstractControl _controls = ShuffleboardChoosers.getDriveControl();
+    AbstractControl _controls = ShuffleboardUI.Overview.getControl();
 
     DriveCommandData driveCommandData = _controls.getDriveCommandData();
     _drivetrain.drive(driveCommandData);

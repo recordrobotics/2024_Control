@@ -8,7 +8,7 @@ import frc.robot.commands.subroutines.PushSpeaker;
 import frc.robot.commands.subroutines.SetupSpeaker;
 import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Shooter;
-import frc.robot.utils.FieldPosition;
+import frc.robot.Constants.FieldPosition;
 import frc.robot.utils.TriggerProcessor.TriggerDistance;
 
 @TriggerDistance(distance = 3, position = FieldPosition.Speaker)

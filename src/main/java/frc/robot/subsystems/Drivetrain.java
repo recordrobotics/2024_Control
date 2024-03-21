@@ -10,8 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.utils.ApriltagMeasurement;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
-import frc.robot.utils.ShuffleboardChoosers;
-import frc.robot.utils.ShuffleboardField;
+import frc.robot.shuffleboard.ShuffleboardUI;
 //import edu.wpi.first.math.ComputerVisionUtil;
 import frc.robot.utils.UncertainSwerveDrivePoseEstimator;
 
@@ -53,7 +52,9 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                ShuffleboardChoosers.getStartingLocation().getPose());
+                                ShuffleboardUI.Autonomous.getStartingLocation().getPose());
+
+                ShuffleboardUI.Overview.setPoseCertain(poseFilter::isCertain);
         }
 
         /**
@@ -138,7 +139,7 @@ public class Drivetrain extends KillableSubsystem {
                         // certain with updated vision pose
                         poseFilter.setCertainty(true);
                 }
-                ShuffleboardField.setRobotPose(poseFilter.getEstimatedPosition(), poseFilter.isCertain());
+                ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition());
         }
 
         /** Resets the field relative position of the robot (mostly for testing). */
@@ -156,7 +157,7 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                ShuffleboardChoosers.getStartingLocation().getPose());
+                                ShuffleboardUI.Autonomous.getStartingLocation().getPose());
                 poseFilter.setCertainty(true); // we just set a known position
         }
 
@@ -177,7 +178,7 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                ShuffleboardChoosers.FieldStartingLocation.FrontSpeakerClose.getPose());
+                                Constants.FieldStartingLocation.FrontSpeakerClose.getPose());
                 poseFilter.setCertainty(true); // we just set a known position
         }
 

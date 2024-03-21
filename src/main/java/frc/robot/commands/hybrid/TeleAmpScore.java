@@ -4,12 +4,12 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.FieldPosition;
 import frc.robot.commands.subroutines.PushAmp;
 import frc.robot.commands.subroutines.SetupAmp;
 import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Crashbar;
 import frc.robot.subsystems.Shooter;
-import frc.robot.utils.FieldPosition;
 import frc.robot.utils.TriggerProcessor.TriggerDistance;
 
 @TriggerDistance(distance = 3, position = FieldPosition.Amp)

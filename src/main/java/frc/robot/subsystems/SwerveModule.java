@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
-import java.util.HashMap;
-import java.util.Map;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -10,10 +9,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.utils.ModuleConstants;
-import frc.robot.utils.ShuffleboardUI;
+import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class SwerveModule {
 
@@ -180,8 +177,7 @@ public class SwerveModule {
     double driveFeedforwardOutput = driveFeedForward.calculate(optimizedState.speedMetersPerSecond);
     m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
 
-    velocityGraphData.put(m_driveMotor.getDeviceID(),
-        new Double2(getDriveWheelVelocity(), optimizedState.speedMetersPerSecond));
+    ShuffleboardUI.Autonomous.putSwerveVelocityData(m_driveMotor.getDeviceID(), getDriveWheelVelocity(), optimizedState.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller then set
     // turn motor.
@@ -195,44 +191,10 @@ public class SwerveModule {
     m_turningMotor.set(0);
   }
 
-
-
   // SHUFFLEBOARD STUFF
 
   private void setupShuffleboard(double driveMotorChannel, double turningMotorChannel) {
-    var widgetDrv = ShuffleboardUI.Test.getTab().add("Drive "+ driveMotorChannel, m_driveMotor);
-    widgetDrv.withWidget(BuiltInWidgets.kMotorController);
-    var widgetTurn = ShuffleboardUI.Test.getTab().add("Turn "+ turningMotorChannel, m_turningMotor);
-    widgetTurn.withWidget(BuiltInWidgets.kMotorController);
-  }
-
-  class Double2 {
-    public Double a;
-    public Double b;
-
-    public Double2(double a1, double b1) {
-      a = a1;
-      b = b1;
-    }
-  }
-
-  private final static Map<Integer, Double2> velocityGraphData = new HashMap<>();
-
-  static {
-    ShuffleboardTab tab = ShuffleboardUI.Autonomous.getTab();
-    var velocityWidget = tab.addDoubleArray("Velocity", () -> {
-      var values = velocityGraphData.values().toArray();
-      double[] db = new double[values.length * 2];
-      for (int i = 0; i < values.length; i++) {
-        if (values[i] instanceof Double2 p) {
-          db[i * 2] = p.a;
-          db[i * 2 + 1] = p.b;
-        }
-      }
-      return db;
-    });
-    velocityWidget.withWidget(BuiltInWidgets.kGraph);
-    velocityWidget.withPosition(6, 2);
-    velocityWidget.withSize(4, 3);
+    ShuffleboardUI.Test.addMotor("Drive " + driveMotorChannel, m_driveMotor);
+    ShuffleboardUI.Test.addMotor("Turn " + turningMotorChannel, m_turningMotor);
   }
 }
