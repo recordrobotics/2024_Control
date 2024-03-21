@@ -14,7 +14,6 @@ public class Crashbar extends KillableSubsystem {
 
     public Crashbar() {
         toggle(CrashbarStates.OFF);
-        setupShuffleboard();
     }
 
     public enum CrashbarStates {
@@ -42,7 +41,5 @@ public class Crashbar extends KillableSubsystem {
         toggle(CrashbarStates.OFF);
     }
 
-    private void setupShuffleboard() {
-    }
     
 }

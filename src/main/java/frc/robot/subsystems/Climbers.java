@@ -20,7 +20,6 @@ public class Climbers extends KillableSubsystem {
 
     public Climbers() {
         toggle(ClimberStates.OFF);
-        setupShuffleboard();
     }
 
     public void toggle(ClimberStates state) {
@@ -42,6 +41,4 @@ public class Climbers extends KillableSubsystem {
         toggle(ClimberStates.OFF);
     }
 
-    private void setupShuffleboard() {
-    }
 }
