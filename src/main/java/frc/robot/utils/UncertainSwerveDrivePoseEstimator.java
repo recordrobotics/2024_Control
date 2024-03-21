@@ -32,11 +32,13 @@ public class UncertainSwerveDrivePoseEstimator extends SwerveDrivePoseEstimator 
                     Rotation2d gyroAngle,
                     SwerveModulePosition[] modulePositions,
                     Pose2d initialPoseMeters) {
+
             super(
-                            kinematics,
-                            gyroAngle,
-                            modulePositions,
-                            initialPoseMeters);
+                kinematics,
+                gyroAngle,
+                modulePositions,
+                initialPoseMeters
+            );
     }
 
     /**
@@ -60,13 +62,15 @@ public class UncertainSwerveDrivePoseEstimator extends SwerveDrivePoseEstimator 
                     Pose2d initialPoseMeters,
                     Matrix<N3, N1> stateStdDevs,
                     Matrix<N3, N1> visionMeasurementStdDevs) {
+                        
             super(
-                            kinematics,
-                            gyroAngle,
-                            modulePositions,
-                            initialPoseMeters,
-                            stateStdDevs,
-                            visionMeasurementStdDevs);
+                kinematics,
+                gyroAngle,
+                modulePositions,
+                initialPoseMeters,
+                stateStdDevs,
+                visionMeasurementStdDevs
+            );
     }
 
     public void setCertainty(boolean certain) {

@@ -12,14 +12,14 @@ public class Climbers extends KillableSubsystem {
         RobotMap.Climbers.REVERSE_PORT
     );
 
+    public Climbers() {
+        toggle(ClimberStates.OFF);
+    }
+
     public enum ClimberStates {
         UP,
         DOWN,
         OFF;
-    }
-
-    public Climbers() {
-        toggle(ClimberStates.OFF);
     }
 
     public void toggle(ClimberStates state) {
