@@ -10,7 +10,7 @@ import edu.wpi.first.networktables.NetworkTableValue;
 import frc.robot.utils.ApriltagMeasurement;
 
 
-public class Vision extends SubsystemBase {
+public class JetsonVision extends SubsystemBase {
 
     private static NetworkTable _networkTable;
 

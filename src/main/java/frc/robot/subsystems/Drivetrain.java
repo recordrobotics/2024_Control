@@ -127,7 +127,7 @@ public class Drivetrain extends KillableSubsystem {
                 }
 
                 // Adds vision measurement
-                Optional<ApriltagMeasurement> measurement = Vision.getMeasurement();
+                Optional<ApriltagMeasurement> measurement = JetsonVision.getMeasurement();
                 if (measurement.isPresent()) {
                         poseFilter.addVisionMeasurement(
                                         measurement.get().pose,
