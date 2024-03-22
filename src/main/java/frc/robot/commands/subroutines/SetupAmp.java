@@ -29,13 +29,13 @@ public class SetupAmp extends SequentialCommandGroup {
       addCommands(
           new InstantCommand(() -> {
             shooter.toggle(ShooterStates.AMP);
-          }, shooter).handleInterrupt(killSpecified));
+            crashbar.toggle(CrashbarStates.EXTENDED);
+          }, shooter, crashbar).handleInterrupt(killSpecified));
     } else {
       addCommands(
           new InstantCommand(() -> {
             shooter.toggle(ShooterStates.AMP);
-            crashbar.toggle(CrashbarStates.EXTENDED);
-          }, shooter, crashbar).handleInterrupt(killSpecified));
+          }, shooter).handleInterrupt(killSpecified));
     }
   }
 
