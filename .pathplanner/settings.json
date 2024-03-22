@@ -3,18 +3,19 @@
   "robotLength": 0.46,
   "holonomicMode": true,
   "pathFolders": [
-    "2 Note Speaker",
-    "4 Note Speaker",
     "AutoChain",
-    "Nutron1",
-    "Real Auto",
+    "Center Note Routines",
+    "Amp Side Diagonal",
+    "ARCHIVE",
     "Speaker Far Note",
     "SpeakerPlusOne",
     "TeleAuto"
   ],
   "autoFolders": [
-    "TeleAuto",
-    "Real Auto"
+    "Amp Routines",
+    "Amp Side Diagonal Routines",
+    "Center Note Routines",
+    "Speaker Side Diagonal Routines"
   ],
   "defaultMaxVel": 1.5,
   "defaultMaxAccel": 3.0,

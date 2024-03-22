@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1442420879517883,
-        "y": 6.300835316843659
+        "x": 2.144276934099541,
+        "y": 6.300804952149717
       },
       "isLocked": false,
       "linkedName": "Score1"
@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": 44.78,
+      "rotationDegrees": 40.14,
       "rotateFast": false
     }
   ],
@@ -63,11 +63,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 40.135485562239424,
+    "rotation": 40.14,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "4 Note Speaker",
+  "folder": "Center Note Routines",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

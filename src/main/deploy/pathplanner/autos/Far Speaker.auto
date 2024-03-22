@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "DiagBack"
+            "pathName": "BottomNoteToDiagSpeaker"
           }
         },
         {
@@ -50,6 +50,6 @@
       ]
     }
   },
-  "folder": "Real Auto",
+  "folder": "Speaker Side Diagonal Routines",
   "choreoAuto": false
 }

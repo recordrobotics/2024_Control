@@ -73,6 +73,9 @@
   },
   "reversed": false,
   "folder": "TeleAuto",
-  "previewStartingState": null,
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

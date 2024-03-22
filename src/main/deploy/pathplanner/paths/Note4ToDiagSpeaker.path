@@ -3,35 +3,35 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6222795351573609,
-        "y": 4.3385312981452175
+        "x": 8.292109148548377,
+        "y": 2.411071086560985
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8267774427286747,
-        "y": 1.274662834225955
+        "x": 4.9850811325426,
+        "y": 1.223746049982963
       },
       "isLocked": false,
-      "linkedName": "DiagSpeakerRight"
+      "linkedName": "Note4"
     },
     {
       "anchor": {
-        "x": 8.714634409325798,
-        "y": 0.7601200387585969
+        "x": 0.6222795351573609,
+        "y": 4.3385312981452175
       },
       "prevControl": {
-        "x": 3.4522649102278278,
-        "y": 0.7133434209888364
+        "x": 1.9330002102796013,
+        "y": 2.8626916526301582
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "FarNote"
+      "linkedName": "DiagSpeakerRight"
     }
   ],
   "rotationTargets": [
     {
       "waypointRelativePos": 0.6,
-      "rotationDegrees": 0,
+      "rotationDegrees": -60.85000000000002,
       "rotateFast": false
     }
   ],
@@ -68,20 +68,20 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 0,
+    "velocity": 0.0,
+    "rotation": -60.85000000000002,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Speaker Far Note",
   "previewStartingState": {
-    "rotation": -60.84899999999999,
+    "rotation": 13.6,
     "velocity": 0
   },
   "useDefaultConstraints": false

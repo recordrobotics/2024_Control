@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.31,
-      "y": 5.55
+      "x": 0.62,
+      "y": 4.34
     },
-    "rotation": 0
+    "rotation": -60.85000000000002
   },
   "command": {
     "type": "sequential",
@@ -18,93 +18,63 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PushSpeaker"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Speaker to Score1"
+            "pathName": "DiagSpeakerToBottomNote"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BottomNoteToDiagSpeaker"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Stop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PushSpeaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DiagSpeakerToNote4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Note4ToDiagSpeaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelSpeaker"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.6
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PushSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Score1 to Center Note"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center Note to Score1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Stop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PushSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Score1 to LeftNote"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LeftNote to Score1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Stop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PushSpeaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Score1 to RightNote"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RightNote to Score1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Stop"
+            "waitTime": 1.5
           }
         },
         {
@@ -116,6 +86,6 @@
       ]
     }
   },
-  "folder": "Center Note Routines",
+  "folder": "Speaker Side Diagonal Routines",
   "choreoAuto": false
 }
