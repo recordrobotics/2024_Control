@@ -113,8 +113,6 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backRight.getModulePosition()
                                 });
 
-                double jerk = navJerkFilter.calculate(_nav.getJerkMagnitude());
-
                 /**
                  * Whenever the filtered jerk goes above
                  * the max pose certainty jerk,
@@ -123,11 +121,12 @@ public class Drivetrain extends KillableSubsystem {
                  * because there is a chance that the pose is now off.
                  * Only reset back to certain after seeing a tag
                  */
+                double jerk = navJerkFilter.calculate(_nav.getJerkMagnitude());
                 if (jerk > Constants.Swerve.MaxPoseCertaintyJerk) {
                         poseFilter.setCertainty(false);
                 }
 
-                // Adds vision measurement 
+                // Adds vision measurement
                 Optional<ApriltagMeasurement> measurement = Vision.getMeasurement();
                 if (measurement.isPresent()) {
                         poseFilter.addVisionMeasurement(

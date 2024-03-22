@@ -63,7 +63,8 @@ public final class Constants {
         private Translation2d blue;
     
         private FieldPosition(Translation2d red, Translation2d blue){
-            this.red=red;        this.blue=blue;
+            this.red=red;        
+            this.blue=blue;
         }
     
         public Translation2d getPose(){
@@ -305,7 +306,7 @@ public final class Constants {
 	    public static final Transform3d robotToCam = new Transform3d(
             new Translation3d(Units.inchesToMeters(11), -1*Units.inchesToMeters(9), 0.1725), 
             new Rotation3d(0,0,0)
-        ); 
+        );
 
         public static final Transform3d[] tagTransforms = {//april tags 1-8 in order. values contained are x, y, z, theta, in that order. x, y, z are distances in meters, theta is in radians.
             new Transform3d(new Translation3d(15.513558, 1.071626, 0.462788), new Rotation3d(0,0,Math.PI)),
@@ -313,7 +314,6 @@ public final class Constants {
             new Transform3d(new Translation3d(15.513558, 4.424426, 0.462788), new Rotation3d(0,0,Math.PI)),
             new Transform3d(new Translation3d(16.178784, 6.749796, 0.695452), new Rotation3d(0,0,Math.PI)),
             new Transform3d(new Translation3d(0.36195, 6.749796, 0.695452), new Rotation3d(0,0,0)),
-            // This transform below is the only one that is currently relevant.
             new Transform3d(new Translation3d(1.8415, 8.2042, 1.355852), new Rotation3d(0,0,4.71239)),
             new Transform3d(new Translation3d(1.02743, 2.748026, 0.462788), new Rotation3d(0,0,0)),
             new Transform3d(new Translation3d(1.02743, 1.071626, 0.462788), new Rotation3d(0,0,0))

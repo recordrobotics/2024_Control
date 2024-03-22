@@ -34,7 +34,7 @@ public class TeleAmpScore extends SequentialCommandGroup {
         _crashbar = crashbar;
 
         addCommands(
-            new SetupAmp(_shooter, _crashbar, false),
+            new SetupAmp(_shooter, _crashbar, true),
             AutoBuilder.pathfindThenFollowPath(path, constraints, 0),
             new PushAmp(_channel, _shooter, _crashbar)
         );

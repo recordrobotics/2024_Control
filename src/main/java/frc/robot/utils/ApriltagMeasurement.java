@@ -28,4 +28,4 @@ import edu.wpi.first.math.geometry.Pose2d;
                     this.distance = distance;
                     this.tagID = tagID;
                 }
-    }
+}
