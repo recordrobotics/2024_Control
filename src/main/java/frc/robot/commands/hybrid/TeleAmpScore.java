@@ -20,7 +20,7 @@ public class TeleAmpScore extends SequentialCommandGroup {
 
     // Create the constraints to use while pathfinding. The constraints defined in the path will only be used for the path.
     private PathConstraints constraints = new PathConstraints(
-            3.0, 4.0,
+            0.5, 4.0,
             Units.degreesToRadians(540), Units.degreesToRadians(720));
 
     private static Channel _channel;

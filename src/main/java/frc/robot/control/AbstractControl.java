@@ -31,6 +31,7 @@ public abstract class AbstractControl {
     // Tele scoring
     public abstract Boolean getTeleAmp();
     public abstract Boolean getTeleSpeaker();
+    public abstract Boolean getTeleChain();
 
     // Orient XY
     public static Pair<Double,Double>OrientXY(Pair<Double,Double> input) {

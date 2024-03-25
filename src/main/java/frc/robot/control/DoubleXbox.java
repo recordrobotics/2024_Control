@@ -149,4 +149,9 @@ public class DoubleXbox extends AbstractControl {
     public Boolean getTeleSpeaker() {
         return false;
     }
+
+    @Override
+    public Boolean getTeleChain() {
+        return false;
+    }
 }

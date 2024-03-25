@@ -118,12 +118,16 @@ public class JoystickXbox extends AbstractControl {
 
     @Override
     public Boolean getTeleAmp() {
-        return joystick.getRawButton(11);
+        return joystick.getRawButton(3);
     }
 
     @Override
     public Boolean getTeleSpeaker() {
-        return joystick.getRawButton(12);
+        return joystick.getRawButton(5);
     }
-    
+
+    @Override
+    public Boolean getTeleChain() {
+        return joystick.getRawButton(4);
+    }
 }

@@ -123,4 +123,9 @@ public class DoubleXboxSpin extends AbstractControl {
     public Boolean getTeleSpeaker() {
         return false;
     }
+
+    @Override
+    public Boolean getTeleChain() {
+        return false;
+    }
 }
