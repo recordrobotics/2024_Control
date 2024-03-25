@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.control.AbstractControl;
 
-public class OverviewLayout extends Layout {
+public class OverviewLayout extends AbstractLayout {
 
     public enum DriverOrientation {
         XAxisTowardsTrigger("Competition"),

@@ -35,7 +35,7 @@
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 0.15,
+      "waypointRelativePos": 0.0,
       "rotationDegrees": -90.0,
       "rotateFast": false
     }
@@ -74,7 +74,7 @@
   "reversed": false,
   "folder": "TeleAuto",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -90.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

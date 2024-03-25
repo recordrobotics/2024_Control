@@ -1,17 +1,17 @@
 package frc.robot.subsystems;
 import java.util.Optional;
-
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.ApriltagMeasurement;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
+import frc.robot.shuffleboard.AutonomousLayout;
 import frc.robot.shuffleboard.ShuffleboardUI;
-//import edu.wpi.first.math.ComputerVisionUtil;
 import frc.robot.utils.UncertainSwerveDrivePoseEstimator;
 
 /** Represents a swerve drive style drivetrain. */
@@ -122,21 +122,25 @@ public class Drivetrain extends KillableSubsystem {
                  * Only reset back to certain after seeing a tag
                  */
                 double jerk = navJerkFilter.calculate(_nav.getJerkMagnitude());
-                if (jerk > Constants.Swerve.MaxPoseCertaintyJerk) {
-                        poseFilter.setCertainty(false);
-                }
+                SmartDashboard.putNumber("jerk", jerk);
+                // if (jerk > Constants.Swerve.MaxPoseCertaintyJerk) {
+                //         poseFilter.setCertainty(false);
+                // }
 
                 // Adds vision measurement
                 Optional<ApriltagMeasurement> measurement = JetsonVision.getMeasurement();
-                if (measurement.isPresent()) {
-                        poseFilter.addVisionMeasurement(
-                                        measurement.get().pose,
-                                        measurement.get().timeStamp
-                        //TODO: figure out std devs
-                        );
+                
 
-                        // certain with updated vision pose
-                        poseFilter.setCertainty(true);
+                if (measurement.isPresent()) {
+                                ShuffleboardUI.Autonomous.setVisionPose(measurement.get().pose);
+                //         poseFilter.addVisionMeasurement(
+                //                         measurement.get().pose,
+                //                         measurement.get().timeStamp
+                //         //TODO: figure out std devs
+                //         );
+
+                //         // certain with updated vision pose
+                //         poseFilter.setCertainty(true);
                 }
                 ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition());
         }
@@ -177,7 +181,7 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                Constants.FieldStartingLocation.FrontSpeakerClose.getPose());
+                                Constants.FieldStartingLocation.AtAmp.getPose());
                 poseFilter.setCertainty(true); // we just set a known position
         }
 

@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
-public class TestLayout extends Layout {
+public class TestLayout extends AbstractLayout {
 
     public interface PeriodicListener<T> extends EventListener {
         public void periodic(T value);

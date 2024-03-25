@@ -1,9 +1,8 @@
 package frc.robot.shuffleboard;
-
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -13,7 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Constants.AutoName;
 import frc.robot.Constants.FieldStartingLocation;
 
-public class AutonomousLayout extends Layout {
+
+public class AutonomousLayout extends AbstractLayout {
 
     private static final Field2d field = new Field2d();
     private static SendableChooser<AutoName> autoChooser = new SendableChooser<>();
@@ -41,12 +41,20 @@ public class AutonomousLayout extends Layout {
             .withSize(6, 4)
             .withPosition(0, 0);
 
+        EnumSet.allOf(AutoName.class)
+            .forEach(v -> autoChooser.addOption(v.pathref, v));
+        autoChooser.setDefaultOption(AutoName.FarSpeaker.pathref, AutoName.FarSpeaker);
+
         // Creates the UI for auto routines
         getTab()
             .add("Auto Code", autoChooser)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
             .withSize(3, 1)
             .withPosition(6, 1);
+
+        EnumSet.allOf(FieldStartingLocation.class)
+            .forEach(v -> fieldStartingLocationChooser.addOption(v.name(), v));
+        fieldStartingLocationChooser.setDefaultOption(FieldStartingLocation.FrontSpeaker.name(), FieldStartingLocation.FrontSpeaker);
 
         // Creates the UI for starting location
         getTab()
@@ -85,6 +93,10 @@ public class AutonomousLayout extends Layout {
 
     public void setRobotPose(Pose2d pose) {
         field.setRobotPose(pose);
+    }
+
+    public void setVisionPose(Pose2d pose) {
+        field.getObject("Vision").setPose(pose);;
     }
 
     public void setAcquisition(Supplier<Boolean> acquisition) {
