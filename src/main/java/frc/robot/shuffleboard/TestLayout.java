@@ -5,7 +5,9 @@ import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
@@ -34,6 +36,7 @@ public class TestLayout extends AbstractLayout {
     }
     
     private final Map<GenericEntry, PeriodicNotifier<Double>> sliderMap = new HashMap<>();
+    private final Map<GenericEntry, PeriodicNotifier<Rotation2d>> headingMap = new HashMap<>();
 
     public <T extends MotorController & Sendable> void addMotor(String name, T motor) {
         getTab()
@@ -51,10 +54,29 @@ public class TestLayout extends AbstractLayout {
         sliderMap.put(entry, notifier);
         return notifier;
     }
+
+    public PeriodicNotifier<Rotation2d> addHeading(String name, Rotation2d rotation) {
+        GenericEntry entry = getTab().add(name, rotation.getRadians())
+                .withWidget(BuiltInWidgets.kDial)
+                .withProperties(Map.of("min", 0, "max", Math.PI * 2))
+                .getEntry();
+
+        var notifier = new PeriodicNotifier<Rotation2d>();
+        headingMap.put(entry, notifier);
+        return notifier;
+    }
+
+    public void addNumber(String name, Supplier<Double> value){
+        getTab().add(name, value);
+    }
     
     public void testPeriodic() {
         for (GenericEntry key : sliderMap.keySet()) {
             sliderMap.get(key).invoke(key.getDouble(0));
+        }
+
+        for (GenericEntry key : headingMap.keySet()) {
+            headingMap.get(key).invoke(new Rotation2d(key.getDouble(0)));
         }
     }
 

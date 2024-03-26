@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 import java.util.Optional;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -36,6 +37,8 @@ public class Drivetrain extends KillableSubsystem {
         // Creates swerve post estimation filter
         public static UncertainSwerveDrivePoseEstimator poseFilter;
         private final LinearFilter navJerkFilter;
+        
+        private double testDriveSpeed = 0.0;
 
         // Init drivetrain
         public Drivetrain() {
@@ -55,6 +58,12 @@ public class Drivetrain extends KillableSubsystem {
                                 ShuffleboardUI.Autonomous.getStartingLocation().getPose());
 
                 ShuffleboardUI.Overview.setPoseCertain(poseFilter::isCertain);
+                ShuffleboardUI.Test.addSlider("Drive speed", 0, 0, 7).subscribe((speed)->{
+                        testDriveSpeed = speed;
+                });;
+                ShuffleboardUI.Test.addHeading("Heading", new Rotation2d(0)).subscribe((rot)->{
+                        drive(new DriveCommandData(Math.cos(rot.getRadians())*testDriveSpeed, Math.sin(rot.getRadians())*testDriveSpeed, 0, false));
+                });;
         }
 
         /**

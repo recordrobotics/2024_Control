@@ -196,5 +196,6 @@ public class SwerveModule {
   private void setupShuffleboard(double driveMotorChannel, double turningMotorChannel) {
     ShuffleboardUI.Test.addMotor("Drive " + driveMotorChannel, m_driveMotor);
     ShuffleboardUI.Test.addMotor("Turn " + turningMotorChannel, m_turningMotor);
+    ShuffleboardUI.Test.addNumber("Encoder " + absoluteTurningMotorEncoder.getSourceChannel(), absoluteTurningMotorEncoder::getAbsolutePosition);
   }
 }
