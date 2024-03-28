@@ -5,7 +5,7 @@ import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
@@ -66,8 +66,8 @@ public class TestLayout extends AbstractLayout {
         return notifier;
     }
 
-    public void addNumber(String name, Supplier<Double> value){
-        getTab().add(name, value);
+    public void addNumber(String name, DoubleSupplier value){
+        getTab().addDouble(name, value);
     }
     
     public void testPeriodic() {

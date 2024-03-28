@@ -19,7 +19,7 @@ public class AutonomousLayout extends AbstractLayout {
     private static SendableChooser<AutoName> autoChooser = new SendableChooser<>();
     private static SendableChooser<FieldStartingLocation> fieldStartingLocationChooser = new SendableChooser<>();
 
-    private Supplier<Boolean> acquisitionValue = () -> null;
+    private Supplier<Boolean> acquisitionValue = () -> false;
     private Supplier<Boolean> hasNoteValue = () -> false;
     
     public class SwerveVelocityData {
