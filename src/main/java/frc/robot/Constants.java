@@ -265,25 +265,6 @@ public final class Constants {
         );
 
         // Module Creation
-        public static final ModuleConstants frontLeftConstants = ModuleConstants.fromConfig(
-            MotorLocation.FrontLeft,
-            MotorType.Falcon
-        );
-
-        public static final ModuleConstants frontRightConstants = ModuleConstants.fromConfig(
-            MotorLocation.FrontRight,
-            MotorType.Falcon
-        );
-
-        public static final ModuleConstants backLeftConstants = ModuleConstants.fromConfig(
-            MotorLocation.BackLeft,
-            MotorType.Falcon
-        );
-
-        public static final ModuleConstants backRightConstants = ModuleConstants.fromConfig(
-            MotorLocation.BackRight,
-            MotorType.Falcon
-        );
 
         /**
          * ===================== NOTE !!!!!! ========================
@@ -291,6 +272,7 @@ public final class Constants {
          * EDIT deploy/swerve/motors.json instead
          */
 
+        //#region BACKUP
         public static final ModuleConstants BACKUP_frontLeftConstants = new ModuleConstants(
                 2,
                 1,
@@ -323,6 +305,27 @@ public final class Constants {
                 backRightLocation,
                 MotorType.Kraken,
                 MotorType.Kraken);
+        //#endregion
+
+        public static final ModuleConstants frontLeftConstants = ModuleConstants.fromConfig(
+            MotorLocation.FrontLeft,
+            MotorType.Kraken
+        );
+
+        public static final ModuleConstants frontRightConstants = ModuleConstants.fromConfig(
+            MotorLocation.FrontRight,
+            MotorType.Kraken
+        );
+
+        public static final ModuleConstants backLeftConstants = ModuleConstants.fromConfig(
+            MotorLocation.BackLeft,
+            MotorType.Kraken
+        );
+
+        public static final ModuleConstants backRightConstants = ModuleConstants.fromConfig(
+            MotorLocation.BackRight,
+            MotorType.Kraken
+        );
     }
 
     public final class Vision {

@@ -9,7 +9,7 @@ public class PCMCompressor extends SubsystemBase {
     private static final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
     public PCMCompressor() {
-        ShuffleboardUI.Overview.setCompressor(compressor::isEnabled);
+        ShuffleboardUI.Overview.setCompressor(this::isEnabled);
     }
 
     public void disable() {
@@ -25,7 +25,11 @@ public class PCMCompressor extends SubsystemBase {
     }
 
     public boolean isEnabled() {
-        return compressor.isEnabled();
+        try{
+            return compressor.isEnabled();
+        } catch(Exception e) {
+            return false;
+        }
     }
 
     public boolean isPumping() {

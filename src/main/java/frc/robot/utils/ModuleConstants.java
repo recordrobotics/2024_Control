@@ -171,7 +171,9 @@ public class ModuleConstants {
         
         JSONObject obj;
         try {
-            obj = (JSONObject) parser.parse(new FileReader(configFile));
+            FileReader reader = new FileReader(configFile);
+            obj = (JSONObject) parser.parse(reader);
+            reader.close();
         } catch (IOException | ParseException e) {
             return getDefault(location);
         }
@@ -219,15 +221,15 @@ public class ModuleConstants {
                 return getDefault(location);
         }
 
-        Integer driveMotorChannel = (Integer)motor.get("driveMotorChannel");
+        Long driveMotorChannel = (Long)motor.get("driveMotorChannel");
         if(driveMotorChannel == null)
             return getDefault(location);
 
-        Integer turningMotorChannel = (Integer)motor.get("turningMotorChannel");
+        Long turningMotorChannel = (Long)motor.get("turningMotorChannel");
         if(turningMotorChannel == null)
             return getDefault(location);
 
-        Integer encoderChannel = (Integer)motor.get("encoderChannel");
+        Long encoderChannel = (Long)motor.get("encoderChannel");
         if(encoderChannel == null)
             return getDefault(location);
 
@@ -259,7 +261,7 @@ public class ModuleConstants {
                 return getDefault(location);
         }
         
-        return new ModuleConstants(driveMotorChannel, turningMotorChannel, encoderChannel, encoderOffsetVal, loc, turnMotorType, driveMotorType);
+        return new ModuleConstants(Math.toIntExact(driveMotorChannel), Math.toIntExact(turningMotorChannel), Math.toIntExact(encoderChannel), encoderOffsetVal, loc, turnMotorType, driveMotorType);
     }
 
 }
