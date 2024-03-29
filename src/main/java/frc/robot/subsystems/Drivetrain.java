@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.ApriltagMeasurement;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
-import frc.robot.shuffleboard.AutonomousLayout;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.UncertainSwerveDrivePoseEstimator;
 
