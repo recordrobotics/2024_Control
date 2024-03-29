@@ -57,12 +57,12 @@ public class Drivetrain extends KillableSubsystem {
                                 ShuffleboardUI.Autonomous.getStartingLocation().getPose());
 
                 ShuffleboardUI.Overview.setPoseCertain(poseFilter::isCertain);
-                ShuffleboardUI.Test.addSlider("Drive speed", 0, 0, 7).subscribe((speed)->{
-                        testDriveSpeed = speed;
-                });;
-                ShuffleboardUI.Test.addHeading("Heading", new Rotation2d(0)).subscribe((rot)->{
-                        drive(new DriveCommandData(Math.cos(rot.getRadians())*testDriveSpeed, Math.sin(rot.getRadians())*testDriveSpeed, 0, false));
-                });;
+                // ShuffleboardUI.Test.addSlider("Drive speed", 0, 0, 7).subscribe((speed)->{
+                //         testDriveSpeed = speed;
+                // });;
+                // ShuffleboardUI.Test.addHeading("Heading", new Rotation2d(0)).subscribe((rot)->{
+                //         drive(new DriveCommandData(Math.cos(rot.getRadians())*testDriveSpeed, Math.sin(rot.getRadians())*testDriveSpeed, 0, false));
+                // });;
         }
 
         /**
@@ -136,20 +136,20 @@ public class Drivetrain extends KillableSubsystem {
                 // }
 
                 // Adds vision measurement
-                Optional<ApriltagMeasurement> measurement = JetsonVision.getMeasurement();
+                // Optional<ApriltagMeasurement> measurement = JetsonVision.getMeasurement();
                 
 
-                if (measurement.isPresent()) {
-                                ShuffleboardUI.Autonomous.setVisionPose(measurement.get().pose);
-                //         poseFilter.addVisionMeasurement(
-                //                         measurement.get().pose,
-                //                         measurement.get().timeStamp
-                //         //TODO: figure out std devs
-                //         );
+                // if (measurement.isPresent()) {
+                //                 ShuffleboardUI.Autonomous.setVisionPose(measurement.get().pose);
+                // //         poseFilter.addVisionMeasurement(
+                // //                         measurement.get().pose,
+                // //                         measurement.get().timeStamp
+                // //         //TODO: figure out std devs
+                // //         );
 
-                //         // certain with updated vision pose
-                //         poseFilter.setCertainty(true);
-                }
+                // //         // certain with updated vision pose
+                // //         poseFilter.setCertainty(true);
+                // }
                 ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition());
         }
 
@@ -189,7 +189,7 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                Constants.FieldStartingLocation.AtAmp.getPose());
+                                Constants.FieldStartingLocation.FrontSpeakerClose.getPose());
                 poseFilter.setCertainty(true); // we just set a known position
         }
 
