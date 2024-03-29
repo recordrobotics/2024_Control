@@ -6,6 +6,7 @@ package frc.robot;
 import frc.robot.utils.DriverStationUtils;
 import frc.robot.utils.ModuleConstants;
 import frc.robot.utils.SimpleMath;
+import frc.robot.utils.ModuleConstants.MotorLocation;
 import frc.robot.utils.ModuleConstants.MotorType;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -264,35 +265,61 @@ public final class Constants {
         );
 
         // Module Creation
-        public static final ModuleConstants frontLeftConstants = new ModuleConstants(
+        public static final ModuleConstants frontLeftConstants = ModuleConstants.fromConfig(
+            MotorLocation.FrontLeft,
+            MotorType.Falcon
+        );
+
+        public static final ModuleConstants frontRightConstants = ModuleConstants.fromConfig(
+            MotorLocation.FrontRight,
+            MotorType.Falcon
+        );
+
+        public static final ModuleConstants backLeftConstants = ModuleConstants.fromConfig(
+            MotorLocation.BackLeft,
+            MotorType.Falcon
+        );
+
+        public static final ModuleConstants backRightConstants = ModuleConstants.fromConfig(
+            MotorLocation.BackRight,
+            MotorType.Falcon
+        );
+
+        /**
+         * ===================== NOTE !!!!!! ========================
+         * THESE ARE BACKUP CONSTANTS - NOT USED IF EVERYTHING WORKS
+         * EDIT deploy/swerve/motors.json instead
+         */
+
+        public static final ModuleConstants BACKUP_frontLeftConstants = new ModuleConstants(
                 2,
                 1,
                 1,
-                0.633,//0.620, // 0.12363, //0.597
+                0.633,
                 frontLeftLocation,
                 MotorType.Kraken,
                 MotorType.Kraken);
-        public static final ModuleConstants frontRightConstants = new ModuleConstants(
+        public static final ModuleConstants BACKUP_frontRightConstants = new ModuleConstants(
                 4,
                 3,
                 2,
-                0.848,//0.924, // 0.41599, //0.886
+                0.848,
                 frontRightLocation,
                 MotorType.Kraken,
                 MotorType.Kraken);
-        public static final ModuleConstants backLeftConstants = new ModuleConstants(
+        public static final ModuleConstants BACKUP_backLeftConstants = new ModuleConstants(
                 8,
                 7,
                 4,
-                0.857,//0.676, // 0.17245, //0.857
+                0.857,
                 backLeftLocation,
                 MotorType.Kraken,
                 MotorType.Kraken);
-        public static final ModuleConstants backRightConstants = new ModuleConstants(
+        public static final ModuleConstants BACKUP_backRightConstants = new ModuleConstants(
                 6,
                 5,
                 3,
-                0.554,//0.371, // 0.86499, //0.556
+                0.554,
                 backRightLocation,
                 MotorType.Kraken,
                 MotorType.Kraken);
