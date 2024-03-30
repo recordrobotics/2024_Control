@@ -8,14 +8,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 // Local imports
 import frc.robot.commands.KillSpecified;
 import frc.robot.commands.auto.*;
-import frc.robot.commands.hybrid.*;
 import frc.robot.commands.manual.*;
 import frc.robot.commands.notes.*;
 import frc.robot.control.*;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.*;
 import frc.robot.utils.AutoPath;
-import frc.robot.utils.TriggerProcessor;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -106,22 +104,6 @@ public class RobotContainer {
 
     // Reset pose trigger
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getPoseReset()).onTrue(new InstantCommand(_drivetrain::resetDriverPose));
-
-    // Tele-auto triggers
-    TriggerProcessor.withAnnotation(
-        new Trigger(() -> ShuffleboardUI.Overview.getControl().getTeleAmp()), TeleAmpScore.class)
-        .onTrue(new TeleAmpScore(_channel, _shooter, _crashbar)
-            .beforeStarting(Drivetrain.poseFilter.waitUntilCertain()));
-
-    TriggerProcessor.withAnnotation(
-        new Trigger(() -> ShuffleboardUI.Overview.getControl().getTeleSpeaker()), TeleSpeakerScore.class)
-        .onTrue(new TeleSpeakerScore(_channel, _shooter)
-            .beforeStarting(Drivetrain.poseFilter.waitUntilCertain()));
-
-    TriggerProcessor.withAnnotation(
-        new Trigger(() -> ShuffleboardUI.Overview.getControl().getTeleChain()), TeleChain.class)
-        .onTrue(new TeleChain(_climbers)
-            .beforeStarting(Drivetrain.poseFilter.waitUntilCertain()));
   }
 
   /**

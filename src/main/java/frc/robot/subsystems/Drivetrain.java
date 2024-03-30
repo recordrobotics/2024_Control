@@ -1,14 +1,9 @@
 package frc.robot.subsystems;
-import java.util.Optional;
-import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.utils.ApriltagMeasurement;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
 import frc.robot.shuffleboard.ShuffleboardUI;
@@ -35,15 +30,10 @@ public class Drivetrain extends KillableSubsystem {
 
         // Creates swerve post estimation filter
         public static UncertainSwerveDrivePoseEstimator poseFilter;
-        private final LinearFilter navJerkFilter;
-        
-        private double testDriveSpeed = 0.0;
 
         // Init drivetrain
         public Drivetrain() {
                 _nav.resetAngleAdjustment();
-
-                navJerkFilter = LinearFilter.movingAverage(5); // last 5 samples
 
                 poseFilter = new UncertainSwerveDrivePoseEstimator(
                                 m_kinematics,
@@ -57,12 +47,6 @@ public class Drivetrain extends KillableSubsystem {
                                 ShuffleboardUI.Autonomous.getStartingLocation().getPose());
 
                 ShuffleboardUI.Overview.setPoseCertain(poseFilter::isCertain);
-                // ShuffleboardUI.Test.addSlider("Drive speed", 0, 0, 7).subscribe((speed)->{
-                //         testDriveSpeed = speed;
-                // });;
-                // ShuffleboardUI.Test.addHeading("Heading", new Rotation2d(0)).subscribe((rot)->{
-                //         drive(new DriveCommandData(Math.cos(rot.getRadians())*testDriveSpeed, Math.sin(rot.getRadians())*testDriveSpeed, 0, false));
-                // });;
         }
 
         /**
@@ -120,36 +104,6 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 });
-
-                /**
-                 * Whenever the filtered jerk goes above
-                 * the max pose certainty jerk,
-                 * mark the pose filter as uncertain
-                 * and keep it there even if the jerk goes back down
-                 * because there is a chance that the pose is now off.
-                 * Only reset back to certain after seeing a tag
-                 */
-                double jerk = navJerkFilter.calculate(_nav.getJerkMagnitude());
-                SmartDashboard.putNumber("jerk", jerk);
-                // if (jerk > Constants.Swerve.MaxPoseCertaintyJerk) {
-                //         poseFilter.setCertainty(false);
-                // }
-
-                // Adds vision measurement
-                // Optional<ApriltagMeasurement> measurement = JetsonVision.getMeasurement();
-                
-
-                // if (measurement.isPresent()) {
-                //                 ShuffleboardUI.Autonomous.setVisionPose(measurement.get().pose);
-                // //         poseFilter.addVisionMeasurement(
-                // //                         measurement.get().pose,
-                // //                         measurement.get().timeStamp
-                // //         //TODO: figure out std devs
-                // //         );
-
-                // //         // certain with updated vision pose
-                // //         poseFilter.setCertainty(true);
-                // }
                 ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition());
         }
 
