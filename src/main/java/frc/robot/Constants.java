@@ -128,7 +128,8 @@ public final class Constants {
         DiagLeftOneNote("DiagLeftOneNote"),
         DiagJustShoot("DiagJustShoot"),
         Speaker_3_Note("3NoteSpeaker"),
-        Nutron1("Nutron1")
+        Nutron1("Nutron1"),
+        NoteSpeaker3_Side("3NoteSpeakerSide")
         ;
     
         public final String pathref;

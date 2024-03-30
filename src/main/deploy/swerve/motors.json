@@ -32,7 +32,7 @@
         "encoderChannel":3,
         "encoderOffset":{
             "falcon":0.8705,
-            "kraken":0.594
+            "kraken":0.608
         }
     }
 }
