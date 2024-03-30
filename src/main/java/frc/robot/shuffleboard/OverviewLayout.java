@@ -27,17 +27,17 @@ public class OverviewLayout extends AbstractLayout {
     private static SendableChooser<AbstractControl> driveMode = new SendableChooser<AbstractControl>();
     private static AbstractControl _defaultControl;
 
-    private Supplier<Boolean> poseCertainValue = () -> false;
+    //private Supplier<Boolean> poseCertainValue = () -> false;
     private Supplier<Boolean> acquisitionValue =  () -> false;
     private Supplier<Boolean> compressorValue =  () -> false;
     private Supplier<Boolean> hasNoteValue =  () -> false;
 
     public OverviewLayout() {
-        getTab()
-                .addBoolean("Pose Certain", () -> poseCertainValue.get())
-                .withWidget(BuiltInWidgets.kBooleanBox)
-                .withSize(1, 1)
-                .withPosition(0, 1);
+        // getTab()
+        //         .addBoolean("Pose Certain", () -> poseCertainValue.get())
+        //         .withWidget(BuiltInWidgets.kBooleanBox)
+        //         .withSize(1, 1)
+        //         .withPosition(0, 1);
 
         getTab()
                 .addBoolean("Acquisition", () -> acquisitionValue.get())
@@ -92,7 +92,7 @@ public class OverviewLayout extends AbstractLayout {
     }
 
     public void setPoseCertain(Supplier<Boolean> certain) {
-        poseCertainValue = certain;
+        //poseCertainValue = certain;
     }
 
     public void setAcquisition(Supplier<Boolean> acquisition) {
