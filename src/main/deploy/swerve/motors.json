@@ -14,7 +14,7 @@
         "encoderChannel":2,
         "encoderOffset":{
             "falcon":0.4251,
-            "kraken":0.848
+            "kraken":0.835
         }
     },
     "back-left":{
