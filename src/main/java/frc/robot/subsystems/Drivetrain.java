@@ -46,7 +46,7 @@ public class Drivetrain extends KillableSubsystem {
                                 },
                                 ShuffleboardUI.Autonomous.getStartingLocation().getPose());
 
-                ShuffleboardUI.Overview.setPoseCertain(poseFilter::isCertain);
+                //ShuffleboardUI.Overview.setPoseCertain(poseFilter::isCertain);
         }
 
         /**

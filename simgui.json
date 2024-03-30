@@ -1,6 +1,11 @@
 {
   "HALProvider": {
     "Other Devices": {
+      "Compressor[0]": {
+        "header": {
+          "open": true
+        }
+      },
       "DutyCycleEncoder[3]": {
         "header": {
           "open": true
@@ -16,7 +21,21 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Autonomous/Auto Code": "String Chooser",
+      "/Shuffleboard/Autonomous/Field": "Field2d",
       "/Shuffleboard/Autonomous/Starting Location": "String Chooser",
+      "/Shuffleboard/Overview/Drive Mode": "String Chooser",
+      "/Shuffleboard/Overview/Driver Orientation": "String Chooser",
+      "/Shuffleboard/Test/Acquisition": "Motor Controller",
+      "/Shuffleboard/Test/Channel": "Motor Controller",
+      "/Shuffleboard/Test/Drive 2.0": "Motor Controller",
+      "/Shuffleboard/Test/Drive 4.0": "Motor Controller",
+      "/Shuffleboard/Test/Drive 6.0": "Motor Controller",
+      "/Shuffleboard/Test/Drive 8.0": "Motor Controller",
+      "/Shuffleboard/Test/Turn 1.0": "Motor Controller",
+      "/Shuffleboard/Test/Turn 3.0": "Motor Controller",
+      "/Shuffleboard/Test/Turn 5.0": "Motor Controller",
+      "/Shuffleboard/Test/Turn 7.0": "Motor Controller",
       "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Drive Mode": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
@@ -88,7 +107,6 @@
         "open": true
       },
       "open": true
-    },
-    "visible": true
+    }
   }
 }
