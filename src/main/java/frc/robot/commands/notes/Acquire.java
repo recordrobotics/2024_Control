@@ -36,7 +36,7 @@ public class Acquire extends SequentialCommandGroup {
       new InstantCommand(() -> _acquisition.toggle(AcquisitionStates.IN), _acquisition).handleInterrupt(killSpecified),
       new InstantCommand(() -> _channel.toggle(ChannelStates.SHOOT), _channel).handleInterrupt(killSpecified),
       // Waits until photosensor
-      new WaitUntilCommand(()->_photosensor.getDebouncedValue()),
+      new WaitUntilCommand(()->!_photosensor.getCurrentValue()),
       // Turns acq and channel off
       new InstantCommand(() -> _acquisition.toggle(AcquisitionStates.OFF), _acquisition).handleInterrupt(killSpecified),
       new InstantCommand(() -> _channel.toggle(ChannelStates.OFF), _channel).handleInterrupt(killSpecified)
