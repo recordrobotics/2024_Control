@@ -1,11 +1,9 @@
 package frc.robot.commands.notes;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.commands.KillSpecified;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Channel;
-import frc.robot.subsystems.Photosensor;
 import frc.robot.subsystems.Acquisition.AcquisitionStates;
 import frc.robot.subsystems.Channel.ChannelStates;
 
