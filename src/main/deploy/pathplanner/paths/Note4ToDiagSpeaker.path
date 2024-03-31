@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.292109148548377,
-        "y": 2.411071086560985
+        "x": 8.42625267198278,
+        "y": 2.466688828864594
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.9850811325426,
-        "y": 1.223746049982963
+        "x": 5.119224655977003,
+        "y": 1.2793637922865722
       },
       "isLocked": false,
       "linkedName": "Note4"
@@ -50,16 +50,22 @@
   ],
   "eventMarkers": [
     {
-      "name": "Aqcuire",
-      "waypointRelativePos": 0.6,
+      "name": "Shoot",
+      "waypointRelativePos": 0.25,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "Acquire"
+                "name": "Retract"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "FlywheelSpeaker"
               }
             }
           ]
@@ -68,9 +74,9 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 1000.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {

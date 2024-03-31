@@ -31,6 +31,7 @@ public class OverviewLayout extends AbstractLayout {
     private Supplier<Boolean> acquisitionValue =  () -> false;
     private Supplier<Boolean> compressorValue =  () -> false;
     private Supplier<Boolean> hasNoteValue =  () -> false;
+    private Supplier<Boolean> navSensorValue =  () -> false;
 
     public OverviewLayout() {
         // getTab()
@@ -55,6 +56,12 @@ public class OverviewLayout extends AbstractLayout {
                 .addBoolean("Has Note", () -> hasNoteValue.get())
                 .withWidget(BuiltInWidgets.kBooleanBox)
                 .withPosition(9, 0)
+                .withSize(1, 1);
+
+        getTab()
+                .addBoolean("Nav Sensor", () -> navSensorValue.get())
+                .withWidget(BuiltInWidgets.kBooleanBox)
+                .withPosition(5, 1)
                 .withSize(1, 1);
     }
 
@@ -105,6 +112,10 @@ public class OverviewLayout extends AbstractLayout {
 
     public void setHasNote(Supplier<Boolean> hasNote) {
         hasNoteValue = hasNote;
+    }
+
+    public void setNavSensor(Supplier<Boolean> navSensor) {
+        navSensorValue = navSensor;
     }
 
     @Override

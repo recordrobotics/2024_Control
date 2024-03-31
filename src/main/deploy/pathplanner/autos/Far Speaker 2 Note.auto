@@ -20,7 +20,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.5
+            "waitTime": 0.7
           }
         },
         {
@@ -68,13 +68,7 @@
         {
           "type": "named",
           "data": {
-            "name": "FlywheelSpeaker"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.5
+            "name": "Stop"
           }
         },
         {

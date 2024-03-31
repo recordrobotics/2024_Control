@@ -5,6 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class NavSensor extends SubsystemBase {
 
@@ -35,6 +36,8 @@ public class NavSensor extends SubsystemBase {
 	static {
 		_nav.reset();
 		_nav.resetDisplacement(); // Technically not necessary but whatever
+		ShuffleboardUI.Overview.setNavSensor(_nav::isConnected);
+		ShuffleboardUI.Test.addBoolean("Nav Sensor", _nav::isConnected);
 	}
 
 	// stores the reference angle as whatever the angle is currently measured to be

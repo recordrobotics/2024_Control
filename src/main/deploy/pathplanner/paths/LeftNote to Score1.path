@@ -44,11 +44,17 @@
   "eventMarkers": [
     {
       "name": "Flywheel",
-      "waypointRelativePos": 0.55,
+      "waypointRelativePos": 0.45,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Retract"
+              }
+            },
             {
               "type": "named",
               "data": {

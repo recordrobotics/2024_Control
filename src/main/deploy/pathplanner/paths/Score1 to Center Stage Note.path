@@ -3,57 +3,57 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9026396514331485,
-        "y": 4.092954054853979
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 1.0743047791467224,
-        "y": 4.085669852175546
-      },
-      "isLocked": false,
-      "linkedName": "RightNote2"
-    },
-    {
-      "anchor": {
         "x": 1.55,
         "y": 5.55
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.510436092097255,
+        "y": 4.7595208580730555
+      },
+      "isLocked": false,
+      "linkedName": "Score1"
+    },
+    {
+      "anchor": {
+        "x": 8.41058639382236,
+        "y": 4.1046482092964185
+      },
       "prevControl": {
-        "x": 1.6209816657041727,
-        "y": 5.620438648012729
+        "x": 2.8142251773469584,
+        "y": 3.5586617491524777
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Score1"
+      "linkedName": "CenterStageNote"
     }
   ],
-  "rotationTargets": [
+  "rotationTargets": [],
+  "constraintZones": [
     {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 0.0,
-      "rotateFast": false
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 0.95,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 5.0,
+        "maxAngularVelocity": 1000.0,
+        "maxAngularAcceleration": 720.0
+      }
     }
   ],
-  "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Flywheel",
-      "waypointRelativePos": 0.55,
+      "name": "StartAcquire",
+      "waypointRelativePos": 0.1,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "Retract"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "FlywheelSpeaker"
+                "name": "AcquirePush"
               }
             }
           ]
@@ -62,14 +62,14 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 1000.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,

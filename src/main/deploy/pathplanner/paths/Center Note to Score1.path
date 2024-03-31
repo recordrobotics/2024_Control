@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.97,
+        "x": 2.961110423645348,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.02,
+        "x": 3.0111104236453463,
         "y": 5.55
       },
       "isLocked": false,
@@ -33,11 +33,17 @@
   "eventMarkers": [
     {
       "name": "StartFlywheel",
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.25,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Retract"
+              }
+            },
             {
               "type": "named",
               "data": {

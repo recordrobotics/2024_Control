@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 8.714634409325798,
-        "y": 0.7601200387585969
+        "x": 8.514000495934484,
+        "y": 0.779980657348488
       },
       "prevControl": {
-        "x": 3.4522649102278278,
-        "y": 0.7133434209888364
+        "x": 3.2516309968365134,
+        "y": 0.7332040395787275
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,7 +51,7 @@
   "eventMarkers": [
     {
       "name": "Aqcuire",
-      "waypointRelativePos": 0.6,
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "parallel",
         "data": {
@@ -59,7 +59,7 @@
             {
               "type": "named",
               "data": {
-                "name": "Acquire"
+                "name": "AcquirePush"
               }
             }
           ]

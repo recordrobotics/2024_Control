@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.71,
-        "y": 0.7601200387585969
+        "x": 8.514000495934484,
+        "y": 0.779980657348488
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.757375798455303,
-        "y": 0.877061583182996
+        "x": 4.561376294389786,
+        "y": 0.8969222017728871
       },
       "isLocked": false,
       "linkedName": "FarNote"
@@ -51,11 +51,17 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.2,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Retract"
+              }
+            },
             {
               "type": "named",
               "data": {
@@ -69,8 +75,8 @@
   ],
   "globalConstraints": {
     "maxVelocity": 6.0,
-    "maxAcceleration": 3.5,
-    "maxAngularVelocity": 540.0,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 1000.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {

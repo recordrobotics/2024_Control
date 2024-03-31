@@ -5,6 +5,7 @@ import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -42,6 +43,10 @@ public class TestLayout extends AbstractLayout {
         getTab()
             .add(name, motor)
             .withWidget(BuiltInWidgets.kMotorController);
+    }
+
+    public void addBoolean(String name, BooleanSupplier value){
+        getTab().addBoolean(name, value);
     }
 
     public PeriodicNotifier<Double> addSlider(String name, double value, double min, double max) {

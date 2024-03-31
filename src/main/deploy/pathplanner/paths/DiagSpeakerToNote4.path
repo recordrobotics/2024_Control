@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 8.292109148548377,
-        "y": 2.411071086560985
+        "x": 8.42625267198278,
+        "y": 2.466688828864594
       },
       "prevControl": {
-        "x": 6.806131802148253,
-        "y": 1.9885873312119293
+        "x": 6.940275325582657,
+        "y": 2.0442050735155384
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,7 +51,7 @@
   "eventMarkers": [
     {
       "name": "Aqcuire",
-      "waypointRelativePos": 0.6,
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "parallel",
         "data": {
@@ -59,7 +59,7 @@
             {
               "type": "named",
               "data": {
-                "name": "Acquire"
+                "name": "AcquirePush"
               }
             }
           ]
@@ -68,9 +68,9 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.5,
-    "maxAngularVelocity": 540.0,
+    "maxVelocity": 6.0,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 1000.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {

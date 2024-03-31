@@ -38,12 +38,12 @@ public class AutonomousLayout extends AbstractLayout {
         getTab()
             .add(field)
             .withWidget(BuiltInWidgets.kField)
-            .withSize(6, 4)
+            .withSize(6, 3)
             .withPosition(0, 0);
 
         EnumSet.allOf(AutoName.class)
             .forEach(v -> autoChooser.addOption(v.pathref, v));
-        autoChooser.setDefaultOption(AutoName.FarSpeaker.pathref, AutoName.FarSpeaker);
+        autoChooser.setDefaultOption(AutoName.Speaker_4_note.pathref, AutoName.Speaker_4_note);
 
         // Creates the UI for auto routines
         getTab()
@@ -54,14 +54,14 @@ public class AutonomousLayout extends AbstractLayout {
 
         EnumSet.allOf(FieldStartingLocation.class)
             .forEach(v -> fieldStartingLocationChooser.addOption(v.name(), v));
-        fieldStartingLocationChooser.setDefaultOption(FieldStartingLocation.FrontSpeaker.name(), FieldStartingLocation.FrontSpeaker);
+        fieldStartingLocationChooser.setDefaultOption(FieldStartingLocation.FrontSpeakerClose.name(), FieldStartingLocation.FrontSpeakerClose);
 
         // Creates the UI for starting location
         getTab()
             .add("Starting Location", fieldStartingLocationChooser)
             .withWidget(BuiltInWidgets.kSplitButtonChooser)
-            .withSize(3, 1)
-                .withPosition(6, 0);
+            .withSize(6, 1)
+                .withPosition(0, 3);
             
         getTab()
             .addBoolean("Acquisition",  ()->acquisitionValue.get())

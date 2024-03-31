@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
 import frc.robot.commands.notes.Acquire;
 import frc.robot.commands.notes.AcquireSmart;
+import frc.robot.commands.notes.PushAcquire;
+import frc.robot.commands.notes.RetractAcquire;
 import frc.robot.commands.subroutines.PushAmp;
 import frc.robot.commands.subroutines.PushSpeaker;
 import frc.robot.commands.subroutines.SetupAmp;
@@ -25,6 +27,8 @@ public class AutoPath {
         NamedCommands.registerCommand("Stop", new InstantCommand(() -> drivetrain.kill()));
         NamedCommands.registerCommand("Acquire", new AcquireSmart(acquisition, channel, photosensor, shooter));
         NamedCommands.registerCommand("AcquireStupid", new Acquire(acquisition, channel, photosensor));
+        NamedCommands.registerCommand("AcquirePush", new PushAcquire(acquisition, channel));
+        NamedCommands.registerCommand("Retract", new RetractAcquire(acquisition, channel));
         NamedCommands.registerCommand("PushSpeaker", new PushSpeaker(channel, shooter));
         NamedCommands.registerCommand("FlywheelSpeaker", new SetupSpeaker(shooter));
         NamedCommands.registerCommand("PushAmp", new PushAmp(channel, shooter, crashbar));

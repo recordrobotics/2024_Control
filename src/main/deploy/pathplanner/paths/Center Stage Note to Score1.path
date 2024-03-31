@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9026396514331485,
-        "y": 4.092954054853979
+        "x": 8.41058639382236,
+        "y": 4.1046482092964185
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0743047791467224,
-        "y": 4.085669852175546
+        "x": 3.4405707557858562,
+        "y": 3.461469714967897
       },
       "isLocked": false,
-      "linkedName": "RightNote2"
+      "linkedName": "CenterStageNote"
     },
     {
       "anchor": {
@@ -20,26 +20,32 @@
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.6209816657041727,
-        "y": 5.620438648012729
+        "x": 5.346717929903097,
+        "y": 4.163118981508619
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Score1"
     }
   ],
-  "rotationTargets": [
+  "rotationTargets": [],
+  "constraintZones": [
     {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 0.0,
-      "rotateFast": false
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 0.9,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 5.0,
+        "maxAngularVelocity": 1000.0,
+        "maxAngularAcceleration": 720.0
+      }
     }
   ],
-  "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Flywheel",
-      "waypointRelativePos": 0.55,
+      "name": "StartFlywheel",
+      "waypointRelativePos": 0.1,
       "command": {
         "type": "sequential",
         "data": {
@@ -62,14 +68,14 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 5.0,
     "maxAngularVelocity": 1000.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,

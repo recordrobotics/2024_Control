@@ -125,11 +125,13 @@ public final class Constants {
         Amp_Speaker_1_note("Amp and Speaker"),
         Amp("Amp"),
         FarSpeaker("Far Speaker"),
+        FarSpeaker2Note("Far Speaker 2 Note"),
         DiagLeftOneNote("DiagLeftOneNote"),
         DiagJustShoot("DiagJustShoot"),
         Speaker_3_Note("3NoteSpeaker"),
         Nutron1("Nutron1"),
-        NoteSpeaker3_Side("3NoteSpeakerSide")
+        NoteSpeaker3_Side("3NoteSpeakerSide"),
+        UnderStage3Note("UnderStage3Note")
         ;
     
         public final String pathref;

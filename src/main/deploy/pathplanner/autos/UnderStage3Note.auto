@@ -1,14 +1,26 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 1.31,
+      "y": 5.55
+    },
+    "rotation": 0
+  },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "FlywheelSpeaker"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "To Amp"
+            "pathName": "Speaker to Score1"
           }
         },
         {
@@ -18,15 +30,27 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.7
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "PushAmp"
+            "name": "PushSpeaker"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Amp to Note"
+            "pathName": "Score1 to Center Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Note to Score1"
           }
         },
         {
@@ -44,7 +68,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Shoot note 2"
+            "pathName": "Score1 to Center Stage Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Stage Note to Score1"
           }
         },
         {
@@ -62,6 +92,6 @@
       ]
     }
   },
-  "folder": "Amp Routines (NOT COMP READY)",
+  "folder": "Center Note Routines",
   "choreoAuto": false
 }
