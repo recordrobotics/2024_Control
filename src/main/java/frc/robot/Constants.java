@@ -161,7 +161,7 @@ public final class Constants {
         public static final double DIRECTIONAL_SPEED_METER_LOW = 0.25;
         public static final double DIRECTIONAL_SPEED_METER_HIGH = 4.0;
         public static final double SPIN_SPEED_METER_LOW = 0.5;
-        public static final double SPIN_SPEED_METER_HIGH = 4.3;
+        public static final double SPIN_SPEED_METER_HIGH = 2.4;
 
         // Sensitivies for directional controls (XY) and spin (theta)
         public static final double JOSYSTICK_DIRECTIONAL_SENSITIVITY = 1;
