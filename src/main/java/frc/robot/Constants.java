@@ -140,7 +140,8 @@ public final class Constants {
         NoteSpeaker3_Side("3NoteSpeakerSide"),
         UnderStage3Note("UnderStage3Note"),
         SourceSide2Note("SourceSide2Note"),
-        SourceSide3Note("SourceSide3Note")
+        SourceSide3Note("SourceSide3Note"),
+        SourceSide1Note("SourceSide1Note")
         ;
     
         public final String pathref;

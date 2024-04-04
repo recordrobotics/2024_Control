@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.9933380647595366,
-        "y": 0.881388524090269
+        "x": 1.932024832710634,
+        "y": 0.7133434209888375
       },
       "isLocked": false,
       "linkedName": "C5"
     },
     {
       "anchor": {
-        "x": 0.6801173495887537,
-        "y": 4.494353052594896
+        "x": 1.1334335257744161,
+        "y": 4.514138054404375
       },
       "prevControl": {
-        "x": 0.869506619226193,
-        "y": 0.8959569294471332
+        "x": 2.925578397243646,
+        "y": 1.07005679711666
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,7 +29,19 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Bend",
+      "minWaypointRelativePos": 0.3,
+      "maxWaypointRelativePos": 0.65,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
       "name": "PrepFlywheel",
@@ -56,14 +68,14 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -52.25,
+    "rotation": -52.0,
     "rotateFast": false
   },
   "reversed": false,
