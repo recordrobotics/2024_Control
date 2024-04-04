@@ -102,6 +102,13 @@ public final class Constants {
                 new Pose2d(16.199, 6.730, Rotation2d.fromDegrees(119.8)),
                 // Blue
                 new Pose2d(1.776, 6.703, Rotation2d.fromDegrees(58.762))),
+
+        SourceStart(
+            // Red
+            new Pose2d(15.15, 4.22, Rotation2d.fromDegrees(180)),
+            // Blue
+            new Pose2d(1.39, 4.22, Rotation2d.fromDegrees(0))
+        )
                 ;
 
         private final Pose2d m_transformRed;
