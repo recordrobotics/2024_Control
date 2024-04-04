@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 0.39,
+      "y": 4.22
+    },
+    "rotation": 0.0
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -8,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "To Amp"
+            "pathName": "SourceStartToSourceDiag"
           }
         },
         {
@@ -18,15 +24,27 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.4
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "PushAmp"
+            "name": "PushSpeaker"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Amp to Note"
+            "pathName": "SourceDiagToC5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C5ToSourceDiag"
           }
         },
         {
@@ -44,7 +62,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Shoot note 2"
+            "pathName": "SourceDiagToC4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C4ToSourceDiag"
           }
         },
         {
@@ -62,6 +86,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Speaker Side Diag Routines",
   "choreoAuto": false
 }

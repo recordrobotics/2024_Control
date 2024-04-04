@@ -3,23 +3,24 @@
   "robotLength": 0.46,
   "holonomicMode": true,
   "pathFolders": [
+    "ARCHIVE",
+    "Amp Side Diagonal",
     "AutoChain",
     "Center Note Routines",
-    "Amp Side Diagonal",
-    "ARCHIVE",
+    "SourceSideDiagonal",
     "Speaker Far Note",
     "SpeakerPlusOne",
     "TeleAuto"
   ],
   "autoFolders": [
-    "Amp Routines (NOT COMP READY)",
+    "Amp Routines",
     "Amp Side Diagonal Routines",
     "Center Note Routines",
-    "Speaker Side Diagonal Routines"
+    "Speaker Side Diag Routines"
   ],
-  "defaultMaxVel": 2.0,
-  "defaultMaxAccel": 5.0,
-  "defaultMaxAngVel": 1000.0,
+  "defaultMaxVel": 1.5,
+  "defaultMaxAccel": 3.0,
+  "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 7.0
 }

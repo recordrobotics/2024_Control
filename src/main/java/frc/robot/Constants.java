@@ -131,7 +131,9 @@ public final class Constants {
         Speaker_3_Note("3NoteSpeaker"),
         Nutron1("Nutron1"),
         NoteSpeaker3_Side("3NoteSpeakerSide"),
-        UnderStage3Note("UnderStage3Note")
+        UnderStage3Note("UnderStage3Note"),
+        SourceSide2Note("SourceSide2Note"),
+        SourceSide3Note("SourceSide3Note")
         ;
     
         public final String pathref;
