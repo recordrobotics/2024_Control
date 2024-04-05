@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.060360941234703,
-        "y": 4.209895599278378
+        "x": 3.9200310879254237,
+        "y": 3.9409300471022597
       },
       "isLocked": false,
       "linkedName": "CenterStageNote"
@@ -20,8 +20,8 @@
         "y": 5.55
       },
       "prevControl": {
-        "x": 5.346717929903097,
-        "y": 4.163118981508619
+        "x": 6.013284733122172,
+        "y": 4.630885159206216
       },
       "nextControl": null,
       "isLocked": false,

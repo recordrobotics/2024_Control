@@ -138,6 +138,7 @@ public final class Constants {
         _3NoteSpeakerSide("3NoteSpeakerSide"),
         _4NoteSpeaker("4NoteSpeaker"),
         UnderStage3Note("UnderStage3Note"),
+        _4NoteBlitz("4NoteBlitz"),
         // Amp Side Routines
         AmpSideDiag1("AmpSideDiag1"),
         AmpSideDiagTaxi("AmpSideDiagTaxi"),
