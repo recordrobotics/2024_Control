@@ -149,7 +149,8 @@ public final class Constants {
         SourceSide3Note("SourceSide3Note"),
         SourceSideInner2Note("SourceSideInner2Note"),
         FarSpeaker2Note("FarSpeaker2Note"),
-        FarSpeaker("FarSpeaker")
+        FarSpeaker("FarSpeaker"),
+        SourceSideScramble("SourceSideScramble")
         ;
     
         public final String pathref;
