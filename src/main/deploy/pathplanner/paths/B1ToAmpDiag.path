@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.277540743191514,
-        "y": 2.440207897274712
+        "x": 3.031275350299988,
+        "y": 6.993104356579084
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7633993156185066,
-        "y": 1.0343567803373404
+        "x": 1.8501657516135546,
+        "y": 6.946327738809325
       },
       "isLocked": false,
-      "linkedName": "C4"
+      "linkedName": "B1"
     },
     {
       "anchor": {
-        "x": 1.1334335257744161,
-        "y": 4.514138054404375
+        "x": 1.1134340217398382,
+        "y": 6.501949869996606
       },
       "prevControl": {
-        "x": 1.3228227954118554,
-        "y": 0.9157419312566129
+        "x": 1.7916949794013546,
+        "y": 6.969716047694203
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "SourceDiagScore"
+      "linkedName": "AmpDiagScore"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "PrepFlywheel",
-      "waypointRelativePos": 0.1,
+      "waypointRelativePos": 0.25,
       "command": {
         "type": "sequential",
         "data": {
@@ -56,20 +56,20 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 1.2,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -52.0,
+    "rotation": 45.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "SourceSideDiagonal",
+  "folder": "Amp Side Diagonal",
   "previewStartingState": {
-    "rotation": 36.87,
+    "rotation": 0.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

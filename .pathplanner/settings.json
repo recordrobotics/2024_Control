@@ -13,10 +13,10 @@
     "TeleAuto"
   ],
   "autoFolders": [
-    "Amp Routines",
-    "Amp Side Diagonal Routines",
+    "ARCHIVE",
+    "AmpSideDiag",
     "Center Note Routines",
-    "Speaker Side Diag Routines"
+    "SourceSideDiag"
   ],
   "defaultMaxVel": 1.5,
   "defaultMaxAccel": 3.0,
