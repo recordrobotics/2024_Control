@@ -108,6 +108,12 @@ public final class Constants {
             new Pose2d(15.15, 4.22, Rotation2d.fromDegrees(180)),
             // Blue
             new Pose2d(1.39, 4.22, Rotation2d.fromDegrees(0))
+        ),
+        AmpStart(
+            // Red
+            new Pose2d(15.15, 6.85, Rotation2d.fromDegrees(180)),
+            // Blue
+            new Pose2d(1.39, 6.85, Rotation2d.fromDegrees(0))
         )
                 ;
 
