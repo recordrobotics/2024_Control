@@ -126,22 +126,24 @@ public final class Constants {
 
     // Auto routines
     public enum AutoName{
-        Speaker_2_note("2 Note Speaker"),
-        Speaker_4_note("4 Note Speaker"),
-        Amp_Speaker_2_note("Amp and Speaker (2)"),
-        Amp_Speaker_1_note("Amp and Speaker"),
-        Amp("Amp"),
-        FarSpeaker("Far Speaker"),
-        FarSpeaker2Note("Far Speaker 2 Note"),
-        DiagLeftOneNote("DiagLeftOneNote"),
-        DiagJustShoot("DiagJustShoot"),
-        Speaker_3_Note("3NoteSpeaker"),
-        Nutron1("Nutron1"),
-        NoteSpeaker3_Side("3NoteSpeakerSide"),
+        // Center Note Routines
+        _2NoteSpeaker("2NoteSpeaker"),
+        _3NoteAmpSide("3NoteAmpSide"),
+        _3NoteSpeakerSide("3NoteSpeakerSide"),
+        _4NoteSpeaker("4NoteSpeaker"),
         UnderStage3Note("UnderStage3Note"),
+        // Amp Side Routines
+        AmpSideDiag1("AmpSideDiag1"),
+        AmpSideDiagTaxi("AmpSideDiagTaxi"),
+        AmpSideInner2Note("AmpSideInner2Note"),
+        DiagJustShoot("DiagJustShoot"),
+        // Speaker Side Routines
+        SourceSide1Note("SourceSide1Note"),
         SourceSide2Note("SourceSide2Note"),
         SourceSide3Note("SourceSide3Note"),
-        SourceSide1Note("SourceSide1Note")
+        SourceSideInner2Note("SourceSideInner2Note"),
+        FarSpeaker2Note("FarSpeaker2Note"),
+        FarSpeaker("FarSpeaker")
         ;
     
         public final String pathref;

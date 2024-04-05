@@ -43,7 +43,7 @@ public class AutonomousLayout extends AbstractLayout {
 
         EnumSet.allOf(AutoName.class)
             .forEach(v -> autoChooser.addOption(v.pathref, v));
-        autoChooser.setDefaultOption(AutoName.Speaker_4_note.pathref, AutoName.Speaker_4_note);
+        autoChooser.setDefaultOption(AutoName._4NoteSpeaker.pathref, AutoName._4NoteSpeaker);
 
         // Creates the UI for auto routines
         getTab()
