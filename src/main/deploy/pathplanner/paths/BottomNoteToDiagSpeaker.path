@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 8.514000495934484,
-        "y": 0.779980657348488
+        "y": 0.78
       },
       "prevControl": null,
       "nextControl": {
         "x": 4.561376294389786,
-        "y": 0.8969222017728871
+        "y": 0.8969415444243991
       },
       "isLocked": false,
       "linkedName": "FarNote"
