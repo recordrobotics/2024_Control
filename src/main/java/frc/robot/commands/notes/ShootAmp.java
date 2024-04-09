@@ -16,7 +16,7 @@ public class ShootAmp extends SequentialCommandGroup {
   /** Number of seconds it takes for the flywheel to spin up */
   private final double flywheelSpinupTime = 0.3;
   private final double crashbarExtendTime = 0.4;
-  /** Number of seconds it takes to shoot once the flywheel h as been spun up */
+  /** Number of seconds it takes to shoot once the flywheel has been spun up */
   private final double shootTime = 0.7;  
 
   /**
@@ -33,7 +33,7 @@ public class ShootAmp extends SequentialCommandGroup {
     addRequirements(crashbar);
 
     addCommands(
-      new SetupAmp(_shooter, _crashbar, true),
+      new SetupAmp(_shooter, _crashbar, false),
       new WaitCommand(Math.max(flywheelSpinupTime, crashbarExtendTime)),
       new PushAmp(_channel, _shooter, _crashbar, shootTime)
     );
