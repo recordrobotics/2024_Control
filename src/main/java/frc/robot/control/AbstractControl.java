@@ -1,22 +1,15 @@
 package frc.robot.control;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.DriverStationUtils;
-import frc.robot.utils.ShuffleboardChoosers;
 import edu.wpi.first.math.Pair;
 
 
 public abstract class AbstractControl {
     // Movement
-    public abstract Pair<Double,Double> getXY();
-    public abstract Double getSpin();
-    public abstract Pair<Rotation2d,Double> getAngle();
-    public abstract Double getSpinSpeedLevel();
-    public abstract Double getDirectionalSpeedLevel();
-
-    public abstract DriveCommandData getDriveCommandData(Pose2d swerve_position);
+    public abstract DriveCommandData getDriveCommandData();
 
     // Misc
     public abstract Boolean getPoseReset();
@@ -35,12 +28,17 @@ public abstract class AbstractControl {
     public abstract Boolean getManualCrashbar();
     public abstract Boolean getManualClimbers();
 
+    // Tele scoring
+    public abstract Boolean getTeleAmp();
+    public abstract Boolean getTeleSpeaker();
+    public abstract Boolean getTeleChain();
+
     // Orient XY
     public static Pair<Double,Double>OrientXY(Pair<Double,Double> input) {
         double inputX = input.getFirst();
         double inputY = input.getSecond();
 
-		switch (ShuffleboardChoosers.getDriverOrientation()) {
+		switch (ShuffleboardUI.Overview.getDriverOrientation()) {
 			case XAxisTowardsTrigger:
 				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
                     return new Pair<Double,Double>(-inputY, -inputX);
@@ -58,7 +56,7 @@ public abstract class AbstractControl {
 
     // Orient Angle
     public static Rotation2d OrientAngle(Rotation2d angle) {
-        switch (ShuffleboardChoosers.getDriverOrientation()) {
+        switch (ShuffleboardUI.Overview.getDriverOrientation()) {
             case XAxisTowardsTrigger:
                 if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
                     return new Rotation2d(angle.getRadians() - Math.PI / 2);

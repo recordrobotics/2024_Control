@@ -1,24 +1,16 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
-
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
-import frc.robot.utils.DriverStationUtils;
-import frc.robot.utils.ShuffleboardField;
-import frc.robot.utils.DriverStationUtils.FieldStartingLocation;
+import frc.robot.shuffleboard.ShuffleboardUI;
+import frc.robot.utils.UncertainSwerveDrivePoseEstimator;
 
 /** Represents a swerve drive style drivetrain. */
-public class Drivetrain extends SubsystemBase {
+public class Drivetrain extends KillableSubsystem {
 
         // Creates Nav object
         private final NavSensor _nav = new NavSensor();
@@ -37,13 +29,13 @@ public class Drivetrain extends SubsystemBase {
                         Constants.Swerve.backRightConstants.wheelLocation);
 
         // Creates swerve post estimation filter
-        public SwerveDrivePoseEstimator poseFilter;
+        public static UncertainSwerveDrivePoseEstimator poseFilter;
 
         // Init drivetrain
         public Drivetrain() {
                 _nav.resetAngleAdjustment();
 
-                poseFilter = new SwerveDrivePoseEstimator(
+                poseFilter = new UncertainSwerveDrivePoseEstimator(
                                 m_kinematics,
                                 _nav.getAdjustedAngle(),
                                 new SwerveModulePosition[] {
@@ -52,7 +44,9 @@ public class Drivetrain extends SubsystemBase {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                DriverStationUtils.getStartingLocation().getPose());
+                                ShuffleboardUI.Autonomous.getStartingLocation().getPose());
+
+                //ShuffleboardUI.Overview.setPoseCertain(poseFilter::isCertain);
         }
 
         /**
@@ -91,7 +85,8 @@ public class Drivetrain extends SubsystemBase {
         }
 
         // set PID target to 0 but also immediately stop all modules
-        public void stop() {
+        @Override
+        public void kill() {
                 drive(new DriveCommandData(0, 0, 0, false));
                 m_frontLeft.stop();
                 m_frontRight.stop();
@@ -109,7 +104,7 @@ public class Drivetrain extends SubsystemBase {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 });
-                ShuffleboardField.setRobotPose(poseFilter.getEstimatedPosition());
+                ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition());
         }
 
         /** Resets the field relative position of the robot (mostly for testing). */
@@ -127,13 +122,14 @@ public class Drivetrain extends SubsystemBase {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                DriverStationUtils.getStartingLocation().getPose());
+                                ShuffleboardUI.Autonomous.getStartingLocation().getPose());
+                poseFilter.setCertainty(true); // we just set a known position
         }
 
         /**
          * Resets the pose to FrontSpeakerClose (shooter facing towards speaker)
          */
-        public void resetDriverPose(){
+        public void resetDriverPose() {
                 _nav.resetAngleAdjustment();
                 m_frontLeft.resetDriveMotorPosition();
                 m_frontRight.resetDriveMotorPosition();
@@ -147,7 +143,8 @@ public class Drivetrain extends SubsystemBase {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 },
-                                FieldStartingLocation.FrontSpeakerClose.getPose());
+                                Constants.FieldStartingLocation.FrontSpeakerClose.getPose());
+                poseFilter.setCertainty(true); // we just set a known position
         }
 
         /**
@@ -172,5 +169,6 @@ public class Drivetrain extends SubsystemBase {
                                                 m_backLeft.getModulePosition(),
                                                 m_backRight.getModulePosition()
                                 }, pose);
+                poseFilter.setCertainty(true); // we just set a known position
         }
 }

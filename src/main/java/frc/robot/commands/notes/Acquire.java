@@ -15,22 +15,25 @@ public class Acquire extends SequentialCommandGroup {
   private static Channel _channel;
   private static Photosensor _photosensor;
 
+  /**
+   * Command that picks up the note, steopping the acquision once note is acquired
+   * @param acquisition
+   * @param channel
+   * @param photosensor
+   */
   public Acquire (Acquisition acquisition, Channel channel, Photosensor photosensor) {
     _acquisition = acquisition;
     _channel = channel;
     _photosensor = photosensor;
-    addRequirements(acquisition);
-    addRequirements(channel);
-    addRequirements(photosensor);
 
-    final Runnable killSpecified = () -> new KillSpecified(_acquisition, _channel, _photosensor);
+    final Runnable killSpecified = () -> new KillSpecified(_acquisition, _channel);
 
     addCommands(
       // Turns acq on
       new InstantCommand(() -> _acquisition.toggle(AcquisitionStates.IN), _acquisition).handleInterrupt(killSpecified),
       new InstantCommand(() -> _channel.toggle(ChannelStates.SHOOT), _channel).handleInterrupt(killSpecified),
       // Waits until photosensor
-      new WaitUntilCommand(()->_photosensor.getDebouncedValue()),
+      new WaitUntilCommand(()->!_photosensor.getCurrentValue()),
       // Turns acq and channel off
       new InstantCommand(() -> _acquisition.toggle(AcquisitionStates.OFF), _acquisition).handleInterrupt(killSpecified),
       new InstantCommand(() -> _channel.toggle(ChannelStates.OFF), _channel).handleInterrupt(killSpecified)

@@ -1,11 +1,9 @@
 package frc.robot.subsystems;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class Crashbar extends SubsystemBase {
+public class Crashbar extends KillableSubsystem {
 
     // Creates solenoid
     private DoubleSolenoid solenoid = new DoubleSolenoid(
@@ -15,7 +13,13 @@ public class Crashbar extends SubsystemBase {
     );
 
     public Crashbar() {
-        solenoid.set(DoubleSolenoid.Value.kOff);
+        toggle(CrashbarStates.OFF);
+    }
+
+    public enum CrashbarStates {
+        EXTENDED,
+        RETRACTED,
+        OFF;
     }
 
     public void toggle(CrashbarStates state) {
@@ -32,9 +36,10 @@ public class Crashbar extends SubsystemBase {
         }
     }
 
-    public enum CrashbarStates {
-        EXTENDED,
-        RETRACTED,
-        OFF;
+    @Override
+    public void kill() {
+        toggle(CrashbarStates.OFF);
     }
+
+    
 }

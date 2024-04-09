@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
-import java.util.HashMap;
-import java.util.Map;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -10,42 +9,10 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.robot.ShuffleboardUI;
 import frc.robot.utils.ModuleConstants;
+import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class SwerveModule {
-
-  class Double2 {
-    public Double a;
-    public Double b;
-
-    public Double2(double a1, double b1) {
-      a = a1;
-      b = b1;
-    }
-  }
-
-  private final static Map<Integer, Double2> velocityGraphData = new HashMap<>();
-
-  static {
-    ShuffleboardTab tab = ShuffleboardUI.Autonomous.getTab();
-    var velocityWidget = tab.addDoubleArray("Velocity", () -> {
-      var values = velocityGraphData.values().toArray();
-      double[] db = new double[values.length * 2];
-      for (int i = 0; i < values.length; i++) {
-        if (values[i] instanceof Double2 p) {
-          db[i * 2] = p.a;
-          db[i * 2 + 1] = p.b;
-        }
-      }
-      return db;
-    });
-    velocityWidget.withWidget(BuiltInWidgets.kGraph);
-    velocityWidget.withPosition(6, 2);
-    velocityWidget.withSize(4, 3);
-  }
 
   // Creates variables for motors and absolute encoders
   private final TalonFX m_driveMotor;
@@ -55,7 +22,7 @@ public class SwerveModule {
 
   private final ProfiledPIDController drivePIDController;
   private final ProfiledPIDController turningPIDController;
-  private SimpleMotorFeedforward driveFeedForward;
+  private final SimpleMotorFeedforward driveFeedForward;
 
   private final double TURN_GEAR_RATIO;
   private final double DRIVE_GEAR_RATIO;
@@ -71,14 +38,10 @@ public class SwerveModule {
    */
   public SwerveModule(ModuleConstants m) {
 
+
     // Creates TalonFX objects
     m_driveMotor = new TalonFX(m.driveMotorChannel);
     m_turningMotor = new TalonFX(m.turningMotorChannel);
-
-    var widgetDrv = ShuffleboardUI.Test.getTab().add("Drive "+m.driveMotorChannel, m_driveMotor);
-    widgetDrv.withWidget(BuiltInWidgets.kMotorController);
-    var widgetTurn = ShuffleboardUI.Test.getTab().add("Turn "+m.turningMotorChannel,m_turningMotor);
-    widgetTurn.withWidget(BuiltInWidgets.kMotorController);
 
     // Creates Motor Encoder object and gets offset
     absoluteTurningMotorEncoder = new DutyCycleEncoder(m.absoluteTurningMotorEncoderChannel);
@@ -118,7 +81,10 @@ public class SwerveModule {
 
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelTurnOffset());
-  }
+    
+    // Sets up shuffleboard
+    setupShuffleboard(m.driveMotorChannel, m.turningMotorChannel);
+}
 
   /**
    * *custom function
@@ -162,8 +128,7 @@ public class SwerveModule {
    * @return The distance driven by the drive wheel (meters)
    */
   private double getDriveWheelDistance() {
-    double numRotationsDriveMotor = m_driveMotor.getPosition().getValueAsDouble(); // TODO: may have to multiply by
-                                                                                   // relative encoder ratio
+    double numRotationsDriveMotor = m_driveMotor.getPosition().getValueAsDouble(); 
     double numRotationsDriveWheel = numRotationsDriveMotor / DRIVE_GEAR_RATIO;
     double speedWheelDistanceMeters = numRotationsDriveWheel * Math.PI * WHEEL_DIAMETER;
     return speedWheelDistanceMeters;
@@ -212,8 +177,7 @@ public class SwerveModule {
     double driveFeedforwardOutput = driveFeedForward.calculate(optimizedState.speedMetersPerSecond);
     m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
 
-    velocityGraphData.put(m_driveMotor.getDeviceID(),
-        new Double2(getDriveWheelVelocity(), optimizedState.speedMetersPerSecond));
+    ShuffleboardUI.Autonomous.putSwerveVelocityData(m_driveMotor.getDeviceID(), getDriveWheelVelocity(), optimizedState.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller then set
     // turn motor.
@@ -225,5 +189,13 @@ public class SwerveModule {
   public void stop() {
     m_driveMotor.setVoltage(0);
     m_turningMotor.set(0);
+  }
+
+  // SHUFFLEBOARD STUFF
+
+  private void setupShuffleboard(double driveMotorChannel, double turningMotorChannel) {
+    ShuffleboardUI.Test.addMotor("Drive " + driveMotorChannel, m_driveMotor);
+    ShuffleboardUI.Test.addMotor("Turn " + turningMotorChannel, m_turningMotor);
+    ShuffleboardUI.Test.addNumber("Encoder " + absoluteTurningMotorEncoder.getSourceChannel(), absoluteTurningMotorEncoder::getAbsolutePosition);
   }
 }

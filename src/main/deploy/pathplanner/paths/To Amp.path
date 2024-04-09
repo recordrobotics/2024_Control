@@ -79,9 +79,9 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.5,
-    "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 1000.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
@@ -90,7 +90,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Real Auto",
+  "folder": "ARCHIVE",
   "previewStartingState": {
     "rotation": -90.0,
     "velocity": 0

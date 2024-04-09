@@ -1,7 +1,5 @@
 package frc.robot.control;
 import edu.wpi.first.math.Pair;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -24,7 +22,7 @@ public class DoubleXboxSpin extends AbstractControl {
 	}
 
     @Override
-    public DriveCommandData getDriveCommandData(Pose2d swerve_position) {
+    public DriveCommandData getDriveCommandData() {
         // Gets information needed to drive
         DriveCommandData driveCommandData = new DriveCommandData(
                 getXY().getFirst() * getDirectionalSpeedLevel(),
@@ -43,33 +41,20 @@ public class DoubleXboxSpin extends AbstractControl {
         new Trigger(drivebox::getYButton).onTrue(new InstantCommand(()->speed_level = 0.6 * Constants.Swerve.robotMaxSpeed));
     }
     
- 
-    @Override
     public Pair<Double,Double> getXY() {
         double X = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(0), Constants.Control.XBOX_X_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
         double Y = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(1), Constants.Control.XBOX_X_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
         return super.OrientXY(new Pair<Double,Double>(X, Y));
     }
 
-    @Override
     public Double getSpin() {
         return SimpleMath.ApplyThresholdAndSensitivity(-drivebox.getRawAxis(4), Constants.Control.XBOX_SPIN_ROT_THRESHOLD, Constants.Control.XBOX_SPIN_ROT_SENSITIVITY);
     }
 
-    /**
-     * 
-     */
-    @Override
-    public Pair<Rotation2d,Double> getAngle() {
-        return null;
-    }
-
-    @Override
     public Double getDirectionalSpeedLevel() {
 		return speed_level;
 	}
 
-    @Override
 	public Double getSpinSpeedLevel() {
 		return 0.5 * speed_level;
 	}
@@ -127,5 +112,20 @@ public class DoubleXboxSpin extends AbstractControl {
     @Override
     public Boolean getManualClimbers() {
         return notesbox.getRawButton(7);
+    }
+
+    @Override
+    public Boolean getTeleAmp() {
+        return false;
+    }
+
+    @Override
+    public Boolean getTeleSpeaker() {
+        return false;
+    }
+
+    @Override
+    public Boolean getTeleChain() {
+        return false;
     }
 }

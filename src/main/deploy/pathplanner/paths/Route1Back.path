@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.282849465983832,
-        "y": 6.993104356579084
+        "x": 3.171132993097341,
+        "y": 7.0198259161363925
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.2359885133444466,
-        "y": 6.956683343186923
+        "x": 1.1242720404579554,
+        "y": 6.9834049027442315
       },
       "isLocked": false,
       "linkedName": "LeftNoteStraight"
@@ -33,11 +33,17 @@
   "eventMarkers": [
     {
       "name": "Flywheel",
-      "waypointRelativePos": 0.2,
+      "waypointRelativePos": 0.15,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Retract"
+              }
+            },
             {
               "type": "named",
               "data": {
@@ -50,9 +56,9 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.5,
-    "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 1000.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
@@ -61,7 +67,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "SpeakerPlusOne",
+  "folder": "Amp Side Diagonal",
   "previewStartingState": {
     "rotation": 0.0,
     "velocity": 0
