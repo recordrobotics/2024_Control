@@ -95,7 +95,7 @@ public class OverviewLayout extends AbstractLayout {
             .add("Drive Mode", driveMode)
             .withWidget(BuiltInWidgets.kSplitButtonChooser)
             .withPosition(0, 1)
-            .withSize(3, 1);
+            .withSize(4, 1);
     }
 
     public void setPoseCertain(Supplier<Boolean> certain) {
