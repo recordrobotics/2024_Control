@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.robot.control.ChildProtectiveServices;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -40,10 +41,18 @@ public class Shooter extends KillableSubsystem {
     public void toggle(ShooterStates state) {
         switch (state) {
             case SPEAKER:
-                toggle(Constants.Shooter.SPEAKER_SPEED);
+                toggle(
+                    ShuffleboardUI.Overview.getControl() instanceof ChildProtectiveServices ?
+                 Constants.Shooter.CHILD_SPEAKER_SPEED:
+                 Constants.Shooter.SPEAKER_SPEED
+                 );
                 break;
             case AMP:
-                toggle(Constants.Shooter.AMP_SPEED);
+                toggle(
+                    ShuffleboardUI.Overview.getControl() instanceof ChildProtectiveServices ?
+                 Constants.Shooter.CHILD_AMP_SPEED:
+                 Constants.Shooter.AMP_SPEED
+                 );
                 break;
             case REVERSE:
                 toggle(Constants.Shooter.REVERSE_SPEED);

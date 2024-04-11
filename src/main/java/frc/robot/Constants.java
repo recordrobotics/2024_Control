@@ -35,8 +35,10 @@ import edu.wpi.first.math.geometry.Translation3d;
 public final class Constants {
 
     public final class Shooter {
-        public static final double SPEAKER_SPEED = 1;
+        public static final double SPEAKER_SPEED = 1.0;
         public static final double AMP_SPEED = 0.25;
+        public static final double CHILD_SPEAKER_SPEED = 0.4;
+        public static final double CHILD_AMP_SPEED = 0.2;
         public static final double REVERSE_SPEED = -0.1;
     }
 

@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Crashbar;
 import frc.robot.commands.subroutines.PushAmp;
 import frc.robot.commands.subroutines.SetupAmp;
+import frc.robot.control.ChildProtectiveServices;
+import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Shooter;
 
@@ -33,7 +35,7 @@ public class ShootAmp extends SequentialCommandGroup {
     addRequirements(crashbar);
 
     addCommands(
-      new SetupAmp(_shooter, _crashbar, false),
+      new SetupAmp(_shooter, _crashbar, ShuffleboardUI.Overview.getControl() instanceof ChildProtectiveServices ? false : true),
       new WaitCommand(Math.max(flywheelSpinupTime, crashbarExtendTime)),
       new PushAmp(_channel, _shooter, _crashbar, shootTime)
     );
