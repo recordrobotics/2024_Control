@@ -18,6 +18,13 @@ and the ``WPILib`` code structure.
 
 .. toctree::
    :maxdepth: 1
+   :caption: WPILib
+   :hidden:
+
+   wpilib/index
+
+.. toctree::
+   :maxdepth: 1
    :caption: Contributing
    :hidden:
 
