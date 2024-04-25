@@ -5,4 +5,5 @@ Contributing to the documentation
    :maxdepth: 1
 
    environment-setup
+   things-to-know
    what-is-restructuredtext
