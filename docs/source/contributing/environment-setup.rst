@@ -107,6 +107,8 @@ and run ``Live Preview: Start Server`` while an ``rst`` file is open.
  by pressing :kbd:`Ctrl+Shift+U` and select ``Esbonio Language Server`` from the dropdown
  in the top right. If everything is working, the output should show something about ``build succeeded.``.
 
+.. _manual-building:
+
 Manual Building
 ---------------
 

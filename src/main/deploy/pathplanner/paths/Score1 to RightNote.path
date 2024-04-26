@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.49,
+        "x": 1.55,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.187947304022381,
+        "x": 2.2479473040223805,
         "y": 4.093721905278771
       },
       "isLocked": false,
@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.076620030791082,
-        "y": 4.108290310635635
+        "x": 2.9026396514331485,
+        "y": 4.092954054853979
       },
       "prevControl": {
-        "x": 1.9766200307910817,
-        "y": 4.108290310635635
+        "x": 1.8026396514331484,
+        "y": 4.092954054853979
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,7 +41,7 @@
       "minWaypointRelativePos": 0.8,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 0.5,
+        "maxVelocity": 1.0,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 1000.0,
         "maxAngularAcceleration": 720.0
@@ -59,7 +59,7 @@
             {
               "type": "named",
               "data": {
-                "name": "Acquire"
+                "name": "AcquirePush"
               }
             }
           ]
@@ -69,7 +69,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 2.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 1000.0,
     "maxAngularAcceleration": 720.0
   },
@@ -79,7 +79,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "4 Note Speaker",
+  "folder": "Center Note Routines",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

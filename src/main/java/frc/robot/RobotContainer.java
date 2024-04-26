@@ -1,24 +1,19 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
-
+// WPILib imports
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.KillSpecified;
-import frc.robot.commands.auto.PlannedAuto;
-import frc.robot.commands.manual.*;
-import frc.robot.commands.notes.*;
-import frc.robot.utils.AutoPath;
-import frc.robot.utils.ShuffleboardChoosers;
-import frc.robot.control.DoubleXbox;
-import frc.robot.control.DoubleXboxSpin;
-import frc.robot.control.JoystickXbox;
-import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+// Local imports
+import frc.robot.commands.KillSpecified;
+import frc.robot.commands.auto.*;
+import frc.robot.commands.manual.*;
+import frc.robot.commands.notes.*;
+import frc.robot.control.*;
+import frc.robot.shuffleboard.ShuffleboardUI;
+import frc.robot.subsystems.*;
+import frc.robot.utils.AutoPath;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -31,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
+
   // The robot's subsystems and commands are defined here
   private final Drivetrain _drivetrain;
   private final Shooter _shooter;
@@ -40,17 +36,11 @@ public class RobotContainer {
   private final Channel _channel;
   private final Photosensor _photosensor;
   @SuppressWarnings("unused") // Required to call constructor of PCMCompressor to initialize ShuffleboardUI
-  // TODO: make this better
   private final PCMCompressor _compressor;
 
   // Autonomous
   private final AutoPath _autoPath;
   private Command autoCommand;
-
-  // Control
-  private JoystickXbox _joystickXbox;
-  private DoubleXbox _doubleXbox;
-  private DoubleXboxSpin _doubleXboxSpin;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -65,20 +55,17 @@ public class RobotContainer {
     _crashbar = new Crashbar();
     _photosensor = new Photosensor();
     _climbers = new Climbers();
-    // Required to call constructor of PCMCompressor to initialize ShuffleboardUI
-    // TODO: make this better
     _compressor = new PCMCompressor();
 
-    // Sets up auto chooser
+    // Sets up auto path
     _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
 
-    // Creates control input & manual swerve object, adds it to _teleopPairs
-    _joystickXbox = new JoystickXbox(2, 0);
-    _doubleXbox = new DoubleXbox(0, 1);
-    _doubleXboxSpin = new DoubleXboxSpin(0, 1);
-
     // Sets up Control scheme chooser
-    ShuffleboardChoosers.initialize(_joystickXbox, _doubleXbox, _doubleXboxSpin);
+    ShuffleboardUI.Overview.addControls(
+      new JoystickXbox(2, 0),
+      new DoubleXbox(0, 1),
+      new DoubleXboxSpin(0, 1)
+    );
 
     // Bindings and Teleop
     configureButtonBindings();
@@ -100,46 +87,23 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // Command to kill robot
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getKillAuto())
-        .whileTrue(new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getKillAuto()).whileTrue(new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers));
 
-    // Smart triggers
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getAcquire())
-        .toggleOnTrue(new AcquireSmart(_acquisition, _channel, _photosensor, _shooter));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getShootSpeaker())
-        .toggleOnTrue(new ShootSpeaker(_channel, _shooter));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getShootAmp())
-        .toggleOnTrue(new ShootAmp(_channel, _shooter, _crashbar));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getReverse())
-        .whileTrue(new ManualReverse(_acquisition, _channel));
+    // Notes triggers
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getAcquire()).toggleOnTrue(new AcquireSmart(_acquisition, _channel, _photosensor, _shooter));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getShootSpeaker()).toggleOnTrue(new ShootSpeaker(_channel, _shooter));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getShootAmp()).toggleOnTrue(new ShootAmp(_channel, _shooter, _crashbar));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getReverse()).whileTrue(new ManualReverse(_acquisition, _channel));
 
     // Manual triggers
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualShootAmp())
-        .toggleOnTrue(new ManualShooter(_shooter, Shooter.ShooterStates.AMP));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualShootSpeaker())
-        .toggleOnTrue(new ManualShooter(_shooter, Shooter.ShooterStates.SPEAKER));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualCrashbar())
-        .toggleOnTrue(new ManualCrashbar(_crashbar));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualAcquisition())
-        .whileTrue(new ManualAcquisition(_acquisition, _channel));
-
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getManualClimbers())
-        .toggleOnTrue(new ManualClimbers(_climbers));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualShootAmp()).toggleOnTrue(new ManualShooter(_shooter, Shooter.ShooterStates.AMP));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualShootSpeaker()).toggleOnTrue(new ManualShooter(_shooter, Shooter.ShooterStates.SPEAKER));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualCrashbar()).toggleOnTrue(new ManualCrashbar(_crashbar));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualAcquisition()).whileTrue(new ManualAcquisition(_acquisition, _channel));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualClimbers()).toggleOnTrue(new ManualClimbers(_climbers));
 
     // Reset pose trigger
-    new Trigger(() -> ShuffleboardChoosers.getDriveControl().getPoseReset())
-        .onTrue(new InstantCommand(_drivetrain::resetDriverPose));
-
-  }
-
-  public void testPeriodic() {
-    _shooter.testPeriodic();
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getPoseReset()).onTrue(new InstantCommand(_drivetrain::resetDriverPose));
   }
 
   /**
@@ -152,5 +116,9 @@ public class RobotContainer {
       autoCommand = new PlannedAuto(_drivetrain, _autoPath);
     }
     return autoCommand;
+  }
+
+  public void testPeriodic() {
+    ShuffleboardUI.Test.testPeriodic();
   }
 }

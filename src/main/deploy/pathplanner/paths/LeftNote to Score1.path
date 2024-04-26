@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 1.49,
+        "x": 1.55,
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.5609816657041726,
+        "x": 1.6209816657041727,
         "y": 5.620438648012729
       },
       "nextControl": null,
@@ -44,11 +44,17 @@
   "eventMarkers": [
     {
       "name": "Flywheel",
-      "waypointRelativePos": 0.55,
+      "waypointRelativePos": 0.45,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Retract"
+              }
+            },
             {
               "type": "named",
               "data": {
@@ -62,7 +68,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 2.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 1000.0,
     "maxAngularAcceleration": 720.0
   },
@@ -72,9 +78,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "4 Note Speaker",
+  "folder": "Center Note Routines",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 40.14,
     "velocity": 0
   },
   "useDefaultConstraints": false

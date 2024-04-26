@@ -4,40 +4,28 @@
 
 package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-import frc.robot.ShuffleboardUI;
-import java.util.Map;
+import frc.robot.shuffleboard.ShuffleboardUI;
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-public class Shooter extends SubsystemBase {
+public class Shooter extends KillableSubsystem {
 
     private CANSparkMax flywheelL = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID, MotorType.kBrushless);
     private CANSparkMax flywheelR = new CANSparkMax(RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID, MotorType.kBrushless);
 
-    GenericEntry widgetL;
-    GenericEntry widgetR;
-
     public Shooter() {
         toggle(ShooterStates.OFF);
-
-        widgetL = ShuffleboardUI.Test.getTab().add("Flywheel Left", flywheelL.get())
-            .withWidget(BuiltInWidgets.kNumberSlider)
-            .withProperties(Map.of("min", -1, "max", 1))
-            .getEntry();
-
-        widgetR = ShuffleboardUI.Test.getTab().add("Flywheel Right", flywheelR.get())
-            .withWidget(BuiltInWidgets.kNumberSlider)
-            .withProperties(Map.of("min", -1, "max", 1))
-            .getEntry();
+        ShuffleboardUI.Test.addSlider("Flywheel Left", flywheelL.get(), -1, 1).subscribe(flywheelL::set);
+        ShuffleboardUI.Test.addSlider("Flywheel Right", flywheelR.get(), -1, 1).subscribe(flywheelR::set);
     }
 
-    public void testPeriodic(){
-        flywheelL.set(widgetL.getDouble(0));
-        flywheelR.set(widgetR.getDouble(0));
+    public enum ShooterStates {
+        SPEAKER,
+        AMP,
+        REVERSE,
+        OFF;
     }
 
     public void toggle(double speedL, double speedR) {
@@ -46,8 +34,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void toggle(double speed) {
-        flywheelL.set(-speed);
-        flywheelR.set(speed);
+        toggle(speed, speed);
     }
 
     public void toggle(ShooterStates state) {
@@ -67,10 +54,8 @@ public class Shooter extends SubsystemBase {
         }
     }
 
-    public enum ShooterStates {
-        SPEAKER,
-        AMP,
-        REVERSE,
-        OFF;
+    @Override
+    public void kill() {
+        toggle(ShooterStates.OFF);
     }
 }

@@ -1,12 +1,12 @@
 package frc.robot.control;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.SimpleMath;
 
@@ -28,10 +28,10 @@ public class DoubleXbox extends AbstractControl {
 	}
 
     @Override
-    public DriveCommandData getDriveCommandData(Pose2d swerve_position) {
+    public DriveCommandData getDriveCommandData() {
 
         // Calculates spin
-        double robot_angle = swerve_position.getRotation().getRadians();
+        double robot_angle = Drivetrain.poseFilter.getEstimatedPosition().getRotation().getRadians();
         double target_angle = super.OrientAngle(getAngle().getFirst()).getRadians();
         double spin = anglePID.calculate(robot_angle, target_angle);
         // Calculates proportion of PID to multiply by
@@ -56,22 +56,13 @@ public class DoubleXbox extends AbstractControl {
     }
     
  
-    @Override
     public Pair<Double,Double> getXY() {
         double X = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(0), Constants.Control.XBOX_X_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
         double Y = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(1), Constants.Control.XBOX_X_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
         return super.OrientXY(new Pair<Double,Double>(X, Y));
     }
 
-    @Override
-    public Double getSpin() {
-        return null;
-    }
-
-    /**
-     * 
-     */
-    @Override
+    
     public Pair<Rotation2d,Double> getAngle() {
 
 		// Gets x and y axis of xbox
@@ -89,15 +80,10 @@ public class DoubleXbox extends AbstractControl {
 		return new Pair<Rotation2d, Double>(adjusted_angle, proportion);
     }
 
-    @Override
     public Double getDirectionalSpeedLevel() {
 		return speed_level;
 	}
 
-    @Override
-	public Double getSpinSpeedLevel() {
-		return null;
-	}
 
     @Override
     public Boolean getPoseReset() {
@@ -152,5 +138,20 @@ public class DoubleXbox extends AbstractControl {
     @Override
     public Boolean getManualClimbers() {
         return notesbox.getRawButton(7);
+    }
+
+    @Override
+    public Boolean getTeleAmp() {
+        return false;
+    }
+
+    @Override
+    public Boolean getTeleSpeaker() {
+        return false;
+    }
+
+    @Override
+    public Boolean getTeleChain() {
+        return false;
     }
 }

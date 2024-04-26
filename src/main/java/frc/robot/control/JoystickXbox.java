@@ -1,7 +1,5 @@
 package frc.robot.control;
 import edu.wpi.first.math.Pair;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
@@ -19,7 +17,7 @@ public class JoystickXbox extends AbstractControl {
 	}
 
     @Override
-    public DriveCommandData getDriveCommandData(Pose2d swerve_position) {
+    public DriveCommandData getDriveCommandData() {
         // Gets information needed to drive
         DriveCommandData driveCommandData = new DriveCommandData(
                 getXY().getFirst() * getDirectionalSpeedLevel(),
@@ -30,41 +28,37 @@ public class JoystickXbox extends AbstractControl {
         return driveCommandData;
     }
 
-    @Override
     public Pair<Double,Double> getXY() {
         double X = SimpleMath.ApplyThresholdAndSensitivity(joystick.getX(), Constants.Control.JOYSTICK_X_THRESHOLD, Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY);
         double Y = SimpleMath.ApplyThresholdAndSensitivity(joystick.getY(), Constants.Control.JOYSTICK_Y_THRESHOLD, Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY);
         return super.OrientXY(new Pair<Double,Double>(X, Y));
     }
 
-    @Override
     public Double getSpin() {
         // Gets raw twist value
         return SimpleMath.ApplyThresholdAndSensitivity(-SimpleMath.Remap(joystick.getTwist(), -1.0, 1.0, -1.0, 1.0), Constants.Control.JOYSTICK_SPIN_THRESHOLD, Constants.Control.JOYSTICK_SPIN_SENSITIVITY);
     }
 
-    @Override
-    public Pair<Rotation2d,Double> getAngle() {
-        return null;
-    }
-
-    @Override
     public Double getDirectionalSpeedLevel() {
 		// Remaps speed meter from -1 -> 1 to 0.5 -> 4, then returns
-        // TODO: I reversed the getrawaxis and made min and max -1 -> 1. Is this ok?
 		return SimpleMath.Remap(
             joystick.getRawAxis(3), 
             1, 
             -1, 
             Constants.Control.DIRECTIONAL_SPEED_METER_LOW,
-			Constants.Control.DIRECTIONAL_SPEED_METER_HIGH);
+			Constants.Control.DIRECTIONAL_SPEED_METER_HIGH
+        );
 	}
 
-    @Override
 	public Double getSpinSpeedLevel() {
 		// Remaps speed meter from -1 -> 1 to 0.5 -> 4, then returns
-		return SimpleMath.Remap(joystick.getRawAxis(3), 1, -1, Constants.Control.SPIN_SPEED_METER_LOW,
-				Constants.Control.SPIN_SPEED_METER_HIGH);
+		return SimpleMath.Remap(
+            joystick.getRawAxis(3), 
+            1, 
+            -1, 
+            Constants.Control.SPIN_SPEED_METER_LOW,
+			Constants.Control.SPIN_SPEED_METER_HIGH
+        );
 	}
 
     @Override
@@ -121,5 +115,19 @@ public class JoystickXbox extends AbstractControl {
     public Boolean getManualClimbers() {
         return xbox_controller.getRawButton(7);
     }
-    
+
+    @Override
+    public Boolean getTeleAmp() {
+        return joystick.getRawButton(3);
+    }
+
+    @Override
+    public Boolean getTeleSpeaker() {
+        return joystick.getRawButton(5);
+    }
+
+    @Override
+    public Boolean getTeleChain() {
+        return joystick.getRawButton(4);
+    }
 }
