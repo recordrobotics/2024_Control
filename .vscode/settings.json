@@ -45,5 +45,6 @@
   "livePreview.defaultPreviewPath": "/docs/build/html/index.html",
   "livePreview.previewDebounceDelay": 3000,
   "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000
+  "files.autoSaveDelay": 1000,
+  "iis.configDir": ""
 }

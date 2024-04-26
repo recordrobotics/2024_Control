@@ -12,7 +12,7 @@ New team members
 Here are some helpful pages to quickly understand the basics about how the robot works
 and the ``WPILib`` code structure.
 
-- `Test <test>`__
+- `Code Structure <CodeStructure/index.html>`__
 - `Test <test>`__
 - `Test <test>`__
 
@@ -22,3 +22,4 @@ and the ``WPILib`` code structure.
    :hidden:
 
    contributing/index
+   CodeStructure/index
