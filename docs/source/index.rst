@@ -29,4 +29,10 @@ and the ``WPILib`` code structure.
    :hidden:
 
    contributing/index
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Code Structure
+   :hidden:
+
    CodeStructure/index
