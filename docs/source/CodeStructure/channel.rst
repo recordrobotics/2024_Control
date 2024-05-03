@@ -3,5 +3,12 @@ Channel
 
 1 DC motor, uses photosensor
 
-2 different speeds, passing to shooter to center the note (THROUGH) or going faster to shoot the note(SHOOT). Can also reverse (REVERSE) and stop (OFF).
- 
+Has 4 different motor states
+
+1. ``THROUGH``:This Setting gets the Note into the shooter but does not provide enough power to get it into the speaker
+   
+2. ``SHOOT``:This Setting works in conjunction with the shooter to provide the note enough power to get into the speaker
+
+3. ``REVERSE`` This reverse the channel pulling the note away from the shooter
+
+4. ``OFF`` This setting shuts off the channel setting the motor speed to 0
