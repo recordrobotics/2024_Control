@@ -1,5 +1,6 @@
 Shooter
 =============================
+Fires the notes
 
 2 flywheels each spun by a NEO
 

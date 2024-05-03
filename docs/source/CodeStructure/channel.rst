@@ -1,5 +1,6 @@
 Channel
 =============================
+The motor that moves the Note from the Acquisition to the Shooter
 
 1 DC motor, uses photosensor
 

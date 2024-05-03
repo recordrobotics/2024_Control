@@ -1,6 +1,7 @@
 Acquisition
 =============================
 ``public class Acquisition extends KillableSubsystem``
+Section of the Robot resposible for collecting notes from the field
 
 Spins 1 DC motor
 
