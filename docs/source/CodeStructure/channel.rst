@@ -1,4 +1,4 @@
-channel
+Channel
 =============================
 
 1 DC motor, uses photosensor

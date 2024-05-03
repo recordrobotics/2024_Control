@@ -1,4 +1,4 @@
-drivetrain
+Drivetrain
 =============================
 
 Read through `swerve drive kinematics <https://docs.wpilib.org/en/stable/docs/software/kinematics-and-odometry/swerve-drive-kinematics.html>`__

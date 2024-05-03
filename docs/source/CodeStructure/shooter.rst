@@ -1,4 +1,4 @@
-shooter
+Shooter
 =============================
 
 2 flywheels each spun by a NEO

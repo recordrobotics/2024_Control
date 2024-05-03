@@ -1,4 +1,4 @@
-photosensor
+Photosensor
 =============================
 
 gets photosensor values, checks accuracy using debouncer
