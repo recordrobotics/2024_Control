@@ -17,3 +17,4 @@ Read through `Command-Based Progamming <https://docs.wpilib.org/en/stable/docs/s
     PCMcompressor
     photosensor
     shooter
+    killablesubsystem
