@@ -8,7 +8,6 @@ import frc.robot.shuffleboard.ShuffleboardUI;
 public class Acquisition extends KillableSubsystem {
     private Spark acquisitionMotor = new Spark(RobotMap.Acquisition.ACQUISITION_MOTOR_ID);
     private static final double acquisitionDefaultSpeed = Constants.Acquisition.ACQUISITION_SPEED;
-    public AcquisitionStates acquisitionState = AcquisitionStates.OFF;
 
     public Acquisition() {
         toggle(AcquisitionStates.OFF);
@@ -25,7 +24,6 @@ public class Acquisition extends KillableSubsystem {
     }
 
     public void toggle(AcquisitionStates state, double speed) {
-        acquisitionState = state;
         switch (state) {
             case IN:
                 acquisitionMotor.set(speed);

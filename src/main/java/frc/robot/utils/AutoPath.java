@@ -32,7 +32,7 @@ public class AutoPath {
         NamedCommands.registerCommand("PushSpeaker", new PushSpeaker(channel, shooter));
         NamedCommands.registerCommand("FlywheelSpeaker", new SetupSpeaker(shooter));
         NamedCommands.registerCommand("PushAmp", new PushAmp(channel, shooter, crashbar));
-        NamedCommands.registerCommand("FlywheelAmp", new SetupAmp(shooter, crashbar, true));
+        NamedCommands.registerCommand("FlywheelAmp", new SetupAmp(shooter, crashbar));
 
         // Configures auto builder
         AutoBuilder.configureHolonomic(

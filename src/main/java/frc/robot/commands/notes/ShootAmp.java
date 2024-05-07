@@ -33,7 +33,7 @@ public class ShootAmp extends SequentialCommandGroup {
     addRequirements(crashbar);
 
     addCommands(
-      new SetupAmp(_shooter, _crashbar, true),
+      new SetupAmp(_shooter, _crashbar),
       new WaitCommand(Math.max(flywheelSpinupTime, crashbarExtendTime)),
       new PushAmp(_channel, _shooter, _crashbar, shootTime)
     );
