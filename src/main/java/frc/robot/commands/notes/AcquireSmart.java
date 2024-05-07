@@ -32,7 +32,7 @@ public class AcquireSmart extends SequentialCommandGroup {
     _photosensor = photosensor;
     _shooter = shooter;
 
-    final Runnable killSpecified = () -> new KillSpecified(_acquisition, _channel, _shooter);
+    final Runnable killSpecified = () -> new KillSpecified(_acquisition, _channel, _shooter); // TODO: this has to be fixed with actually starting the command, not just creating an instance BUT FIRST TEST ON ROBOT
 
     addCommands(
       // Turns acq on
