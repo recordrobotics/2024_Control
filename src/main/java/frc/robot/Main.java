@@ -12,6 +12,11 @@ import edu.wpi.first.wpilibj.RobotBase;
  * call.
  */
 public final class Main {
+
+  public static void fuckyou(){
+    System.out.println("Lock in");
+  }
+
   private Main() {}
 
   /**
