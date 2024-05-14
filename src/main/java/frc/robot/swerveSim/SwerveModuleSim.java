@@ -133,7 +133,7 @@ public class SwerveModuleSim {
 
 
     /** Get a vector of the velocity of the module's contact patch moving across the field. */
-    Vector2d getModRelTransVel(double dtSeconds) {
+    public Vector2d getModRelTransVel(double dtSeconds) {
         double xvel = (m_curModulePose.getTranslation().getX()
                        - m_prevModulePose.getTranslation().getX()) / dtSeconds;
         double yvel = (m_curModulePose.getTranslation().getY()

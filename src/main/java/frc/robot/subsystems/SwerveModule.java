@@ -1,16 +1,21 @@
 package frc.robot.subsystems;
 
+import java.util.Arrays;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.utils.ModuleConstants;
+import frc.robot.Constants;
 import frc.robot.shuffleboard.ShuffleboardUI;
+import frc.robot.swerveSim.SwerveModuleSim;
 
 public class SwerveModule {
 
@@ -28,6 +33,9 @@ public class SwerveModule {
   private final double DRIVE_GEAR_RATIO;
   private final double WHEEL_DIAMETER;
 
+  public SwerveModuleSim sim;
+  public DCMotor[] motors = new DCMotor[2];
+
   /**
    * Constructs a SwerveModule with a drive motor, turning motor, and absolute
    * turning encoder.
@@ -38,6 +46,30 @@ public class SwerveModule {
    */
   public SwerveModule(ModuleConstants m) {
 
+    Arrays.fill(
+      motors,
+      new DCMotor(
+      12, 
+      1, 
+      257, 
+      1.5, 
+      668, 
+      1
+      )
+    );
+    sim = new SwerveModuleSim(
+      motors[0], 
+      motors[1], 
+      0.0635, 
+      Constants.Swerve.FALCON_TURN_GEAR_RATIO, 
+      Constants.Swerve.FALCON_DRIVE_GEAR_RATIO, 
+      2480, 
+      2480, 
+      1.19, 
+      1.19, 
+      70 / 4 * 9.8, 
+      0.1
+);
 
     // Creates TalonFX objects
     m_driveMotor = new TalonFX(m.driveMotorChannel);
@@ -176,7 +208,6 @@ public class SwerveModule {
         optimizedState.speedMetersPerSecond);
     double driveFeedforwardOutput = driveFeedForward.calculate(optimizedState.speedMetersPerSecond);
     m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
-
     ShuffleboardUI.Autonomous.putSwerveVelocityData(m_driveMotor.getDeviceID(), getDriveWheelVelocity(), optimizedState.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller then set
@@ -184,11 +215,17 @@ public class SwerveModule {
     final double turnOutput = turningPIDController.calculate(getTurnWheelRotation2d().getRotations(),
         optimizedState.angle.getRotations());
     m_turningMotor.set(turnOutput);
+    
+    sim.setInputVoltages(driveOutput + driveFeedforwardOutput, turnOutput);
+    System.out.println(driveOutput + driveFeedforwardOutput);
   }
 
   public void stop() {
     m_driveMotor.setVoltage(0);
     m_turningMotor.set(0);
+  }
+
+  public void simulationPeriodic(){
   }
 
   // SHUFFLEBOARD STUFF

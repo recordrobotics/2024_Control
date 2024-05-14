@@ -1,16 +1,24 @@
 package frc.robot.subsystems;
+import java.util.ArrayList;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
 import frc.robot.shuffleboard.ShuffleboardUI;
+import frc.robot.swerveSim.QuadSwerveSim;
+import frc.robot.swerveSim.SwerveModuleSim;
 import frc.robot.utils.UncertainSwerveDrivePoseEstimator;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends KillableSubsystem {
+
+        private final Field2d m_fieldSim;
 
         // Creates Nav object
         private final NavSensor _nav = new NavSensor();
@@ -30,6 +38,7 @@ public class Drivetrain extends KillableSubsystem {
 
         // Creates swerve post estimation filter
         public static UncertainSwerveDrivePoseEstimator poseFilter;
+        public QuadSwerveSim sim;
 
         // Init drivetrain
         public Drivetrain() {
@@ -39,14 +48,30 @@ public class Drivetrain extends KillableSubsystem {
                                 m_kinematics,
                                 _nav.getAdjustedAngle(),
                                 new SwerveModulePosition[] {
-                                                m_frontLeft.getModulePosition(),
-                                                m_frontRight.getModulePosition(),
-                                                m_backLeft.getModulePosition(),
-                                                m_backRight.getModulePosition()
+                                        m_frontLeft.getModulePosition(),
+                                        m_frontRight.getModulePosition(),
+                                        m_backLeft.getModulePosition(),
+                                        m_backRight.getModulePosition()
                                 },
                                 ShuffleboardUI.Autonomous.getStartingLocation().getPose());
 
                 //ShuffleboardUI.Overview.setPoseCertain(poseFilter::isCertain);
+
+                ArrayList<SwerveModuleSim> modSim = new ArrayList<>();
+                modSim.add(m_frontLeft.sim);
+                modSim.add(m_frontRight.sim);
+                modSim.add(m_backLeft.sim);
+                modSim.add(m_backRight.sim);
+                sim = new QuadSwerveSim(
+                        Constants.Swerve.frontLeftConstants.wheelLocation.getX() - Constants.Swerve.frontRightConstants.wheelLocation.getX(), 
+                        Constants.Swerve.frontLeftConstants.wheelLocation.getX() - Constants.Swerve.backLeftConstants.wheelLocation.getX(), 
+                        70, 
+                        5, 
+                        modSim
+                        );
+
+                m_fieldSim = new Field2d();
+                SmartDashboard.putData("Field", m_fieldSim);
         }
 
         /**
@@ -105,6 +130,7 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backRight.getModulePosition()
                                 });
                 ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition());
+                m_fieldSim.setRobotPose(poseFilter.getEstimatedPosition());
         }
 
         /** Resets the field relative position of the robot (mostly for testing). */
@@ -170,5 +196,13 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backRight.getModulePosition()
                                 }, pose);
                 poseFilter.setCertainty(true); // we just set a known position
+        }
+
+        public void simulationPeriodic() {
+                sim.update(0.02);
+                m_frontLeft.simulationPeriodic();
+                m_frontRight.simulationPeriodic();
+                m_backLeft.simulationPeriodic();
+                m_backRight.simulationPeriodic();
         }
 }
