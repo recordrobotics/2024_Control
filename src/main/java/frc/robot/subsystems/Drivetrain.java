@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -6,6 +7,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.UncertainSwerveDrivePoseEstimator;
 
@@ -170,5 +172,13 @@ public class Drivetrain extends KillableSubsystem {
                                                 m_backRight.getModulePosition()
                                 }, pose);
                 poseFilter.setCertainty(true); // we just set a known position
+        }
+
+        public void addVisionMeasurement(LimelightHelpers.PoseEstimate estimate, double confidence){
+                poseFilter.addVisionMeasurement(
+                        estimate.pose,
+                        estimate.timestampSeconds,
+                        VecBuilder.fill(confidence, confidence, 9999999)
+                );
         }
 }

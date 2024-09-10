@@ -32,6 +32,9 @@ public class OverviewLayout extends AbstractLayout {
     private Supplier<Boolean> compressorValue =  () -> false;
     private Supplier<Boolean> hasNoteValue =  () -> false;
     private Supplier<Boolean> navSensorValue =  () -> false;
+    private Supplier<Integer> tagNumValue =  () -> 0;
+    private Supplier<Double> confidenceValue =  () -> 0.0;
+    private Supplier<Boolean> hasVisionValue =  () -> false;
 
     public OverviewLayout() {
         // getTab()
@@ -61,7 +64,25 @@ public class OverviewLayout extends AbstractLayout {
         getTab()
                 .addBoolean("Nav Sensor", () -> navSensorValue.get())
                 .withWidget(BuiltInWidgets.kBooleanBox)
-                .withPosition(5, 1)
+                .withPosition(6, 1)
+                .withSize(1, 1);
+
+        getTab()
+                .addInteger("Tag Count", () -> tagNumValue.get())
+                .withWidget(BuiltInWidgets.kTextView)
+                .withPosition(7, 1)
+                .withSize(1, 1);
+
+        getTab()
+                .addDouble("Confidence", () -> confidenceValue.get())
+                .withWidget(BuiltInWidgets.kTextView)
+                .withPosition(8, 1)
+                .withSize(1, 1);
+
+        getTab()
+                .addBoolean("Has Vision", () -> hasVisionValue.get())
+                .withWidget(BuiltInWidgets.kBooleanBox)
+                .withPosition(7, 2)
                 .withSize(1, 1);
     }
 
@@ -87,14 +108,14 @@ public class OverviewLayout extends AbstractLayout {
         getTab()
             .add("Driver Orientation", driverOrientation)
             .withWidget(BuiltInWidgets.kSplitButtonChooser)
-            .withPosition(0, 0)
+            .withPosition(0, 3)
             .withSize(2, 1);
 
         // Creates the UI for drive mode
         getTab()
             .add("Drive Mode", driveMode)
             .withWidget(BuiltInWidgets.kSplitButtonChooser)
-            .withPosition(0, 1)
+            .withPosition(0, 4)
             .withSize(3, 1);
     }
 
@@ -116,6 +137,18 @@ public class OverviewLayout extends AbstractLayout {
 
     public void setNavSensor(Supplier<Boolean> navSensor) {
         navSensorValue = navSensor;
+    }
+
+    public void setTagNum(Supplier<Integer> tagNum) {
+        tagNumValue = tagNum;
+    }
+
+    public void setConfidence(Supplier<Double> confidence) {
+        confidenceValue = confidence;
+    }
+
+    public void setHasVision(Supplier<Boolean> hasVision) {
+        hasVisionValue = hasVision;
     }
 
     @Override

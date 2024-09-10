@@ -37,6 +37,8 @@ public class RobotContainer {
   private final Photosensor _photosensor;
   @SuppressWarnings("unused") // Required to call constructor of PCMCompressor to initialize ShuffleboardUI
   private final PCMCompressor _compressor;
+  @SuppressWarnings("unused")
+  private final Limelight _limelight;
 
   // Autonomous
   private final AutoPath _autoPath;
@@ -56,6 +58,7 @@ public class RobotContainer {
     _photosensor = new Photosensor();
     _climbers = new Climbers();
     _compressor = new PCMCompressor();
+    _limelight = new Limelight(_drivetrain);
 
     // Sets up auto path
     _autoPath = new AutoPath(_drivetrain, _acquisition, _photosensor, _channel, _shooter, _crashbar);
@@ -103,7 +106,7 @@ public class RobotContainer {
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualClimbers()).toggleOnTrue(new ManualClimbers(_climbers));
 
     // Reset pose trigger
-    new Trigger(() -> ShuffleboardUI.Overview.getControl().getPoseReset()).onTrue(new InstantCommand(_drivetrain::resetDriverPose));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getPoseReset()).onTrue(new InstantCommand(_drivetrain::resetStartingPose));
   }
 
   /**

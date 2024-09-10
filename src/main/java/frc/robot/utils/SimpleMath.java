@@ -1,10 +1,12 @@
 package frc.robot.utils;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Constants;
 
 public class SimpleMath {
-    
+
     /**
      * Remaps a value between a range to a different range
      * 
@@ -34,10 +36,12 @@ public class SimpleMath {
     }
 
     /**
-     * Takes an input value between -1 and 1 and scales it to 
-     * the proportion to which it's absolute value is between a minimum threshold and 1 
+     * Takes an input value between -1 and 1 and scales it to
+     * the proportion to which it's absolute value is between a minimum threshold
+     * and 1
      * (Function returns 0 if input < threshold)
      * Then multiplies by sensitivity and returns
+     * 
      * @param input
      * @param threshold
      * @param sensitivity
@@ -45,15 +49,16 @@ public class SimpleMath {
      */
     public static double ApplyThresholdAndSensitivity(double input, double threshold, double sensitivity) {
         // How much the input is above the threshold (absolute value)
-		double subtract_threshold = Math.max(0, Math.abs(input) - threshold);
-		// What proportion (threshold to value) is of (threshold to 1)
-		double proportion = subtract_threshold / (1 - threshold);
-		// Multiplies by spin sensitivity and returns
-		return Math.signum(input) * proportion * sensitivity;
+        double subtract_threshold = Math.max(0, Math.abs(input) - threshold);
+        // What proportion (threshold to value) is of (threshold to 1)
+        double proportion = subtract_threshold / (1 - threshold);
+        // Multiplies by spin sensitivity and returns
+        return Math.signum(input) * proportion * sensitivity;
     }
 
     /**
      * //TODO: fix because I think the field dimension is wrong
+     * 
      * @param location
      * @return mirrored translation2d of the translation2d you put in
      */
@@ -61,6 +66,13 @@ public class SimpleMath {
         double mirrored_x = Constants.FieldConstants.FIELD_X_DIMENSION - location.getX();
         double mirrored_y = location.getY();
         return new Translation2d(mirrored_x, mirrored_y);
+    }
+
+    public static boolean isPoseInField(Pose2d pose) {
+        return pose.getX() >= 0 &&
+                pose.getY() >= 0 &&
+                pose.getX() <= Constants.FieldConstants.FIELD_X_DIMENSION &&
+                pose.getY() <= Constants.FieldConstants.FIELD_Y_DIMENSION;
     }
 
 }
