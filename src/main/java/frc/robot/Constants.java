@@ -84,7 +84,7 @@ public final class Constants {
                 new Pose2d(2.371, 5.584, Rotation2d.fromDegrees(0))),
         FrontSpeakerClose(
                 // Red
-                new Pose2d(14.169, 5.584, Rotation2d.fromDegrees(180)),
+                new Pose2d(14.169, 5.584, Rotation2d.fromDegrees(180)), // TODO: change this to be right in front of the speaker
                 // Blue
                 new Pose2d(2.371, 5.584, Rotation2d.fromDegrees(0))),
         AtAmp(

@@ -35,11 +35,11 @@ public class Limelight extends SubsystemBase {
         numTags = measurement.tagCount;
 
         if(measurement.tagCount > 0 && SimpleMath.isPoseInField(measurement.pose)){
-            confidence = 0.7;
+            confidence = 0.7; // 0.5 for mt 1
             measurement = measurement_m2;
         }
 
-        measurement.pose.rotateBy(Rotation2d.fromDegrees(180));
+        measurement.pose = measurement.pose.rotateBy(Rotation2d.fromDegrees(180));
         handleMeasurement(measurement, confidence);
     }
 
