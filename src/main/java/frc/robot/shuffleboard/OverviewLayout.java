@@ -35,6 +35,7 @@ public class OverviewLayout extends AbstractLayout {
     private Supplier<Integer> tagNumValue =  () -> 0;
     private Supplier<Double> confidenceValue =  () -> 0.0;
     private Supplier<Boolean> hasVisionValue =  () -> false;
+    private Supplier<Boolean> limelightConnectedValue =  () -> false;
 
     public OverviewLayout() {
         // getTab()
@@ -83,6 +84,12 @@ public class OverviewLayout extends AbstractLayout {
                 .addBoolean("Has Vision", () -> hasVisionValue.get())
                 .withWidget(BuiltInWidgets.kBooleanBox)
                 .withPosition(7, 2)
+                .withSize(1, 1);
+
+        getTab()
+                .addBoolean("Limelight Connected", () -> limelightConnectedValue.get())
+                .withWidget(BuiltInWidgets.kBooleanBox)
+                .withPosition(8, 2)
                 .withSize(1, 1);
     }
 
@@ -149,6 +156,10 @@ public class OverviewLayout extends AbstractLayout {
 
     public void setHasVision(Supplier<Boolean> hasVision) {
         hasVisionValue = hasVision;
+    }
+
+    public void setLimelightConnected(Supplier<Boolean> limelightConnected) {
+        limelightConnectedValue = limelightConnected;
     }
 
     @Override

@@ -14,6 +14,7 @@ public class Limelight extends SubsystemBase {
     private int numTags = 0;
     private double confidence = 0;
     private boolean hasVision = false;
+    private boolean limelightConnected = false;
 
     private Drivetrain drivetrain;
 
@@ -24,6 +25,7 @@ public class Limelight extends SubsystemBase {
         ShuffleboardUI.Overview.setTagNum(()->numTags);
         ShuffleboardUI.Overview.setConfidence(()->confidence);
         ShuffleboardUI.Overview.setHasVision(()->hasVision);
+        ShuffleboardUI.Overview.setLimelightConnected(()->limelightConnected);
     }
 
     @Override
@@ -32,6 +34,14 @@ public class Limelight extends SubsystemBase {
         LimelightHelpers.SetRobotOrientation(name, _nav.getAdjustedAngle().getDegrees(), 0, 0, 0, 0, 0);
         LimelightHelpers.PoseEstimate measurement = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
         LimelightHelpers.PoseEstimate measurement_m2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
+        
+        if(measurement == null || measurement_m2 == null){
+            limelightConnected = false;
+            return;
+        } else {
+            limelightConnected = true;
+        }
+            
         numTags = measurement.tagCount;
 
         if(measurement.tagCount > 0 && SimpleMath.isPoseInField(measurement.pose)){
@@ -39,7 +49,7 @@ public class Limelight extends SubsystemBase {
             measurement = measurement_m2;
         }
 
-        measurement.pose = measurement.pose.rotateBy(Rotation2d.fromDegrees(180));
+        //measurement.pose = measurement.pose.rotateBy(Rotation2d.fromDegrees(180));
         handleMeasurement(measurement, confidence);
     }
 
