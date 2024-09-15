@@ -25,10 +25,10 @@ public class Crashbar extends KillableSubsystem {
     public void toggle(CrashbarStates state) {
         switch (state) {
             case EXTENDED:
-                solenoid.set(DoubleSolenoid.Value.kReverse);
+                solenoid.set(DoubleSolenoid.Value.kForward);
                 break;
             case RETRACTED:
-                solenoid.set(DoubleSolenoid.Value.kForward);
+                solenoid.set(DoubleSolenoid.Value.kReverse);
                 break;
             default:
                 solenoid.set(DoubleSolenoid.Value.kOff);
