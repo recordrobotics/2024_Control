@@ -58,26 +58,33 @@ public class DoubleXbox extends AbstractControl {
  
     public Pair<Double,Double> getXY() {
         double X = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(0), Constants.Control.XBOX_X_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
-        double Y = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(1), Constants.Control.XBOX_X_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
-        return super.OrientXY(new Pair<Double,Double>(X, Y));
+        double Y = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(1), Constants.Control.XBOX_Y_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
+        
+        // Apply x^1.5 scaling, preserving the sign of the input
+        X = Math.copySign(Math.pow(Math.abs(X), 1.5), X);
+        Y = Math.copySign(Math.pow(Math.abs(Y), 1.5), Y);
+    
+        return super.OrientXY(new Pair<Double, Double>(X, Y));
     }
 
     
-    public Pair<Rotation2d,Double> getAngle() {
-
-		// Gets x and y axis of xbox
-		double x_axis = drivebox.getRawAxis(4);
-		double y_axis = drivebox.getRawAxis(5);
-
-        // Gets magnitude of xbox axis
+    public Pair<Rotation2d, Double> getAngle() {
+        // Gets x and y axis of Xbox controller's right stick
+        double x_axis = drivebox.getRawAxis(4);
+        double y_axis = drivebox.getRawAxis(5);
+    
+        // Gets magnitude of the stick's movement
         double magnitude = Math.sqrt(x_axis * x_axis + y_axis * y_axis);
-
-        // Calculates magnitude of control and adjusted angle
-        double proportion = SimpleMath.ApplyThresholdAndSensitivity(magnitude,Constants.Control.XBOX_SPIN_THRESHOLD, 1);
-		Rotation2d adjusted_angle = super.OrientAngle(new Rotation2d(-Math.atan2(y_axis, x_axis)));
-
-        // Returns pair
-		return new Pair<Rotation2d, Double>(adjusted_angle, proportion);
+    
+        // Apply x^1.5 scaling to the magnitude, preserving the sign of the input
+        magnitude = Math.pow(magnitude, 1.5);
+    
+        // Calculates adjusted angle and magnitude
+        double proportion = SimpleMath.ApplyThresholdAndSensitivity(magnitude, Constants.Control.XBOX_SPIN_THRESHOLD, 1);
+        Rotation2d adjusted_angle = super.OrientAngle(new Rotation2d(-Math.atan2(y_axis, x_axis)));
+    
+        // Returns the adjusted angle and scaled magnitude
+        return new Pair<Rotation2d, Double>(adjusted_angle, proportion);
     }
 
     public Double getDirectionalSpeedLevel() {

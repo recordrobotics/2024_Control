@@ -43,12 +43,26 @@ public class DoubleXboxSpin extends AbstractControl {
     
     public Pair<Double,Double> getXY() {
         double X = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(0), Constants.Control.XBOX_X_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
-        double Y = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(1), Constants.Control.XBOX_X_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
-        return super.OrientXY(new Pair<Double,Double>(X, Y));
+        double Y = SimpleMath.ApplyThresholdAndSensitivity(drivebox.getRawAxis(1), Constants.Control.XBOX_Y_THRESHOLD, Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
+
+        // Apply x^1.5 scaling, preserving the sign of the input
+        X = Math.copySign(Math.pow(Math.abs(X), 1.5), X);
+        Y = Math.copySign(Math.pow(Math.abs(Y), 1.5), Y);
+
+        return super.OrientXY(new Pair<Double, Double>(X, Y));
     }
 
     public Double getSpin() {
-        return SimpleMath.ApplyThresholdAndSensitivity(-drivebox.getRawAxis(4), Constants.Control.XBOX_SPIN_ROT_THRESHOLD, Constants.Control.XBOX_SPIN_ROT_SENSITIVITY);
+        double spin = SimpleMath.ApplyThresholdAndSensitivity(
+            -drivebox.getRawAxis(4), 
+            Constants.Control.XBOX_SPIN_ROT_THRESHOLD, 
+            Constants.Control.XBOX_SPIN_ROT_SENSITIVITY
+        );
+        
+        // Apply x^1.5 scaling, preserving the sign of the input
+        spin = Math.copySign(Math.pow(Math.abs(spin), 1.5), spin);
+    
+        return spin;
     }
 
     public Double getDirectionalSpeedLevel() {
