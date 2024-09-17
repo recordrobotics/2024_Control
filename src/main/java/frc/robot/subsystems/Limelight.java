@@ -66,6 +66,8 @@ public class Limelight extends SubsystemBase {
         if(confidence > 0){
             hasVision = true;
             ShuffleboardUI.Autonomous.setVisionPose(estimate.pose);
+            // TODO: Test auto without this limelight filtering
+            // TODO: See if it is any better at aiming (see video in #programming)
             //drivetrain.addVisionMeasurement(estimate, confidence);
         } else {
             hasVision = false;
