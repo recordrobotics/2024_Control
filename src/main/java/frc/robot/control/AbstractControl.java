@@ -49,6 +49,11 @@ public abstract class AbstractControl {
 					return new Pair<Double,Double>(inputX, -inputY);
 				else
 					return new Pair<Double,Double>(-inputX, inputY);
+            case XAxisInvertTowardsTrigger:
+				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+                    return new Pair<Double,Double>(inputY, inputX);
+				else
+					return new Pair<Double,Double>(-inputY, -inputX);
 			default:
 				return new Pair<Double,Double>(0.0, 0.0);
 		}

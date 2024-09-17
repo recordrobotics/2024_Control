@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 import frc.robot.shuffleboard.ShuffleboardUI;
@@ -45,11 +46,19 @@ public class Limelight extends SubsystemBase {
         numTags = measurement.tagCount;
 
         if(measurement.tagCount > 0 && SimpleMath.isPoseInField(measurement.pose)){
-            confidence = 0.7; // 0.5 for mt 1
-            measurement = measurement_m2;
+            if(measurement.avgTagDist < Units.feetToMeters(12)){
+                confidence = 0.5; // mt 1
+            } else {
+                confidence = 0.7; // mt 2
+                measurement = measurement_m2;
+            }
         }
 
-        //measurement.pose = measurement.pose.rotateBy(Rotation2d.fromDegrees(180));
+        measurement.pose = new Pose2d(
+            measurement.pose.getTranslation(),
+            measurement.pose.getRotation().plus(Rotation2d.fromDegrees(180))
+            );
+
         handleMeasurement(measurement, confidence);
     }
 
@@ -57,7 +66,7 @@ public class Limelight extends SubsystemBase {
         if(confidence > 0){
             hasVision = true;
             ShuffleboardUI.Autonomous.setVisionPose(estimate.pose);
-            drivetrain.addVisionMeasurement(estimate, confidence);
+            //drivetrain.addVisionMeasurement(estimate, confidence);
         } else {
             hasVision = false;
             ShuffleboardUI.Autonomous.setVisionPose(new Pose2d());
