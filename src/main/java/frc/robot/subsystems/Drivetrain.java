@@ -38,15 +38,15 @@ public class Drivetrain extends KillableSubsystem {
                 _nav.resetAngleAdjustment();
 
                 poseFilter = new UncertainSwerveDrivePoseEstimator(
-                        m_kinematics,
-                        _nav.getAdjustedAngle(),
-                        new SwerveModulePosition[] {
-                                m_frontLeft.getModulePosition(),
-                                m_frontRight.getModulePosition(),
-                                m_backLeft.getModulePosition(),
-                                m_backRight.getModulePosition()
-                        },
-                        ShuffleboardUI.Autonomous.getStartingLocation().getPose());
+                                m_kinematics,
+                                _nav.getAdjustedAngle(),
+                                new SwerveModulePosition[] {
+                                                m_frontLeft.getModulePosition(),
+                                                m_frontRight.getModulePosition(),
+                                                m_backLeft.getModulePosition(),
+                                                m_backRight.getModulePosition()
+                                },
+                                ShuffleboardUI.Autonomous.getStartingLocation().getPose());
 
                 //ShuffleboardUI.Overview.setPoseCertain(poseFilter::isCertain);
         }
@@ -71,10 +71,10 @@ public class Drivetrain extends KillableSubsystem {
                 // scheme
 
                 SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
-                        fieldRelative
-                                ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,
-                                        poseFilter.getEstimatedPosition().getRotation())
-                                : new ChassisSpeeds(xSpeed, ySpeed, rot));
+                                fieldRelative
+                                                ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,
+                                                                poseFilter.getEstimatedPosition().getRotation())
+                                                : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
                 // Desaturates wheel speeds
                 SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.robotMaxSpeed);
@@ -99,13 +99,13 @@ public class Drivetrain extends KillableSubsystem {
         @Override
         public void periodic() {
                 poseFilter.update(
-                        _nav.getAdjustedAngle(),
-                        new SwerveModulePosition[] {
-                                m_frontLeft.getModulePosition(),
-                                m_frontRight.getModulePosition(),
-                                m_backLeft.getModulePosition(),
-                                m_backRight.getModulePosition()
-                        });
+                                _nav.getAdjustedAngle(),
+                                new SwerveModulePosition[] {
+                                                m_frontLeft.getModulePosition(),
+                                                m_frontRight.getModulePosition(),
+                                                m_backLeft.getModulePosition(),
+                                                m_backRight.getModulePosition()
+                                });
                 ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition());
         }
 
@@ -117,14 +117,14 @@ public class Drivetrain extends KillableSubsystem {
                 m_backLeft.resetDriveMotorPosition();
                 m_backRight.resetDriveMotorPosition();
                 poseFilter.resetPosition(
-                        _nav.getAdjustedAngle(),
-                        new SwerveModulePosition[] {
-                                m_frontLeft.getModulePosition(),
-                                m_frontRight.getModulePosition(),
-                                m_backLeft.getModulePosition(),
-                                m_backRight.getModulePosition()
-                        },
-                        ShuffleboardUI.Autonomous.getStartingLocation().getPose());
+                                _nav.getAdjustedAngle(),
+                                new SwerveModulePosition[] {
+                                                m_frontLeft.getModulePosition(),
+                                                m_frontRight.getModulePosition(),
+                                                m_backLeft.getModulePosition(),
+                                                m_backRight.getModulePosition()
+                                },
+                                ShuffleboardUI.Autonomous.getStartingLocation().getPose());
                 poseFilter.setCertainty(true); // we just set a known position
         }
 
@@ -138,14 +138,14 @@ public class Drivetrain extends KillableSubsystem {
                 m_backLeft.resetDriveMotorPosition();
                 m_backRight.resetDriveMotorPosition();
                 poseFilter.resetPosition(
-                        _nav.getAdjustedAngle(),
-                        new SwerveModulePosition[] {
-                                m_frontLeft.getModulePosition(),
-                                m_frontRight.getModulePosition(),
-                                m_backLeft.getModulePosition(),
-                                m_backRight.getModulePosition()
-                        },
-                        Constants.FieldStartingLocation.FrontSpeakerClose.getPose());
+                                _nav.getAdjustedAngle(),
+                                new SwerveModulePosition[] {
+                                                m_frontLeft.getModulePosition(),
+                                                m_frontRight.getModulePosition(),
+                                                m_backLeft.getModulePosition(),
+                                                m_backRight.getModulePosition()
+                                },
+                                Constants.FieldStartingLocation.FrontSpeakerClose.getPose());
                 poseFilter.setCertainty(true); // we just set a known position
         }
 
@@ -154,10 +154,10 @@ public class Drivetrain extends KillableSubsystem {
          */
         public ChassisSpeeds getChassisSpeeds() {
                 return m_kinematics.toChassisSpeeds(
-                        m_frontLeft.getModuleState(),
-                        m_frontRight.getModuleState(),
-                        m_backLeft.getModuleState(),
-                        m_backRight.getModuleState());
+                                m_frontLeft.getModuleState(),
+                                m_frontRight.getModuleState(),
+                                m_backLeft.getModuleState(),
+                                m_backRight.getModuleState());
         }
 
         /**
@@ -165,12 +165,12 @@ public class Drivetrain extends KillableSubsystem {
          */
         public void setToPose(Pose2d pose) {
                 poseFilter.resetPosition(_nav.getAdjustedAngle(),
-                        new SwerveModulePosition[] {
-                                m_frontLeft.getModulePosition(),
-                                m_frontRight.getModulePosition(),
-                                m_backLeft.getModulePosition(),
-                                m_backRight.getModulePosition()
-                        }, pose);
+                                new SwerveModulePosition[] {
+                                                m_frontLeft.getModulePosition(),
+                                                m_frontRight.getModulePosition(),
+                                                m_backLeft.getModulePosition(),
+                                                m_backRight.getModulePosition()
+                                }, pose);
                 poseFilter.setCertainty(true); // we just set a known position
         }
 

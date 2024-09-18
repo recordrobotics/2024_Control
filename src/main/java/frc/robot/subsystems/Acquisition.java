@@ -27,14 +27,13 @@ public class Acquisition extends KillableSubsystem {
     public void toggle(AcquisitionStates state, double speed) {
         acquisitionState = state;
         switch (state) {
-            case IN: // take in note
+            case IN:
                 acquisitionMotor.set(speed);
                 break;
-            case REVERSE: // push out note
+            case REVERSE:
                 acquisitionMotor.set(-speed);
                 break;
-            case OFF: // turn off or kill
-            default: // should never happen
+            default:
                 acquisitionMotor.set(0);
                 break;
         }

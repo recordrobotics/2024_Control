@@ -11,14 +11,11 @@ public class Photosensor extends SubsystemBase {
     Debouncer m_debouncer = new Debouncer(0.05, Debouncer.DebounceType.kBoth);
 
     public Photosensor() {
-        photosensor = new DigitalInput(0); // initialize digital input on pin 0
-        ShuffleboardUI.Overview.setHasNote(this::getDebouncedValue); // set up shuffleboard HasNote for tele-op
-        ShuffleboardUI.Autonomous.setHasNote(this::getDebouncedValue); // set up shuffleboard HasNote for autonomous
+        photosensor = new DigitalInput(0);
+        ShuffleboardUI.Overview.setHasNote(this::getDebouncedValue);
+        ShuffleboardUI.Autonomous.setHasNote(this::getDebouncedValue);
     }
 
-    /**
-     * Checks the photosensor, filters the photosensor value, updates debounced_value
-     */
     public void periodic() {
         debounced_value = !m_debouncer.calculate(getCurrentValue());
     }

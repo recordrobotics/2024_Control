@@ -44,7 +44,6 @@ public class Limelight extends SubsystemBase {
             
         numTags = measurement.tagCount;
 
-        // TODO: add check if measurement.pose is close to current position estimate
         if(measurement.tagCount > 0 && SimpleMath.isPoseInField(measurement.pose)){
             confidence = 0.7; // 0.5 for mt 1
             measurement = measurement_m2;

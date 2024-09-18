@@ -13,9 +13,10 @@ public class PushAcquire extends SequentialCommandGroup {
   private static Channel _channel;
 
   /**
-   * Command that starts the aqquisition and channel at fastest speeds
+   * Command that picks up the note, steopping the acquision once note is acquired
    * @param acquisition
    * @param channel
+   * @param photosensor
    */
   public PushAcquire (Acquisition acquisition, Channel channel) {
     _acquisition = acquisition;

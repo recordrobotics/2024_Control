@@ -20,11 +20,7 @@ public class ShootAmp extends SequentialCommandGroup {
   private final double shootTime = 0.7;  
 
   /**
-   * Command that shoots the note into the amp.
-   * Manages all relevant subsystems to do so (including lowering crashbar,
-   *                                           waiting for the shooter to speed up,
-   *                                           etc)
-   * 
+   * Command that shoots the note into the amp. Manages all relevant subsystems to do so (including lowering crashbar, waiting for the shooter to speed up, etc)
    * @param channel
    * @param shooter
    */

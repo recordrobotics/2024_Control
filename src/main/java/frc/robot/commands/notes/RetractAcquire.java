@@ -12,9 +12,6 @@ public class RetractAcquire extends SequentialCommandGroup {
 
   private static Channel _channel;
 
-  /**
-   * Turns off the acquisition and runs the channel in reverse
-   */
   public RetractAcquire(Acquisition _acquisition, Channel channel) {
     _channel = channel;
 
