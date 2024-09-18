@@ -21,10 +21,13 @@ public class TeleChain extends SequentialCommandGroup {
     private PathPlannerPath[] paths;
 
     // Create the constraints to use while pathfinding. The constraints defined in the path will only be used for the path.
+    // TODO: figure out why we are using radians here when the docs says use rotations
+    // docs are here: http://gabybot.com/RobotCoreDoc/classcom_1_1pathplanner_1_1lib_1_1path_1_1_path_constraints.html
     private PathConstraints constraints = new PathConstraints(
-            3.0, 4.0,
-            Units.degreesToRadians(540), Units.degreesToRadians(720));
-
+            3.0, // Max velocity meters per second
+            4.0, // Max acceleration meters per second per second
+            Units.degreesToRadians(540), // Max angular velocity rotations per second
+            Units.degreesToRadians(720)); // Max angular acceleration rotations per second per second
     private static Climbers _climbers;
 
     public TeleChain (Climbers climbers) {
@@ -39,6 +42,7 @@ public class TeleChain extends SequentialCommandGroup {
 
         // Gets path closest to the robot
         // TODO: there is most definitely a better way to do this. Find it (possible use translation2d.getnearest())
+        // TODO: figure out what the above todo is talking about. I don't think that that function exists
         PathPlannerPath lowest_path = paths[0];
         double lowest_distance = 1000;
         for (PathPlannerPath path: paths) {
@@ -51,11 +55,11 @@ public class TeleChain extends SequentialCommandGroup {
         }
 
         addCommands(
-            new InstantCommand(()->_climbers.toggle(ClimberStates.UP), _climbers),
-            Drivetrain.poseFilter.waitUntilCertain(),
-            new WaitCommand(1),
-            AutoBuilder.pathfindThenFollowPath(lowest_path, constraints, 0),
-            new InstantCommand(()->_climbers.toggle(ClimberStates.DOWN), _climbers)
+            new InstantCommand(()->_climbers.toggle(ClimberStates.UP), _climbers),  // climers up
+            Drivetrain.poseFilter.waitUntilCertain(),                               // wait until position found
+            new WaitCommand(1),                                                     // wait a second
+            AutoBuilder.pathfindThenFollowPath(lowest_path, constraints, 0),        // go there
+            new InstantCommand(()->_climbers.toggle(ClimberStates.DOWN), _climbers) // climers down
         );
     }
 }

@@ -18,9 +18,13 @@ public class TeleSpeakerScore extends SequentialCommandGroup {
     private PathPlannerPath path = PathPlannerPath.fromPathFile("PathFindSpeaker");
 
     // Create the constraints to use while pathfinding. The constraints defined in the path will only be used for the path.
+    // TODO: figure out why we are using radians here when the docs says use rotations
+    // docs are here: http://gabybot.com/RobotCoreDoc/classcom_1_1pathplanner_1_1lib_1_1path_1_1_path_constraints.html
     private PathConstraints constraints = new PathConstraints(
-            0.5, 4.0,
-            Units.degreesToRadians(540), Units.degreesToRadians(720));
+            0.5, // Max velocity meters per second
+            4.0, // Max acceleration meters per second per second
+            Units.degreesToRadians(540), // Max angular velocity rotations per second
+            Units.degreesToRadians(720)); // Max angular acceleration rotations per second per second
 
     private static Channel _channel;
     private static Shooter _shooter;

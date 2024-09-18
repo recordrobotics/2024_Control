@@ -24,14 +24,32 @@ public class AutoPath {
                     Crashbar crashbar) {
 
         // Registering named commands (so that the pathplanner can call them by name)
+
+        // Stop the robot's movement
         NamedCommands.registerCommand("Stop", new InstantCommand(() -> drivetrain.kill()));
+
+        // Acqire a note
         NamedCommands.registerCommand("Acquire", new AcquireSmart(acquisition, channel, photosensor, shooter));
+        
+        // TODO: write something here
         NamedCommands.registerCommand("AcquireStupid", new Acquire(acquisition, channel, photosensor));
+        
+        // TODO: write something here
         NamedCommands.registerCommand("AcquirePush", new PushAcquire(acquisition, channel));
+        
+        // TODO: write something here
         NamedCommands.registerCommand("Retract", new RetractAcquire(acquisition, channel));
+        
+        // TODO: write something here
         NamedCommands.registerCommand("PushSpeaker", new PushSpeaker(channel, shooter));
+        
+        // TODO: write something here
         NamedCommands.registerCommand("FlywheelSpeaker", new SetupSpeaker(shooter));
+        
+        // TODO: write something here
         NamedCommands.registerCommand("PushAmp", new PushAmp(channel, shooter, crashbar));
+        
+        // TODO: write something here
         NamedCommands.registerCommand("FlywheelAmp", new SetupAmp(shooter, crashbar, true));
 
         // Configures auto builder

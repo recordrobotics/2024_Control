@@ -35,20 +35,23 @@ public class AcquireSmart extends SequentialCommandGroup {
     final Runnable killSpecified = () -> new KillSpecified(_acquisition, _channel, _shooter);
 
     addCommands(
-      // Turns acq on
+      // Reverse shooter to ensure note does not come out through the shooter
       new InstantCommand(()-> _shooter.toggle(ShooterStates.REVERSE), _shooter).handleInterrupt(killSpecified),
+      // Turns acq and channel on to make the note move into the robot
       new InstantCommand(() -> _acquisition.toggle(AcquisitionStates.IN), _acquisition).handleInterrupt(killSpecified),
       new InstantCommand(() -> _channel.toggle(ChannelStates.SHOOT), _channel).handleInterrupt(killSpecified),
       // Waits until photosensor
-      new WaitUntilCommand(()->_photosensor.getDebouncedValue()),
-      // Turns acq off
+      new WaitUntilCommand(()->_photosensor.getDebouncedValue()), // TODO: why is there not a .handleInterrupt(killSpecified) here??????
+      // Turns acq off to save battery, leaves channel on to keep moving note
       new InstantCommand(() -> _acquisition.toggle(AcquisitionStates.OFF), _acquisition).handleInterrupt(killSpecified),
-      // waits until photosensor off, extra time
+      // Waits until photosensor off, and then extra 0.15 seconds
+      // Wait until note moves fully into the shooter assembely, and then some
       new WaitUntilCommand(()->!_photosensor.getDebouncedValue()).handleInterrupt(killSpecified),
       new WaitCommand(0.15),
-      // Turns channel reverse
+      // Turns channel reverse to suck the note back into the channel
       new InstantCommand(() -> _channel.toggle(ChannelStates.REVERSE), _channel).handleInterrupt(killSpecified),
       // Waits until photosensor on, then toggle channel off
+      // This stops the note when it is centered in the channel
       new WaitUntilCommand(()->_photosensor.getDebouncedValue()).handleInterrupt(killSpecified),
       new InstantCommand(()-> _channel.toggle(ChannelStates.OFF), _channel).handleInterrupt(killSpecified),
       new InstantCommand(()-> _shooter.toggle(ShooterStates.OFF), _shooter).handleInterrupt(killSpecified)

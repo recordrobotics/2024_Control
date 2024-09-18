@@ -29,7 +29,7 @@ public class Acquire extends SequentialCommandGroup {
     final Runnable killSpecified = () -> new KillSpecified(_acquisition, _channel);
 
     addCommands(
-      // Turns acq on
+      // Turns acq and channel on
       new InstantCommand(() -> _acquisition.toggle(AcquisitionStates.IN), _acquisition).handleInterrupt(killSpecified),
       new InstantCommand(() -> _channel.toggle(ChannelStates.SHOOT), _channel).handleInterrupt(killSpecified),
       // Waits until photosensor
