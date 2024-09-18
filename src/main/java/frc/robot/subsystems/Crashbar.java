@@ -24,13 +24,14 @@ public class Crashbar extends KillableSubsystem {
 
     public void toggle(CrashbarStates state) {
         switch (state) {
-            case EXTENDED:
+            case EXTENDED: // prepare for amp shot
                 solenoid.set(DoubleSolenoid.Value.kReverse);
                 break;
-            case RETRACTED:
+            case RETRACTED: // move crashbar out of the way
                 solenoid.set(DoubleSolenoid.Value.kForward);
                 break;
-            default:
+            case OFF: // turn off or kill
+            default: // should never happen
                 solenoid.set(DoubleSolenoid.Value.kOff);
                 break;
         }

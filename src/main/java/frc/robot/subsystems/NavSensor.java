@@ -26,7 +26,7 @@ public class NavSensor extends SubsystemBase {
 	private double jerkX;
 	private double jerkY;
 
-	//Ceates AHRS _nav object
+	// Ceates AHRS _nav object
 	private static AHRS _nav = new AHRS(SerialPort.Port.kUSB1);
 
 	// variable to keep track of a reference angle whenever you reset
@@ -40,7 +40,7 @@ public class NavSensor extends SubsystemBase {
 		ShuffleboardUI.Test.addBoolean("Nav Sensor", _nav::isConnected);
 	}
 
-	// stores the reference angle as whatever the angle is currently measured to be
+	// Stores the reference angle as whatever the angle is currently measured to be
 	public void resetAngleAdjustment() {
 		referenceAngle = _nav.getAngle();
 	}

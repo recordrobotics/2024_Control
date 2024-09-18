@@ -27,7 +27,7 @@ public class PCMCompressor extends SubsystemBase {
     public boolean isEnabled() {
         try{
             return compressor.isEnabled();
-        } catch(Exception e) {
+        } catch(Exception e) { // TODO: need comment here
             return false;
         }
     }
