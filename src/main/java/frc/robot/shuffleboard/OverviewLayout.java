@@ -13,7 +13,8 @@ public class OverviewLayout extends AbstractLayout {
 
     public enum DriverOrientation {
         XAxisTowardsTrigger("Competition"),
-        YAxisTowardsTrigger("Y Axis")
+        YAxisTowardsTrigger("Y Axis"),
+        XAxisInvertTowardsTrigger("Couch Drive")
         ;
 
         public final String display_name;
