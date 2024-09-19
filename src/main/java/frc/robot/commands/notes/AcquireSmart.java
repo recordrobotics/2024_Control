@@ -41,14 +41,14 @@ public class AcquireSmart extends SequentialCommandGroup {
       new InstantCommand(() -> _acquisition.toggle(AcquisitionStates.IN), _acquisition).handleInterrupt(killSpecified),
       new InstantCommand(() -> _channel.toggle(ChannelStates.SHOOT), _channel).handleInterrupt(killSpecified),
       // Waits until photosensor
-      new WaitUntilCommand(()->_photosensor.getDebouncedValue()), // TODO: why is there not a .handleInterrupt(killSpecified) here??????
-      // Turns acq off to save battery, leaves channel on to keep moving note
+      new WaitUntilCommand(()->_photosensor.getDebouncedValue()),
+      // Turns acq off to prevent more notes from getting acquired
       new InstantCommand(() -> _acquisition.toggle(AcquisitionStates.OFF), _acquisition).handleInterrupt(killSpecified),
       // Waits until photosensor off, and then extra 0.15 seconds
       // Wait until note moves fully into the shooter assembely, and then some
       new WaitUntilCommand(()->!_photosensor.getDebouncedValue()).handleInterrupt(killSpecified),
       new WaitCommand(0.15),
-      // Turns channel reverse to suck the note back into the channel
+      // Turns channel reverse to unsquish the note back to the middle of the channel
       new InstantCommand(() -> _channel.toggle(ChannelStates.REVERSE), _channel).handleInterrupt(killSpecified),
       // Waits until photosensor on, then toggle channel off
       // This stops the note when it is centered in the channel

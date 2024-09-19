@@ -65,7 +65,7 @@ public class Shooter extends KillableSubsystem {
             case REVERSE: // Reverse for note acquisition
                 toggle(Constants.Shooter.REVERSE_SPEED);
                 break;
-            case Off: // Off
+            case OFF: // Off
             default: // should never happen
                 toggle(0); // set speed to 0
                 break;

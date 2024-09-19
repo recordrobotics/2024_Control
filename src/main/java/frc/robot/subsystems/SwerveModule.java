@@ -52,7 +52,7 @@ public class SwerveModule {
     this.DRIVE_GEAR_RATIO = m.DRIVE_GEAR_RATIO;
     this.WHEEL_DIAMETER = m.WHEEL_DIAMETER;
 
-    // TODO ~2 Seconds delay per swerve module to wait for _____put something here______
+    // ~2 Seconds delay per swerve module to wait for encoder values to stabilize
     Timer.delay(2.3);
 
     // Sets motor speeds to 0
@@ -113,7 +113,7 @@ public class SwerveModule {
     double wheelRadians = motorRadians / TURN_GEAR_RATIO;
     
     // Create a Rotation2d object from the wheel's angle in radians
-    Rotation2d wheelRotation = new Rotation2d(motorRadians);
+    Rotation2d wheelRotation = new Rotation2d(wheelRadians);
 
     return wheelRotation;
   }
@@ -135,7 +135,7 @@ public class SwerveModule {
     double driveWheelMetersPerSecond = driveWheelRotationsPerSecond * wheelCircumference;
     
     return driveWheelMetersPerSecond;
-
+  }
 
   /**
    * *custom function
@@ -196,15 +196,13 @@ public class SwerveModule {
     SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState,
         getTurnWheelRotation2d());
 
-    // TODO: Does the drive motor need to wait for the turning motor???
-
     // Calculate the drive output from the drive PID controller then set drive
     // motor.
     double drivePIDOutput = drivePIDController.calculate(
         getDriveWheelVelocity(),
         optimizedState.speedMetersPerSecond);
     double driveFeedforwardOutput = driveFeedForward.calculate(optimizedState.speedMetersPerSecond);
-    m_driveMotor.setVoltage(drivePIDOutput + driveFeedforwardOutput);
+    m_driveMotor.setVoltage(drivePIDOutput + driveFeedforwardOutput); // Feed forward runs on voltage control
 
     ShuffleboardUI.Autonomous.putSwerveVelocityData(
       m_driveMotor.getDeviceID(),
@@ -215,12 +213,12 @@ public class SwerveModule {
     // turn motor.
     final double turnOutput = turningPIDController.calculate(getTurnWheelRotation2d().getRotations(),
         optimizedState.angle.getRotations());
-    m_turningMotor.set(turnOutput);
+    m_turningMotor.set(turnOutput); // PID uses -1 to 1 speed range
   }
 
   public void stop() {
-    m_driveMotor.setVoltage(0); // TODO: why are these different
-    m_turningMotor.set(0); // TODO: why are these different
+    m_driveMotor.setVoltage(0); // Feed forward runs on voltage control
+    m_turningMotor.set(0); // PID uses -1 to 1 speed range
   }
 
   // SHUFFLEBOARD STUFF
