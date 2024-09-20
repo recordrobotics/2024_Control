@@ -79,12 +79,12 @@ public final class Constants {
     public enum FieldStartingLocation {
         FrontSpeaker(
                 // Red
-                new Pose2d(14.169, 5.584, Rotation2d.fromDegrees(180)),
+                new Pose2d(15.214, 5.584, Rotation2d.fromDegrees(180)),
                 // Blue
                 new Pose2d(2.371, 5.584, Rotation2d.fromDegrees(0))),
         FrontSpeakerClose(
                 // Red
-                new Pose2d(14.169, 5.584, Rotation2d.fromDegrees(180)), // TODO: change this to be right in front of the speaker
+                new Pose2d(15.214, 5.584, Rotation2d.fromDegrees(180)),
                 // Blue
                 new Pose2d(2.371, 5.584, Rotation2d.fromDegrees(0))),
         AtAmp(
@@ -151,7 +151,9 @@ public final class Constants {
         SourceSideInner2Note("SourceSideInner2Note"),
         FarSpeaker2Note("FarSpeaker2Note"),
         FarSpeaker("FarSpeaker"),
-        SourceSideScramble("SourceSideScramble")
+        SourceSideScramble("SourceSideScramble"),
+
+        MeterTwo("metertwoauto")
         ;
     
         public final String pathref;

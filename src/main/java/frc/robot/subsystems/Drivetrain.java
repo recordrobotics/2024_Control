@@ -164,7 +164,7 @@ public class Drivetrain extends KillableSubsystem {
          * Similar to resetPose but adds an argument for the initial pose
          */
         public void setToPose(Pose2d pose) {
-                poseFilter.resetPosition(_nav.getAdjustedAngle(),
+                poseFilter.resetPosition(pose.getRotation(),
                         new SwerveModulePosition[] {
                                 m_frontLeft.getModulePosition(),
                                 m_frontRight.getModulePosition(),
@@ -178,7 +178,7 @@ public class Drivetrain extends KillableSubsystem {
                 poseFilter.addVisionMeasurement(
                         estimate.pose,
                         estimate.timestampSeconds,
-                        VecBuilder.fill(confidence, confidence, 9999999)
+                        VecBuilder.fill(confidence, confidence, 9999999) // big number to remove all influence of limelight pose rotation
                 );
         }
 }

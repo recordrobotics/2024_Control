@@ -45,12 +45,11 @@ public class Limelight extends SubsystemBase {
             
         numTags = measurement.tagCount;
 
-        // TODO: add check if measurement.pose is close to current position estimate
         if(measurement.tagCount > 0 && SimpleMath.isPoseInField(measurement.pose)){
             if(measurement.avgTagDist < Units.feetToMeters(12)){
-                confidence = 0.5; // mt 1
+                confidence = 4.0 /*0.5*/; // mt 1
             } else {
-                confidence = 0.7; // mt 2
+                confidence = 4.5 /*0.7*/; // mt 2
                 measurement = measurement_m2;
             }
         }
@@ -59,6 +58,13 @@ public class Limelight extends SubsystemBase {
             measurement.pose.getTranslation(),
             measurement.pose.getRotation().plus(Rotation2d.fromDegrees(180))
             );
+
+        if(
+            measurement.pose.getTranslation().getDistance(
+                Drivetrain.poseFilter.getEstimatedPosition().getTranslation()
+                ) > 2){
+                   confidence = 0; 
+                }
 
         handleMeasurement(measurement, confidence);
     }
@@ -69,7 +75,7 @@ public class Limelight extends SubsystemBase {
             ShuffleboardUI.Autonomous.setVisionPose(estimate.pose);
             // TODO: Test auto without this limelight filtering
             // TODO: See if it is any better at aiming (see video in #programming)
-            //drivetrain.addVisionMeasurement(estimate, confidence);
+            drivetrain.addVisionMeasurement(estimate, confidence);
         } else {
             hasVision = false;
             ShuffleboardUI.Autonomous.setVisionPose(new Pose2d());
