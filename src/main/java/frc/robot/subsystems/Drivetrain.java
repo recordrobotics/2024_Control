@@ -164,7 +164,7 @@ public class Drivetrain extends KillableSubsystem {
          * Similar to resetPose but adds an argument for the initial pose
          */
         public void setToPose(Pose2d pose) {
-                poseFilter.resetPosition(pose.getRotation(),
+                poseFilter.resetPosition(_nav.getAdjustedAngle(),
                         new SwerveModulePosition[] {
                                 m_frontLeft.getModulePosition(),
                                 m_frontRight.getModulePosition(),

@@ -32,7 +32,7 @@ public class Limelight extends SubsystemBase {
     @Override
     public void periodic() {
         confidence = 0;
-        LimelightHelpers.SetRobotOrientation(name, _nav.getAdjustedAngle().getDegrees(), 0, 0, 0, 0, 0);
+        LimelightHelpers.SetRobotOrientation(name, Drivetrain.poseFilter.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
         LimelightHelpers.PoseEstimate measurement = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
         LimelightHelpers.PoseEstimate measurement_m2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
         
@@ -75,7 +75,7 @@ public class Limelight extends SubsystemBase {
             ShuffleboardUI.Autonomous.setVisionPose(estimate.pose);
             // TODO: Test auto without this limelight filtering
             // TODO: See if it is any better at aiming (see video in #programming)
-            drivetrain.addVisionMeasurement(estimate, confidence);
+            //drivetrain.addVisionMeasurement(estimate, confidence);
         } else {
             hasVision = false;
             ShuffleboardUI.Autonomous.setVisionPose(new Pose2d());
