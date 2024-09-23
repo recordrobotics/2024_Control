@@ -5,6 +5,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
@@ -98,6 +99,8 @@ public class Drivetrain extends KillableSubsystem {
 
         @Override
         public void periodic() {
+                SmartDashboard.putNumber("gyro", _nav.getAdjustedAngle().getDegrees());
+                SmartDashboard.putNumber("pose", poseFilter.getEstimatedPosition().getRotation().getDegrees());
                 poseFilter.update(
                         _nav.getAdjustedAngle(),
                         new SwerveModulePosition[] {
