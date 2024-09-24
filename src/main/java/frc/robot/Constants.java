@@ -276,14 +276,14 @@ public final class Constants {
         public static final double DriveMaxAngularAcceleration = 30; // 2 * Math.PI; // radians per second squared
 
         /** The max speed the robot is allowed to travel */
-        public static final double robotMaxSpeed = 0.5; //7.0;
+        public static final double robotMaxSpeed = 7.0;
 
         /** The max jerk of the robot below which the pose is certain (in G/s) */
         public static final double MaxPoseCertaintyJerk = 80;
 
         public static final HolonomicPathFollowerConfig PathFollowerConfig = new HolonomicPathFollowerConfig(
                 new PIDConstants(1, 0.0, 0.0), // Translation PID constants
-                new PIDConstants(1, 0.0, 0.0), // Rotation PID constants
+                new PIDConstants(6, 0.0, 0.0), // Rotation PID constants
                 0.5,//3, // Max module speed, in m/s
                 locDist, // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig() // Default path replanning config. See the API for the options here
