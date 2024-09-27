@@ -1,10 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
@@ -14,7 +12,6 @@ import frc.robot.utils.SimpleMath;
 public class Limelight extends SubsystemBase {
     
     private static final String name = "limelight";
-    private final NavSensor _nav = new NavSensor();
     private int numTags = 0;
     private double confidence = 0;
     private boolean hasVision = false;
@@ -24,7 +21,7 @@ public class Limelight extends SubsystemBase {
 
     public Limelight(Drivetrain drivetrain){
         this.drivetrain = drivetrain;
-        
+
         LimelightHelpers.setPipelineIndex(name, 0);
         ShuffleboardUI.Overview.setTagNum(()->numTags);
         ShuffleboardUI.Overview.setConfidence(()->confidence);
