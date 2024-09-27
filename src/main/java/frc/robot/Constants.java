@@ -153,7 +153,8 @@ public final class Constants {
         FarSpeaker("FarSpeaker"),
         SourceSideScramble("SourceSideScramble"),
 
-        MeterTwo("metertwoauto")
+        MeterTwo("metertwoauto"),
+        Rotate("rotateauto")
         ;
     
         public final String pathref;
@@ -282,9 +283,9 @@ public final class Constants {
         public static final double MaxPoseCertaintyJerk = 80;
 
         public static final HolonomicPathFollowerConfig PathFollowerConfig = new HolonomicPathFollowerConfig(
-                new PIDConstants(1, 0.0, 0.0), // Translation PID constants
-                new PIDConstants(6, 0.0, 0.0), // Rotation PID constants
-                0.5,//3, // Max module speed, in m/s
+                new PIDConstants(2, 0.0, 0.0), // TODO: Test new PID value of 2 for accuracy // Translation PID constants
+                new PIDConstants(5, 0.0, 0.0), // Rotation PID constants
+                5, // Max module speed, in m/s
                 locDist, // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig() // Default path replanning config. See the API for the options here
         );

@@ -3,8 +3,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
+import frc.robot.Robot;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.SimpleMath;
 
@@ -21,7 +24,7 @@ public class Limelight extends SubsystemBase {
 
     public Limelight(Drivetrain drivetrain){
         this.drivetrain = drivetrain;
-
+        
         LimelightHelpers.setPipelineIndex(name, 0);
         ShuffleboardUI.Overview.setTagNum(()->numTags);
         ShuffleboardUI.Overview.setConfidence(()->confidence);
@@ -46,20 +49,23 @@ public class Limelight extends SubsystemBase {
         numTags = measurement.tagCount;
 
         if(measurement.tagCount > 0 && SimpleMath.isPoseInField(measurement.pose)){
-            if(measurement.avgTagDist < Units.feetToMeters(12)){
-                confidence = 4.0 /*0.5*/; // mt 1
+            if(measurement.avgTagDist < Units.feetToMeters(7)){ // 7 feet is where the MT1 (yellow) gets bad wiggles
+                confidence = 0.65; // mt 1
             } else {
-                confidence = 4.5 /*0.7*/; // mt 2
+                confidence = 0.7; // mt 2
                 measurement = measurement_m2;
             }
         }
 
-        measurement.pose = new Pose2d(
-            measurement.pose.getTranslation(),
-            measurement.pose.getRotation().plus(Rotation2d.fromDegrees(180))
-            );
+        // measurement.pose = new Pose2d(
+        //     measurement.pose.getTranslation(),
+        //     measurement.pose.getRotation().plus(Rotation2d.fromDegrees(180))
+        //     );
+
+        double timeSinceAuto = Timer.getFPGATimestamp() - Robot.getAutoStartTime();
 
         if(
+            timeSinceAuto > 1 &&
             measurement.pose.getTranslation().getDistance(
                 Drivetrain.poseFilter.getEstimatedPosition().getTranslation()
                 ) > 2){
@@ -75,7 +81,7 @@ public class Limelight extends SubsystemBase {
             ShuffleboardUI.Autonomous.setVisionPose(estimate.pose);
             // TODO: Test auto without this limelight filtering
             // TODO: See if it is any better at aiming (see video in #programming)
-            //drivetrain.addVisionMeasurement(estimate, confidence);
+            drivetrain.addVisionMeasurement(estimate, confidence);
         } else {
             hasVision = false;
             ShuffleboardUI.Autonomous.setVisionPose(new Pose2d());
