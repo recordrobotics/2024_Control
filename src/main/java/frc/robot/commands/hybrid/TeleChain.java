@@ -56,7 +56,6 @@ public class TeleChain extends SequentialCommandGroup {
 
         addCommands(
             new InstantCommand(()->_climbers.toggle(ClimberStates.UP), _climbers),  // climers up
-            Drivetrain.poseFilter.waitUntilCertain(),                               // wait until position found
             new WaitCommand(1),                                                     // wait a second
             AutoBuilder.pathfindThenFollowPath(lowest_path, constraints, 0),        // go there
             new InstantCommand(()->_climbers.toggle(ClimberStates.DOWN), _climbers) // climers down

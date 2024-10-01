@@ -127,10 +127,6 @@ public class OverviewLayout extends AbstractLayout {
             .withSize(3, 1);
     }
 
-    public void setPoseCertain(Supplier<Boolean> certain) {
-        //poseCertainValue = certain;
-    }
-
     public void setAcquisition(Supplier<Boolean> acquisition) {
         acquisitionValue = acquisition;
     }

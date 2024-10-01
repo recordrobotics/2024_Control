@@ -1,16 +1,17 @@
 package frc.robot.subsystems;
+
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.utils.DriveCommandData;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
+import frc.robot.utils.DriveCommandData;
 import frc.robot.shuffleboard.ShuffleboardUI;
-import frc.robot.utils.UncertainSwerveDrivePoseEstimator;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends KillableSubsystem {
@@ -32,13 +33,13 @@ public class Drivetrain extends KillableSubsystem {
                         Constants.Swerve.backRightConstants.wheelLocation);
 
         // Creates swerve post estimation filter
-        public static UncertainSwerveDrivePoseEstimator poseFilter;
+        public static SwerveDrivePoseEstimator poseFilter;
 
         // Init drivetrain
         public Drivetrain() {
                 _nav.resetAngleAdjustment();
 
-                poseFilter = new UncertainSwerveDrivePoseEstimator(
+                poseFilter = new SwerveDrivePoseEstimator(
                         m_kinematics,
                         _nav.getAdjustedAngle(),
                         new SwerveModulePosition[] {
@@ -48,8 +49,6 @@ public class Drivetrain extends KillableSubsystem {
                                 m_backRight.getModulePosition()
                         },
                         ShuffleboardUI.Autonomous.getStartingLocation().getPose());
-
-                //ShuffleboardUI.Overview.setPoseCertain(poseFilter::isCertain);
         }
 
         /**
@@ -131,7 +130,6 @@ public class Drivetrain extends KillableSubsystem {
                                 m_backRight.getModulePosition()
                         },
                         ShuffleboardUI.Autonomous.getStartingLocation().getPose());
-                poseFilter.setCertainty(true); // we just set a known position
         }
 
         /**
@@ -152,7 +150,6 @@ public class Drivetrain extends KillableSubsystem {
                                 m_backRight.getModulePosition()
                         },
                         Constants.FieldStartingLocation.FrontSpeakerClose.getPose());
-                poseFilter.setCertainty(true); // we just set a known position
         }
 
         /**
@@ -177,7 +174,6 @@ public class Drivetrain extends KillableSubsystem {
                                 m_backLeft.getModulePosition(),
                                 m_backRight.getModulePosition()
                         }, pose);
-                poseFilter.setCertainty(true); // we just set a known position
         }
 
         public void addVisionMeasurement(LimelightHelpers.PoseEstimate estimate, double confidence){
