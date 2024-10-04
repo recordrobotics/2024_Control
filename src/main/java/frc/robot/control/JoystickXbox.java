@@ -31,12 +31,25 @@ public class JoystickXbox extends AbstractControl {
     public Pair<Double,Double> getXY() {
         double X = SimpleMath.ApplyThresholdAndSensitivity(joystick.getX(), Constants.Control.JOYSTICK_X_THRESHOLD, Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY);
         double Y = SimpleMath.ApplyThresholdAndSensitivity(joystick.getY(), Constants.Control.JOYSTICK_Y_THRESHOLD, Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY);
-        return super.OrientXY(new Pair<Double,Double>(X, Y));
+    
+        // num ^ 1.5 to smoothe input, also preserve sign
+        X = Math.copySign(Math.pow(Math.abs(X), 1.5), X);
+        Y = Math.copySign(Math.pow(Math.abs(Y), 1.5), Y);
+    
+        return super.OrientXY(new Pair<Double, Double>(X, Y));
     }
 
     public Double getSpin() {
-        // Gets raw twist value
-        return SimpleMath.ApplyThresholdAndSensitivity(-SimpleMath.Remap(joystick.getTwist(), -1.0, 1.0, -1.0, 1.0), Constants.Control.JOYSTICK_SPIN_THRESHOLD, Constants.Control.JOYSTICK_SPIN_SENSITIVITY);
+        double spin = SimpleMath.ApplyThresholdAndSensitivity(
+            -SimpleMath.Remap(joystick.getTwist(), -1.0, 1.0, -1.0, 1.0),
+            Constants.Control.JOYSTICK_SPIN_THRESHOLD, 
+            Constants.Control.JOYSTICK_SPIN_SENSITIVITY
+        );
+        
+        // Apply x^1.5 scaling, preserving the sign of the input
+        spin = Math.copySign(Math.pow(Math.abs(spin), 1.5), spin);
+    
+        return spin;
     }
 
     public Double getDirectionalSpeedLevel() {
