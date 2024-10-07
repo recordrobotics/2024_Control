@@ -3,6 +3,7 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
@@ -93,6 +94,17 @@ public class DoubleXbox extends AbstractControl {
     @Override
     public Boolean getKillAuto() {
         return drivebox.getRawButton(8) || notesbox.getRawButton(8);
+    }
+
+    @Override
+    public Boolean getKillCompressor() {
+        return drivebox.getPOV() == 180 || notesbox.getPOV() == 180;
+    }
+
+    @Override
+    public void vibrate(double value) {
+        drivebox.setRumble(RumbleType.kBothRumble, value);
+        notesbox.setRumble(RumbleType.kBothRumble, value);
     }
 
     @Override

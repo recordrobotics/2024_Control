@@ -7,17 +7,21 @@ import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class PCMCompressor extends SubsystemBase {
     private static final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+    private static boolean isDisabledManually = false;
 
     public PCMCompressor() {
         ShuffleboardUI.Overview.setCompressor(this::isEnabled);
+        ShuffleboardUI.Overview.setCompressorManuallyDisabled(this::isDisabledManually);
     }
 
     public void disable() {
         compressor.disable();
+        isDisabledManually = true;
     }
 
     public void enable() {
         compressor.enableDigital();
+        isDisabledManually = false;
     }
 
     public double getCurrent() {
@@ -25,11 +29,15 @@ public class PCMCompressor extends SubsystemBase {
     }
 
     public boolean isEnabled() {
-        try{
+        try {
             return compressor.isEnabled();
-        } catch(Exception e) { // Prevent disconnected compressor from crashing code
+        } catch (Exception e) { // Prevent disconnected compressor from crashing code
             return false;
         }
+    }
+
+    public boolean isDisabledManually() {
+        return isDisabledManually;
     }
 
     public boolean isPumping() {

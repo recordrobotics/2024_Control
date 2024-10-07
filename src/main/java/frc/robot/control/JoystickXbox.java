@@ -1,5 +1,6 @@
 package frc.robot.control;
 import edu.wpi.first.math.Pair;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
@@ -69,6 +70,16 @@ public class JoystickXbox extends AbstractControl {
     @Override
     public Boolean getKillAuto() {
         return xbox_controller.getRawButton(8);
+    }
+
+    @Override
+    public Boolean getKillCompressor() {
+        return xbox_controller.getPOV() == 180;
+    }
+
+    @Override
+    public void vibrate(double value) {
+        xbox_controller.setRumble(RumbleType.kBothRumble, value);
     }
 
     @Override

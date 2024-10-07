@@ -14,6 +14,8 @@ public abstract class AbstractControl {
     // Misc
     public abstract Boolean getPoseReset();
     public abstract Boolean getKillAuto();
+    public abstract Boolean getKillCompressor();
+    public abstract void vibrate(double value);
 
     // Smart notes routines
     public abstract Boolean getAcquire();

@@ -35,7 +35,6 @@ public class RobotContainer {
   private final Acquisition _acquisition;
   private final Channel _channel;
   private final Photosensor _photosensor;
-  @SuppressWarnings("unused") // Required to call constructor of PCMCompressor to initialize ShuffleboardUI
   private final PCMCompressor _compressor;
   @SuppressWarnings("unused")
   private final Limelight _limelight;
@@ -91,6 +90,13 @@ public class RobotContainer {
 
     // Command to kill robot
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getKillAuto()).whileTrue(new KillSpecified(_drivetrain, _acquisition, _channel, _shooter, _crashbar, _climbers));
+
+    // Command to kill compressor
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getKillCompressor())
+                .onTrue(new InstantCommand(_compressor::disable))
+                .onFalse(new InstantCommand(_compressor::enable))
+                .onTrue(new InstantCommand(()->ShuffleboardUI.Overview.getControl().vibrate(1)))
+                .onFalse(new InstantCommand(()->ShuffleboardUI.Overview.getControl().vibrate(0)));
 
     // Notes triggers
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getAcquire()).toggleOnTrue(new AcquireSmart(_acquisition, _channel, _photosensor, _shooter));

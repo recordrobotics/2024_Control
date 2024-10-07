@@ -31,6 +31,7 @@ public class OverviewLayout extends AbstractLayout {
     //private Supplier<Boolean> poseCertainValue = () -> false;
     private Supplier<Boolean> acquisitionValue =  () -> false;
     private Supplier<Boolean> compressorValue =  () -> false;
+    private Supplier<Boolean> compressorManuallyDisabledValue =  () -> false;
     private Supplier<Boolean> hasNoteValue =  () -> false;
     private Supplier<Boolean> navSensorValue =  () -> false;
     private Supplier<Integer> tagNumValue =  () -> 0;
@@ -48,11 +49,17 @@ public class OverviewLayout extends AbstractLayout {
         getTab()
                 .addBoolean("Acquisition", () -> acquisitionValue.get())
                 .withWidget(BuiltInWidgets.kBooleanBox)
-                .withPosition(7, 0)
+                .withPosition(6, 0)
                 .withSize(1, 1);
 
         getTab()
                 .addBoolean("Compressor", () -> compressorValue.get())
+                .withWidget(BuiltInWidgets.kBooleanBox)
+                .withPosition(7, 0)
+                .withSize(1, 1);
+
+        getTab()
+                .addBoolean("CP Disabled", () -> compressorManuallyDisabledValue.get())
                 .withWidget(BuiltInWidgets.kBooleanBox)
                 .withPosition(8, 0)
                 .withSize(1, 1);
@@ -116,14 +123,14 @@ public class OverviewLayout extends AbstractLayout {
         getTab()
             .add("Driver Orientation", driverOrientation)
             .withWidget(BuiltInWidgets.kSplitButtonChooser)
-            .withPosition(0, 3)
-            .withSize(2, 1);
+            .withPosition(0, 0)
+            .withSize(3, 1);
 
         // Creates the UI for drive mode
         getTab()
             .add("Drive Mode", driveMode)
             .withWidget(BuiltInWidgets.kSplitButtonChooser)
-            .withPosition(0, 4)
+            .withPosition(0, 1)
             .withSize(3, 1);
     }
 
@@ -133,6 +140,10 @@ public class OverviewLayout extends AbstractLayout {
 
     public void setCompressor(Supplier<Boolean> compressor) {
         compressorValue = compressor;
+    }
+
+    public void setCompressorManuallyDisabled(Supplier<Boolean> compressorManuallyDisabled) {
+        compressorManuallyDisabledValue = compressorManuallyDisabled;
     }
 
     public void setHasNote(Supplier<Boolean> hasNote) {
