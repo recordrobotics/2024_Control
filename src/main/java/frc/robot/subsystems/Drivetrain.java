@@ -75,8 +75,7 @@ public class Drivetrain extends KillableSubsystem {
                 SwerveModuleState[] swerveModuleStates = m_kinematics.toSwerveModuleStates(
                         fieldRelative
                                 ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,
-                                        _nav.getAdjustedAngle()
-                                        /*poseFilter.getEstimatedPosition().getRotation()*/)
+                                        poseFilter.getEstimatedPosition().getRotation())
                                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
                 // Desaturates wheel speeds
