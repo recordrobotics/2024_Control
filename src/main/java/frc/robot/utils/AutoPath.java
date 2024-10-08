@@ -31,25 +31,25 @@ public class AutoPath {
         // Acqire a note
         NamedCommands.registerCommand("Acquire", new AcquireSmart(acquisition, channel, photosensor, shooter));
         
-        // TODO: write something here
+        // Acqire a note stupidly (depreciated) (legacy)
         NamedCommands.registerCommand("AcquireStupid", new Acquire(acquisition, channel, photosensor));
         
-        // TODO: write something here
+        // Turn acquisition and channel on 
         NamedCommands.registerCommand("AcquirePush", new PushAcquire(acquisition, channel));
         
-        // TODO: write something here
+        // Turn acquisition off and channel reverse for 0.3 seconds
         NamedCommands.registerCommand("Retract", new RetractAcquire(acquisition, channel));
         
-        // TODO: write something here
+        // Assumes flywheel is already on and shoots
         NamedCommands.registerCommand("PushSpeaker", new PushSpeaker(channel, shooter));
         
-        // TODO: write something here
+        // Turns shooter on
         NamedCommands.registerCommand("FlywheelSpeaker", new SetupSpeaker(shooter));
         
-        // TODO: write something here
+        // Assumes flywheel and crashbar are ready and shoots amp
         NamedCommands.registerCommand("PushAmp", new PushAmp(channel, shooter, crashbar));
         
-        // TODO: write something here
+        // Prepare for PushAmp
         NamedCommands.registerCommand("FlywheelAmp", new SetupAmp(shooter, crashbar, true));
 
         // Configures auto builder
