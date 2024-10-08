@@ -40,8 +40,12 @@ public class PCMCompressor extends SubsystemBase {
         return isDisabledManually;
     }
 
-    public boolean isPumping() {
+    public boolean isFull() {
         return compressor.getPressureSwitchValue();
+    }
+
+    public boolean isPumping() {
+        return this.isFull() && this.isEnabled() && !this.isDisabledManually();
     }
 
     @Override
