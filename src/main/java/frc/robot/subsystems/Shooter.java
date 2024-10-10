@@ -76,4 +76,12 @@ public class Shooter extends KillableSubsystem {
     public void kill() {
         toggle(ShooterStates.OFF);
     }
+
+    /**
+     * frees up all hardware allocations
+     */
+    public void close() {
+        flywheelL.close();
+        flywheelR.close();
+    }
 }

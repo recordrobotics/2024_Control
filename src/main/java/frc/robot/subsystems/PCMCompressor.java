@@ -51,4 +51,11 @@ public class PCMCompressor extends SubsystemBase {
     @Override
     public void periodic() {
     }
+
+    /**
+     * frees up all hardware allocations
+     */
+    public void close() {
+        compressor.close();
+    }
 }
