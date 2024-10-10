@@ -57,7 +57,7 @@ public class SimpleMath {
     }
 
     /**
-     * //TODO: fix because I think the field dimension is wrong
+     * // TODO: fix because I think the field dimension is wrong
      * 
      * @param location
      * @return mirrored translation2d of the translation2d you put in

@@ -34,5 +34,3 @@ public class ShootSpeaker extends SequentialCommandGroup {
     );
   }
 }
-
-//TODO: investigate what happens when interrupted
