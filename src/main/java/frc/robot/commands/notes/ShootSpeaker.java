@@ -12,7 +12,7 @@ public class ShootSpeaker extends SequentialCommandGroup {
   private static Shooter _shooter;
 
   /** Number of seconds it takes for the flywheel to spin up */
-  private final double flywheelSpinupTime = 0.3; //1.5;
+  private final double flywheelSpinupTime = 0.5; //1.5;
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
   private final double shootTime = 2;
 

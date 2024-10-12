@@ -13,15 +13,15 @@ public class ManualAcquisition extends Command {
   public ManualAcquisition (Acquisition acquisition, Channel channel) {
     _acquisition = acquisition;
     _channel = channel;
-    addRequirements(acquisition);
+    //addRequirements(acquisition);
     addRequirements(channel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    _acquisition.toggle(AcquisitionStates.IN);
-    _channel.toggle(ChannelStates.THROUGH);
+    //_acquisition.toggle(AcquisitionStates.IN);
+    _channel.toggle(ChannelStates.SHOOT);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,7 +32,7 @@ public class ManualAcquisition extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    _acquisition.toggle(AcquisitionStates.OFF);
+    //_acquisition.toggle(AcquisitionStates.OFF);
     _channel.toggle(ChannelStates.OFF);
   }
 
