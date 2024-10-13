@@ -52,7 +52,7 @@ public class SwerveModule {
     this.DRIVE_GEAR_RATIO = m.DRIVE_GEAR_RATIO;
     this.WHEEL_DIAMETER = m.WHEEL_DIAMETER;
 
-    // ~2 Seconds delay per swerve module
+    // ~2 Seconds delay per swerve module to wait for encoder values to stabilize
     Timer.delay(2.3);
 
     // Sets motor speeds to 0
@@ -103,22 +103,37 @@ public class SwerveModule {
    * @return The raw rotations of the turning motor (rotation 2d object).
    */
   private Rotation2d getTurnWheelRotation2d() {
+    // Get the turning motor's current position in rotations
     double numMotorRotations = m_turningMotor.getPosition().getValueAsDouble();
-    Rotation2d motorRotation = new Rotation2d(numMotorRotations * 2 * Math.PI / TURN_GEAR_RATIO);
-    return motorRotation;
+    
+    // Convert motor rotations to radians
+    double motorRadians = numMotorRotations * 2 * Math.PI;
+
+    // Adjust for the gear ratio to get wheel radians
+    double wheelRadians = motorRadians / TURN_GEAR_RATIO;
+    
+    // Create a Rotation2d object from the wheel's angle in radians
+    Rotation2d wheelRotation = new Rotation2d(wheelRadians);
+
+    return wheelRotation;
   }
 
   /**
-   * TODO: figure out how this calculation works and make it more clear instead of
-   * having it all happen on one line
-   * *custom function
-   * 
    * @return The current velocity of the drive motor (meters per second)
    */
   private double getDriveWheelVelocity() {
+    // Get the drive motor velocity in rotations per second
     double driveMotorRotationsPerSecond = m_driveMotor.getVelocity().getValueAsDouble();
-    double driveWheelMetersPerSecond = (driveMotorRotationsPerSecond / DRIVE_GEAR_RATIO)
-        * (WHEEL_DIAMETER * Math.PI);
+    
+    // Calculate wheel rotations per second by adjusting for the gear ratio
+    double driveWheelRotationsPerSecond = driveMotorRotationsPerSecond / DRIVE_GEAR_RATIO;
+    
+    // Calculate the distance the wheel travels per rotation (circumference)
+    double wheelCircumference = WHEEL_DIAMETER * Math.PI;
+    
+    // Calculate wheel velocity in meters per second
+    double driveWheelMetersPerSecond = driveWheelRotationsPerSecond * wheelCircumference;
+    
     return driveWheelMetersPerSecond;
   }
 
@@ -128,11 +143,20 @@ public class SwerveModule {
    * @return The distance driven by the drive wheel (meters)
    */
   private double getDriveWheelDistance() {
-    double numRotationsDriveMotor = m_driveMotor.getPosition().getValueAsDouble(); 
+    // Get the drive motor's current position in rotations
+    double numRotationsDriveMotor = m_driveMotor.getPosition().getValueAsDouble();
+    
+    // Adjust for the gear ratio to get the number of wheel rotations
     double numRotationsDriveWheel = numRotationsDriveMotor / DRIVE_GEAR_RATIO;
-    double speedWheelDistanceMeters = numRotationsDriveWheel * Math.PI * WHEEL_DIAMETER;
-    return speedWheelDistanceMeters;
-  }
+    
+    // Calculate the wheel's circumference
+    double wheelCircumference = Math.PI * WHEEL_DIAMETER;
+    
+    // Calculate the total distance traveled by the wheel in meters
+    double driveWheelDistanceMeters = numRotationsDriveWheel * wheelCircumference;
+    
+    return driveWheelDistanceMeters;
+}
 
   /**
    * *custom function
@@ -141,7 +165,8 @@ public class SwerveModule {
    */
   public SwerveModuleState getModuleState() {
     return new SwerveModuleState(
-        getDriveWheelVelocity(), getTurnWheelRotation2d());
+        getDriveWheelVelocity(),
+        getTurnWheelRotation2d());
   }
 
   /**
@@ -151,7 +176,8 @@ public class SwerveModule {
    */
   public SwerveModulePosition getModulePosition() {
     return new SwerveModulePosition(
-        getDriveWheelDistance(), getTurnWheelRotation2d());
+        getDriveWheelDistance(),
+        getTurnWheelRotation2d());
   }
 
   /** resets drive motor position */
@@ -172,23 +198,27 @@ public class SwerveModule {
 
     // Calculate the drive output from the drive PID controller then set drive
     // motor.
-    double driveOutput = drivePIDController.calculate(getDriveWheelVelocity(),
+    double drivePIDOutput = drivePIDController.calculate(
+        getDriveWheelVelocity(),
         optimizedState.speedMetersPerSecond);
     double driveFeedforwardOutput = driveFeedForward.calculate(optimizedState.speedMetersPerSecond);
-    m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
+    m_driveMotor.setVoltage(drivePIDOutput + driveFeedforwardOutput); // Feed forward runs on voltage control
 
-    ShuffleboardUI.Autonomous.putSwerveVelocityData(m_driveMotor.getDeviceID(), getDriveWheelVelocity(), optimizedState.speedMetersPerSecond);
+    ShuffleboardUI.Autonomous.putSwerveVelocityData(
+      m_driveMotor.getDeviceID(),
+      getDriveWheelVelocity(),
+      optimizedState.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller then set
     // turn motor.
     final double turnOutput = turningPIDController.calculate(getTurnWheelRotation2d().getRotations(),
         optimizedState.angle.getRotations());
-    m_turningMotor.set(turnOutput);
+    m_turningMotor.set(turnOutput); // PID uses -1 to 1 speed range
   }
 
   public void stop() {
-    m_driveMotor.setVoltage(0);
-    m_turningMotor.set(0);
+    m_driveMotor.setVoltage(0); // Feed forward runs on voltage control
+    m_turningMotor.set(0); // PID uses -1 to 1 speed range
   }
 
   // SHUFFLEBOARD STUFF

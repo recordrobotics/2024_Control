@@ -25,16 +25,17 @@ public class Channel extends KillableSubsystem {
 
     public void toggle(ChannelStates state) {
         switch (state) {
-            case THROUGH:
+            case THROUGH: // move the note through
                 toggle(Constants.Channel.THROUGH_SPEED);
                 break;
-            case SHOOT:
+            case SHOOT: // go fast to shoot the note
                 toggle(Constants.Channel.SHOOT_SPEED);
                 break;
-            case REVERSE:
+            case REVERSE: // move the note away from the shooter
                 toggle(Constants.Channel.REVERSE_SPEED);
                 break;
-            default:
+            case OFF: // turn off or kill
+            default: // should never happen
                 toggle(0);
                 break;
         }

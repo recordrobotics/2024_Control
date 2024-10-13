@@ -36,7 +36,7 @@ public final class Constants {
 
     public final class Shooter {
         public static final double SPEAKER_SPEED = 1;
-        public static final double AMP_SPEED = 0.25;
+        public static final double AMP_SPEED = 0.5;
         public static final double REVERSE_SPEED = -0.1;
     }
 
@@ -79,12 +79,12 @@ public final class Constants {
     public enum FieldStartingLocation {
         FrontSpeaker(
                 // Red
-                new Pose2d(14.169, 5.584, Rotation2d.fromDegrees(180)),
+                new Pose2d(15.214, 5.584, Rotation2d.fromDegrees(180)),
                 // Blue
                 new Pose2d(2.371, 5.584, Rotation2d.fromDegrees(0))),
         FrontSpeakerClose(
                 // Red
-                new Pose2d(14.169, 5.584, Rotation2d.fromDegrees(180)), // TODO: change this to be right in front of the speaker
+                new Pose2d(15.214, 5.584, Rotation2d.fromDegrees(180)),
                 // Blue
                 new Pose2d(2.371, 5.584, Rotation2d.fromDegrees(0))),
         AtAmp(
@@ -151,7 +151,10 @@ public final class Constants {
         SourceSideInner2Note("SourceSideInner2Note"),
         FarSpeaker2Note("FarSpeaker2Note"),
         FarSpeaker("FarSpeaker"),
-        SourceSideScramble("SourceSideScramble")
+        SourceSideScramble("SourceSideScramble"),
+
+        MeterTwo("metertwoauto"),
+        Rotate("rotateauto")
         ;
     
         public final String pathref;
@@ -280,9 +283,9 @@ public final class Constants {
         public static final double MaxPoseCertaintyJerk = 80;
 
         public static final HolonomicPathFollowerConfig PathFollowerConfig = new HolonomicPathFollowerConfig(
-                new PIDConstants(1, 0.0, 0.0), // Translation PID constants
-                new PIDConstants(1, 0.0, 0.0), // Rotation PID constants
-                3, // Max module speed, in m/s
+                new PIDConstants(6, 0.0, 0.0), // Translation PID constants
+                new PIDConstants(5, 0.0, 0.0), // Rotation PID constants
+                5, // Max module speed, in m/s
                 locDist, // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig() // Default path replanning config. See the API for the options here
         );

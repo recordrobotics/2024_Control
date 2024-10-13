@@ -14,6 +14,8 @@ public abstract class AbstractControl {
     // Misc
     public abstract Boolean getPoseReset();
     public abstract Boolean getKillAuto();
+    public abstract Boolean getKillCompressor();
+    public abstract void vibrate(double value);
 
     // Smart notes routines
     public abstract Boolean getAcquire();
@@ -49,6 +51,11 @@ public abstract class AbstractControl {
 					return new Pair<Double,Double>(inputX, -inputY);
 				else
 					return new Pair<Double,Double>(-inputX, inputY);
+            case XAxisInvertTowardsTrigger:
+				if (DriverStationUtils.getCurrentAlliance() == Alliance.Blue)
+                    return new Pair<Double,Double>(inputY, inputX);
+				else
+					return new Pair<Double,Double>(-inputY, -inputX);
 			default:
 				return new Pair<Double,Double>(0.0, 0.0);
 		}
