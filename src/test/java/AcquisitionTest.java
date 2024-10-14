@@ -1,5 +1,4 @@
 import edu.wpi.first.hal.HAL;
-import edu.wpi.first.hal.util.HalHandleException;
 import edu.wpi.first.wpilibj.simulation.PWMSim;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ public class AcquisitionTest {
     @BeforeEach
     public void setup() {
         assert HAL.initialize(500, 0); // initialize the HAL, crash if failed
-        acquisition = new Acquisition(true);
+        acquisition = new Acquisition();
         motorSim = new PWMSim(RobotMap.Acquisition.ACQUISITION_MOTOR_ID); // Simulate the motor with PWMSim
     }
 

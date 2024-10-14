@@ -38,11 +38,20 @@ public class TestLayout extends AbstractLayout {
     
     private final Map<GenericEntry, PeriodicNotifier<Double>> sliderMap = new HashMap<>();
     private final Map<GenericEntry, PeriodicNotifier<Rotation2d>> headingMap = new HashMap<>();
+    private final Map<String, MotorController> motorMap = new HashMap<>();
 
     public <T extends MotorController & Sendable> void addMotor(String name, T motor) {
+        motorMap.put(name, motor);
         getTab()
             .add(name, motor)
             .withWidget(BuiltInWidgets.kMotorController);
+    }
+    
+    public void deleteMotor(String name) {
+        MotorController motor = motorMap.remove(name);
+        if (motor != null) {
+            Shuffleboard.getTab(getTab().getTitle()).getComponents().remove(motor);
+        }
     }
 
     public void addBoolean(String name, BooleanSupplier value){
