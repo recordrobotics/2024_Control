@@ -54,7 +54,6 @@ public class Acquisition extends KillableSubsystem {
      */
     @Override
     public void close() {
-        ShuffleboardUI.Test.deleteMotor("Acquisition");
         acquisitionMotor.close();
     }
 }

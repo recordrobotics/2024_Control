@@ -41,16 +41,15 @@ public class TestLayout extends AbstractLayout {
     private final Map<String, MotorController> motorMap = new HashMap<>();
 
     public <T extends MotorController & Sendable> void addMotor(String name, T motor) {
-        motorMap.put(name, motor);
-        getTab()
-            .add(name, motor)
-            .withWidget(BuiltInWidgets.kMotorController);
-    }
-    
-    public void deleteMotor(String name) {
-        MotorController motor = motorMap.remove(name);
-        if (motor != null) {
-            Shuffleboard.getTab(getTab().getTitle()).getComponents().remove(motor);
+        // Check if the motor is already in the map
+        if (!motorMap.containsKey(name)) {
+            motorMap.put(name, motor);
+            getTab()
+                .add(name, motor)
+                .withWidget(BuiltInWidgets.kMotorController);
+        } else {
+            // Optional: Log a message or handle the case where the motor is already present
+            // System.out.println("Motor with name '" + name + "' is already added.");
         }
     }
 
