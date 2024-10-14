@@ -46,6 +46,6 @@ public class Acquisition extends KillableSubsystem {
 
     @Override
     public void kill() {
-        //toggle(AcquisitionStates.OFF);
+        toggle(AcquisitionStates.OFF);
     }
 }
