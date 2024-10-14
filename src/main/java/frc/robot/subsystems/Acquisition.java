@@ -10,12 +10,18 @@ public class Acquisition extends KillableSubsystem {
     private static final double acquisitionDefaultSpeed = Constants.Acquisition.ACQUISITION_SPEED;
     public AcquisitionStates acquisitionState = AcquisitionStates.OFF;
 
-    public Acquisition() {
+    public Acquisition(boolean inTest) {
         toggle(AcquisitionStates.OFF);
         
         ShuffleboardUI.Overview.setAcquisition(() -> acquisitionMotor.get() != 0);
         ShuffleboardUI.Autonomous.setAcquisition(() -> acquisitionMotor.get() != 0);
-        ShuffleboardUI.Test.addMotor("Acquisition", acquisitionMotor);
+        if (!inTest) { // FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO
+            ShuffleboardUI.Test.addMotor("Acquisition", acquisitionMotor); // FIXME TODO FIXME TODO FIXME TODO FIXME TODO
+        }
+    }
+
+    public Acquisition() {
+        this(true);
     }
 
     public enum AcquisitionStates {
@@ -52,6 +58,7 @@ public class Acquisition extends KillableSubsystem {
     /**
      * frees up all hardware allocations
      */
+    @Override
     public void close() {
         acquisitionMotor.close();
     }

@@ -18,14 +18,13 @@ public class AcquisitionTest {
     @BeforeEach
     public void setup() {
         assert HAL.initialize(500, 0); // initialize the HAL, crash if failed
-        acquisition = new Acquisition();
+        acquisition = new Acquisition(true);
         motorSim = new PWMSim(RobotMap.Acquisition.ACQUISITION_MOTOR_ID); // Simulate the motor with PWMSim
     }
 
     @AfterEach
     public void shutdown() throws Exception {
         acquisition.close();
-        HAL.shutdown();
     }
 
     @Test
