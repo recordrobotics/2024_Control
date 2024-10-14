@@ -1,0 +1,23 @@
+name: FRC Unit Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Install WPILib tools (JDK, GradleRIO, etc.)
+      - name: Set up WPILib environment
+        run: |
+          curl -O https://raw.githubusercontent.com/wpilibsuite/allwpilib/main/gradlew
+          chmod +x gradlew
+          ./gradlew downloadAll
+
+      # Run unit tests
+      - name: Run tests
+        run: ./gradlew test
