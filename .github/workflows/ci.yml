@@ -4,10 +4,7 @@ on:
   push:
     branches:
       - main  # Default branch
-      - unit-tests
   pull_request:
-      - main
-      - unit-tests
 
 jobs:
   build:
