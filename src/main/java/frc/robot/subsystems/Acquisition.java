@@ -37,7 +37,7 @@ public class Acquisition extends KillableSubsystem {
         //    default: // should never happen
         //        acquisitionMotor.set(0);
         //        break;
-        }
+        //}
     }
 
     public void toggle(AcquisitionStates state) {
