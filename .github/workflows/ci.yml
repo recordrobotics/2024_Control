@@ -3,8 +3,11 @@ name: FRC Unit Test
 on:
   push:
     branches:
-      - main  # Change to your default branch
+      - main  # Default branch
+      - unit-tests
   pull_request:
+      - main
+      - unit-tests
 
 jobs:
   build:
