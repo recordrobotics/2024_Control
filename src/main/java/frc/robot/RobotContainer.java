@@ -112,7 +112,7 @@ public class RobotContainer {
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualClimbers()).toggleOnTrue(new ManualClimbers(_climbers));
 
     // Reset pose trigger
-    new Trigger(() -> ShuffleboardUI.Overview.getControl().getPoseReset()).onTrue(new InstantCommand(_drivetrain::resetStartingPose));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getPoseReset()).onTrue(new InstantCommand(_drivetrain::resetDriverPose));
   }
 
   /**
