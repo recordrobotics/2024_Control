@@ -63,4 +63,9 @@ public class NavSensor extends SubsystemBase {
 		last_accelX = accelX;
 		last_accelY = accelY;
 	}
+
+    /**
+     * frees up all hardware allocations
+     */
+    public void close() {}
 }

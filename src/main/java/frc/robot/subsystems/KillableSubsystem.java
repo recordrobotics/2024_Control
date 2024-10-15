@@ -5,4 +5,5 @@ public abstract class KillableSubsystem extends SubsystemBase{
 
     public abstract void kill();
     
+    public abstract void close();
 }

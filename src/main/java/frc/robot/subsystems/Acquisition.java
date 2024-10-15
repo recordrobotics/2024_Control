@@ -48,4 +48,12 @@ public class Acquisition extends KillableSubsystem {
     public void kill() {
         toggle(AcquisitionStates.OFF);
     }
+
+    /**
+     * frees up all hardware allocations
+     */
+    @Override
+    public void close() {
+        acquisitionMotor.close();
+    }
 }

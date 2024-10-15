@@ -182,4 +182,15 @@ public class Drivetrain extends KillableSubsystem {
                         VecBuilder.fill(confidence, confidence, 9999999) // big number to remove all influence of limelight pose rotation
                 );
         }
+
+        /**
+         * frees up all hardware allocations
+         */
+        public void close() {
+            _nav.close();
+            m_backLeft.close();
+            m_backRight.close();
+            m_frontLeft.close();
+            m_frontRight.close();
+        }
 }

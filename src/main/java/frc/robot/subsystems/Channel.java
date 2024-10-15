@@ -45,4 +45,11 @@ public class Channel extends KillableSubsystem {
     public void kill() {
         toggle(ChannelStates.OFF);
     }
+
+    /**
+     * frees up all hardware allocations
+     */
+    public void close() {
+        channelMotor.close();
+    }
 }
