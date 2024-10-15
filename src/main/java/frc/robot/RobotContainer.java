@@ -36,7 +36,6 @@ public class RobotContainer {
   private final Channel _channel;
   private final Photosensor _photosensor;
   private final PCMCompressor _compressor;
-  @SuppressWarnings("unused")
   private final Limelight _limelight;
 
   // Autonomous
