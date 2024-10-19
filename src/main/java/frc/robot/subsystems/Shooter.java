@@ -3,19 +3,20 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-import com.revrobotics.CANSparkMax;
-import frc.robot.Constants;
+
 import frc.robot.RobotMap;
+import frc.robot.Constants;
 import frc.robot.shuffleboard.ShuffleboardUI;
+import frc.robot.utils.simulation.CANSparkMaxWrapper;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Shooter extends KillableSubsystem {
 
-    private CANSparkMax flywheelL = new CANSparkMax( // initialize left flywheel
+    public CANSparkMaxWrapper flywheelL = new CANSparkMaxWrapper( // initialize left flywheel
         RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID,
         MotorType.kBrushless);
-    private CANSparkMax flywheelR = new CANSparkMax( // initialize right flywheel
+    public CANSparkMaxWrapper flywheelR = new CANSparkMaxWrapper( // initialize right flywheel
         RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID,
         MotorType.kBrushless);
 

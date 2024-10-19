@@ -7,6 +7,8 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Acquisition;
 import static org.junit.jupiter.api.Assertions.*;
 
+import javax.xml.namespace.QName;
+
 import org.junit.jupiter.api.AfterEach;
 
 public class AcquisitionTest {
@@ -44,6 +46,18 @@ public class AcquisitionTest {
         acquisition.toggle(Acquisition.AcquisitionStates.REVERSE);
         assertEquals(Acquisition.AcquisitionStates.REVERSE, acquisition.acquisitionState, "State should be REVERSE.");
         assertEquals(-Constants.Acquisition.ACQUISITION_SPEED, motorSim.getSpeed(), TOLERANCE, "Motor should be set to default REVERSE speed.");
+    }
+
+    @Test
+    public void testToggleCustomState() {
+        acquisition.toggle(Acquisition.AcquisitionStates.IN, 1.5);
+        assertEquals(1, motorSim.getSpeed(), TOLERANCE, "Motor should not go above 1 speed");
+    }
+
+    @Test
+    public void testToggleNegativeCustomState() {
+        acquisition.toggle(Acquisition.AcquisitionStates.REVERSE, 1.5);
+        assertEquals(-1, motorSim.getSpeed(), TOLERANCE, "Motor should not go below -1 speed");
     }
 
     @Test

@@ -1,13 +1,13 @@
-import edu.wpi.first.hal.HAL;
-import edu.wpi.first.wpilibj.simulation.PWMSim;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.robot.Constants;
+import edu.wpi.first.hal.HAL;
+import org.junit.jupiter.api.Test;
 import frc.robot.subsystems.Channel;
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import edu.wpi.first.wpilibj.simulation.PWMSim;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ChannelTest {
     private Channel channel;
@@ -47,6 +47,18 @@ public class ChannelTest {
     public void testToggleShootState() {
         channel.toggle(Channel.ChannelStates.SHOOT);
         assertEquals(Constants.Channel.SHOOT_SPEED, motorSim.getSpeed(), TOLERANCE, "Motor should be set to default SHOOT speed.");
+    }
+
+    @Test
+    public void testToggleCustomState() {
+        channel.toggle(1.5);
+        assertEquals(1, motorSim.getSpeed(), TOLERANCE, "Motor should not go above 1 speed");
+    }
+
+    @Test
+    public void testToggleNegativeCustomState() {
+        channel.toggle(-1.5);
+        assertEquals(-1, motorSim.getSpeed(), TOLERANCE, "Motor should not go below -1 speed");
     }
 
     @Test
