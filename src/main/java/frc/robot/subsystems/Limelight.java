@@ -83,4 +83,8 @@ public class Limelight extends SubsystemBase {
         }
     }
 
+    /**
+     * frees up all hardware allocations
+     */
+    public void close() {}
 }

@@ -36,7 +36,6 @@ public class RobotContainer {
   private final Channel _channel;
   private final Photosensor _photosensor;
   private final PCMCompressor _compressor;
-  @SuppressWarnings("unused")
   private final Limelight _limelight;
 
   // Autonomous
@@ -129,5 +128,20 @@ public class RobotContainer {
 
   public void testPeriodic() {
     ShuffleboardUI.Test.testPeriodic();
+  }
+
+  /**
+   * frees up all hardware allocations
+   */
+  public void close() {
+      _drivetrain.close();
+      _channel.close();
+      _acquisition.close();
+      _shooter.close();
+      _crashbar.close();
+      _photosensor.close();
+      _climbers.close();
+      _compressor.close();
+      _limelight.close();
   }
 }

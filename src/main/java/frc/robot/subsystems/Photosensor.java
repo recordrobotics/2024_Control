@@ -39,4 +39,11 @@ public class Photosensor extends SubsystemBase {
     public Boolean getCurrentValue() {
         return photosensor.get();
     }
+
+    /**
+     * frees up all hardware allocations
+     */
+    public void close() {
+        photosensor.close();
+    }
 }
