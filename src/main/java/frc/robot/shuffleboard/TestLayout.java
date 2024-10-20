@@ -5,6 +5,7 @@ import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -14,6 +15,7 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class TestLayout extends AbstractLayout {
@@ -41,16 +43,23 @@ public class TestLayout extends AbstractLayout {
     private final Map<String, MotorController> motorMap = new HashMap<>();
 
     public <T extends MotorController & Sendable> void addMotor(String name, T motor) {
-        // Check if the motor is already in the map
-        if (!motorMap.containsKey(name)) {
-            motorMap.put(name, motor);
-            getTab()
-                .add(name, motor)
-                .withWidget(BuiltInWidgets.kMotorController);
-        } else {
-            // Optional: Log a message or handle the case where the motor is already present
-            // System.out.println("Motor with name '" + name + "' is already added.");
+        motorMap.put(name, motor);
+
+        // Find the existing component
+        Optional<ShuffleboardComponent<?>> existingComponent = getTab()
+            .getComponents()
+            .stream()
+            .filter(component -> component.getTitle().equals(name))
+            .findFirst();
+        
+        if (existingComponent.isPresent()) {
+            // Remove the old component
+            getTab().getComponents().remove(existingComponent.get());
         }
+        // Add the new motor
+        getTab()
+            .add(name, motor)
+            .withWidget(BuiltInWidgets.kMotorController);
     }
 
     public void addBoolean(String name, BooleanSupplier value){
@@ -58,13 +67,19 @@ public class TestLayout extends AbstractLayout {
     }
 
     public PeriodicNotifier<Double> addSlider(String name, double value, double min, double max) {
-        GenericEntry entry = getTab().add(name, value)
+        PeriodicNotifier<Double> notifier;
+        System.out.println(sliderMap);
+        if (!sliderMap.containsKey(name)) {
+            GenericEntry entry = getTab().add(name, value)
                 .withWidget(BuiltInWidgets.kNumberSlider)
                 .withProperties(Map.of("min", min, "max", max))
                 .getEntry();
 
-        var notifier = new PeriodicNotifier<Double>();
-        sliderMap.put(entry, notifier);
+            notifier = new PeriodicNotifier<Double>();
+            sliderMap.put(entry, notifier);
+        } else {
+            notifier = sliderMap.get(name);
+        }
         return notifier;
     }
 
@@ -96,5 +111,9 @@ public class TestLayout extends AbstractLayout {
     @Override
     public ShuffleboardTab getTab() {
         return Shuffleboard.getTab("Test");
+    }
+
+    public void removeComponent(String name) {
+        getTab().getComponents().removeIf(component -> component.getTitle().equals(name));  // Old motor name
     }
 }

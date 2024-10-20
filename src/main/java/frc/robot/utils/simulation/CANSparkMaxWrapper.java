@@ -37,6 +37,8 @@ public class CANSparkMaxWrapper {
     public void close() {
         if(RobotBase.isReal()){
             motor.close();
+        } else {
+            simMotor.close();
         }
     }
 }

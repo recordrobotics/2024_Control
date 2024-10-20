@@ -30,6 +30,10 @@ public class CANSparkMaxSim {
     public double get() {
         return currentSpeed;
     }
+
+    public void close() {
+        //motor.close();//TODO
+    }
 }
 
 
