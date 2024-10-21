@@ -7,8 +7,6 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Acquisition;
 import static org.junit.jupiter.api.Assertions.*;
 
-import javax.xml.namespace.QName;
-
 import org.junit.jupiter.api.AfterEach;
 
 public class AcquisitionTest {
