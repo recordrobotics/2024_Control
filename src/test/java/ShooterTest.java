@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import frc.robot.subsystems.Shooter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import frc.robot.shuffleboard.ShuffleboardUI;
 import static org.junit.jupiter.api.Assertions.*;
 
 
