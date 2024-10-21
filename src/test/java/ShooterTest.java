@@ -70,7 +70,7 @@ public class ShooterTest {
 
     public void testLeftPositiveRightNegative() {
         shooter.toggle(1, -1);
-        assertSpeed(1, -1, "Left forward right backward failed");
+        assertSpeed(1, -1, "Left forward right backward");
     }
 
     @Test
