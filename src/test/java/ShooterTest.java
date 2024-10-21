@@ -21,6 +21,7 @@ public class ShooterTest {
     @AfterEach
     public void shutdown() throws Exception {
         shooter.close();
+        ShuffleboardUI.restartShuffleboard();
     }
 
     private void assertSpeed(double speed, String msg) {
