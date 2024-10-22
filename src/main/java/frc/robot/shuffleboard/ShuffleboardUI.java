@@ -4,10 +4,4 @@ public class ShuffleboardUI {
     public static AutonomousLayout Autonomous = new AutonomousLayout();
     public static OverviewLayout Overview = new OverviewLayout();
     public static TestLayout Test = new TestLayout();
-
-    public static void restartShuffleboard() {
-        Autonomous = new AutonomousLayout();
-        Overview = new OverviewLayout();
-        Test = new TestLayout();
-    }
 }
