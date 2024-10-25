@@ -13,14 +13,17 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Shooter extends KillableSubsystem {
 
-    public CANSparkMaxWrapper flywheelL = new CANSparkMaxWrapper( // initialize left flywheel
-        RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID,
-        MotorType.kBrushless);
-    public CANSparkMaxWrapper flywheelR = new CANSparkMaxWrapper( // initialize right flywheel
-        RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID,
-        MotorType.kBrushless);
+    public CANSparkMaxWrapper flywheelL;
+    public CANSparkMaxWrapper flywheelR;
 
     public Shooter() {
+        flywheelL = new CANSparkMaxWrapper( // initialize left flywheel
+            RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID,
+            MotorType.kBrushless);
+        flywheelR = new CANSparkMaxWrapper( // initialize right flywheel
+            RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID,
+            MotorType.kBrushless);
+        
         toggle(ShooterStates.OFF); // initialize as off
         ShuffleboardUI.Test
             .addSlider("Flywheel Left", flywheelL.get(), -1, 1) // LEFT set slider to show value between -1 and 1
