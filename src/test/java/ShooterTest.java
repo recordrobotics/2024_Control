@@ -14,7 +14,7 @@ public class ShooterTest {
 
     @BeforeEach
     public void setup() {
-        //assert HAL.initialize(500, 0); // initialize the HAL, crash if failed
+        assert HAL.initialize(500, 0); // initialize the HAL, crash if failed
         shooter = new Shooter();
     }
 
