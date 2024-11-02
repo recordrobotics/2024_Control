@@ -11,6 +11,7 @@ import frc.robot.commands.auto.*;
 import frc.robot.commands.manual.*;
 import frc.robot.commands.notes.*;
 import frc.robot.control.*;
+import frc.robot.shuffleboard.AbstractLayout;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.*;
 import frc.robot.utils.AutoPath;
@@ -70,6 +71,21 @@ public class RobotContainer {
 
     // Bindings and Teleop
     configureButtonBindings();
+
+    // Setup other dashboards
+    setup_test_dashboard();
+  }
+
+  private void setup_test_dashboard() {
+    // TODO move the rest of dashboard setup here and out of substem classes.
+    // This makes sure we don't accidentally pull in the dashboards while running tests.
+
+    ShuffleboardUI.Test
+        .addSlider("Flywheel Left", _shooter.flywheelL.get(), -1, 1) // LEFT set slider to show value between -1 and 1
+        .subscribe(_shooter.flywheelL::set); // LEFT if the slider is moved, call flywheelL.set
+    ShuffleboardUI.Test
+        .addSlider("Flywheel Right", _shooter.flywheelR.get(), -1, 1) // RIGHT set slider to show value between -1 and 1
+        .subscribe(_shooter.flywheelR::set); // RIGHT if the slider is moved, call flywheelR.set
   }
 
   public void teleopInit() {

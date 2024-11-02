@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import frc.robot.RobotMap;
 import frc.robot.Constants;
+import frc.robot.shuffleboard.AbstractLayout;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.simulation.CANSparkMaxWrapper;
 
@@ -25,12 +26,6 @@ public class Shooter extends KillableSubsystem {
             MotorType.kBrushless);
         
         toggle(ShooterStates.OFF); // initialize as off
-        ShuffleboardUI.Test
-            .addSlider("Flywheel Left", flywheelL.get(), -1, 1) // LEFT set slider to show value between -1 and 1
-            .subscribe(flywheelL::set); // LEFT if the slider is moved, call flywheelL.set
-        ShuffleboardUI.Test
-            .addSlider("Flywheel Right", flywheelR.get(), -1, 1) // RIGHT set slider to show value between -1 and 1
-            .subscribe(flywheelR::set); // RIGHT if the slider is moved, call flywheelR.set
     }
 
     public enum ShooterStates {
