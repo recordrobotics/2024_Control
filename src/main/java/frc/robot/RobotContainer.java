@@ -11,7 +11,6 @@ import frc.robot.commands.auto.*;
 import frc.robot.commands.manual.*;
 import frc.robot.commands.notes.*;
 import frc.robot.control.*;
-import frc.robot.shuffleboard.AbstractLayout;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.*;
 import frc.robot.utils.AutoPath;
