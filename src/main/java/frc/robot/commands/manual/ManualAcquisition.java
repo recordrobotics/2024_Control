@@ -5,6 +5,7 @@ import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Acquisition.AcquisitionStates;
 import frc.robot.subsystems.Channel.ChannelStates;
 
+@SuppressWarnings("unused")
 public class ManualAcquisition extends Command {
 
   private static Acquisition _acquisition;

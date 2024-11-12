@@ -42,5 +42,10 @@ public class Crashbar extends KillableSubsystem {
         toggle(CrashbarStates.OFF);
     }
 
-    
+    /**
+     * frees up all hardware allocations
+     */
+    public void close() {
+        solenoid.close();
+    }
 }
