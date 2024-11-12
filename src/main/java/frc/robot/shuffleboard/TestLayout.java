@@ -13,8 +13,10 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 
 public class TestLayout extends AbstractLayout {
 
@@ -38,26 +40,36 @@ public class TestLayout extends AbstractLayout {
     
     private final Map<GenericEntry, PeriodicNotifier<Double>> sliderMap = new HashMap<>();
     private final Map<GenericEntry, PeriodicNotifier<Rotation2d>> headingMap = new HashMap<>();
-    private final Map<String, MotorController> motorMap = new HashMap<>();
+    private final Map<String, ComplexWidget> motorMap = new HashMap<>();
 
     public <T extends MotorController & Sendable> void addMotor(String name, T motor) {
-        // Check if the motor is already in the map
-        if (!motorMap.containsKey(name)) {
-            motorMap.put(name, motor);
-            getTab()
+        var existingWidget = getTab().getComponents().stream().filter((v)->v.getTitle().equals(name)).findFirst();
+        if(!existingWidget.isPresent()){
+            var entry = getTab()
                 .add(name, motor)
                 .withWidget(BuiltInWidgets.kMotorController);
-        } else {
-            // Optional: Log a message or handle the case where the motor is already present
-            // System.out.println("Motor with name '" + name + "' is already added.");
+            motorMap.put(name, entry);
         }
     }
 
     public void addBoolean(String name, BooleanSupplier value){
-        getTab().addBoolean(name, value);
+        var existingWidget = getTab().getComponents().stream().filter((v)->v.getTitle().equals(name)).findFirst();
+        if(!existingWidget.isPresent()){
+            getTab().addBoolean(name, value);
+        } else {
+            var entry = ((SimpleWidget)existingWidget.get()).getEntry();
+            entry.setValue(value);
+        }
     }
 
     public PeriodicNotifier<Double> addSlider(String name, double value, double min, double max) {
+        var existingWidget = getTab().getComponents().stream().filter((v)->v.getTitle().equals(name)).findFirst();
+        if(existingWidget.isPresent()){
+            var entry = ((SimpleWidget)existingWidget.get()).getEntry();
+            //entry.setDouble(value); <- Ostrich algorithm (look it up)
+            return sliderMap.get(entry);
+        }
+
         GenericEntry entry = getTab().add(name, value)
                 .withWidget(BuiltInWidgets.kNumberSlider)
                 .withProperties(Map.of("min", min, "max", max))
@@ -69,6 +81,13 @@ public class TestLayout extends AbstractLayout {
     }
 
     public PeriodicNotifier<Rotation2d> addHeading(String name, Rotation2d rotation) {
+        var existingWidget = getTab().getComponents().stream().filter((v)->v.getTitle().equals(name)).findFirst();
+        if(existingWidget.isPresent()){
+            var entry = ((SimpleWidget)existingWidget.get()).getEntry();
+            entry.setDouble(rotation.getRadians());
+            return headingMap.get(entry);
+        }
+
         GenericEntry entry = getTab().add(name, rotation.getRadians())
                 .withWidget(BuiltInWidgets.kDial)
                 .withProperties(Map.of("min", 0, "max", Math.PI * 2))
@@ -80,7 +99,13 @@ public class TestLayout extends AbstractLayout {
     }
 
     public void addNumber(String name, DoubleSupplier value){
-        getTab().addDouble(name, value);
+        var existingWidget = getTab().getComponents().stream().filter((v)->v.getTitle().equals(name)).findFirst();
+        if(!existingWidget.isPresent()){
+            getTab().addDouble(name, value);
+        } else {
+            var entry = ((SimpleWidget)existingWidget.get()).getEntry();
+            entry.setValue(value);
+        }
     }
     
     public void testPeriodic() {
