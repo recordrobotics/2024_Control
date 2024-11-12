@@ -6,8 +6,6 @@ package frc.robot.subsystems;
 
 import frc.robot.RobotMap;
 import frc.robot.Constants;
-import frc.robot.shuffleboard.AbstractLayout;
-import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.simulation.CANSparkMaxWrapper;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
