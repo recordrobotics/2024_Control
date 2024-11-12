@@ -89,6 +89,8 @@ public class RobotContainer {
     ShuffleboardUI.Overview.setAcquisition(() -> acquisition.acquisitionMotor.get() != 0);
     ShuffleboardUI.Autonomous.setAcquisition(() -> acquisition.acquisitionMotor.get() != 0);
     ShuffleboardUI.Test.addMotor("Acquisition", acquisition.acquisitionMotor);
+
+    ShuffleboardUI.Test.addMotor("Channel", channel.channelMotor);
   }
 
   public void teleopInit() {

@@ -2,15 +2,13 @@ package frc.robot.subsystems;
 
 import frc.robot.RobotMap;
 import frc.robot.Constants;
-import frc.robot.shuffleboard.ShuffleboardUI;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 public class Channel extends KillableSubsystem {
-    private Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);
+    public Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);
 
     public Channel() {
         toggle(ChannelStates.OFF);
-        ShuffleboardUI.Test.addMotor("Channel", channelMotor);
     }
 
     public enum ChannelStates {
