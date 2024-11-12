@@ -19,12 +19,12 @@ public class Shooter extends KillableSubsystem {
 
     public Shooter() {
         flywheelL = new CANSparkMaxWrapper( // initialize left flywheel
-            RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID,
-            MotorType.kBrushless);
+                RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID,
+                MotorType.kBrushless);
         flywheelR = new CANSparkMaxWrapper( // initialize right flywheel
-            RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID,
-            MotorType.kBrushless);
-        
+                RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID,
+                MotorType.kBrushless);
+
         toggle(ShooterStates.OFF); // initialize as off
     }
 
