@@ -85,6 +85,10 @@ public class RobotContainer {
     ShuffleboardUI.Test
         .addSlider("Flywheel Right", shooter.flywheelR.get(), -1, 1) // RIGHT set slider to show value between -1 and 1
         .subscribe(shooter.flywheelR::set); // RIGHT if the slider is moved, call flywheelR.set
+        
+    ShuffleboardUI.Overview.setAcquisition(() -> acquisition.acquisitionMotor.get() != 0);
+    ShuffleboardUI.Autonomous.setAcquisition(() -> acquisition.acquisitionMotor.get() != 0);
+    ShuffleboardUI.Test.addMotor("Acquisition", acquisition.acquisitionMotor);
   }
 
   public void teleopInit() {
