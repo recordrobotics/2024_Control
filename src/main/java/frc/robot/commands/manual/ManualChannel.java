@@ -1,4 +1,5 @@
 package frc.robot.commands.manual;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Channel;
 import frc.robot.subsystems.Channel.ChannelStates;
@@ -7,7 +8,7 @@ public class ManualChannel extends Command {
 
   private static Channel _channel;
 
-  public ManualChannel (Channel channel) {
+  public ManualChannel(Channel channel) {
     _channel = channel;
     addRequirements(channel);
   }
@@ -20,8 +21,7 @@ public class ManualChannel extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

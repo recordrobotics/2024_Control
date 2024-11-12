@@ -17,12 +17,9 @@ import frc.robot.subsystems.*;
 import frc.robot.utils.AutoPath;
 
 /**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
@@ -36,6 +33,7 @@ public class RobotContainer {
   private final Channel channel;
   private final Photosensor photosensor;
   private final PCMCompressor compressor;
+
   @SuppressWarnings("unused")
   private final Limelight limelight;
 
@@ -43,9 +41,7 @@ public class RobotContainer {
   private final AutoPath autoPath;
   private Command autoCommand;
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
     // Init subsystems
@@ -64,9 +60,7 @@ public class RobotContainer {
 
     // Sets up Control scheme chooser
     ShuffleboardUI.Overview.addControls(
-        new JoystickXbox(2, 0),
-        new DoubleXbox(0, 1),
-        new DoubleXboxSpin(0, 1));
+        new JoystickXbox(2, 0), new DoubleXbox(0, 1), new DoubleXboxSpin(0, 1));
 
     // Bindings and Teleop
     configureButtonBindings();
@@ -78,18 +72,17 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by
+   * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-   * it to a {@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
 
     // Command to kill robot
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getKillAuto())
-        .whileTrue(new KillSpecified(drivetrain, acquisition, channel, shooter, crashbar, climbers));
+        .whileTrue(
+            new KillSpecified(drivetrain, acquisition, channel, shooter, crashbar, climbers));
 
     // Command to kill compressor
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getKillCompressor())
