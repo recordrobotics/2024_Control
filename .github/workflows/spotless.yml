@@ -15,4 +15,4 @@ jobs:
           distribution: 'zulu'
           java-version: 17
       - run: chmod +x ./gradlew
-      - run: ./gradlew spotlessCheck
+      - run: ./gradlew :spotlessApply
