@@ -122,7 +122,7 @@ spotless {
         endWithNewline()
     }
     groovyGradle {
-        target fileTree('.') {
+    target fileTree('.') {
             include '**/*.gradle'
             exclude '**/build/**', '**/build-*/**'
         }
