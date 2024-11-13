@@ -85,10 +85,8 @@ public class SwerveModule {
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelTurnOffset());
 
-    // Sets up shuffleboard
     driveMotorChannel = m.driveMotorChannel;
     turningMotorChannel = m.turningMotorChannel;
-    setupShuffleboard(driveMotorChannel, turningMotorChannel);
   }
 
   /**
@@ -220,16 +218,6 @@ public class SwerveModule {
   public void stop() {
     m_driveMotor.setVoltage(0); // Feed forward runs on voltage control
     m_turningMotor.set(0); // PID uses -1 to 1 speed range
-  }
-
-  // SHUFFLEBOARD STUFF
-
-  private void setupShuffleboard(double driveMotorChannel, double turningMotorChannel) {
-    ShuffleboardUI.Test.addMotor("Drive " + driveMotorChannel, m_driveMotor);
-    ShuffleboardUI.Test.addMotor("Turn " + turningMotorChannel, m_turningMotor);
-    ShuffleboardUI.Test.addNumber(
-        "Encoder " + absoluteTurningMotorEncoder.getSourceChannel(),
-        absoluteTurningMotorEncoder::getAbsolutePosition);
   }
 
   /** frees up all hardware allocations */
