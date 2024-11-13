@@ -101,6 +101,9 @@ public class RobotContainer {
 
         ShuffleboardUI.Overview.setCompressor(compressor::isEnabled);
         ShuffleboardUI.Overview.setCompressorManuallyDisabled(compressor::isDisabledManually);
+        
+        ShuffleboardUI.Overview.setHasNote(photosensor::getDebouncedValue); // set up shuffleboard HasNote for tele-op
+        ShuffleboardUI.Autonomous.setHasNote(photosensor::getDebouncedValue); // set up shuffleboard HasNote for autonomous
   }
 
   public void teleopInit() {
