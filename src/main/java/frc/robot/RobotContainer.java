@@ -78,13 +78,6 @@ public class RobotContainer {
     // TODO move the rest of dashboard setup here and out of subsystem classes.
     // This makes sure we don't accidentally pull in the dashboards (and therefore other subsystems) while running tests.
 
-    ShuffleboardUI.Test
-        .addSlider("Flywheel Left", shooter.flywheelL.get(), -1, 1) // LEFT set slider to show value between -1 and 1
-        .subscribe(shooter.flywheelL::set); // LEFT if the slider is moved, call flywheelL.set
-    ShuffleboardUI.Test
-        .addSlider("Flywheel Right", shooter.flywheelR.get(), -1, 1) // RIGHT set slider to show value between -1 and 1
-        .subscribe(shooter.flywheelR::set); // RIGHT if the slider is moved, call flywheelR.set
-        
     ShuffleboardUI.Overview.setAcquisition(() -> acquisition.acquisitionMotor.get() != 0);
     ShuffleboardUI.Autonomous.setAcquisition(() -> acquisition.acquisitionMotor.get() != 0);
     ShuffleboardUI.Test.addMotor("Acquisition", acquisition.acquisitionMotor);
@@ -104,6 +97,15 @@ public class RobotContainer {
         
         ShuffleboardUI.Overview.setHasNote(photosensor::getDebouncedValue); // set up shuffleboard HasNote for tele-op
         ShuffleboardUI.Autonomous.setHasNote(photosensor::getDebouncedValue); // set up shuffleboard HasNote for autonomous
+    
+    ShuffleboardUI.Test
+        .addSlider("Flywheel Left", shooter.flywheelL.get(), -1, 1) // LEFT set slider to show value between -1 and 1
+        .subscribe(shooter.flywheelL::set); // LEFT if the slider is moved, call flywheelL.set
+    ShuffleboardUI.Test
+        .addSlider("Flywheel Right", shooter.flywheelR.get(), -1, 1) // RIGHT set slider to show value between -1 and 1
+        .subscribe(shooter.flywheelR::set); // RIGHT if the slider is moved, call flywheelR.set
+        
+    
   }
 
   public void teleopInit() {
