@@ -36,7 +36,6 @@ public class RobotContainer {
   private final Channel channel;
   private final Photosensor photosensor;
   private final PCMCompressor compressor;
-  @SuppressWarnings("unused")
   private final Limelight limelight;
 
   // Autonomous
@@ -91,6 +90,14 @@ public class RobotContainer {
     ShuffleboardUI.Test.addMotor("Acquisition", acquisition.acquisitionMotor);
 
     ShuffleboardUI.Test.addMotor("Channel", channel.channelMotor);
+
+    ShuffleboardUI.Overview.setTagNum(()->limelight.numTags);
+    ShuffleboardUI.Overview.setConfidence(()->limelight.confidence);
+    ShuffleboardUI.Overview.setHasVision(()->limelight.hasVision);
+    ShuffleboardUI.Overview.setLimelightConnected(()->limelight.limelightConnected);
+
+		ShuffleboardUI.Overview.setNavSensor(NavSensor._nav::isConnected);
+		ShuffleboardUI.Test.addBoolean("Nav Sensor", NavSensor._nav::isConnected);
   }
 
   public void teleopInit() {

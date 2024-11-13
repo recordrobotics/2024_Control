@@ -17,7 +17,7 @@ import frc.robot.shuffleboard.ShuffleboardUI;
 public class Drivetrain extends KillableSubsystem {
 
         // Creates Nav object
-        private final NavSensor _nav = new NavSensor();
+        public final NavSensor _nav = new NavSensor();
 
         // Creates swerve module objects
         private final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
