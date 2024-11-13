@@ -75,8 +75,8 @@ public class RobotContainer {
   }
 
   private void setuptestdashboard() {
-    // TODO move the rest of dashboard setup here and out of substem classes.
-    // This makes sure we don't accidentally pull in the dashboards while running tests.
+    // TODO move the rest of dashboard setup here and out of subsystem classes.
+    // This makes sure we don't accidentally pull in the dashboards (and therefore other subsystems) while running tests.
 
     ShuffleboardUI.Test
         .addSlider("Flywheel Left", shooter.flywheelL.get(), -1, 1) // LEFT set slider to show value between -1 and 1

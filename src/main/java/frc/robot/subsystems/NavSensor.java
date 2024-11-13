@@ -36,8 +36,6 @@ public class NavSensor extends SubsystemBase {
 	static {
 		_nav.reset();
 		_nav.resetDisplacement(); // Technically not necessary but whatever
-		ShuffleboardUI.Overview.setNavSensor(_nav::isConnected);
-		ShuffleboardUI.Test.addBoolean("Nav Sensor", _nav::isConnected);
 	}
 
 	// Stores the reference angle as whatever the angle is currently measured to be
