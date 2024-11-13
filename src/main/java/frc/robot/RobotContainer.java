@@ -69,6 +69,7 @@ public class RobotContainer {
 
   private void setuptestdashboard() {
     // TODO move the rest of dashboard setup here and out of subsystem classes.
+    // TODO the rest of the dashboard setup is Drivetrain, Limelight, and SwerveModule
     // This makes sure we don't accidentally pull in the dashboards (and therefore other subsystems)
     // while running tests.
 
