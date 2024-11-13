@@ -15,17 +15,27 @@ public class PCMCompressor extends SubsystemBase {
   }
 
   public void disable() {
-    compressor.disable();
-    isDisabledManually = true;
+    try {
+      compressor.disable();
+      isDisabledManually = true;
+    } catch (Exception e) { // Prevent disconnected compressor from crashing code
+    }
   }
 
   public void enable() {
-    compressor.enableDigital();
-    isDisabledManually = false;
+    try {
+      compressor.enableDigital();
+      isDisabledManually = false;
+    } catch (Exception e) { // Prevent disconnected compressor from crashing code
+    }
   }
 
   public double getCurrent() {
-    return compressor.getCurrent();
+    try {
+      return compressor.getCurrent();
+    } catch (Exception e) { // Prevent disconnected compressor from crashing code
+      return 0.0; // TODO should this be -1.0, 0.0, or NaN?
+    }
   }
 
   public boolean isEnabled() {
@@ -41,7 +51,11 @@ public class PCMCompressor extends SubsystemBase {
   }
 
   public boolean isFull() {
-    return compressor.getPressureSwitchValue();
+    try {
+      return compressor.getPressureSwitchValue();
+    } catch (Exception e) { // Prevent disconnected compressor from crashing code
+      return false; // TODO what shoud this be?
+    }
   }
 
   public boolean isPumping() {
