@@ -98,6 +98,9 @@ public class RobotContainer {
 
 		ShuffleboardUI.Overview.setNavSensor(NavSensor._nav::isConnected);
 		ShuffleboardUI.Test.addBoolean("Nav Sensor", NavSensor._nav::isConnected);
+
+        ShuffleboardUI.Overview.setCompressor(compressor::isEnabled);
+        ShuffleboardUI.Overview.setCompressorManuallyDisabled(compressor::isDisabledManually);
   }
 
   public void teleopInit() {
