@@ -17,12 +17,9 @@ import frc.robot.subsystems.*;
 import frc.robot.utils.AutoPath;
 
 /**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
@@ -42,9 +39,7 @@ public class RobotContainer {
   private final AutoPath autoPath;
   private Command autoCommand;
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
     // Init subsystems
@@ -63,9 +58,7 @@ public class RobotContainer {
 
     // Sets up Control scheme chooser
     ShuffleboardUI.Overview.addControls(
-        new JoystickXbox(2, 0),
-        new DoubleXbox(0, 1),
-        new DoubleXboxSpin(0, 1));
+        new JoystickXbox(2, 0), new DoubleXbox(0, 1), new DoubleXboxSpin(0, 1));
 
     // Bindings and Teleop
     configureButtonBindings();
@@ -76,7 +69,8 @@ public class RobotContainer {
 
   private void setuptestdashboard() {
     // TODO move the rest of dashboard setup here and out of subsystem classes.
-    // This makes sure we don't accidentally pull in the dashboards (and therefore other subsystems) while running tests.
+    // This makes sure we don't accidentally pull in the dashboards (and therefore other subsystems)
+    // while running tests.
 
     ShuffleboardUI.Overview.setAcquisition(() -> acquisition.acquisitionMotor.get() != 0);
     ShuffleboardUI.Autonomous.setAcquisition(() -> acquisition.acquisitionMotor.get() != 0);
@@ -84,28 +78,34 @@ public class RobotContainer {
 
     ShuffleboardUI.Test.addMotor("Channel", channel.channelMotor);
 
-    ShuffleboardUI.Overview.setTagNum(()->limelight.numTags);
-    ShuffleboardUI.Overview.setConfidence(()->limelight.confidence);
-    ShuffleboardUI.Overview.setHasVision(()->limelight.hasVision);
-    ShuffleboardUI.Overview.setLimelightConnected(()->limelight.limelightConnected);
+    ShuffleboardUI.Overview.setTagNum(() -> limelight.numTags);
+    ShuffleboardUI.Overview.setConfidence(() -> limelight.confidence);
+    ShuffleboardUI.Overview.setHasVision(() -> limelight.hasVision);
+    ShuffleboardUI.Overview.setLimelightConnected(() -> limelight.limelightConnected);
 
-		ShuffleboardUI.Overview.setNavSensor(NavSensor._nav::isConnected);
-		ShuffleboardUI.Test.addBoolean("Nav Sensor", NavSensor._nav::isConnected);
+    ShuffleboardUI.Overview.setNavSensor(NavSensor._nav::isConnected);
+    ShuffleboardUI.Test.addBoolean("Nav Sensor", NavSensor._nav::isConnected);
 
-        ShuffleboardUI.Overview.setCompressor(compressor::isEnabled);
-        ShuffleboardUI.Overview.setCompressorManuallyDisabled(compressor::isDisabledManually);
-        
-        ShuffleboardUI.Overview.setHasNote(photosensor::getDebouncedValue); // set up shuffleboard HasNote for tele-op
-        ShuffleboardUI.Autonomous.setHasNote(photosensor::getDebouncedValue); // set up shuffleboard HasNote for autonomous
-    
-    ShuffleboardUI.Test
-        .addSlider("Flywheel Left", shooter.flywheelL.get(), -1, 1) // LEFT set slider to show value between -1 and 1
+    ShuffleboardUI.Overview.setCompressor(compressor::isEnabled);
+    ShuffleboardUI.Overview.setCompressorManuallyDisabled(compressor::isDisabledManually);
+
+    ShuffleboardUI.Overview.setHasNote(
+        photosensor::getDebouncedValue); // set up shuffleboard HasNote for tele-op
+    ShuffleboardUI.Autonomous.setHasNote(
+        photosensor::getDebouncedValue); // set up shuffleboard HasNote for autonomous
+
+    ShuffleboardUI.Test.addSlider(
+            "Flywheel Left",
+            shooter.flywheelL.get(),
+            -1,
+            1) // LEFT set slider to show value between -1 and 1
         .subscribe(shooter.flywheelL::set); // LEFT if the slider is moved, call flywheelL.set
-    ShuffleboardUI.Test
-        .addSlider("Flywheel Right", shooter.flywheelR.get(), -1, 1) // RIGHT set slider to show value between -1 and 1
+    ShuffleboardUI.Test.addSlider(
+            "Flywheel Right",
+            shooter.flywheelR.get(),
+            -1,
+            1) // RIGHT set slider to show value between -1 and 1
         .subscribe(shooter.flywheelR::set); // RIGHT if the slider is moved, call flywheelR.set
-        
-    
   }
 
   public void teleopInit() {
@@ -114,18 +114,17 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by
+   * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-   * it to a {@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
 
     // Command to kill robot
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getKillAuto())
-        .whileTrue(new KillSpecified(drivetrain, acquisition, channel, shooter, crashbar, climbers));
+        .whileTrue(
+            new KillSpecified(drivetrain, acquisition, channel, shooter, crashbar, climbers));
 
     // Command to kill compressor
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getKillCompressor())
@@ -177,18 +176,16 @@ public class RobotContainer {
     ShuffleboardUI.Test.testPeriodic();
   }
 
-  /**
-   * frees up all hardware allocations
-   */
+  /** frees up all hardware allocations */
   public void close() {
-      drivetrain.close();
-      channel.close();
-      acquisition.close();
-      shooter.close();
-      crashbar.close();
-      photosensor.close();
-      climbers.close();
-      compressor.close();
-      limelight.close();
+    drivetrain.close();
+    channel.close();
+    acquisition.close();
+    shooter.close();
+    crashbar.close();
+    photosensor.close();
+    climbers.close();
+    compressor.close();
+    limelight.close();
   }
 }

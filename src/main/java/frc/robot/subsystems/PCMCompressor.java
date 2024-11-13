@@ -5,54 +5,50 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PCMCompressor extends SubsystemBase {
-    private static final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-    private static boolean isDisabledManually = false;
+  private static final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+  private static boolean isDisabledManually = false;
 
-    public PCMCompressor() {
-    }
+  public PCMCompressor() {}
 
-    public void disable() {
-        compressor.disable();
-        isDisabledManually = true;
-    }
+  public void disable() {
+    compressor.disable();
+    isDisabledManually = true;
+  }
 
-    public void enable() {
-        compressor.enableDigital();
-        isDisabledManually = false;
-    }
+  public void enable() {
+    compressor.enableDigital();
+    isDisabledManually = false;
+  }
 
-    public double getCurrent() {
-        return compressor.getCurrent();
-    }
+  public double getCurrent() {
+    return compressor.getCurrent();
+  }
 
-    public boolean isEnabled() {
-        try {
-            return compressor.isEnabled();
-        } catch (Exception e) { // Prevent disconnected compressor from crashing code
-            return false;
-        }
+  public boolean isEnabled() {
+    try {
+      return compressor.isEnabled();
+    } catch (Exception e) { // Prevent disconnected compressor from crashing code
+      return false;
     }
+  }
 
-    public boolean isDisabledManually() {
-        return isDisabledManually;
-    }
+  public boolean isDisabledManually() {
+    return isDisabledManually;
+  }
 
-    public boolean isFull() {
-        return compressor.getPressureSwitchValue();
-    }
+  public boolean isFull() {
+    return compressor.getPressureSwitchValue();
+  }
 
-    public boolean isPumping() {
-        return this.isFull() && this.isEnabled() && !this.isDisabledManually();
-    }
+  public boolean isPumping() {
+    return this.isFull() && this.isEnabled() && !this.isDisabledManually();
+  }
 
-    @Override
-    public void periodic() {
-    }
+  @Override
+  public void periodic() {}
 
-    /**
-     * frees up all hardware allocations
-     */
-    public void close() {
-        compressor.close();
-    }
+  /** frees up all hardware allocations */
+  public void close() {
+    compressor.close();
+  }
 }
