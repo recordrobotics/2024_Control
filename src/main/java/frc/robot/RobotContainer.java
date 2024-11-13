@@ -106,6 +106,17 @@ public class RobotContainer {
             -1,
             1) // RIGHT set slider to show value between -1 and 1
         .subscribe(shooter.flywheelR::set); // RIGHT if the slider is moved, call flywheelR.set
+
+    SwerveModule[] modules = {
+      drivetrain.m_frontLeft, drivetrain.m_frontRight, drivetrain.m_backLeft, drivetrain.m_backRight
+    };
+    for (SwerveModule module : modules) {
+      ShuffleboardUI.Test.addMotor("Drive " + module.driveMotorChannel, module.m_driveMotor);
+      ShuffleboardUI.Test.addMotor("Turn " + module.turningMotorChannel, module.m_turningMotor);
+      ShuffleboardUI.Test.addNumber(
+          "Encoder " + module.absoluteTurningMotorEncoder.getSourceChannel(),
+          module.absoluteTurningMotorEncoder::getAbsolutePosition);
+    }
   }
 
   public void teleopInit() {

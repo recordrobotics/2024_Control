@@ -20,10 +20,10 @@ public class Drivetrain extends KillableSubsystem {
   public final NavSensor _nav = new NavSensor();
 
   // Creates swerve module objects
-  private final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
-  private final SwerveModule m_frontRight = new SwerveModule(Constants.Swerve.frontRightConstants);
-  private final SwerveModule m_backLeft = new SwerveModule(Constants.Swerve.backLeftConstants);
-  private final SwerveModule m_backRight = new SwerveModule(Constants.Swerve.backRightConstants);
+  public final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
+  public final SwerveModule m_frontRight = new SwerveModule(Constants.Swerve.frontRightConstants);
+  public final SwerveModule m_backLeft = new SwerveModule(Constants.Swerve.backLeftConstants);
+  public final SwerveModule m_backRight = new SwerveModule(Constants.Swerve.backRightConstants);
 
   // Creates swerve kinematics
   private final SwerveDriveKinematics m_kinematics =
