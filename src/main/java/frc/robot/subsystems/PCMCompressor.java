@@ -45,7 +45,7 @@ public class PCMCompressor extends SubsystemBase {
   }
 
   public boolean isPumping() {
-    return !this.isFull() && this.isEnabled() && !this.isDisabledManually();
+    return compressor.isEnabled();
   }
 
   @Override
