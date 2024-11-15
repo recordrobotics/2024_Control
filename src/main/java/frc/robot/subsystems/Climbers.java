@@ -17,7 +17,7 @@ public class Climbers extends KillableSubsystem {
     toggle(ClimberStates.OFF);
   }
 
-  public enum ClimberStates { // TODO should this be static
+  public enum ClimberStates {
     UP,
     DOWN,
     OFF;
