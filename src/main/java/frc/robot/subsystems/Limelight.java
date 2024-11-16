@@ -17,10 +17,10 @@ public class Limelight extends SubsystemBase {
   private boolean hasVision = false;
   private boolean limelightConnected = false;
 
-  private Drivetrain drivetrain;
+  private PoseTracker poseTracker;
 
-  public Limelight(Drivetrain drivetrain) {
-    this.drivetrain = drivetrain;
+  public Limelight(PoseTracker poseTracker) {
+    this.poseTracker = poseTracker;
 
     LimelightHelpers.setPipelineIndex(name, 0);
     ShuffleboardUI.Overview.setTagNum(() -> numTags);
@@ -34,7 +34,7 @@ public class Limelight extends SubsystemBase {
     confidence = 0;
     LimelightHelpers.SetRobotOrientation(
         name,
-        Drivetrain.poseFilter.getEstimatedPosition().getRotation().getDegrees(),
+        poseTracker.getEstimatedPosition().getRotation().getDegrees(),
         0,
         0,
         0,
@@ -74,7 +74,7 @@ public class Limelight extends SubsystemBase {
         && measurement
                 .pose
                 .getTranslation()
-                .getDistance(Drivetrain.poseFilter.getEstimatedPosition().getTranslation())
+                .getDistance(poseTracker.getEstimatedPosition().getTranslation())
             > 2) {
       confidence = 0;
     }
@@ -86,7 +86,7 @@ public class Limelight extends SubsystemBase {
     if (confidence > 0) {
       hasVision = true;
       ShuffleboardUI.Autonomous.setVisionPose(estimate.pose);
-      drivetrain.addVisionMeasurement(estimate, confidence);
+      poseTracker.addVisionMeasurement(estimate, confidence);
     } else {
       hasVision = false;
       ShuffleboardUI.Autonomous.setVisionPose(new Pose2d());

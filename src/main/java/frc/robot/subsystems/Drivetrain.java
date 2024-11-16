@@ -16,9 +16,6 @@ import frc.robot.utils.DriveCommandData;
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends KillableSubsystem {
 
-  // Creates Nav object
-  private final NavSensor _nav = new NavSensor();
-
   // Creates swerve module objects
   private final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
   private final SwerveModule m_frontRight = new SwerveModule(Constants.Swerve.frontRightConstants);
@@ -33,24 +30,19 @@ public class Drivetrain extends KillableSubsystem {
           Constants.Swerve.backLeftConstants.wheelLocation,
           Constants.Swerve.backRightConstants.wheelLocation);
 
-  // Creates swerve post estimation filter
-  public static SwerveDrivePoseEstimator poseFilter;
+  PoseTracker poseTracker;
 
   // Init drivetrain
   public Drivetrain() {
-    _nav.resetAngleAdjustment();
-
-    poseFilter =
-        new SwerveDrivePoseEstimator(
-            m_kinematics,
-            _nav.getAdjustedAngle(),
-            new SwerveModulePosition[] {
-              m_frontLeft.getModulePosition(),
-              m_frontRight.getModulePosition(),
-              m_backLeft.getModulePosition(),
-              m_backRight.getModulePosition()
-            },
-            ShuffleboardUI.Autonomous.getStartingLocation().getPose());
+    poseTracker = new PoseTracker(
+        m_kinematics,
+        new SwerveModulePosition[] {
+            m_frontLeft.getModulePosition(),
+            m_frontRight.getModulePosition(),
+            m_backLeft.getModulePosition(),
+            m_backRight.getModulePosition()
+        },
+        ShuffleboardUI.Autonomous.getStartingLocation().getPose());
   }
 
   /**
@@ -77,7 +69,7 @@ public class Drivetrain extends KillableSubsystem {
         m_kinematics.toSwerveModuleStates(
             fieldRelative
                 ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, rot, poseFilter.getEstimatedPosition().getRotation())
+                    xSpeed, ySpeed, rot, poseTracker.getEstimatedPosition().getRotation())
                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
     // Desaturates wheel speeds
@@ -102,17 +94,13 @@ public class Drivetrain extends KillableSubsystem {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("gyro", _nav.getAdjustedAngle().getDegrees());
-    SmartDashboard.putNumber("pose", poseFilter.getEstimatedPosition().getRotation().getDegrees());
-    poseFilter.update(
-        _nav.getAdjustedAngle(),
+    poseTracker.update(
         new SwerveModulePosition[] {
-          m_frontLeft.getModulePosition(),
-          m_frontRight.getModulePosition(),
-          m_backLeft.getModulePosition(),
-          m_backRight.getModulePosition()
+            m_frontLeft.getModulePosition(),
+            m_frontRight.getModulePosition(),
+            m_backLeft.getModulePosition(),
+            m_backRight.getModulePosition()
         });
-    ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition());
   }
 
   /** Resets the field relative position of the robot (mostly for testing). */
@@ -171,16 +159,5 @@ public class Drivetrain extends KillableSubsystem {
           m_backRight.getModulePosition()
         },
         pose);
-  }
-
-  public void addVisionMeasurement(LimelightHelpers.PoseEstimate estimate, double confidence) {
-    poseFilter.addVisionMeasurement(
-        estimate.pose,
-        estimate.timestampSeconds,
-        VecBuilder.fill(
-            confidence,
-            confidence,
-            9999999) // big number to remove all influence of limelight pose rotation
-        );
   }
 }

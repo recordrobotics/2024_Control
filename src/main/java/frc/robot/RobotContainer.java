@@ -26,6 +26,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here
   private final Drivetrain drivetrain;
+  private final PoseTracker poseTracker;
   private final Shooter shooter;
   private final Crashbar crashbar;
   private final Climbers climbers;
@@ -46,6 +47,7 @@ public class RobotContainer {
 
     // Init subsystems
     drivetrain = new Drivetrain();
+    poseTracker = new PoseTracker(/* help me */);
     channel = new Channel();
     acquisition = new Acquisition();
     shooter = new Shooter();
@@ -53,10 +55,10 @@ public class RobotContainer {
     photosensor = new Photosensor();
     climbers = new Climbers();
     compressor = new PCMCompressor();
-    limelight = new Limelight(drivetrain);
+    limelight = new Limelight(poseTracker);
 
     // Sets up auto path
-    autoPath = new AutoPath(drivetrain, acquisition, photosensor, channel, shooter, crashbar);
+    autoPath = new AutoPath(drivetrain, acquisition, photosensor, channel, shooter, crashbar, poseTracker);
 
     // Sets up Control scheme chooser
     ShuffleboardUI.Overview.addControls(
