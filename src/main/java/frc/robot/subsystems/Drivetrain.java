@@ -117,11 +117,6 @@ public class Drivetrain extends KillableSubsystem {
 
   /** Resets the field relative position of the robot (mostly for testing). */
   public void resetStartingPose() {
-    // _nav.resetAngleAdjustment();
-    // m_frontLeft.resetDriveMotorPosition();
-    // m_frontRight.resetDriveMotorPosition();
-    // m_backLeft.resetDriveMotorPosition();
-    // m_backRight.resetDriveMotorPosition();
     poseFilter.resetPosition(
         _nav.getAdjustedAngle(),
         new SwerveModulePosition[] {
@@ -135,11 +130,6 @@ public class Drivetrain extends KillableSubsystem {
 
   /** Resets the pose to FrontSpeakerClose (shooter facing towards speaker) */
   public void resetDriverPose() {
-    // _nav.resetAngleAdjustment();
-    // m_frontLeft.resetDriveMotorPosition();
-    // m_frontRight.resetDriveMotorPosition();
-    // m_backLeft.resetDriveMotorPosition();
-    // m_backRight.resetDriveMotorPosition();
     poseFilter.resetPosition(
         _nav.getAdjustedAngle(),
         new SwerveModulePosition[] {
