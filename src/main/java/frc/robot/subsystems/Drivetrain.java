@@ -94,7 +94,7 @@ public class Drivetrain extends KillableSubsystem {
 
   @Override
   public void periodic() {
-    poseTracker.update(
+    poseTracker.updateOdometry(
         new SwerveModulePosition[] {
             m_frontLeft.getModulePosition(),
             m_frontRight.getModulePosition(),

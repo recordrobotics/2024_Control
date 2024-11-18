@@ -42,7 +42,7 @@ public class PoseTracker extends SubsystemBase {
         ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition());
     }
 
-    public void update(SwerveModulePosition[] positions) {
+    public void updateOdometry(SwerveModulePosition[] positions) {
         poseFilter.update(
                 nav.getAdjustedAngle(),
                 positions);
