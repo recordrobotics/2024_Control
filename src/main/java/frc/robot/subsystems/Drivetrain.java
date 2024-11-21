@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -53,7 +54,7 @@ public class Drivetrain extends KillableSubsystem {
    * @param rot Angular rate of the robot.
    * @param fieldRelative Whether the provided x and y speeds are relative to the field.
    */
-  public void drive(DriveCommandData driveCommandData) {
+  public void drive(DriveCommandData driveCommandData, Rotation2d currentRotation) {
     // Data from driveCommandData
     boolean fieldRelative = driveCommandData.fieldRelative;
     double xSpeed = driveCommandData.xSpeed;
@@ -69,7 +70,7 @@ public class Drivetrain extends KillableSubsystem {
         m_kinematics.toSwerveModuleStates(
             fieldRelative
                 ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, rot, poseTracker.getEstimatedPosition().getRotation())
+                    xSpeed, ySpeed, rot, currentRotation)
                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
     // Desaturates wheel speeds
@@ -85,48 +86,11 @@ public class Drivetrain extends KillableSubsystem {
   // set PID target to 0 but also immediately stop all modules
   @Override
   public void kill() {
-    drive(new DriveCommandData(0, 0, 0, false));
+    drive(new DriveCommandData(0, 0, 0, false), new Rotation2d(0.0));
     m_frontLeft.stop();
     m_frontRight.stop();
     m_backLeft.stop();
     m_backRight.stop();
-  }
-
-  @Override
-  public void periodic() {
-    poseTracker.updateOdometry(
-        new SwerveModulePosition[] {
-            m_frontLeft.getModulePosition(),
-            m_frontRight.getModulePosition(),
-            m_backLeft.getModulePosition(),
-            m_backRight.getModulePosition()
-        });
-  }
-
-  /** Resets the field relative position of the robot (mostly for testing). */
-  public void resetStartingPose() {
-    poseFilter.resetPosition(
-        _nav.getAdjustedAngle(),
-        new SwerveModulePosition[] {
-          m_frontLeft.getModulePosition(),
-          m_frontRight.getModulePosition(),
-          m_backLeft.getModulePosition(),
-          m_backRight.getModulePosition()
-        },
-        ShuffleboardUI.Autonomous.getStartingLocation().getPose());
-  }
-
-  /** Resets the pose to FrontSpeakerClose (shooter facing towards speaker) */
-  public void resetDriverPose() {
-    poseFilter.resetPosition(
-        _nav.getAdjustedAngle(),
-        new SwerveModulePosition[] {
-          m_frontLeft.getModulePosition(),
-          m_frontRight.getModulePosition(),
-          m_backLeft.getModulePosition(),
-          m_backRight.getModulePosition()
-        },
-        Constants.FieldStartingLocation.FrontSpeakerClose.getPose());
   }
 
   /** Returns the current robot relative chassis speeds of the swerve kinematics */
@@ -136,18 +100,5 @@ public class Drivetrain extends KillableSubsystem {
         m_frontRight.getModuleState(),
         m_backLeft.getModuleState(),
         m_backRight.getModuleState());
-  }
-
-  /** Similar to resetPose but adds an argument for the initial pose */
-  public void setToPose(Pose2d pose) {
-    poseFilter.resetPosition(
-        _nav.getAdjustedAngle(),
-        new SwerveModulePosition[] {
-          m_frontLeft.getModulePosition(),
-          m_frontRight.getModulePosition(),
-          m_backLeft.getModulePosition(),
-          m_backRight.getModulePosition()
-        },
-        pose);
   }
 }

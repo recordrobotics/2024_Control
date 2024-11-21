@@ -47,7 +47,6 @@ public class RobotContainer {
 
     // Init subsystems
     drivetrain = new Drivetrain();
-    poseTracker = new PoseTracker(/* help me */);
     channel = new Channel();
     acquisition = new Acquisition();
     shooter = new Shooter();
@@ -55,7 +54,8 @@ public class RobotContainer {
     photosensor = new Photosensor();
     climbers = new Climbers();
     compressor = new PCMCompressor();
-    limelight = new Limelight(poseTracker);
+    limelight = new Limelight();
+    poseTracker = new PoseTracker();
 
     // Sets up auto path
     autoPath = new AutoPath(drivetrain, acquisition, photosensor, channel, shooter, crashbar, poseTracker);
@@ -117,7 +117,7 @@ public class RobotContainer {
 
     // Reset pose trigger
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getPoseReset())
-        .onTrue(new InstantCommand(drivetrain::resetDriverPose));
+        .onTrue(new InstantCommand(poseTracker::resetDriverPose));
   }
 
   /**
