@@ -3,7 +3,6 @@ package frc.robot.commands.hybrid;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
@@ -47,8 +46,7 @@ public class TeleChain extends SequentialCommandGroup {
     // Gets path closest to the robot
     PathPlannerPath lowest_path = paths[0];
     double lowest_distance = 1000;
-    Translation2d swerve_translation =
-        currentPose.getTranslation();
+    Translation2d swerve_translation = currentPose.getTranslation();
     for (PathPlannerPath path : paths) {
       Translation2d path_translation = path.getPreviewStartingHolonomicPose().getTranslation();
       double distance = swerve_translation.getDistance(path_translation);

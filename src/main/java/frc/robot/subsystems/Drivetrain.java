@@ -32,11 +32,11 @@ public class Drivetrain extends KillableSubsystem {
    * Drives the robot using joystick info.
    *
    * @param driveCommandData contains all the info to drive the robot. The xSpeed and ySpeed
-   *     components are relative to the robot's current orientation if fieldRelative is false,
-   *     and relative to the field if fieldRelative is true.
-   * @param currentRotation the current rotation of the robot in the field coordinate system.
-   *     Used to convert the joystick x and y components to the field coordinate system if
-   *     fieldRelative is true.
+   *     components are relative to the robot's current orientation if fieldRelative is false, and
+   *     relative to the field if fieldRelative is true.
+   * @param currentRotation the current rotation of the robot in the field coordinate system. Used
+   *     to convert the joystick x and y components to the field coordinate system if fieldRelative
+   *     is true.
    */
   public void drive(DriveCommandData driveCommandData, Rotation2d currentRotation) {
     // Data from driveCommandData
@@ -53,8 +53,7 @@ public class Drivetrain extends KillableSubsystem {
     SwerveModuleState[] swerveModuleStates =
         m_kinematics.toSwerveModuleStates(
             fieldRelative
-                ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, rot, currentRotation)
+                ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, currentRotation)
                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
     // Desaturates wheel speeds
@@ -67,13 +66,12 @@ public class Drivetrain extends KillableSubsystem {
     m_backRight.setDesiredState(swerveModuleStates[3]);
   }
 
-
   /**
    * Sets the PID target to zero and immediately stops all swerve modules.
    *
-   * This method commands the drivetrain to stop by setting the drive speeds 
-   * to zero, thus ensuring that the robot comes to a halt. It also directly 
-   * stops each swerve module by setting their motor outputs to zero.
+   * <p>This method commands the drivetrain to stop by setting the drive speeds to zero, thus
+   * ensuring that the robot comes to a halt. It also directly stops each swerve module by setting
+   * their motor outputs to zero.
    */
   @Override
   public void kill() {
@@ -84,11 +82,11 @@ public class Drivetrain extends KillableSubsystem {
     m_backRight.stop();
   }
 
-  /** 
+  /**
    * Retrieves the current chassis speeds relative to the robot's orientation.
-   * 
-   * This method calculates the chassis speeds based on the current states 
-   * of all four swerve modules using the drivetrain's kinematics.
+   *
+   * <p>This method calculates the chassis speeds based on the current states of all four swerve
+   * modules using the drivetrain's kinematics.
    *
    * @return The current relative chassis speeds as a ChassisSpeeds object.
    */
@@ -111,10 +109,10 @@ public class Drivetrain extends KillableSubsystem {
 
   public SwerveModulePosition[] getModulePositions() {
     return new SwerveModulePosition[] {
-        m_frontLeft.getModulePosition(),
-        m_frontRight.getModulePosition(),
-        m_backLeft.getModulePosition(),
-        m_backRight.getModulePosition()
+      m_frontLeft.getModulePosition(),
+      m_frontRight.getModulePosition(),
+      m_backLeft.getModulePosition(),
+      m_backRight.getModulePosition()
     };
   }
 }

@@ -33,16 +33,9 @@ public class Limelight extends SubsystemBase {
   public void periodic() {
     confidence = 0;
     LimelightHelpers.SetRobotOrientation(
-        name,
-        poseTrackerEstimatedPose.getRotation().getDegrees(),
-        0,
-        0,
-        0,
-        0,
-        0);
+        name, poseTrackerEstimatedPose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
     PoseEstimate measurement = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
-    PoseEstimate measurement_m2 =
-        LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
+    PoseEstimate measurement_m2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
 
     if (measurement == null || measurement_m2 == null) {
       limelightConnected = false;
@@ -71,10 +64,7 @@ public class Limelight extends SubsystemBase {
     double timeSinceAuto = Timer.getFPGATimestamp() - Robot.getAutoStartTime();
 
     if (timeSinceAuto > 1
-        && measurement
-                .pose
-                .getTranslation()
-                .getDistance(poseTrackerEstimatedPose.getTranslation())
+        && measurement.pose.getTranslation().getDistance(poseTrackerEstimatedPose.getTranslation())
             > 2) {
       confidence = 0;
     }

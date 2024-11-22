@@ -15,9 +15,8 @@ import frc.robot.utils.DriveCommandData;
 public class ManualSwerve extends Command {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-
   private Drivetrain drivetrain;
-  
+
   /**
    * @param drivetrain
    */
