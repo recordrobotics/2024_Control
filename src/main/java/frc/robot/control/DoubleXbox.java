@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.PoseTracker;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.SimpleMath;
 
@@ -18,8 +18,11 @@ public class DoubleXbox extends AbstractControl {
   private XboxController notesbox;
   private double speed_level = 0.1;
   private PIDController anglePID = new PIDController(3.36, 0, 0);
+  private PoseTracker poseTracker;
 
-  public DoubleXbox(int driveboxID, int notesboxID) {
+  public DoubleXbox(int driveboxID, int notesboxID, PoseTracker poseTracker) {
+    this.poseTracker = poseTracker;
+
     // Sets up xbox controllers
     drivebox = new XboxController(driveboxID);
     notesbox = new XboxController(notesboxID);
@@ -33,9 +36,9 @@ public class DoubleXbox extends AbstractControl {
   public DriveCommandData getDriveCommandData() {
 
     // Calculates spin
-    double robot_angle = Drivetrain.poseFilter.getEstimatedPosition().getRotation().getRadians();
+    double robot_angle = poseTracker.getEstimatedPosition().getRotation().getRadians();
     double target_angle = super.OrientAngle(getAngle().getFirst()).getRadians();
-    double spin = anglePID.calculate(robot_angle, target_angle);
+    double spin = anglePID.calculate(robot_angle, target_angle); // TODO why do we only have pid for doublexbox?
     // Calculates proportion of PID to multiply by
     double magnitude = getAngle().getSecond();
 

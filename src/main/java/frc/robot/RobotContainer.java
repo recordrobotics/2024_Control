@@ -62,7 +62,7 @@ public class RobotContainer {
 
     // Sets up Control scheme chooser
     ShuffleboardUI.Overview.addControls(
-        new JoystickXbox(2, 0), new DoubleXbox(0, 1), new DoubleXboxSpin(0, 1));
+        new JoystickXbox(2, 0), new DoubleXbox(0, 1, poseTracker), new DoubleXboxSpin(0, 1));
 
     // Bindings and Teleop
     configureButtonBindings();
