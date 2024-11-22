@@ -32,9 +32,9 @@ import frc.robot.utils.SimpleMath;
 public final class Constants {
 
   public final class Shooter {
-    public static final double SPEAKER_SPEED = 1;
-    public static final double AMP_SPEED = 0.5;
-    public static final double REVERSE_SPEED = -0.1;
+    public static final double SPEAKER_SPEED = 90;
+    public static final double AMP_SPEED = 60;
+    public static final double REVERSE_SPEED = -30;
   }
 
   public final class Channel {
