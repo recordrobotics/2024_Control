@@ -23,8 +23,7 @@ public class AutoPath {
       Photosensor photosensor,
       Channel channel,
       Shooter shooter,
-      Crashbar crashbar,
-      PoseTracker poseTracker) {
+      Crashbar crashbar) {
 
     // Registering named commands (so that the pathplanner can call them by name)
 
@@ -58,8 +57,8 @@ public class AutoPath {
 
     // Configures auto builder
     AutoBuilder.configureHolonomic(
-        poseTracker::getEstimatedPosition, // Robot pose supplier
-        drivetrain
+        PoseTracker.instance::getEstimatedPosition, // Robot pose supplier
+        PoseTracker.instance
             ::setToPose, // Method to reset odometry (will be called if your auto has a starting
         // pose)
         drivetrain::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE

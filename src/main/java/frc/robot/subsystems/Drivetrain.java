@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -38,7 +37,7 @@ public class Drivetrain extends KillableSubsystem {
    *     to convert the joystick x and y components to the field coordinate system if fieldRelative
    *     is true.
    */
-  public void drive(DriveCommandData driveCommandData, Rotation2d currentRotation) {
+  public void drive(DriveCommandData driveCommandData) {
     // Data from driveCommandData
     boolean fieldRelative = driveCommandData.fieldRelative;
     double xSpeed = driveCommandData.xSpeed;
@@ -53,7 +52,8 @@ public class Drivetrain extends KillableSubsystem {
     SwerveModuleState[] swerveModuleStates =
         m_kinematics.toSwerveModuleStates(
             fieldRelative
-                ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, currentRotation)
+                ? ChassisSpeeds.fromFieldRelativeSpeeds(
+                    xSpeed, ySpeed, rot, PoseTracker.instance.getEstimatedPosition().getRotation())
                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
     // Desaturates wheel speeds
@@ -75,7 +75,7 @@ public class Drivetrain extends KillableSubsystem {
    */
   @Override
   public void kill() {
-    drive(new DriveCommandData(0, 0, 0, false), new Rotation2d(0.0));
+    drive(new DriveCommandData(0, 0, 0, false));
     m_frontLeft.stop();
     m_frontRight.stop();
     m_backLeft.stop();
