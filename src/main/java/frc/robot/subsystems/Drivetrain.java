@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -106,5 +107,14 @@ public class Drivetrain extends KillableSubsystem {
    */
   public SwerveDriveKinematics getKinematics() {
     return m_kinematics;
+  }
+
+  public SwerveModulePosition[] getModulePositions() {
+    return new SwerveModulePosition[] {
+        m_frontLeft.getModulePosition(),
+        m_frontRight.getModulePosition(),
+        m_backLeft.getModulePosition(),
+        m_backRight.getModulePosition()
+    };
   }
 }
