@@ -38,7 +38,14 @@ public class PoseTracker extends SubsystemBase {
     @Override
     public void periodic() {
         poseFilter.update(nav.getAdjustedAngle(), getModulePositions());
-        poseFilter.addVisionMeasurement(limelight.something???, how do i get a timestamp???);
+        poseFilter.addVisionMeasurement(
+            limelight.getPoseEstimate().pose,
+            limelight.getPoseEstimate().timestampSeconds,
+            VecBuilder.fill(
+                limelight.getConfidence(),
+                limelight.getConfidence(),
+                9999999) // big number to remove all influence of limelight pose rotation
+        );
 
         SmartDashboard.putNumber("gyro", nav.getAdjustedAngle().getDegrees());
         SmartDashboard.putNumber("pose", poseFilter.getEstimatedPosition().getRotation().getDegrees());
