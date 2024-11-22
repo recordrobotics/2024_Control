@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -47,6 +46,8 @@ public class PoseTracker extends SubsystemBase {
                 9999999) // big number to remove all influence of limelight pose rotation
         );
 
+        limelight.poseTrackerEstimatedPose = poseFilter.getEstimatedPosition();
+
         SmartDashboard.putNumber("gyro", nav.getAdjustedAngle().getDegrees());
         SmartDashboard.putNumber("pose", poseFilter.getEstimatedPosition().getRotation().getDegrees());
         ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition());
@@ -66,6 +67,13 @@ public class PoseTracker extends SubsystemBase {
                 positions);
     }
 
+    /**
+     * Add a vision measurement to the pose filter. The confidence value is the standard deviation
+     * of the measurement, so larger values mean less confidence.
+     *
+     * @param estimate    The pose estimate from the vision system.
+     * @param confidence  The confidence in the measurement, in the range [0, 1].
+     */
     public void addVisionMeasurement(LimelightHelpers.PoseEstimate estimate, double confidence) {
         poseFilter.addVisionMeasurement(
                 estimate.pose,

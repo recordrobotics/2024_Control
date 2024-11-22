@@ -19,6 +19,7 @@ public class Limelight extends SubsystemBase {
   private boolean limelightConnected = false;
   private PoseEstimate currentEstimate = new PoseEstimate();
   private double currentConfidence = 9999999; // large number means less confident
+  public Pose2d poseTrackerEstimatedPose = new Pose2d();
 
   public Limelight() {
     LimelightHelpers.setPipelineIndex(name, 0);
@@ -33,7 +34,7 @@ public class Limelight extends SubsystemBase {
     confidence = 0;
     LimelightHelpers.SetRobotOrientation(
         name,
-        poseTracker.getEstimatedPosition().getRotation().getDegrees(),
+        poseTrackerEstimatedPose.getRotation().getDegrees(),
         0,
         0,
         0,
@@ -73,7 +74,7 @@ public class Limelight extends SubsystemBase {
         && measurement
                 .pose
                 .getTranslation()
-                .getDistance(poseTracker.getEstimatedPosition().getTranslation())
+                .getDistance(poseTrackerEstimatedPose.getTranslation())
             > 2) {
       confidence = 0;
     }
