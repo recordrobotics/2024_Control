@@ -31,20 +31,8 @@ public class Drivetrain extends KillableSubsystem {
           Constants.Swerve.backLeftConstants.wheelLocation,
           Constants.Swerve.backRightConstants.wheelLocation);
 
-  PoseTracker poseTracker;
-
   // Init drivetrain
-  public Drivetrain() {
-    poseTracker = new PoseTracker(
-        m_kinematics,
-        new SwerveModulePosition[] {
-            m_frontLeft.getModulePosition(),
-            m_frontRight.getModulePosition(),
-            m_backLeft.getModulePosition(),
-            m_backRight.getModulePosition()
-        },
-        ShuffleboardUI.Autonomous.getStartingLocation().getPose());
-  }
+  public Drivetrain() {}
 
   /**
    * Method to drive the robot using joystick info.
