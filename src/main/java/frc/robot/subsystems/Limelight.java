@@ -97,4 +97,8 @@ public class Limelight extends SubsystemBase {
   public PoseEstimate getBotPoseEstimate() {
     return currentEstimate;
   }
+
+  public double getConfidence() {
+    return currentConfidence;
+  }
 }
