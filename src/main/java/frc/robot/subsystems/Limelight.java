@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
+import frc.robot.LimelightHelpers.PoseEstimate;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.SimpleMath;
 
@@ -16,6 +17,7 @@ public class Limelight extends SubsystemBase {
   private double confidence = 0;
   private boolean hasVision = false;
   private boolean limelightConnected = false;
+  private PoseEstimate currentEstimate = new PoseEstimate();
 
   public Limelight() {
     LimelightHelpers.setPipelineIndex(name, 0);

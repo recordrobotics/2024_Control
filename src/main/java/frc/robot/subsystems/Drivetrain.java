@@ -25,16 +25,17 @@ public class Drivetrain extends KillableSubsystem {
           Constants.Swerve.backLeftConstants.wheelLocation,
           Constants.Swerve.backRightConstants.wheelLocation);
 
-  // Init drivetrain
   public Drivetrain() {}
 
   /**
-   * Method to drive the robot using joystick info.
+   * Drives the robot using joystick info.
    *
-   * @param xSpeed Speed of the robot in the x direction (forward).
-   * @param ySpeed Speed of the robot in the y direction (sideways).
-   * @param rot Angular rate of the robot.
-   * @param fieldRelative Whether the provided x and y speeds are relative to the field.
+   * @param driveCommandData contains all the info to drive the robot. The xSpeed and ySpeed
+   *     components are relative to the robot's current orientation if fieldRelative is false,
+   *     and relative to the field if fieldRelative is true.
+   * @param currentRotation the current rotation of the robot in the field coordinate system.
+   *     Used to convert the joystick x and y components to the field coordinate system if
+   *     fieldRelative is true.
    */
   public void drive(DriveCommandData driveCommandData, Rotation2d currentRotation) {
     // Data from driveCommandData
@@ -65,7 +66,14 @@ public class Drivetrain extends KillableSubsystem {
     m_backRight.setDesiredState(swerveModuleStates[3]);
   }
 
-  // set PID target to 0 but also immediately stop all modules
+
+  /**
+   * Sets the PID target to zero and immediately stops all swerve modules.
+   *
+   * This method commands the drivetrain to stop by setting the drive speeds 
+   * to zero, thus ensuring that the robot comes to a halt. It also directly 
+   * stops each swerve module by setting their motor outputs to zero.
+   */
   @Override
   public void kill() {
     drive(new DriveCommandData(0, 0, 0, false), new Rotation2d(0.0));
@@ -75,7 +83,14 @@ public class Drivetrain extends KillableSubsystem {
     m_backRight.stop();
   }
 
-  /** Returns the current robot relative chassis speeds of the swerve kinematics */
+  /** 
+   * Retrieves the current chassis speeds relative to the robot's orientation.
+   * 
+   * This method calculates the chassis speeds based on the current states 
+   * of all four swerve modules using the drivetrain's kinematics.
+   *
+   * @return The current relative chassis speeds as a ChassisSpeeds object.
+   */
   public ChassisSpeeds getChassisSpeeds() {
     return m_kinematics.toChassisSpeeds(
         m_frontLeft.getModuleState(),
@@ -84,6 +99,11 @@ public class Drivetrain extends KillableSubsystem {
         m_backRight.getModuleState());
   }
 
+  /**
+   * Returns the swerve drive kinematics for this drivetrain.
+   *
+   * @return The SwerveDriveKinematics object associated with this drivetrain.
+   */
   public SwerveDriveKinematics getKinematics() {
     return m_kinematics;
   }
