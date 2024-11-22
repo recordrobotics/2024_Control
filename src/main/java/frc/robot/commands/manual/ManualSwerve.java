@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.control.AbstractControl;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.PoseTracker;
 import frc.robot.utils.DriveCommandData;
 
 /** An example command that uses an example subsystem. */
@@ -16,17 +17,18 @@ public class ManualSwerve extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   // Creates Drivetrain and Controls variables
-  private Drivetrain _drivetrain;
-
-  public AbstractControl _controls;
-
+  private Drivetrain drivetrain;
+  
+  private PoseTracker poseTracker;
+  
   /**
    * @param drivetrain
    */
-  public ManualSwerve(Drivetrain drivetrain) {
-    // Init variables
-    _drivetrain = drivetrain;
+  public ManualSwerve(Drivetrain drivetrain, PoseTracker poseTracker) {
+    this.poseTracker = poseTracker;
+    this.drivetrain = drivetrain;
     addRequirements(drivetrain);
+    addRequirements(poseTracker);
   }
 
   // Called when the command is initially scheduled.
@@ -37,10 +39,10 @@ public class ManualSwerve extends Command {
   @Override
   public void execute() {
 
-    AbstractControl _controls = ShuffleboardUI.Overview.getControl();
+    AbstractControl controls = ShuffleboardUI.Overview.getControl();
 
-    DriveCommandData driveCommandData = _controls.getDriveCommandData();
-    _drivetrain.drive(driveCommandData);
+    DriveCommandData driveCommandData = controls.getDriveCommandData();
+    drivetrain.drive(driveCommandData, poseTracker.getEstimatedPosition().getRotation());
   }
 
   // Called once the command ends or is interrupted.

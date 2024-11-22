@@ -70,7 +70,7 @@ public class RobotContainer {
 
   public void teleopInit() {
     // Sets default command for manual swerve. It is the only one right now
-    drivetrain.setDefaultCommand(new ManualSwerve(drivetrain));
+    drivetrain.setDefaultCommand(new ManualSwerve(drivetrain, poseTracker));
   }
 
   /**
@@ -127,7 +127,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     if (autoCommand == null) {
-      autoCommand = new PlannedAuto(drivetrain, autoPath);
+      autoCommand = new PlannedAuto(drivetrain, autoPath, poseTracker);
     }
     return autoCommand;
   }
