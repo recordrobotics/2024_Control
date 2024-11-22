@@ -26,7 +26,6 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here
   private final Drivetrain drivetrain;
-  private final PoseTracker poseTracker;
   private final Shooter shooter;
   private final Crashbar crashbar;
   private final Climbers climbers;
@@ -55,14 +54,16 @@ public class RobotContainer {
     climbers = new Climbers();
     compressor = new PCMCompressor();
     limelight = new Limelight();
-    poseTracker = new PoseTracker(drivetrain, limelight);
+
+    // this is very cursed but it is less cursed than other ways to do it, so don't touch
+    PoseTracker.instance = new PoseTracker(drivetrain, limelight);
 
     // Sets up auto path
-    autoPath = new AutoPath(drivetrain, acquisition, photosensor, channel, shooter, crashbar, poseTracker);
+    autoPath = new AutoPath(drivetrain, acquisition, photosensor, channel, shooter, crashbar);
 
     // Sets up Control scheme chooser
     ShuffleboardUI.Overview.addControls(
-        new JoystickXbox(2, 0), new DoubleXbox(0, 1, poseTracker), new DoubleXboxSpin(0, 1));
+        new JoystickXbox(2, 0), new DoubleXbox(0, 1), new DoubleXboxSpin(0, 1));
 
     // Bindings and Teleop
     configureButtonBindings();
@@ -70,7 +71,7 @@ public class RobotContainer {
 
   public void teleopInit() {
     // Sets default command for manual swerve. It is the only one right now
-    drivetrain.setDefaultCommand(new ManualSwerve(drivetrain, poseTracker));
+    drivetrain.setDefaultCommand(new ManualSwerve(drivetrain));
   }
 
   /**
@@ -117,7 +118,7 @@ public class RobotContainer {
 
     // Reset pose trigger
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getPoseReset())
-        .onTrue(new InstantCommand(poseTracker::resetDriverPose));
+        .onTrue(new InstantCommand(PoseTracker.instance::resetDriverPose));
   }
 
   /**
@@ -127,7 +128,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     if (autoCommand == null) {
-      autoCommand = new PlannedAuto(drivetrain, autoPath, poseTracker);
+      autoCommand = new PlannedAuto(drivetrain, autoPath);
     }
     return autoCommand;
   }

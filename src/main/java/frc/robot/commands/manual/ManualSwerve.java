@@ -16,19 +16,14 @@ public class ManualSwerve extends Command {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-  // Creates Drivetrain and Controls variables
   private Drivetrain drivetrain;
-  
-  private PoseTracker poseTracker;
   
   /**
    * @param drivetrain
    */
-  public ManualSwerve(Drivetrain drivetrain, PoseTracker poseTracker) {
-    this.poseTracker = poseTracker;
+  public ManualSwerve(Drivetrain drivetrain) {
     this.drivetrain = drivetrain;
     addRequirements(drivetrain);
-    addRequirements(poseTracker);
   }
 
   // Called when the command is initially scheduled.
@@ -42,7 +37,7 @@ public class ManualSwerve extends Command {
     AbstractControl controls = ShuffleboardUI.Overview.getControl();
 
     DriveCommandData driveCommandData = controls.getDriveCommandData();
-    drivetrain.drive(driveCommandData, poseTracker.getEstimatedPosition().getRotation());
+    drivetrain.drive(driveCommandData, PoseTracker.instance.getEstimatedPosition().getRotation());
   }
 
   // Called once the command ends or is interrupted.

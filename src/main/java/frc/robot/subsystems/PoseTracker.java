@@ -11,6 +11,7 @@ import frc.robot.LimelightHelpers;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class PoseTracker extends SubsystemBase {
+    public static PoseTracker instance;
 
     private final NavSensor nav = new NavSensor();
 
