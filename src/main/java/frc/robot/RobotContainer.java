@@ -55,7 +55,7 @@ public class RobotContainer {
     climbers = new Climbers();
     compressor = new PCMCompressor();
     limelight = new Limelight();
-    poseTracker = new PoseTracker();
+    poseTracker = new PoseTracker(drivetrain, limelight);
 
     // Sets up auto path
     autoPath = new AutoPath(drivetrain, acquisition, photosensor, channel, shooter, crashbar, poseTracker);

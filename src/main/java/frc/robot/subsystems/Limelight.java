@@ -17,11 +17,7 @@ public class Limelight extends SubsystemBase {
   private boolean hasVision = false;
   private boolean limelightConnected = false;
 
-  private PoseTracker poseTracker;
-
-  public Limelight(PoseTracker poseTracker) {
-    this.poseTracker = poseTracker;
-
+  public Limelight() {
     LimelightHelpers.setPipelineIndex(name, 0);
     ShuffleboardUI.Overview.setTagNum(() -> numTags);
     ShuffleboardUI.Overview.setConfidence(() -> confidence);

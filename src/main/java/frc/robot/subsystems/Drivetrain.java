@@ -83,4 +83,8 @@ public class Drivetrain extends KillableSubsystem {
         m_backLeft.getModuleState(),
         m_backRight.getModuleState());
   }
+
+  public SwerveDriveKinematics getKinematics() {
+    return m_kinematics;
+  }
 }

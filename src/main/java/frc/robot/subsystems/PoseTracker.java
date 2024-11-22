@@ -13,19 +13,23 @@ import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class PoseTracker extends SubsystemBase {
 
-    // Creates Nav object
     private final NavSensor nav = new NavSensor();
 
-    // Creates swerve post estimation filter
     public static SwerveDrivePoseEstimator poseFilter;
 
+    private final Drivetrain drivetrain;
+    private final Limelight limelight;
+
     public PoseTracker(
-            SwerveDriveKinematics kinematics,
-            Pose2d startingPose) {
+            Drivetrain drivetrain,
+            Limelight limelight) {
+        this.drivetrain = drivetrain;        
+        this.limelight = limelight;
+
         nav.resetAngleAdjustment();
 
         poseFilter = new SwerveDrivePoseEstimator(
-                kinematics,
+                drivetrain.getKinematics(),
                 nav.getAdjustedAngle(),
                 getModulePositions(),
                 ShuffleboardUI.Autonomous.getStartingLocation().getPose());
