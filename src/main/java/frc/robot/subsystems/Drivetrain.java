@@ -37,7 +37,7 @@ public class Drivetrain extends KillableSubsystem {
   public static SwerveDrivePoseEstimator poseFilter;
 
   // Init drivetrain
-  public Drivetrain() {
+  public Drivetrain(Pose2d startingPose) {
     _nav.resetAngleAdjustment();
 
     poseFilter =
@@ -50,7 +50,7 @@ public class Drivetrain extends KillableSubsystem {
               m_backLeft.getModulePosition(),
               m_backRight.getModulePosition()
             },
-            ShuffleboardUI.Autonomous.getStartingLocation().getPose());
+            startingPose);
   }
 
   /**
@@ -112,11 +112,11 @@ public class Drivetrain extends KillableSubsystem {
           m_backLeft.getModulePosition(),
           m_backRight.getModulePosition()
         });
-    ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition());
+    ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition()); // this will be moved out of drivetrain when merged with split-drivetrain
   }
 
   /** Resets the field relative position of the robot (mostly for testing). */
-  public void resetStartingPose() {
+  public void resetStartingPose(Pose2d startingPose) {
     // _nav.resetAngleAdjustment();
     // m_frontLeft.resetDriveMotorPosition();
     // m_frontRight.resetDriveMotorPosition();
@@ -130,7 +130,7 @@ public class Drivetrain extends KillableSubsystem {
           m_backLeft.getModulePosition(),
           m_backRight.getModulePosition()
         },
-        ShuffleboardUI.Autonomous.getStartingLocation().getPose());
+        startingPose);
   }
 
   /** Resets the pose to FrontSpeakerClose (shooter facing towards speaker) */
