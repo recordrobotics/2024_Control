@@ -5,11 +5,9 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-
-import com.revrobotics.CANSparkMax;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
@@ -55,11 +53,11 @@ public class Shooter extends KillableSubsystem {
     OFF; // Off
   }
 
-  public double getLeftWheelVelocity(){
+  public double getLeftWheelVelocity() {
     return flywheelL.getEncoder().getVelocity() / 60.0; /* RPM -> RPS */
   }
 
-  public double getRightWheelVelocity(){
+  public double getRightWheelVelocity() {
     return flywheelR.getEncoder().getVelocity() / 60.0; /* RPM -> RPS */
   }
 
@@ -95,21 +93,18 @@ public class Shooter extends KillableSubsystem {
 
   @Override
   public void periodic() {
-    double leftPIDOutput =
-        leftPID.calculate(getLeftWheelVelocity(), targetVelocityLeft);
+    double leftPIDOutput = leftPID.calculate(getLeftWheelVelocity(), targetVelocityLeft);
     double leftFeedforwardOutput = leftFeedForward.calculate(targetVelocityLeft);
-    flywheelL.setVoltage(leftPIDOutput + leftFeedforwardOutput); // Feed forward runs on voltage control
+    flywheelL.setVoltage(
+        leftPIDOutput + leftFeedforwardOutput); // Feed forward runs on voltage control
 
-    double rightPIDOutput =
-        rightPID.calculate(getRightWheelVelocity(), targetVelocityRight);
+    double rightPIDOutput = rightPID.calculate(getRightWheelVelocity(), targetVelocityRight);
     double rightFeedforwardOutput = rightFeedForward.calculate(targetVelocityRight);
     flywheelR.setVoltage(
         rightPIDOutput + rightFeedforwardOutput); // Feed forward runs on voltage control
 
-    ShuffleboardUI.Overview.putShooterSpeedData(
-      0, getLeftWheelVelocity(), targetVelocityLeft);
-    ShuffleboardUI.Overview.putShooterSpeedData(
-      1, getRightWheelVelocity(), targetVelocityRight);
+    ShuffleboardUI.Overview.putShooterSpeedData(0, getLeftWheelVelocity(), targetVelocityLeft);
+    ShuffleboardUI.Overview.putShooterSpeedData(1, getRightWheelVelocity(), targetVelocityRight);
   }
 
   @Override

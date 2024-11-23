@@ -41,7 +41,7 @@ public class OverviewLayout extends AbstractLayout {
   private Supplier<Boolean> hasVisionValue = () -> false;
   private Supplier<Boolean> limelightConnectedValue = () -> false;
 
-   private static final Map<Integer, TuningData> shooterSpeedData = new HashMap<>();
+  private static final Map<Integer, TuningData> shooterSpeedData = new HashMap<>();
 
   public OverviewLayout() {
     // getTab()
@@ -105,9 +105,7 @@ public class OverviewLayout extends AbstractLayout {
         .withSize(1, 1);
 
     getTab()
-        .addDoubleArray(
-            "Shooter Speed",
-            ()->TuningData.MapToArray(shooterSpeedData))
+        .addDoubleArray("Shooter Speed", () -> TuningData.MapToArray(shooterSpeedData))
         .withWidget(BuiltInWidgets.kGraph)
         .withPosition(3, 2)
         .withSize(4, 3);
@@ -187,7 +185,7 @@ public class OverviewLayout extends AbstractLayout {
   public void putShooterSpeedData(int id, double current, double target) {
     shooterSpeedData.put(id, new TuningData(current, target));
   }
-  
+
   @Override
   public ShuffleboardTab getTab() {
     return Shuffleboard.getTab("Overview");
