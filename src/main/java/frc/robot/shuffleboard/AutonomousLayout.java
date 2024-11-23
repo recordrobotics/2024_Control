@@ -22,7 +22,7 @@ public class AutonomousLayout extends AbstractLayout {
 
   private Supplier<Boolean> acquisitionValue = () -> false;
   private Supplier<Boolean> hasNoteValue = () -> false;
-  
+
   public class SwerveVelocityData {
     public Double current;
     public Double target;
