@@ -1,12 +1,10 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
-import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.SimpleMath;
 
 public class Limelight extends SubsystemBase {
@@ -73,19 +71,6 @@ public class Limelight extends SubsystemBase {
                 .getDistance(Drivetrain.poseFilter.getEstimatedPosition().getTranslation())
             > 2) {
       confidence = 0;
-    }
-
-    handleMeasurement(measurement, confidence);
-  }
-
-  private void handleMeasurement(LimelightHelpers.PoseEstimate estimate, double confidence) {
-    if (confidence > 0) {
-      hasVision = true;
-      ShuffleboardUI.Autonomous.setVisionPose(estimate.pose);
-      drivetrain.addVisionMeasurement(estimate, confidence);
-    } else {
-      hasVision = false;
-      ShuffleboardUI.Autonomous.setVisionPose(new Pose2d());
     }
   }
 

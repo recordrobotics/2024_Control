@@ -25,10 +25,10 @@ public class Climbers extends KillableSubsystem {
 
   public void toggle(ClimberStates state) {
     switch (state) {
-      case UP: // move the climer up
+      case UP:
         solenoid.set(DoubleSolenoid.Value.kForward);
         break;
-      case DOWN: // move the climer down
+      case DOWN:
         solenoid.set(DoubleSolenoid.Value.kReverse);
         break;
       case OFF: // turn off or kill

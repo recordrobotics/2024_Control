@@ -22,7 +22,6 @@ public class NavSensor extends SubsystemBase {
   private double jerkX;
   private double jerkY;
 
-  // Ceates AHRS _nav object
   public static AHRS _nav = new AHRS(SerialPort.Port.kUSB1);
 
   // variable to keep track of a reference angle whenever you reset
