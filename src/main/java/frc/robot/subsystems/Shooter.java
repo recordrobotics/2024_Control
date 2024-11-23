@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
@@ -33,6 +34,9 @@ public class Shooter extends KillableSubsystem {
             RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID, MotorType.kBrushless);
 
     toggle(ShooterStates.OFF); // initialize as off
+
+    SmartDashboard.putNumber("Flywheel Left Velocity", 0);
+    SmartDashboard.putNumber("Flywheel Right Velocity", 0);
   }
 
   public enum ShooterStates {
@@ -82,6 +86,10 @@ public class Shooter extends KillableSubsystem {
 
   @Override
   public void periodic() {
+    toggle(
+      SmartDashboard.getNumber("Flywheel Left Velocity", 0),
+      SmartDashboard.getNumber("Flywheel Right Velocity", 0)
+    );
     double leftPIDOutput = leftPID.calculate(getLeftWheelVelocity(), targetVelocityLeft);
     double leftFeedforwardOutput = leftFeedForward.calculate(targetVelocityLeft);
     flywheelL.setVoltage(
