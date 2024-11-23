@@ -12,10 +12,10 @@ import frc.robot.utils.SimpleMath;
 public class Limelight extends SubsystemBase {
 
   private static final String name = "limelight";
-  private int numTags = 0;
-  private double confidence = 0;
-  private boolean hasVision = false;
-  private boolean limelightConnected = false;
+  public int numTags = 0;
+  public double confidence = 0;
+  public boolean hasVision = false;
+  public boolean limelightConnected = false;
 
   private Drivetrain drivetrain;
 
@@ -23,10 +23,6 @@ public class Limelight extends SubsystemBase {
     this.drivetrain = drivetrain;
 
     LimelightHelpers.setPipelineIndex(name, 0);
-    ShuffleboardUI.Overview.setTagNum(() -> numTags);
-    ShuffleboardUI.Overview.setConfidence(() -> confidence);
-    ShuffleboardUI.Overview.setHasVision(() -> hasVision);
-    ShuffleboardUI.Overview.setLimelightConnected(() -> limelightConnected);
   }
 
   @Override
@@ -78,18 +74,8 @@ public class Limelight extends SubsystemBase {
             > 2) {
       confidence = 0;
     }
-
-    handleMeasurement(measurement, confidence);
   }
 
-  private void handleMeasurement(LimelightHelpers.PoseEstimate estimate, double confidence) {
-    if (confidence > 0) {
-      hasVision = true;
-      ShuffleboardUI.Autonomous.setVisionPose(estimate.pose);
-      drivetrain.addVisionMeasurement(estimate, confidence);
-    } else {
-      hasVision = false;
-      ShuffleboardUI.Autonomous.setVisionPose(new Pose2d());
-    }
-  }
+  /** frees up all hardware allocations */
+  public void close() {}
 }

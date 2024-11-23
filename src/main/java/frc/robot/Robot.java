@@ -65,7 +65,7 @@ public class Robot extends TimedRobot {
     autoStartTimestamp = Timer.getFPGATimestamp();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // TODO: #14 check if this fixes the "auto doesn't run twice" issue
+    // TODO: check if this fixes the "auto doesn't run twice" issue
     // Cancel any previous commands
     CommandScheduler.getInstance().cancelAll();
 

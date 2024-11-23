@@ -22,8 +22,18 @@ public class AutonomousLayout extends AbstractLayout {
 
   private Supplier<Boolean> acquisitionValue = () -> false;
   private Supplier<Boolean> hasNoteValue = () -> false;
+  
+  public class SwerveVelocityData {
+    public Double current;
+    public Double target;
 
-  private static final Map<Integer, TuningData> velocityGraphData = new HashMap<>();
+    public SwerveVelocityData(double current, double target) {
+      this.current = current;
+      this.target = target;
+    }
+  }
+
+  private static final Map<Integer, SwerveVelocityData> velocityGraphData = new HashMap<>();
 
   public AutonomousLayout() {
     getTab().add(field).withWidget(BuiltInWidgets.kField).withSize(6, 3).withPosition(0, 0);
@@ -63,7 +73,19 @@ public class AutonomousLayout extends AbstractLayout {
         .withSize(1, 1);
 
     getTab()
-        .addDoubleArray("Velocity", () -> TuningData.MapToArray(velocityGraphData))
+        .addDoubleArray(
+            "Velocity",
+            () -> {
+              var values = velocityGraphData.values().toArray();
+              double[] db = new double[values.length * 2];
+              for (int i = 0; i < values.length; i++) {
+                if (values[i] instanceof SwerveVelocityData p) {
+                  db[i * 2] = p.current;
+                  db[i * 2 + 1] = p.target;
+                }
+              }
+              return db;
+            })
         .withWidget(BuiltInWidgets.kGraph)
         .withPosition(6, 2)
         .withSize(4, 3);
@@ -87,7 +109,7 @@ public class AutonomousLayout extends AbstractLayout {
   }
 
   public void putSwerveVelocityData(int id, double current, double target) {
-    velocityGraphData.put(id, new TuningData(current, target));
+    velocityGraphData.put(id, new SwerveVelocityData(current, target));
   }
 
   @Override

@@ -3,16 +3,12 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class PCMCompressor extends SubsystemBase {
   private static final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
   private static boolean isDisabledManually = false;
 
-  public PCMCompressor() {
-    ShuffleboardUI.Overview.setCompressor(this::isEnabled);
-    ShuffleboardUI.Overview.setCompressorManuallyDisabled(this::isDisabledManually);
-  }
+  public PCMCompressor() {}
 
   public void disable() {
     compressor.disable();
@@ -50,4 +46,9 @@ public class PCMCompressor extends SubsystemBase {
 
   @Override
   public void periodic() {}
+
+  /** frees up all hardware allocations */
+  public void close() {
+    compressor.close();
+  }
 }

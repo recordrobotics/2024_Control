@@ -16,14 +16,13 @@ import frc.robot.utils.DriveCommandData;
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends KillableSubsystem {
 
-  // Creates Nav object
-  private final NavSensor _nav = new NavSensor();
+  public final NavSensor _nav = new NavSensor();
 
   // Creates swerve module objects
-  private final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
-  private final SwerveModule m_frontRight = new SwerveModule(Constants.Swerve.frontRightConstants);
-  private final SwerveModule m_backLeft = new SwerveModule(Constants.Swerve.backLeftConstants);
-  private final SwerveModule m_backRight = new SwerveModule(Constants.Swerve.backRightConstants);
+  public final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
+  public final SwerveModule m_frontRight = new SwerveModule(Constants.Swerve.frontRightConstants);
+  public final SwerveModule m_backLeft = new SwerveModule(Constants.Swerve.backLeftConstants);
+  public final SwerveModule m_backRight = new SwerveModule(Constants.Swerve.backRightConstants);
 
   // Creates swerve kinematics
   private final SwerveDriveKinematics m_kinematics =
@@ -172,5 +171,14 @@ public class Drivetrain extends KillableSubsystem {
             confidence,
             9999999) // big number to remove all influence of limelight pose rotation
         );
+  }
+
+  /** frees up all hardware allocations */
+  public void close() {
+    _nav.close();
+    m_backLeft.close();
+    m_backRight.close();
+    m_frontLeft.close();
+    m_frontRight.close();
   }
 }

@@ -33,8 +33,6 @@ public class RobotContainer {
   private final Channel channel;
   private final Photosensor photosensor;
   private final PCMCompressor compressor;
-
-  @SuppressWarnings("unused")
   private final Limelight limelight;
 
   // Autonomous
@@ -64,6 +62,62 @@ public class RobotContainer {
 
     // Bindings and Teleop
     configureButtonBindings();
+
+    // Setup other dashboards
+    setuptestdashboard();
+  }
+
+  private void setuptestdashboard() {
+    // TODO move the rest of dashboard setup here and out of subsystem classes.
+    // TODO the rest of the dashboard setup is Drivetrain, Limelight, and SwerveModule
+    // This makes sure we don't accidentally pull in the dashboards (and therefore other subsystems)
+    // while running tests.
+
+    ShuffleboardUI.Overview.setAcquisition(() -> acquisition.acquisitionMotor.get() != 0);
+    ShuffleboardUI.Autonomous.setAcquisition(() -> acquisition.acquisitionMotor.get() != 0);
+    ShuffleboardUI.Test.addMotor("Acquisition", acquisition.acquisitionMotor);
+
+    ShuffleboardUI.Test.addMotor("Channel", channel.channelMotor);
+
+    ShuffleboardUI.Overview.setTagNum(() -> limelight.numTags);
+    ShuffleboardUI.Overview.setConfidence(() -> limelight.confidence);
+    ShuffleboardUI.Overview.setHasVision(() -> limelight.hasVision);
+    ShuffleboardUI.Overview.setLimelightConnected(() -> limelight.limelightConnected);
+
+    ShuffleboardUI.Overview.setNavSensor(NavSensor._nav::isConnected);
+    ShuffleboardUI.Test.addBoolean("Nav Sensor", NavSensor._nav::isConnected);
+
+    ShuffleboardUI.Overview.setCompressor(compressor::isEnabled);
+    ShuffleboardUI.Overview.setCompressorManuallyDisabled(compressor::isDisabledManually);
+
+    ShuffleboardUI.Overview.setHasNote(
+        photosensor::getDebouncedValue); // set up shuffleboard HasNote for tele-op
+    ShuffleboardUI.Autonomous.setHasNote(
+        photosensor::getDebouncedValue); // set up shuffleboard HasNote for autonomous
+
+    ShuffleboardUI.Test.addSlider(
+            "Flywheel Left",
+            shooter.flywheelL.get(),
+            -1,
+            1) // LEFT set slider to show value between -1 and 1
+        .subscribe(shooter.flywheelL::set); // LEFT if the slider is moved, call flywheelL.set
+    ShuffleboardUI.Test.addSlider(
+            "Flywheel Right",
+            shooter.flywheelR.get(),
+            -1,
+            1) // RIGHT set slider to show value between -1 and 1
+        .subscribe(shooter.flywheelR::set); // RIGHT if the slider is moved, call flywheelR.set
+
+    SwerveModule[] modules = {
+      drivetrain.m_frontLeft, drivetrain.m_frontRight, drivetrain.m_backLeft, drivetrain.m_backRight
+    };
+    for (SwerveModule module : modules) {
+      ShuffleboardUI.Test.addMotor("Drive " + module.driveMotorChannel, module.m_driveMotor);
+      ShuffleboardUI.Test.addMotor("Turn " + module.turningMotorChannel, module.m_turningMotor);
+      ShuffleboardUI.Test.addNumber(
+          "Encoder " + module.absoluteTurningMotorEncoder.getSourceChannel(),
+          module.absoluteTurningMotorEncoder::getAbsolutePosition);
+    }
   }
 
   public void teleopInit() {
@@ -132,5 +186,18 @@ public class RobotContainer {
 
   public void testPeriodic() {
     ShuffleboardUI.Test.testPeriodic();
+  }
+
+  /** frees up all hardware allocations */
+  public void close() {
+    drivetrain.close();
+    channel.close();
+    acquisition.close();
+    shooter.close();
+    crashbar.close();
+    photosensor.close();
+    climbers.close();
+    compressor.close();
+    limelight.close();
   }
 }
