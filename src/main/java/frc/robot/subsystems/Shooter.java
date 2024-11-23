@@ -5,18 +5,18 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import frc.robot.utils.simulation.CANSparkMaxWrapper;
 
 public class Shooter extends KillableSubsystem {
 
   public CANSparkMaxWrapper flywheelL;
   public CANSparkMaxWrapper flywheelR;
-  
+
   private PIDController leftPID = new PIDController(0.07, 0, 0);
   private PIDController rightPID = new PIDController(0.07, 0, 0);
   private SimpleMotorFeedforward leftFeedForward = new SimpleMotorFeedforward(0.12, 0.14);
@@ -42,10 +42,11 @@ public class Shooter extends KillableSubsystem {
     OFF; // Off
   }
 
-  public double getLeftWheelVelocity(){
+  public double getLeftWheelVelocity() {
     return flywheelL.getEncoder().getVelocity() / 60.0; /* RPM -> RPS */
   }
-  public double getRightWheelVelocity(){
+
+  public double getRightWheelVelocity() {
     return flywheelR.getEncoder().getVelocity() / 60.0; /* RPM -> RPS */
   }
 
@@ -81,19 +82,16 @@ public class Shooter extends KillableSubsystem {
 
   @Override
   public void periodic() {
-    double leftPIDOutput =
-        leftPID.calculate(getLeftWheelVelocity(), targetVelocityLeft);
+    double leftPIDOutput = leftPID.calculate(getLeftWheelVelocity(), targetVelocityLeft);
     double leftFeedforwardOutput = leftFeedForward.calculate(targetVelocityLeft);
-    flywheelL.setVoltage(leftPIDOutput + leftFeedforwardOutput); // Feed forward runs on voltage control
-    double rightPIDOutput =
-        rightPID.calculate(getRightWheelVelocity(), targetVelocityRight);
+    flywheelL.setVoltage(
+        leftPIDOutput + leftFeedforwardOutput); // Feed forward runs on voltage control
+    double rightPIDOutput = rightPID.calculate(getRightWheelVelocity(), targetVelocityRight);
     double rightFeedforwardOutput = rightFeedForward.calculate(targetVelocityRight);
     flywheelR.setVoltage(
         rightPIDOutput + rightFeedforwardOutput); // Feed forward runs on voltage control
-    ShuffleboardUI.Overview.putShooterSpeedData(
-      0, getLeftWheelVelocity(), targetVelocityLeft);
-    ShuffleboardUI.Overview.putShooterSpeedData(
-      1, getRightWheelVelocity(), targetVelocityRight);
+    ShuffleboardUI.Overview.putShooterSpeedData(0, getLeftWheelVelocity(), targetVelocityLeft);
+    ShuffleboardUI.Overview.putShooterSpeedData(1, getRightWheelVelocity(), targetVelocityRight);
   }
 
   @Override

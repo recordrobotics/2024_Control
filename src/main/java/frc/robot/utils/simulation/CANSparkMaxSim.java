@@ -1,7 +1,6 @@
 package frc.robot.utils.simulation;
 
 import com.revrobotics.RelativeEncoder;
-
 import frc.robot.Constants;
 
 public class CANSparkMaxSim {
@@ -27,6 +26,7 @@ public class CANSparkMaxSim {
 
   /**
    * Returns the current speed of the motor in RPM
+   *
    * @return the current motor speed in RPM
    */
   public double get() {

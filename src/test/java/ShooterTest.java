@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 public class ShooterTest {
   private Shooter shooter;
-  private static final double TOLERANCE = 0.01;
+  private static final double TOLERANCE = 300; // RPM
 
   @BeforeEach
   public void setup() {
@@ -27,8 +27,12 @@ public class ShooterTest {
   }
 
   private void assertSpeed(double speedL, double speedR, String msg) {
-    assertEquals(-speedL, this.shooter.flywheelL.get(), TOLERANCE, msg);
-    assertEquals(speedR, this.shooter.flywheelR.get(), TOLERANCE, msg);
+    for (int i = 0; i < 100; i++) {
+      this.shooter.periodic(); // make sure the PID has time to stabilize
+    }
+    assertEquals(-speedL * 60, this.shooter.flywheelL.get(), TOLERANCE, msg);
+    assertEquals(
+        speedR * 60, this.shooter.flywheelR.get(), TOLERANCE, msg); // *60 to convert RPS to RPM
   }
 
   @Test
@@ -45,9 +49,6 @@ public class ShooterTest {
   @Test
   public void testToggleAmpState() {
     this.shooter.toggle(Shooter.ShooterStates.AMP);
-    for (int i = 0; i < 100; i++) {
-      this.shooter.periodic();
-    }
     assertSpeed(Constants.Shooter.AMP_SPEED, "Motor should be set to default AMP speed.");
   }
 

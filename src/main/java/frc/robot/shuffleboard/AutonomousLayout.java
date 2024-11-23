@@ -63,9 +63,7 @@ public class AutonomousLayout extends AbstractLayout {
         .withSize(1, 1);
 
     getTab()
-        .addDoubleArray(
-            "Velocity",
-            () -> TuningData.MapToArray(velocityGraphData))
+        .addDoubleArray("Velocity", () -> TuningData.MapToArray(velocityGraphData))
         .withWidget(BuiltInWidgets.kGraph)
         .withPosition(6, 2)
         .withSize(4, 3);
