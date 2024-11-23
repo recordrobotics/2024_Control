@@ -112,7 +112,9 @@ public class Drivetrain extends KillableSubsystem {
           m_backLeft.getModulePosition(),
           m_backRight.getModulePosition()
         });
-    ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition()); // this will be moved out of drivetrain when merged with split-drivetrain
+    ShuffleboardUI.Autonomous.setRobotPose(
+        poseFilter.getEstimatedPosition()); // this will be moved out of drivetrain when merged with
+    // split-drivetrain
   }
 
   /** Resets the field relative position of the robot (mostly for testing). */
