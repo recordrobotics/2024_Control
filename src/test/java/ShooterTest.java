@@ -45,6 +45,9 @@ public class ShooterTest {
   @Test
   public void testToggleAmpState() {
     this.shooter.toggle(Shooter.ShooterStates.AMP);
+    for (int i = 0; i < 100; i++) {
+      this.shooter.periodic();
+    }
     assertSpeed(Constants.Shooter.AMP_SPEED, "Motor should be set to default AMP speed.");
   }
 

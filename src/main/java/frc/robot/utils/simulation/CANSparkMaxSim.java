@@ -1,18 +1,15 @@
 package frc.robot.utils.simulation;
 
-import edu.wpi.first.math.system.plant.DCMotor;
+import com.revrobotics.RelativeEncoder;
+
+import frc.robot.Constants;
 
 public class CANSparkMaxSim {
-  @SuppressWarnings("unused") // TODO
-  private DCMotor motor; // TODO: simulate speeds with edu.wpi.first.wpilibj.simulation.FlywheelSim
-
   private double currentSpeed;
   private static final double minSpeed = -1;
   private static final double maxSpeed = 1;
 
-  public CANSparkMaxSim() {
-    // motor = DCMotor.getNEO(1); // TODO
-  }
+  public CANSparkMaxSim() {}
 
   private double clamp(double old) {
     if (old < minSpeed) {
@@ -28,22 +25,19 @@ public class CANSparkMaxSim {
     currentSpeed = clamp(speed);
   }
 
+  /**
+   * Returns the current speed of the motor in RPM
+   * @return the current motor speed in RPM
+   */
   public double get() {
-    return currentSpeed;
+    return currentSpeed * 12 * Constants.NeoSim.NEO_MOTOR_KV;
+  }
+
+  public RelativeEncoder getEncoder() {
+    return new CANSparkMaxEncoderSim(get(), 0);
+  }
+
+  public void setVoltage(double voltage) {
+    set(voltage / 12);
   }
 }
-
-/* its your job to add flywheelsim
- * be warned, the docs are terrible
- * its very confusing
- * dont try at home
- * will cause banging head against wall
- * speaking from expirence here
- * TODO
- * TODO
- * TODO
- * TODO
- * TODO
- * TODO
- * https://first.wpi.edu/wpilib/allwpilib/docs/release/java/edu/wpi/first/wpilibj/simulation/FlywheelSim.html
- */

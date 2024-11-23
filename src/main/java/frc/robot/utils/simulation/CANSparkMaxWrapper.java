@@ -2,6 +2,8 @@ package frc.robot.utils.simulation;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+
 import edu.wpi.first.wpilibj.RobotBase;
 
 public class CANSparkMaxWrapper {
@@ -29,6 +31,22 @@ public class CANSparkMaxWrapper {
       return motor.get();
     } else {
       return simMotor.get();
+    }
+  }
+
+  public RelativeEncoder getEncoder() {
+    if (RobotBase.isReal()) {
+      return motor.getEncoder();
+    } else {
+      return simMotor.getEncoder();
+    }
+  }
+
+  public void setVoltage(double voltage) {
+    if (RobotBase.isReal()) {
+      motor.setVoltage(voltage);
+    } else {
+      simMotor.setVoltage(voltage);
     }
   }
 
