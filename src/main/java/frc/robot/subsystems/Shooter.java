@@ -19,7 +19,7 @@ public class Shooter extends KillableSubsystem {
   public CANSparkMaxWrapper flywheelR;
 
   private PIDController leftPID = new PIDController(0.07, 0, 0);
-  private PIDController rightPID = new PIDController(0.07, 0, 0);
+  private PIDController rightPID = new PIDController(0.07, 0.2, 0);
   private SimpleMotorFeedforward leftFeedForward = new SimpleMotorFeedforward(0.12, 0.14);
   private SimpleMotorFeedforward rightFeedForward = new SimpleMotorFeedforward(0.12, 0.13);
   private double targetVelocityLeft = 0.0;
@@ -35,8 +35,7 @@ public class Shooter extends KillableSubsystem {
 
     toggle(ShooterStates.OFF); // initialize as off
 
-    SmartDashboard.putNumber("Flywheel Left Velocity", 0);
-    SmartDashboard.putNumber("Flywheel Right Velocity", 0);
+    SmartDashboard.putNumber("Flywheel Velocity", 0);
   }
 
   public enum ShooterStates {
@@ -87,8 +86,8 @@ public class Shooter extends KillableSubsystem {
   @Override
   public void periodic() {
     toggle(
-      SmartDashboard.getNumber("Flywheel Left Velocity", 0),
-      SmartDashboard.getNumber("Flywheel Right Velocity", 0)
+      SmartDashboard.getNumber("Flywheel Velocity", 0),
+      SmartDashboard.getNumber("Flywheel Velocity", 0)
     );
     double leftPIDOutput = leftPID.calculate(getLeftWheelVelocity(), targetVelocityLeft);
     double leftFeedforwardOutput = leftFeedForward.calculate(targetVelocityLeft);

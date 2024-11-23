@@ -1,28 +1,4 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "Compressor[0]": {
-        "header": {
-          "open": true
-        }
-      },
-      "DutyCycleEncoder[3]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX (v6)[2]/Rotor Sensor": {
-        "header": {
-          "open": true
-        }
-      },
-      "navX-Sensor[0]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -33,13 +9,21 @@
       "/Shuffleboard/Overview/Driver Orientation": "String Chooser",
       "/Shuffleboard/Test/Acquisition": "Motor Controller",
       "/Shuffleboard/Test/Channel": "Motor Controller",
+      "/Shuffleboard/Test/Drive 2": "Motor Controller",
       "/Shuffleboard/Test/Drive 2.0": "Motor Controller",
+      "/Shuffleboard/Test/Drive 4": "Motor Controller",
       "/Shuffleboard/Test/Drive 4.0": "Motor Controller",
+      "/Shuffleboard/Test/Drive 6": "Motor Controller",
       "/Shuffleboard/Test/Drive 6.0": "Motor Controller",
+      "/Shuffleboard/Test/Drive 8": "Motor Controller",
       "/Shuffleboard/Test/Drive 8.0": "Motor Controller",
+      "/Shuffleboard/Test/Turn 1": "Motor Controller",
       "/Shuffleboard/Test/Turn 1.0": "Motor Controller",
+      "/Shuffleboard/Test/Turn 3": "Motor Controller",
       "/Shuffleboard/Test/Turn 3.0": "Motor Controller",
+      "/Shuffleboard/Test/Turn 5": "Motor Controller",
       "/Shuffleboard/Test/Turn 5.0": "Motor Controller",
+      "/Shuffleboard/Test/Turn 7": "Motor Controller",
       "/Shuffleboard/Test/Turn 7.0": "Motor Controller",
       "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Drive Mode": "String Chooser",
@@ -74,9 +58,21 @@
       },
       "Shuffleboard": {
         ".metadata": {
+          "Overview": {
+            "open": true
+          },
+          "Test": {
+            "Drive 4": {
+              "open": true
+            },
+            "open": true
+          },
           "open": true
         },
         ".recording": {
+          "open": true
+        },
+        "Overview": {
           "open": true
         },
         "open": true
@@ -112,7 +108,16 @@
         "open": true
       },
       "open": true
-    },
-    "visible": true
+    }
+  },
+  "NetworkTables View": {
+    "visible": false
+  },
+  "Plot": {
+    "Plot <0>": {
+      "window": {
+        "visible": false
+      }
+    }
   }
 }
