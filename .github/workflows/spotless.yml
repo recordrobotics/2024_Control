@@ -1,4 +1,4 @@
-on: [push]
+on: [push, pull_request]
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   spotless:
@@ -15,4 +15,4 @@ jobs:
           distribution: 'zulu'
           java-version: 17
       - run: chmod +x ./gradlew
-      - run: ./gradlew :spotlessApply
+      - run: ./gradlew :spotlessCheck
