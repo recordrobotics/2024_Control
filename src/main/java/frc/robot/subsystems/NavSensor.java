@@ -4,8 +4,9 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.shuffleboard.ShuffleboardUI;
 
-public class NavSensor extends SubsystemBase {
+public class NavSensor extends SubsystemBase implements ShuffleboardPublisher {
 
   private static double period = 0.02;
 
@@ -26,6 +27,16 @@ public class NavSensor extends SubsystemBase {
 
   // variable to keep track of a reference angle whenever you reset
   private static double referenceAngle = _nav.getAngle();
+
+  private static NavSensor instance;
+
+  public static NavSensor getInstance() {
+    return instance;
+  }
+
+  public NavSensor() {
+    instance = this;
+  }
 
   // Resets nav
   static {
@@ -59,4 +70,10 @@ public class NavSensor extends SubsystemBase {
 
   /** frees up all hardware allocations */
   public void close() {}
+
+  @Override
+  public void setupShuffleboard() {
+    ShuffleboardUI.Overview.setNavSensor(NavSensor._nav::isConnected);
+    ShuffleboardUI.Test.addBoolean("Nav Sensor", NavSensor._nav::isConnected);
+  }
 }

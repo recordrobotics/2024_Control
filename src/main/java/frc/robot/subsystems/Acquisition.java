@@ -3,11 +3,16 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.robot.shuffleboard.ShuffleboardUI;
 
-public class Acquisition extends KillableSubsystem {
-  public Spark acquisitionMotor = new Spark(RobotMap.Acquisition.ACQUISITION_MOTOR_ID);
+public class Acquisition extends KillableSubsystem implements ShuffleboardPublisher {
+  private Spark acquisitionMotor = new Spark(RobotMap.Acquisition.ACQUISITION_MOTOR_ID);
   private static final double acquisitionDefaultSpeed = Constants.Acquisition.ACQUISITION_SPEED;
-  public AcquisitionStates acquisitionState = AcquisitionStates.OFF;
+  private AcquisitionStates acquisitionState = AcquisitionStates.OFF;
+
+  public AcquisitionStates getAcquisitionState() {
+    return acquisitionState;
+  }
 
   public Acquisition() {
     toggle(AcquisitionStates.OFF);
@@ -48,5 +53,12 @@ public class Acquisition extends KillableSubsystem {
   @Override
   public void close() {
     acquisitionMotor.close();
+  }
+
+  @Override
+  public void setupShuffleboard() {
+    ShuffleboardUI.Overview.setAcquisition(() -> acquisitionMotor.get() != 0);
+    ShuffleboardUI.Autonomous.setAcquisition(() -> acquisitionMotor.get() != 0);
+    ShuffleboardUI.Test.addMotor("Acquisition", acquisitionMotor);
   }
 }

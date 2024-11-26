@@ -3,6 +3,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import edu.wpi.first.hal.HAL;
 import frc.robot.Constants;
 import frc.robot.subsystems.Shooter;
+import frc.robot.utils.simulation.CANSparkMaxWrapper;
+import java.lang.reflect.Field;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,13 +28,27 @@ public class ShooterTest {
     assertSpeed(speed, speed, msg);
   }
 
+  private CANSparkMaxWrapper getShooterField(String name) {
+    try {
+      Field field = this.shooter.getClass().getDeclaredField(name);
+      field.setAccessible(true);
+      return (CANSparkMaxWrapper) field.get(this.shooter);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
   private void assertSpeed(double speedL, double speedR, String msg) {
     for (int i = 0; i < 100; i++) {
       this.shooter.periodic(); // make sure the PID has time to stabilize
     }
-    assertEquals(-speedL * 60, this.shooter.flywheelL.get(), TOLERANCE, msg);
+
+    assertEquals(-speedL * 60, getShooterField("flywheelL").get(), TOLERANCE, msg);
     assertEquals(
-        speedR * 60, this.shooter.flywheelR.get(), TOLERANCE, msg); // *60 to convert RPS to RPM
+        speedR * 60,
+        getShooterField("flywheelR").get(),
+        TOLERANCE,
+        msg); // *60 to convert RPS to RPM
   }
 
   @Test

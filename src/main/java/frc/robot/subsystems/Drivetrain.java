@@ -14,15 +14,12 @@ import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.DriveCommandData;
 
 /** Represents a swerve drive style drivetrain. */
-public class Drivetrain extends KillableSubsystem {
-
-  public final NavSensor _nav = new NavSensor();
-
+public class Drivetrain extends KillableSubsystem implements ShuffleboardPublisher {
   // Creates swerve module objects
-  public final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
-  public final SwerveModule m_frontRight = new SwerveModule(Constants.Swerve.frontRightConstants);
-  public final SwerveModule m_backLeft = new SwerveModule(Constants.Swerve.backLeftConstants);
-  public final SwerveModule m_backRight = new SwerveModule(Constants.Swerve.backRightConstants);
+  private final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
+  private final SwerveModule m_frontRight = new SwerveModule(Constants.Swerve.frontRightConstants);
+  private final SwerveModule m_backLeft = new SwerveModule(Constants.Swerve.backLeftConstants);
+  private final SwerveModule m_backRight = new SwerveModule(Constants.Swerve.backRightConstants);
 
   // Creates swerve kinematics
   private final SwerveDriveKinematics m_kinematics =
@@ -37,12 +34,12 @@ public class Drivetrain extends KillableSubsystem {
 
   // Init drivetrain
   public Drivetrain(Pose2d startingPose) {
-    _nav.resetAngleAdjustment();
+    NavSensor.getInstance().resetAngleAdjustment();
 
     poseFilter =
         new SwerveDrivePoseEstimator(
             m_kinematics,
-            _nav.getAdjustedAngle(),
+            NavSensor.getInstance().getAdjustedAngle(),
             new SwerveModulePosition[] {
               m_frontLeft.getModulePosition(),
               m_frontRight.getModulePosition(),
@@ -101,10 +98,10 @@ public class Drivetrain extends KillableSubsystem {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("gyro", _nav.getAdjustedAngle().getDegrees());
+    SmartDashboard.putNumber("gyro", NavSensor.getInstance().getAdjustedAngle().getDegrees());
     SmartDashboard.putNumber("pose", poseFilter.getEstimatedPosition().getRotation().getDegrees());
     poseFilter.update(
-        _nav.getAdjustedAngle(),
+        NavSensor.getInstance().getAdjustedAngle(),
         new SwerveModulePosition[] {
           m_frontLeft.getModulePosition(),
           m_frontRight.getModulePosition(),
@@ -119,7 +116,7 @@ public class Drivetrain extends KillableSubsystem {
   /** Resets the field relative position of the robot (mostly for testing). */
   public void resetStartingPose(Pose2d startingPose) {
     poseFilter.resetPosition(
-        _nav.getAdjustedAngle(),
+        NavSensor.getInstance().getAdjustedAngle(),
         new SwerveModulePosition[] {
           m_frontLeft.getModulePosition(),
           m_frontRight.getModulePosition(),
@@ -132,7 +129,7 @@ public class Drivetrain extends KillableSubsystem {
   /** Resets the pose to FrontSpeakerClose (shooter facing towards speaker) */
   public void resetDriverPose() {
     poseFilter.resetPosition(
-        _nav.getAdjustedAngle(),
+        NavSensor.getInstance().getAdjustedAngle(),
         new SwerveModulePosition[] {
           m_frontLeft.getModulePosition(),
           m_frontRight.getModulePosition(),
@@ -154,7 +151,7 @@ public class Drivetrain extends KillableSubsystem {
   /** Similar to resetPose but adds an argument for the initial pose */
   public void setToPose(Pose2d pose) {
     poseFilter.resetPosition(
-        _nav.getAdjustedAngle(),
+        NavSensor.getInstance().getAdjustedAngle(),
         new SwerveModulePosition[] {
           m_frontLeft.getModulePosition(),
           m_frontRight.getModulePosition(),
@@ -177,10 +174,22 @@ public class Drivetrain extends KillableSubsystem {
 
   /** frees up all hardware allocations */
   public void close() {
-    _nav.close();
+    NavSensor.getInstance().close();
     m_backLeft.close();
     m_backRight.close();
     m_frontLeft.close();
     m_frontRight.close();
+  }
+
+  @Override
+  public void setupShuffleboard() {
+    SwerveModule[] modules = {m_frontLeft, m_frontRight, m_backLeft, m_backRight};
+    for (SwerveModule module : modules) {
+      ShuffleboardUI.Test.addMotor("Drive " + module.driveMotorChannel, module.m_driveMotor);
+      ShuffleboardUI.Test.addMotor("Turn " + module.turningMotorChannel, module.m_turningMotor);
+      ShuffleboardUI.Test.addNumber(
+          "Encoder " + module.absoluteTurningMotorEncoder.getSourceChannel(),
+          module.absoluteTurningMotorEncoder::getAbsolutePosition);
+    }
   }
 }

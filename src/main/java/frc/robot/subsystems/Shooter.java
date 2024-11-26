@@ -12,10 +12,10 @@ import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.simulation.CANSparkMaxWrapper;
 
-public class Shooter extends KillableSubsystem {
+public class Shooter extends KillableSubsystem implements ShuffleboardPublisher {
 
-  public CANSparkMaxWrapper flywheelL;
-  public CANSparkMaxWrapper flywheelR;
+  private CANSparkMaxWrapper flywheelL;
+  private CANSparkMaxWrapper flywheelR;
 
   private PIDController leftPID = new PIDController(0.07, 0, 0);
   private PIDController rightPID = new PIDController(0.07, 0.2, 0);
@@ -102,8 +102,25 @@ public class Shooter extends KillableSubsystem {
   }
 
   /** frees up all hardware allocations */
+  @Override
   public void close() {
     flywheelL.close();
     flywheelR.close();
+  }
+
+  @Override
+  public void setupShuffleboard() {
+    ShuffleboardUI.Test.addSlider(
+            "Flywheel Left",
+            flywheelL.get(),
+            -1,
+            1) // LEFT set slider to show value between -1 and 1
+        .subscribe(flywheelL::set); // LEFT if the slider is moved, call flywheelL.set
+    ShuffleboardUI.Test.addSlider(
+            "Flywheel Right",
+            flywheelR.get(),
+            -1,
+            1) // RIGHT set slider to show value between -1 and 1
+        .subscribe(flywheelR::set); // RIGHT if the slider is moved, call flywheelR.set
   }
 }

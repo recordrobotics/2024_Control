@@ -3,12 +3,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.shuffleboard.ShuffleboardUI;
 
-public class Photosensor extends SubsystemBase {
+public class Photosensor extends SubsystemBase implements ShuffleboardPublisher {
 
   private static DigitalInput photosensor;
   private static Boolean debounced_value = false;
-  Debouncer m_debouncer = new Debouncer(0.05, Debouncer.DebounceType.kBoth);
+  private Debouncer m_debouncer = new Debouncer(0.05, Debouncer.DebounceType.kBoth);
 
   public Photosensor() {
     photosensor = new DigitalInput(0); // initialize digital input on pin 0
@@ -37,5 +38,13 @@ public class Photosensor extends SubsystemBase {
   /** frees up all hardware allocations */
   public void close() {
     photosensor.close();
+  }
+
+  @Override
+  public void setupShuffleboard() {
+    ShuffleboardUI.Overview.setHasNote(
+        this::getDebouncedValue); // set up shuffleboard HasNote for tele-op
+    ShuffleboardUI.Autonomous.setHasNote(
+        this::getDebouncedValue); // set up shuffleboard HasNote for autonomous
   }
 }

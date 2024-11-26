@@ -3,9 +3,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.robot.shuffleboard.ShuffleboardUI;
 
-public class Channel extends KillableSubsystem {
-  public Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);
+public class Channel extends KillableSubsystem implements ShuffleboardPublisher {
+  private Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);
 
   public Channel() {
     toggle(ChannelStates.OFF);
@@ -48,5 +49,10 @@ public class Channel extends KillableSubsystem {
   /** frees up all hardware allocations */
   public void close() {
     channelMotor.close();
+  }
+
+  @Override
+  public void setupShuffleboard() {
+    ShuffleboardUI.Test.addMotor("Channel", channelMotor);
   }
 }

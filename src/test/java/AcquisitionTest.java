@@ -31,7 +31,7 @@ public class AcquisitionTest {
   public void testInitialState() {
     assertEquals(
         Acquisition.AcquisitionStates.OFF,
-        acquisition.acquisitionState,
+        acquisition.getAcquisitionState(),
         "Initial state should be OFF.");
     assertEquals(0, motorSim.getSpeed(), TOLERANCE, "Motor should be off initially.");
   }
@@ -40,7 +40,7 @@ public class AcquisitionTest {
   public void testToggleInState() {
     acquisition.toggle(Acquisition.AcquisitionStates.IN);
     assertEquals(
-        Acquisition.AcquisitionStates.IN, acquisition.acquisitionState, "State should be IN.");
+        Acquisition.AcquisitionStates.IN, acquisition.getAcquisitionState(), "State should be IN.");
     assertEquals(
         Constants.Acquisition.ACQUISITION_SPEED,
         motorSim.getSpeed(),
@@ -53,7 +53,7 @@ public class AcquisitionTest {
     acquisition.toggle(Acquisition.AcquisitionStates.REVERSE);
     assertEquals(
         Acquisition.AcquisitionStates.REVERSE,
-        acquisition.acquisitionState,
+        acquisition.getAcquisitionState(),
         "State should be REVERSE.");
     assertEquals(
         -Constants.Acquisition.ACQUISITION_SPEED,
@@ -79,7 +79,9 @@ public class AcquisitionTest {
     acquisition.toggle(Acquisition.AcquisitionStates.IN); // Set to IN first
     acquisition.toggle(Acquisition.AcquisitionStates.OFF); // Now set to OFF
     assertEquals(
-        Acquisition.AcquisitionStates.OFF, acquisition.acquisitionState, "State should be OFF.");
+        Acquisition.AcquisitionStates.OFF,
+        acquisition.getAcquisitionState(),
+        "State should be OFF.");
     assertEquals(0, motorSim.getSpeed(), TOLERANCE, "Motor should be off when state is OFF.");
   }
 
@@ -89,7 +91,7 @@ public class AcquisitionTest {
     acquisition.kill(); // Kill should turn off the motor
     assertEquals(
         Acquisition.AcquisitionStates.OFF,
-        acquisition.acquisitionState,
+        acquisition.getAcquisitionState(),
         "Kill should set state to OFF.");
     assertEquals(0, motorSim.getSpeed(), TOLERANCE, "Motor should be off after kill.");
   }
