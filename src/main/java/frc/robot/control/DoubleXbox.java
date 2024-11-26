@@ -32,7 +32,7 @@ public class DoubleXbox extends AbstractControl {
   public DriveCommandData getDriveCommandData() {
 
     // Calculates spin
-    double robot_angle = PoseTracker.instance.getEstimatedPosition().getRotation().getRadians();
+    double robot_angle = PoseTracker.getEstimatedPosition().getRotation().getRadians();
     double target_angle = super.OrientAngle(getAngle().getFirst()).getRadians();
     double spin =
         anglePID.calculate(

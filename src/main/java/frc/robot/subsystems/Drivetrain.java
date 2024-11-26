@@ -53,7 +53,7 @@ public class Drivetrain extends KillableSubsystem {
         m_kinematics.toSwerveModuleStates(
             fieldRelative
                 ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, rot, PoseTracker.instance.getEstimatedPosition().getRotation())
+                    xSpeed, ySpeed, rot, PoseTracker.getEstimatedPosition().getRotation())
                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
     // Desaturates wheel speeds

@@ -19,7 +19,7 @@ public class TriggerProcessor {
 
     TriggerDistance annotation = clas.getAnnotation(TriggerDistance.class);
     // read the docs
-    Translation2d swervePosition = PoseTracker.instance.getEstimatedPosition().getTranslation();
+    Translation2d swervePosition = PoseTracker.getEstimatedPosition().getTranslation();
     Translation2d annotationPosition = annotation.position().getPose();
     return Optional.of(swervePosition.getDistance(annotationPosition) <= annotation.distance());
   }

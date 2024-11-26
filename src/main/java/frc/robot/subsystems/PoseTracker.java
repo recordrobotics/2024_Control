@@ -7,7 +7,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.LimelightHelpers;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class PoseTracker extends SubsystemBase {
@@ -15,7 +14,7 @@ public class PoseTracker extends SubsystemBase {
 
   private final NavSensor nav = new NavSensor();
 
-  public static SwerveDrivePoseEstimator poseFilter;
+  private static SwerveDrivePoseEstimator poseFilter;
 
   private final Drivetrain drivetrain;
   private final Limelight limelight;
@@ -57,50 +56,44 @@ public class PoseTracker extends SubsystemBase {
     return drivetrain.getModulePositions();
   }
 
-  public Pose2d getEstimatedPosition() {
+  public Pose2d _getEstimatedPosition() {
     return poseFilter.getEstimatedPosition();
   }
 
-  public void updateOdometry(SwerveModulePosition[] positions) {
-    poseFilter.update(nav.getAdjustedAngle(), positions);
-  }
-
-  /**
-   * Add a vision measurement to the pose filter. The confidence value is the standard deviation of
-   * the measurement, so larger values mean less confidence.
-   *
-   * @param estimate The pose estimate from the vision system.
-   * @param confidence The confidence in the measurement, in the range [0, 1].
-   */
-  public void addVisionMeasurement(LimelightHelpers.PoseEstimate estimate, double confidence) {
-    poseFilter.addVisionMeasurement(
-        estimate.pose,
-        estimate.timestampSeconds,
-        VecBuilder.fill(
-            confidence,
-            confidence,
-            9999999) // big number to remove all influence of limelight pose rotation
-        );
-  }
-
   /** Similar to resetPose but adds an argument for the initial pose */
-  public void setToPose(Pose2d pose) {
+  public void _setToPose(Pose2d pose) {
     poseFilter.resetPosition(nav.getAdjustedAngle(), getModulePositions(), pose);
   }
 
   /** Resets the field relative position of the robot (mostly for testing). */
-  public void resetStartingPose() {
-    poseFilter.resetPosition(
-        nav.getAdjustedAngle(),
-        getModulePositions(),
-        ShuffleboardUI.Autonomous.getStartingLocation().getPose());
+  public void _resetStartingPose() {
+    setToPose(ShuffleboardUI.Autonomous.getStartingLocation().getPose());
   }
 
   /** Resets the pose to FrontSpeakerClose (shooter facing towards speaker) */
-  public void resetDriverPose() {
+  public void _resetDriverPose() {
     poseFilter.resetPosition(
         nav.getAdjustedAngle(),
         getModulePositions(),
         Constants.FieldStartingLocation.FrontSpeakerClose.getPose());
+  }
+
+  // Singleton stuff
+  // just static versions of the above methods to avoid .instance boilerplate
+
+  public static Pose2d getEstimatedPosition() {
+    return PoseTracker.instance._getEstimatedPosition();
+  }
+
+  public static void setToPose(Pose2d pose) {
+    PoseTracker.instance._setToPose(pose);
+  }
+
+  public static void resetStartingPose() {
+    PoseTracker.instance._resetStartingPose();
+  }
+
+  public static void resetDriverPose() {
+    PoseTracker.instance._resetDriverPose();
   }
 }
