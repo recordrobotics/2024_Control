@@ -151,7 +151,7 @@ public class DoubleXbox extends AbstractControl {
   }
 
   @Override
-  public Boolean getManualAcquisition() {
+  public Boolean getManualChannel() {
     return notesbox.getXButton();
   }
 
