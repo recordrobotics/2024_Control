@@ -9,8 +9,7 @@ import frc.robot.Constants;
 import frc.robot.utils.DriveCommandData;
 
 /** Represents a swerve drive style drivetrain. */
-public class Drivetrain extends KillableSubsystem {
-
+public class Drivetrain extends KillableSubsystem implements ShuffleboardPublisher {
   // Creates swerve module objects
   private final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
   private final SwerveModule m_frontRight = new SwerveModule(Constants.Swerve.frontRightConstants);
@@ -114,5 +113,26 @@ public class Drivetrain extends KillableSubsystem {
       m_backLeft.getModulePosition(),
       m_backRight.getModulePosition()
     };
+    
+
+  /** frees up all hardware allocations */
+  public void close() {
+    NavSensor.getInstance().close();
+    m_backLeft.close();
+    m_backRight.close();
+    m_frontLeft.close();
+    m_frontRight.close();
+  }
+
+  @Override
+  public void setupShuffleboard() {
+    SwerveModule[] modules = {m_frontLeft, m_frontRight, m_backLeft, m_backRight};
+    for (SwerveModule module : modules) {
+      ShuffleboardUI.Test.addMotor("Drive " + module.driveMotorChannel, module.m_driveMotor);
+      ShuffleboardUI.Test.addMotor("Turn " + module.turningMotorChannel, module.m_turningMotor);
+      ShuffleboardUI.Test.addNumber(
+          "Encoder " + module.absoluteTurningMotorEncoder.getSourceChannel(),
+          module.absoluteTurningMotorEncoder::getAbsolutePosition);
+    }
   }
 }

@@ -15,10 +15,12 @@ import frc.robot.utils.ModuleConstants;
 public class SwerveModule {
 
   // Creates variables for motors and absolute encoders
-  private final TalonFX m_driveMotor;
-  private final TalonFX m_turningMotor;
-  private final DutyCycleEncoder absoluteTurningMotorEncoder;
-  private final double turningEncoderOffset;
+  public int driveMotorChannel;
+  public int turningMotorChannel;
+  public final TalonFX m_driveMotor;
+  public final TalonFX m_turningMotor;
+  public final DutyCycleEncoder absoluteTurningMotorEncoder;
+  public final double turningEncoderOffset;
 
   private final ProfiledPIDController drivePIDController;
   private final ProfiledPIDController turningPIDController;
@@ -83,8 +85,6 @@ public class SwerveModule {
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelTurnOffset());
 
-    // Sets up shuffleboard
-    setupShuffleboard(m.driveMotorChannel, m.turningMotorChannel);
   }
 
   /**
@@ -218,13 +218,18 @@ public class SwerveModule {
     m_turningMotor.set(0); // PID uses -1 to 1 speed range
   }
 
-  // SHUFFLEBOARD STUFF
+// SHUFFLEBOARD STUFF btw this was from a merge conflict but it was on a different branch from where this type of change was supposed to come from and it was being called in a way that would break the unit testing so its commented out TODO
+//  private void setupShuffleboard(double driveMotorChannel, double turningMotorChannel) {
+//    ShuffleboardUI.Test.addMotor("Drive " + driveMotorChannel, m_driveMotor);
+//    ShuffleboardUI.Test.addMotor("Turn " + turningMotorChannel, m_turningMotor);
+//    ShuffleboardUI.Test.addNumber(
+//        "Encoder " + absoluteTurningMotorEncoder.getSourceChannel(),
+//        absoluteTurningMotorEncoder::getAbsolutePosition);
 
-  private void setupShuffleboard(double driveMotorChannel, double turningMotorChannel) {
-    ShuffleboardUI.Test.addMotor("Drive " + driveMotorChannel, m_driveMotor);
-    ShuffleboardUI.Test.addMotor("Turn " + turningMotorChannel, m_turningMotor);
-    ShuffleboardUI.Test.addNumber(
-        "Encoder " + absoluteTurningMotorEncoder.getSourceChannel(),
-        absoluteTurningMotorEncoder::getAbsolutePosition);
+  /** frees up all hardware allocations */
+  public void close() {
+    m_driveMotor.close();
+    m_turningMotor.close();
+    absoluteTurningMotorEncoder.close();
   }
 }

@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -10,7 +9,7 @@ import frc.robot.Robot;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.SimpleMath;
 
-public class Limelight extends SubsystemBase {
+public class Limelight extends SubsystemBase implements ShuffleboardPublisher {
 
   private static final String name = "limelight";
   private int numTags = 0;
@@ -56,11 +55,6 @@ public class Limelight extends SubsystemBase {
       }
     }
 
-    // measurement.pose = new Pose2d(
-    //     measurement.pose.getTranslation(),
-    //     measurement.pose.getRotation().plus(Rotation2d.fromDegrees(180))
-    //     );TODO TODO TODO why is this code here
-
     double timeSinceAuto = Timer.getFPGATimestamp() - Robot.getAutoStartTime();
 
     if (timeSinceAuto > 1
@@ -68,6 +62,7 @@ public class Limelight extends SubsystemBase {
             > 2) {
       confidence = 0;
     }
+  }
 
     handleMeasurement(measurement, confidence);
   }
@@ -91,5 +86,16 @@ public class Limelight extends SubsystemBase {
 
   public double getConfidence() {
     return currentConfidence;
+  }
+
+  /** frees up all hardware allocations */
+  public void close() {}
+
+  @Override
+  public void setupShuffleboard() {
+    ShuffleboardUI.Overview.setTagNum(() -> numTags);
+    ShuffleboardUI.Overview.setConfidence(() -> confidence);
+    ShuffleboardUI.Overview.setHasVision(() -> hasVision);
+    ShuffleboardUI.Overview.setLimelightConnected(() -> limelightConnected);
   }
 }

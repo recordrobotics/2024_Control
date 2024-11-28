@@ -25,6 +25,7 @@ import frc.robot.utils.AutoPath;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here
+  private final NavSensor nav;
   private final Drivetrain drivetrain;
   private final Shooter shooter;
   private final Crashbar crashbar;
@@ -33,8 +34,6 @@ public class RobotContainer {
   private final Channel channel;
   private final Photosensor photosensor;
   private final PCMCompressor compressor;
-
-  @SuppressWarnings("unused")
   private final Limelight limelight;
 
   // Autonomous
@@ -45,7 +44,8 @@ public class RobotContainer {
   public RobotContainer() {
 
     // Init subsystems
-    drivetrain = new Drivetrain();
+    nav = new NavSensor();
+    drivetrain = new Drivetrain(ShuffleboardUI.Autonomous.getStartingLocation().getPose());
     channel = new Channel();
     acquisition = new Acquisition();
     shooter = new Shooter();
@@ -67,6 +67,9 @@ public class RobotContainer {
 
     // Bindings and Teleop
     configureButtonBindings();
+
+    ShuffleboardPublisher.setup(
+        nav, drivetrain, channel, acquisition, shooter, photosensor, compressor, limelight);
   }
 
   public void teleopInit() {
@@ -135,5 +138,18 @@ public class RobotContainer {
 
   public void testPeriodic() {
     ShuffleboardUI.Test.testPeriodic();
+  }
+
+  /** frees up all hardware allocations */
+  public void close() {
+    drivetrain.close();
+    channel.close();
+    acquisition.close();
+    shooter.close();
+    crashbar.close();
+    photosensor.close();
+    climbers.close();
+    compressor.close();
+    limelight.close();
   }
 }

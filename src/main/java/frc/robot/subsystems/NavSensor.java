@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
-public class NavSensor extends SubsystemBase {
+public class NavSensor extends SubsystemBase implements ShuffleboardPublisher {
 
   private static double period = 0.02;
 
@@ -23,18 +23,25 @@ public class NavSensor extends SubsystemBase {
   private double jerkX;
   private double jerkY;
 
-  // Ceates AHRS _nav object
-  private static AHRS _nav = new AHRS(SerialPort.Port.kUSB1);
+  public static AHRS _nav = new AHRS(SerialPort.Port.kUSB1);
 
   // variable to keep track of a reference angle whenever you reset
   private static double referenceAngle = _nav.getAngle();
+
+  private static NavSensor instance;
+
+  public static NavSensor getInstance() {
+    return instance;
+  }
+
+  public NavSensor() {
+    instance = this;
+  }
 
   // Resets nav
   static {
     _nav.reset();
     _nav.resetDisplacement(); // Technically not necessary but whatever
-    ShuffleboardUI.Overview.setNavSensor(_nav::isConnected);
-    ShuffleboardUI.Test.addBoolean("Nav Sensor", _nav::isConnected);
   }
 
   // Stores the reference angle as whatever the angle is currently measured to be
@@ -59,5 +66,14 @@ public class NavSensor extends SubsystemBase {
     jerkY = (accelY - last_accelY) / period;
     last_accelX = accelX;
     last_accelY = accelY;
+  }
+
+  /** frees up all hardware allocations */
+  public void close() {}
+
+  @Override
+  public void setupShuffleboard() {
+    ShuffleboardUI.Overview.setNavSensor(NavSensor._nav::isConnected);
+    ShuffleboardUI.Test.addBoolean("Nav Sensor", NavSensor._nav::isConnected);
   }
 }
