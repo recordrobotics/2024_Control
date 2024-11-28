@@ -6,6 +6,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.DriveCommandData;
 
 /** Represents a swerve drive style drivetrain. */
@@ -113,7 +114,7 @@ public class Drivetrain extends KillableSubsystem implements ShuffleboardPublish
       m_backLeft.getModulePosition(),
       m_backRight.getModulePosition()
     };
-    
+  }
 
   /** frees up all hardware allocations */
   public void close() {

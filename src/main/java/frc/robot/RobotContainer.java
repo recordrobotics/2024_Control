@@ -45,7 +45,7 @@ public class RobotContainer {
 
     // Init subsystems
     nav = new NavSensor();
-    drivetrain = new Drivetrain(ShuffleboardUI.Autonomous.getStartingLocation().getPose());
+    drivetrain = new Drivetrain();
     channel = new Channel();
     acquisition = new Acquisition();
     shooter = new Shooter();
