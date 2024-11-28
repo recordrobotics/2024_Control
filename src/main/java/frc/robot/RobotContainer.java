@@ -55,6 +55,9 @@ public class RobotContainer {
     compressor = new PCMCompressor();
     limelight = new Limelight();
 
+    // this is very cursed but it is less cursed than other ways to do it, so don't touch
+    PoseTracker.instance = new PoseTracker(drivetrain, limelight);
+
     // Sets up auto path
     autoPath = new AutoPath(drivetrain, acquisition, photosensor, channel, shooter, crashbar);
 
@@ -118,7 +121,7 @@ public class RobotContainer {
 
     // Reset pose trigger
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getPoseReset())
-        .onTrue(new InstantCommand(drivetrain::resetDriverPose));
+        .onTrue(new InstantCommand(PoseTracker::resetDriverPose));
   }
 
   /**

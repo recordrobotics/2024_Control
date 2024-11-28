@@ -118,6 +118,7 @@ public class TestLayout extends AbstractLayout {
     for (GenericEntry key : sliderMap.keySet()) {
       sliderMap.get(key).invoke(key.getDouble(0));
     }
+  }
 
     for (GenericEntry key : headingMap.keySet()) {
       headingMap.get(key).invoke(new Rotation2d(key.getDouble(0)));

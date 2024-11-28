@@ -6,15 +6,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.PoseTracker;
 import frc.robot.utils.AutoPath;
 
 public class PlannedAuto extends SequentialCommandGroup {
   public PlannedAuto(Drivetrain drivetrain, AutoPath autoPath) {
     addCommands(
-        new InstantCommand(
-            () ->
-                drivetrain.resetStartingPose(
-                    ShuffleboardUI.Autonomous.getStartingLocation().getPose())),
+        new InstantCommand(() -> PoseTracker.resetStartingPose()),
         new PathPlannerAuto(ShuffleboardUI.Autonomous.getAutoChooser()),
         new InstantCommand(() -> drivetrain.kill()),
         new WaitCommand(0.1),

@@ -1,16 +1,11 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
-import frc.robot.LimelightHelpers;
-import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.DriveCommandData;
 
 /** Represents a swerve drive style drivetrain. */
@@ -29,33 +24,17 @@ public class Drivetrain extends KillableSubsystem implements ShuffleboardPublish
           Constants.Swerve.backLeftConstants.wheelLocation,
           Constants.Swerve.backRightConstants.wheelLocation);
 
-  // Creates swerve post estimation filter
-  public static SwerveDrivePoseEstimator poseFilter;
-
-  // Init drivetrain
-  public Drivetrain(Pose2d startingPose) {
-    NavSensor.getInstance().resetAngleAdjustment();
-
-    poseFilter =
-        new SwerveDrivePoseEstimator(
-            m_kinematics,
-            NavSensor.getInstance().getAdjustedAngle(),
-            new SwerveModulePosition[] {
-              m_frontLeft.getModulePosition(),
-              m_frontRight.getModulePosition(),
-              m_backLeft.getModulePosition(),
-              m_backRight.getModulePosition()
-            },
-            startingPose);
-  }
+  public Drivetrain() {}
 
   /**
-   * Method to drive the robot using joystick info.
+   * Drives the robot using joystick info.
    *
-   * @param xSpeed Speed of the robot in the x direction (forward).
-   * @param ySpeed Speed of the robot in the y direction (sideways).
-   * @param rot Angular rate of the robot.
-   * @param fieldRelative Whether the provided x and y speeds are relative to the field.
+   * @param driveCommandData contains all the info to drive the robot. The xSpeed and ySpeed
+   *     components are relative to the robot's current orientation if fieldRelative is false, and
+   *     relative to the field if fieldRelative is true.
+   * @param currentRotation the current rotation of the robot in the field coordinate system. Used
+   *     to convert the joystick x and y components to the field coordinate system if fieldRelative
+   *     is true.
    */
   public void drive(DriveCommandData driveCommandData) {
     // Data from driveCommandData
@@ -73,7 +52,7 @@ public class Drivetrain extends KillableSubsystem implements ShuffleboardPublish
         m_kinematics.toSwerveModuleStates(
             fieldRelative
                 ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, rot, poseFilter.getEstimatedPosition().getRotation())
+                    xSpeed, ySpeed, rot, PoseTracker.getEstimatedPosition().getRotation())
                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
     // Desaturates wheel speeds
@@ -86,7 +65,13 @@ public class Drivetrain extends KillableSubsystem implements ShuffleboardPublish
     m_backRight.setDesiredState(swerveModuleStates[3]);
   }
 
-  // set PID target to 0 but also immediately stop all modules
+  /**
+   * Sets the PID target to zero and immediately stops all swerve modules.
+   *
+   * <p>This method commands the drivetrain to stop by setting the drive speeds to zero, thus
+   * ensuring that the robot comes to a halt. It also directly stops each swerve module by setting
+   * their motor outputs to zero.
+   */
   @Override
   public void kill() {
     drive(new DriveCommandData(0, 0, 0, false));
@@ -96,50 +81,14 @@ public class Drivetrain extends KillableSubsystem implements ShuffleboardPublish
     m_backRight.stop();
   }
 
-  @Override
-  public void periodic() {
-    SmartDashboard.putNumber("gyro", NavSensor.getInstance().getAdjustedAngle().getDegrees());
-    SmartDashboard.putNumber("pose", poseFilter.getEstimatedPosition().getRotation().getDegrees());
-    poseFilter.update(
-        NavSensor.getInstance().getAdjustedAngle(),
-        new SwerveModulePosition[] {
-          m_frontLeft.getModulePosition(),
-          m_frontRight.getModulePosition(),
-          m_backLeft.getModulePosition(),
-          m_backRight.getModulePosition()
-        });
-    ShuffleboardUI.Autonomous.setRobotPose(
-        poseFilter.getEstimatedPosition()); // this will be moved out of drivetrain when merged with
-    // split-drivetrain
-  }
-
-  /** Resets the field relative position of the robot (mostly for testing). */
-  public void resetStartingPose(Pose2d startingPose) {
-    poseFilter.resetPosition(
-        NavSensor.getInstance().getAdjustedAngle(),
-        new SwerveModulePosition[] {
-          m_frontLeft.getModulePosition(),
-          m_frontRight.getModulePosition(),
-          m_backLeft.getModulePosition(),
-          m_backRight.getModulePosition()
-        },
-        startingPose);
-  }
-
-  /** Resets the pose to FrontSpeakerClose (shooter facing towards speaker) */
-  public void resetDriverPose() {
-    poseFilter.resetPosition(
-        NavSensor.getInstance().getAdjustedAngle(),
-        new SwerveModulePosition[] {
-          m_frontLeft.getModulePosition(),
-          m_frontRight.getModulePosition(),
-          m_backLeft.getModulePosition(),
-          m_backRight.getModulePosition()
-        },
-        Constants.FieldStartingLocation.FrontSpeakerClose.getPose());
-  }
-
-  /** Returns the current robot relative chassis speeds of the swerve kinematics */
+  /**
+   * Retrieves the current chassis speeds relative to the robot's orientation.
+   *
+   * <p>This method calculates the chassis speeds based on the current states of all four swerve
+   * modules using the drivetrain's kinematics.
+   *
+   * @return The current relative chassis speeds as a ChassisSpeeds object.
+   */
   public ChassisSpeeds getChassisSpeeds() {
     return m_kinematics.toChassisSpeeds(
         m_frontLeft.getModuleState(),
@@ -148,29 +97,23 @@ public class Drivetrain extends KillableSubsystem implements ShuffleboardPublish
         m_backRight.getModuleState());
   }
 
-  /** Similar to resetPose but adds an argument for the initial pose */
-  public void setToPose(Pose2d pose) {
-    poseFilter.resetPosition(
-        NavSensor.getInstance().getAdjustedAngle(),
-        new SwerveModulePosition[] {
-          m_frontLeft.getModulePosition(),
-          m_frontRight.getModulePosition(),
-          m_backLeft.getModulePosition(),
-          m_backRight.getModulePosition()
-        },
-        pose);
+  /**
+   * Returns the swerve drive kinematics for this drivetrain.
+   *
+   * @return The SwerveDriveKinematics object associated with this drivetrain.
+   */
+  public SwerveDriveKinematics getKinematics() {
+    return m_kinematics;
   }
 
-  public void addVisionMeasurement(LimelightHelpers.PoseEstimate estimate, double confidence) {
-    poseFilter.addVisionMeasurement(
-        estimate.pose,
-        estimate.timestampSeconds,
-        VecBuilder.fill(
-            confidence,
-            confidence,
-            9999999) // big number to remove all influence of limelight pose rotation
-        );
-  }
+  public SwerveModulePosition[] getModulePositions() {
+    return new SwerveModulePosition[] {
+      m_frontLeft.getModulePosition(),
+      m_frontRight.getModulePosition(),
+      m_backLeft.getModulePosition(),
+      m_backRight.getModulePosition()
+    };
+    
 
   /** frees up all hardware allocations */
   public void close() {

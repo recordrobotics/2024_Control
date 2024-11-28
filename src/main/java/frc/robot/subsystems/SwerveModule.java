@@ -85,8 +85,6 @@ public class SwerveModule {
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelTurnOffset());
 
-    driveMotorChannel = m.driveMotorChannel;
-    turningMotorChannel = m.turningMotorChannel;
   }
 
   /**
@@ -219,6 +217,14 @@ public class SwerveModule {
     m_driveMotor.setVoltage(0); // Feed forward runs on voltage control
     m_turningMotor.set(0); // PID uses -1 to 1 speed range
   }
+
+// SHUFFLEBOARD STUFF btw this was from a merge conflict but it was on a different branch from where this type of change was supposed to come from and it was being called in a way that would break the unit testing so its commented out TODO
+//  private void setupShuffleboard(double driveMotorChannel, double turningMotorChannel) {
+//    ShuffleboardUI.Test.addMotor("Drive " + driveMotorChannel, m_driveMotor);
+//    ShuffleboardUI.Test.addMotor("Turn " + turningMotorChannel, m_turningMotor);
+//    ShuffleboardUI.Test.addNumber(
+//        "Encoder " + absoluteTurningMotorEncoder.getSourceChannel(),
+//        absoluteTurningMotorEncoder::getAbsolutePosition);
 
   /** frees up all hardware allocations */
   public void close() {
