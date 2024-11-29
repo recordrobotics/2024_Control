@@ -34,7 +34,7 @@ public abstract class AbstractControl {
 
   public abstract Boolean getManualShootAmp();
 
-  public abstract Boolean getManualAcquisition();
+  public abstract Boolean getManualChannel();
 
   public abstract Boolean getManualCrashbar();
 

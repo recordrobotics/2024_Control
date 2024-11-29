@@ -227,6 +227,14 @@ public class SwerveModule {
   //        "Encoder " + absoluteTurningMotorEncoder.getSourceChannel(),
   //        absoluteTurningMotorEncoder::getAbsolutePosition);
 
+  private void setupShuffleboard(double driveMotorChannel, double turningMotorChannel) {
+    ShuffleboardUI.Test.addMotor("Drive " + driveMotorChannel, m_driveMotor);
+    ShuffleboardUI.Test.addMotor("Turn " + turningMotorChannel, m_turningMotor);
+    ShuffleboardUI.Test.addNumber(
+        "Encoder " + absoluteTurningMotorEncoder.getSourceChannel(),
+        absoluteTurningMotorEncoder::getAbsolutePosition);
+  }
+
   /** frees up all hardware allocations */
   public void close() {
     m_driveMotor.close();

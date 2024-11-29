@@ -128,7 +128,7 @@ public class JoystickXbox extends AbstractControl {
   }
 
   @Override
-  public Boolean getManualAcquisition() {
+  public Boolean getManualChannel() {
     return xbox_controller.getXButton();
   }
 

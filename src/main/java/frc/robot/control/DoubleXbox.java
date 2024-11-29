@@ -34,9 +34,7 @@ public class DoubleXbox extends AbstractControl {
     // Calculates spin
     double robot_angle = PoseTracker.getEstimatedPosition().getRotation().getRadians();
     double target_angle = super.OrientAngle(getAngle().getFirst()).getRadians();
-    double spin =
-        anglePID.calculate(
-            robot_angle, target_angle); // TODO why do we only have pid for doublexbox?
+    double spin = anglePID.calculate(robot_angle, target_angle);
     // Calculates proportion of PID to multiply by
     double magnitude = getAngle().getSecond();
 
@@ -152,7 +150,7 @@ public class DoubleXbox extends AbstractControl {
   }
 
   @Override
-  public Boolean getManualAcquisition() {
+  public Boolean getManualChannel() {
     return notesbox.getXButton();
   }
 

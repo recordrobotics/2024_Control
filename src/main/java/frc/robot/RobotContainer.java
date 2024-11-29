@@ -114,8 +114,8 @@ public class RobotContainer {
         .toggleOnTrue(new ManualShooter(shooter, Shooter.ShooterStates.SPEAKER));
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualCrashbar())
         .toggleOnTrue(new ManualCrashbar(crashbar));
-    new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualAcquisition())
-        .whileTrue(new ManualAcquisition(acquisition, channel));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualChannel())
+        .whileTrue(new ManualChannel(channel));
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualClimbers())
         .toggleOnTrue(new ManualClimbers(climbers));
 
