@@ -5,17 +5,17 @@ import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
-public class Acquisition extends KillableSubsystem {
+public class Acquisition extends KillableSubsystem implements ShuffleboardPublisher {
   private Spark acquisitionMotor = new Spark(RobotMap.Acquisition.ACQUISITION_MOTOR_ID);
   private static final double acquisitionDefaultSpeed = Constants.Acquisition.ACQUISITION_SPEED;
-  public AcquisitionStates acquisitionState = AcquisitionStates.OFF;
+  private AcquisitionStates acquisitionState = AcquisitionStates.OFF;
+
+  public AcquisitionStates getAcquisitionState() {
+    return acquisitionState;
+  }
 
   public Acquisition() {
     toggle(AcquisitionStates.OFF);
-
-    ShuffleboardUI.Overview.setAcquisition(() -> acquisitionMotor.get() != 0);
-    ShuffleboardUI.Autonomous.setAcquisition(() -> acquisitionMotor.get() != 0);
-    ShuffleboardUI.Test.addMotor("Acquisition", acquisitionMotor);
   }
 
   public enum AcquisitionStates {
@@ -47,5 +47,18 @@ public class Acquisition extends KillableSubsystem {
   @Override
   public void kill() {
     toggle(AcquisitionStates.OFF);
+  }
+
+  /** frees up all hardware allocations */
+  @Override
+  public void close() {
+    acquisitionMotor.close();
+  }
+
+  @Override
+  public void setupShuffleboard() {
+    ShuffleboardUI.Overview.setAcquisition(() -> acquisitionMotor.get() != 0);
+    ShuffleboardUI.Autonomous.setAcquisition(() -> acquisitionMotor.get() != 0);
+    ShuffleboardUI.Test.addMotor("Acquisition", acquisitionMotor);
   }
 }

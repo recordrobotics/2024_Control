@@ -5,45 +5,34 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
+import frc.robot.utils.simulation.CANSparkMaxWrapper;
 
-public class Shooter extends KillableSubsystem {
+public class Shooter extends KillableSubsystem implements ShuffleboardPublisher {
 
-  private CANSparkMax flywheelL =
-      new CANSparkMax( // initialize left flywheel
-          RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID, MotorType.kBrushless);
-  private CANSparkMax flywheelR =
-      new CANSparkMax( // initialize right flywheel
-          RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID, MotorType.kBrushless);
+  private CANSparkMaxWrapper flywheelL;
+  private CANSparkMaxWrapper flywheelR;
 
   private PIDController leftPID = new PIDController(0.07, 0, 0);
-  private PIDController rightPID = new PIDController(0.07, 0, 0);
-
+  private PIDController rightPID = new PIDController(0.07, 0.2, 0);
   private SimpleMotorFeedforward leftFeedForward = new SimpleMotorFeedforward(0.12, 0.14);
   private SimpleMotorFeedforward rightFeedForward = new SimpleMotorFeedforward(0.12, 0.13);
-
   private double targetVelocityLeft = 0.0;
   private double targetVelocityRight = 0.0;
 
   public Shooter() {
+    flywheelL =
+        new CANSparkMaxWrapper( // initialize left flywheel
+            RobotMap.Shooter.FLYWHEEL_MOTOR_LEFT_DEVICE_ID, MotorType.kBrushless);
+    flywheelR =
+        new CANSparkMaxWrapper( // initialize right flywheel
+            RobotMap.Shooter.FLYWHEEL_MOTOR_RIGHT_DEVICE_ID, MotorType.kBrushless);
+
     toggle(ShooterStates.OFF); // initialize as off
-    ShuffleboardUI.Test.addSlider(
-            "Flywheel Left",
-            flywheelL.get(),
-            -1,
-            1) // LEFT set slider to show value between -1 and 1
-        .subscribe(flywheelL::set); // LEFT if the slider is moved, call flywheelL.set
-    ShuffleboardUI.Test.addSlider(
-            "Flywheel Right",
-            flywheelR.get(),
-            -1,
-            1) // RIGHT set slider to show value between -1 and 1
-        .subscribe(flywheelR::set); // RIGHT if the slider is moved, call flywheelR.set
   }
 
   public enum ShooterStates {
@@ -112,5 +101,28 @@ public class Shooter extends KillableSubsystem {
     toggle(ShooterStates.OFF);
     flywheelL.setVoltage(0);
     flywheelR.setVoltage(0);
+  }
+
+  /** frees up all hardware allocations */
+  @Override
+  public void close() {
+    flywheelL.close();
+    flywheelR.close();
+  }
+
+  @Override
+  public void setupShuffleboard() {
+    ShuffleboardUI.Test.addSlider(
+            "Flywheel Left",
+            flywheelL.get(),
+            -1,
+            1) // LEFT set slider to show value between -1 and 1
+        .subscribe(flywheelL::set); // LEFT if the slider is moved, call flywheelL.set
+    ShuffleboardUI.Test.addSlider(
+            "Flywheel Right",
+            flywheelR.get(),
+            -1,
+            1) // RIGHT set slider to show value between -1 and 1
+        .subscribe(flywheelR::set); // RIGHT if the slider is moved, call flywheelR.set
   }
 }

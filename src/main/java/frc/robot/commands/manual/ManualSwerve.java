@@ -14,18 +14,13 @@ import frc.robot.utils.DriveCommandData;
 public class ManualSwerve extends Command {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-
-  // Creates Drivetrain and Controls variables
-  private Drivetrain _drivetrain;
-
-  public AbstractControl _controls;
+  private Drivetrain drivetrain;
 
   /**
    * @param drivetrain
    */
   public ManualSwerve(Drivetrain drivetrain) {
-    // Init variables
-    _drivetrain = drivetrain;
+    this.drivetrain = drivetrain;
     addRequirements(drivetrain);
   }
 
@@ -37,10 +32,10 @@ public class ManualSwerve extends Command {
   @Override
   public void execute() {
 
-    AbstractControl _controls = ShuffleboardUI.Overview.getControl();
+    AbstractControl controls = ShuffleboardUI.Overview.getControl();
 
-    DriveCommandData driveCommandData = _controls.getDriveCommandData();
-    _drivetrain.drive(driveCommandData);
+    DriveCommandData driveCommandData = controls.getDriveCommandData();
+    drivetrain.drive(driveCommandData);
   }
 
   // Called once the command ends or is interrupted.

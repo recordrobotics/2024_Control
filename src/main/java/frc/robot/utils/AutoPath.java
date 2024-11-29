@@ -57,8 +57,8 @@ public class AutoPath {
 
     // Configures auto builder
     AutoBuilder.configureHolonomic(
-        Drivetrain.poseFilter::getEstimatedPosition, // Robot pose supplier
-        drivetrain
+        PoseTracker::getEstimatedPosition, // Robot pose supplier
+        PoseTracker
             ::setToPose, // Method to reset odometry (will be called if your auto has a starting
         // pose)
         drivetrain::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
