@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,7 +19,6 @@ public class Limelight extends SubsystemBase implements ShuffleboardPublisher {
   private boolean limelightConnected = false;
   private PoseEstimate currentEstimate = new PoseEstimate();
   private double currentConfidence = 9999999; // large number means less confident
-  public Pose2d poseTrackerEstimatedPose = new Pose2d();
 
   public Limelight() {
     LimelightHelpers.setPipelineIndex(name, 0);
@@ -32,7 +32,7 @@ public class Limelight extends SubsystemBase implements ShuffleboardPublisher {
   public void periodic() {
     confidence = 0;
     LimelightHelpers.SetRobotOrientation(
-        name, poseTrackerEstimatedPose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+        name, PoseTracker.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
     PoseEstimate measurement = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
     PoseEstimate measurement_m2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
 
@@ -58,11 +58,13 @@ public class Limelight extends SubsystemBase implements ShuffleboardPublisher {
     double timeSinceAuto = Timer.getFPGATimestamp() - Robot.getAutoStartTime();
 
     if (timeSinceAuto > 1
-        && measurement.pose.getTranslation().getDistance(poseTrackerEstimatedPose.getTranslation())
+        && measurement
+                .pose
+                .getTranslation()
+                .getDistance(PoseTracker.getEstimatedPosition().getTranslation())
             > 2) {
       confidence = 0;
     }
-  }
 
     handleMeasurement(measurement, confidence);
   }

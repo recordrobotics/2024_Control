@@ -45,8 +45,6 @@ public class PoseTracker extends SubsystemBase {
             9999999) // big number to remove all influence of limelight pose rotation
         );
 
-    limelight.poseTrackerEstimatedPose = poseFilter.getEstimatedPosition();
-
     SmartDashboard.putNumber("gyro", nav.getAdjustedAngle().getDegrees());
     SmartDashboard.putNumber("pose", poseFilter.getEstimatedPosition().getRotation().getDegrees());
     ShuffleboardUI.Autonomous.setRobotPose(poseFilter.getEstimatedPosition());

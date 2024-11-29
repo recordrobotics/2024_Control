@@ -41,7 +41,7 @@ public class Shooter extends KillableSubsystem implements ShuffleboardPublisher 
     REVERSE, // Reverse for note acquisition
     OFF; // Off
   }
-  
+
   public double getLeftWheelVelocity() {
     return flywheelL.getEncoder().getVelocity() / 60.0; /* RPM -> RPS */
   }
@@ -86,7 +86,7 @@ public class Shooter extends KillableSubsystem implements ShuffleboardPublisher 
     double leftFeedforwardOutput = leftFeedForward.calculate(targetVelocityLeft);
     flywheelL.setVoltage(
         leftPIDOutput + leftFeedforwardOutput); // Feed forward runs on voltage control
-    
+
     double rightPIDOutput = rightPID.calculate(getRightWheelVelocity(), targetVelocityRight);
     double rightFeedforwardOutput = rightFeedForward.calculate(targetVelocityRight);
     flywheelR.setVoltage(
