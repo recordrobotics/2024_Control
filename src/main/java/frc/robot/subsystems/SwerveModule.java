@@ -12,15 +12,15 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.ModuleConstants;
 
-public class SwerveModule {
+public class SwerveModule implements ShuffleboardPublisher {
 
   // Creates variables for motors and absolute encoders
-  public int driveMotorChannel;
-  public int turningMotorChannel;
-  public final TalonFX m_driveMotor;
-  public final TalonFX m_turningMotor;
-  public final DutyCycleEncoder absoluteTurningMotorEncoder;
-  public final double turningEncoderOffset;
+  private int driveMotorChannel;
+  private int turningMotorChannel;
+  private final TalonFX m_driveMotor;
+  private final TalonFX m_turningMotor;
+  private final DutyCycleEncoder absoluteTurningMotorEncoder;
+  private final double turningEncoderOffset;
 
   private final ProfiledPIDController drivePIDController;
   private final ProfiledPIDController turningPIDController;
@@ -39,6 +39,8 @@ public class SwerveModule {
   public SwerveModule(ModuleConstants m) {
 
     // Creates TalonFX objects
+    driveMotorChannel = m.driveMotorChannel;
+    turningMotorChannel = m.turningMotorChannel;
     m_driveMotor = new TalonFX(m.driveMotorChannel);
     m_turningMotor = new TalonFX(m.turningMotorChannel);
 
@@ -217,17 +219,8 @@ public class SwerveModule {
     m_turningMotor.set(0); // PID uses -1 to 1 speed range
   }
 
-  // SHUFFLEBOARD STUFF btw this was from a merge conflict but it was on a different branch from
-  // where this type of change was supposed to come from and it was being called in a way that would
-  // break the unit testing so its commented out TODO
-  //  private void setupShuffleboard(double driveMotorChannel, double turningMotorChannel) {
-  //    ShuffleboardUI.Test.addMotor("Drive " + driveMotorChannel, m_driveMotor);
-  //    ShuffleboardUI.Test.addMotor("Turn " + turningMotorChannel, m_turningMotor);
-  //    ShuffleboardUI.Test.addNumber(
-  //        "Encoder " + absoluteTurningMotorEncoder.getSourceChannel(),
-  //        absoluteTurningMotorEncoder::getAbsolutePosition);
-
-  private void setupShuffleboard(double driveMotorChannel, double turningMotorChannel) {
+  @Override
+  public void setupShuffleboard() {
     ShuffleboardUI.Test.addMotor("Drive " + driveMotorChannel, m_driveMotor);
     ShuffleboardUI.Test.addMotor("Turn " + turningMotorChannel, m_turningMotor);
     ShuffleboardUI.Test.addNumber(

@@ -6,7 +6,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
-import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.DriveCommandData;
 
 /** Represents a swerve drive style drivetrain. */
@@ -129,11 +128,7 @@ public class Drivetrain extends KillableSubsystem implements ShuffleboardPublish
   public void setupShuffleboard() {
     SwerveModule[] modules = {m_frontLeft, m_frontRight, m_backLeft, m_backRight};
     for (SwerveModule module : modules) {
-      ShuffleboardUI.Test.addMotor("Drive " + module.driveMotorChannel, module.m_driveMotor);
-      ShuffleboardUI.Test.addMotor("Turn " + module.turningMotorChannel, module.m_turningMotor);
-      ShuffleboardUI.Test.addNumber(
-          "Encoder " + module.absoluteTurningMotorEncoder.getSourceChannel(),
-          module.absoluteTurningMotorEncoder::getAbsolutePosition);
+      module.setupShuffleboard();
     }
   }
 }

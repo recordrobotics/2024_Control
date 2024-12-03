@@ -114,15 +114,17 @@ public class Shooter extends KillableSubsystem implements ShuffleboardPublisher 
   public void setupShuffleboard() {
     ShuffleboardUI.Test.addSlider(
             "Flywheel Left",
-            flywheelL.get(),
-            -1,
-            1) // LEFT set slider to show value between -1 and 1
-        .subscribe(flywheelL::set); // LEFT if the slider is moved, call flywheelL.set
+            targetVelocityLeft,
+            -90,
+            90) // LEFT set slider to show value between -90 and 90
+        .subscribe(
+            (v) -> toggle(v, targetVelocityRight)); // LEFT if the slider is moved, call toggle
     ShuffleboardUI.Test.addSlider(
             "Flywheel Right",
-            flywheelR.get(),
-            -1,
-            1) // RIGHT set slider to show value between -1 and 1
-        .subscribe(flywheelR::set); // RIGHT if the slider is moved, call flywheelR.set
+            targetVelocityRight,
+            -90,
+            90) // RIGHT set slider to show value between -90 and 90
+        .subscribe(
+            (v) -> toggle(-targetVelocityLeft, v)); // RIGHT if the slider is moved, call toggle
   }
 }
