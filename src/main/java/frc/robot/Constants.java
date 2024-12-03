@@ -37,6 +37,10 @@ public final class Constants {
     public static final double REVERSE_SPEED = -30;
   }
 
+  public final class NeoSim {
+    public static final int NEO_MOTOR_KV = 473;
+  }
+
   public final class Channel {
     public static final double SHOOT_SPEED = 1;
     public static final double THROUGH_SPEED = 1;

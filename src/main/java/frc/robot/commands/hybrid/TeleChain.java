@@ -3,6 +3,7 @@ package frc.robot.commands.hybrid;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -11,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.FieldPosition;
 import frc.robot.subsystems.Climbers;
 import frc.robot.subsystems.Climbers.ClimberStates;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.TriggerProcessor.TriggerDistance;
 
 @TriggerDistance(distance = 5, position = FieldPosition.CenterChain)
@@ -32,7 +32,7 @@ public class TeleChain extends SequentialCommandGroup {
           Units.degreesToRadians(720)); // Max angular acceleration radians per second per second
   private static Climbers _climbers;
 
-  public TeleChain(Climbers climbers) {
+  public TeleChain(Climbers climbers, Pose2d currentPose) {
     _climbers = climbers;
 
     // Loads path
@@ -46,9 +46,8 @@ public class TeleChain extends SequentialCommandGroup {
     // Gets path closest to the robot
     PathPlannerPath lowest_path = paths[0];
     double lowest_distance = 1000;
+    Translation2d swerve_translation = currentPose.getTranslation();
     for (PathPlannerPath path : paths) {
-      Translation2d swerve_translation =
-          Drivetrain.poseFilter.getEstimatedPosition().getTranslation();
       Translation2d path_translation = path.getPreviewStartingHolonomicPose().getTranslation();
       double distance = swerve_translation.getDistance(path_translation);
       if (distance < lowest_distance) lowest_distance = distance;

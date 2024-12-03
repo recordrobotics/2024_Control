@@ -5,12 +5,11 @@ import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
-public class Channel extends KillableSubsystem {
+public class Channel extends KillableSubsystem implements ShuffleboardPublisher {
   private Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);
 
   public Channel() {
     toggle(ChannelStates.OFF);
-    ShuffleboardUI.Test.addMotor("Channel", channelMotor);
   }
 
   public enum ChannelStates {
@@ -45,5 +44,15 @@ public class Channel extends KillableSubsystem {
   @Override
   public void kill() {
     toggle(ChannelStates.OFF);
+  }
+
+  /** frees up all hardware allocations */
+  public void close() {
+    channelMotor.close();
+  }
+
+  @Override
+  public void setupShuffleboard() {
+    ShuffleboardUI.Test.addMotor("Channel", channelMotor);
   }
 }

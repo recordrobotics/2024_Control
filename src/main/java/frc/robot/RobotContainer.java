@@ -25,6 +25,7 @@ import frc.robot.utils.AutoPath;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here
+  private final NavSensor nav;
   private final Drivetrain drivetrain;
   private final Shooter shooter;
   private final Crashbar crashbar;
@@ -33,8 +34,6 @@ public class RobotContainer {
   private final Channel channel;
   private final Photosensor photosensor;
   private final PCMCompressor compressor;
-
-  @SuppressWarnings("unused")
   private final Limelight limelight;
 
   // Autonomous
@@ -45,6 +44,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     // Init subsystems
+    nav = new NavSensor();
     drivetrain = new Drivetrain();
     channel = new Channel();
     acquisition = new Acquisition();
@@ -53,7 +53,10 @@ public class RobotContainer {
     photosensor = new Photosensor();
     climbers = new Climbers();
     compressor = new PCMCompressor();
-    limelight = new Limelight(drivetrain);
+    limelight = new Limelight();
+
+    // this is very cursed but it is less cursed than other ways to do it, so don't touch
+    PoseTracker.instance = new PoseTracker(drivetrain, limelight);
 
     // Sets up auto path
     autoPath = new AutoPath(drivetrain, acquisition, photosensor, channel, shooter, crashbar);
@@ -64,6 +67,9 @@ public class RobotContainer {
 
     // Bindings and Teleop
     configureButtonBindings();
+
+    ShuffleboardPublisher.setup(
+        nav, drivetrain, channel, acquisition, shooter, photosensor, compressor, limelight);
   }
 
   public void teleopInit() {
@@ -115,7 +121,7 @@ public class RobotContainer {
 
     // Reset pose trigger
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getPoseReset())
-        .onTrue(new InstantCommand(drivetrain::resetDriverPose));
+        .onTrue(new InstantCommand(PoseTracker::resetDriverPose));
   }
 
   /**
@@ -132,5 +138,18 @@ public class RobotContainer {
 
   public void testPeriodic() {
     ShuffleboardUI.Test.testPeriodic();
+  }
+
+  /** frees up all hardware allocations */
+  public void close() {
+    drivetrain.close();
+    channel.close();
+    acquisition.close();
+    shooter.close();
+    crashbar.close();
+    photosensor.close();
+    climbers.close();
+    compressor.close();
+    limelight.close();
   }
 }

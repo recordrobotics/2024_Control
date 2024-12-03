@@ -12,9 +12,11 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.ModuleConstants;
 
-public class SwerveModule {
+public class SwerveModule implements ShuffleboardPublisher {
 
   // Creates variables for motors and absolute encoders
+  private int driveMotorChannel;
+  private int turningMotorChannel;
   private final TalonFX m_driveMotor;
   private final TalonFX m_turningMotor;
   private final DutyCycleEncoder absoluteTurningMotorEncoder;
@@ -37,6 +39,8 @@ public class SwerveModule {
   public SwerveModule(ModuleConstants m) {
 
     // Creates TalonFX objects
+    driveMotorChannel = m.driveMotorChannel;
+    turningMotorChannel = m.turningMotorChannel;
     m_driveMotor = new TalonFX(m.driveMotorChannel);
     m_turningMotor = new TalonFX(m.turningMotorChannel);
 
@@ -82,9 +86,6 @@ public class SwerveModule {
 
     // Corrects for offset in absolute motor position
     m_turningMotor.setPosition(getAbsWheelTurnOffset());
-
-    // Sets up shuffleboard
-    setupShuffleboard(m.driveMotorChannel, m.turningMotorChannel);
   }
 
   /**
@@ -218,13 +219,19 @@ public class SwerveModule {
     m_turningMotor.set(0); // PID uses -1 to 1 speed range
   }
 
-  // SHUFFLEBOARD STUFF
-
-  private void setupShuffleboard(double driveMotorChannel, double turningMotorChannel) {
+  @Override
+  public void setupShuffleboard() {
     ShuffleboardUI.Test.addMotor("Drive " + driveMotorChannel, m_driveMotor);
     ShuffleboardUI.Test.addMotor("Turn " + turningMotorChannel, m_turningMotor);
     ShuffleboardUI.Test.addNumber(
         "Encoder " + absoluteTurningMotorEncoder.getSourceChannel(),
         absoluteTurningMotorEncoder::getAbsolutePosition);
+  }
+
+  /** frees up all hardware allocations */
+  public void close() {
+    m_driveMotor.close();
+    m_turningMotor.close();
+    absoluteTurningMotorEncoder.close();
   }
 }
