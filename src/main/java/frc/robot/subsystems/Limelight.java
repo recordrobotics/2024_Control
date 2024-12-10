@@ -84,7 +84,6 @@ public class Limelight extends SubsystemBase implements ShuffleboardPublisher {
     } else {
       hasVision = false;
       ShuffleboardUI.Autonomous.setVisionPose(new Pose2d());
-      // TODO should it set confidence to 99999999999 because there is no vision?
     }
   }
 
