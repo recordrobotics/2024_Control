@@ -121,7 +121,7 @@ public class RobotContainer {
 
     // Reset pose trigger
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getPoseReset())
-        .onTrue(new InstantCommand(PoseTracker::resetDriverPose));
+        .onTrue(new InstantCommand(PoseTracker.instance::resetDriverPose));
   }
 
   /**

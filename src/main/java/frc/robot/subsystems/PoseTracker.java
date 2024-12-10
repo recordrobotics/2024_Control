@@ -54,44 +54,25 @@ public class PoseTracker extends SubsystemBase {
     return drivetrain.getModulePositions();
   }
 
-  public Pose2d _getEstimatedPosition() {
+  public Pose2d getEstimatedPosition() {
     return poseFilter.getEstimatedPosition();
   }
 
   /** Similar to resetPose but adds an argument for the initial pose */
-  public void _setToPose(Pose2d pose) {
+  public void setToPose(Pose2d pose) {
     poseFilter.resetPosition(nav.getAdjustedAngle(), getModulePositions(), pose);
   }
 
   /** Resets the field relative position of the robot (mostly for testing). */
-  public void _resetStartingPose() {
+  public void resetStartingPose() {
     setToPose(ShuffleboardUI.Autonomous.getStartingLocation().getPose());
   }
 
   /** Resets the pose to FrontSpeakerClose (shooter facing towards speaker) */
-  public void _resetDriverPose() {
+  public void resetDriverPose() {
     poseFilter.resetPosition(
         nav.getAdjustedAngle(),
         getModulePositions(),
         Constants.FieldStartingLocation.FrontSpeakerClose.getPose());
-  }
-
-  // Singleton stuff
-  // just static versions of the above methods to avoid .instance boilerplate
-
-  public static Pose2d getEstimatedPosition() {
-    return PoseTracker.instance._getEstimatedPosition();
-  }
-
-  public static void setToPose(Pose2d pose) {
-    PoseTracker.instance._setToPose(pose);
-  }
-
-  public static void resetStartingPose() {
-    PoseTracker.instance._resetStartingPose();
-  }
-
-  public static void resetDriverPose() {
-    PoseTracker.instance._resetDriverPose();
   }
 }

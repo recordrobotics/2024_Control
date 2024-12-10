@@ -52,7 +52,7 @@ public class Drivetrain extends KillableSubsystem implements ShuffleboardPublish
         m_kinematics.toSwerveModuleStates(
             fieldRelative
                 ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, rot, PoseTracker.getEstimatedPosition().getRotation())
+                    xSpeed, ySpeed, rot, PoseTracker.instance.getEstimatedPosition().getRotation())
                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
     // Desaturates wheel speeds

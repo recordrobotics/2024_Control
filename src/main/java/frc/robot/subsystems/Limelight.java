@@ -32,7 +32,13 @@ public class Limelight extends SubsystemBase implements ShuffleboardPublisher {
   public void periodic() {
     confidence = 0;
     LimelightHelpers.SetRobotOrientation(
-        name, PoseTracker.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+        name,
+        PoseTracker.instance.getEstimatedPosition().getRotation().getDegrees(),
+        0,
+        0,
+        0,
+        0,
+        0);
     PoseEstimate measurement = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
     PoseEstimate measurement_m2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
 
@@ -61,7 +67,7 @@ public class Limelight extends SubsystemBase implements ShuffleboardPublisher {
         && measurement
                 .pose
                 .getTranslation()
-                .getDistance(PoseTracker.getEstimatedPosition().getTranslation())
+                .getDistance(PoseTracker.instance.getEstimatedPosition().getTranslation())
             > 2) {
       confidence = 0;
     }
