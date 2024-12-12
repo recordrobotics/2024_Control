@@ -12,7 +12,7 @@ import frc.robot.shuffleboard.ShuffleboardUI;
 public class PoseTracker extends SubsystemBase {
   public static PoseTracker instance;
 
-  private final NavSensor nav = new NavSensor();
+  public final NavSensor nav = new NavSensor(); // TODO should be seperate subsystem or private
 
   private static SwerveDrivePoseEstimator poseFilter;
 

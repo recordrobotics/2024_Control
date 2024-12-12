@@ -23,19 +23,6 @@ import frc.robot.utils.AutoPath;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
-  // The robot's subsystems and commands are defined here
-  private final NavSensor nav;
-  private final Drivetrain drivetrain;
-  private final Shooter shooter;
-  private final Crashbar crashbar;
-  private final Climbers climbers;
-  private final Acquisition acquisition;
-  private final Channel channel;
-  private final Photosensor photosensor;
-  private final PCMCompressor compressor;
-  private final Limelight limelight;
-
   // Autonomous
   private final AutoPath autoPath;
   private Command autoCommand;
@@ -44,22 +31,19 @@ public class RobotContainer {
   public RobotContainer() {
 
     // Init subsystems
-    nav = new NavSensor();
-    drivetrain = new Drivetrain();
-    channel = new Channel();
-    acquisition = new Acquisition();
-    shooter = new Shooter();
-    crashbar = new Crashbar();
-    photosensor = new Photosensor();
-    climbers = new Climbers();
-    compressor = new PCMCompressor();
-    limelight = new Limelight();
-
-    // this is very cursed but it is less cursed than other ways to do it, so don't touch
-    PoseTracker.instance = new PoseTracker(drivetrain, limelight);
+    Drivetrain.instance = new Drivetrain();
+    Channel.instance = new Channel();
+    Acquisition.instance = new Acquisition();
+    Shooter.instance = new Shooter();
+    Crashbar.instance = new Crashbar();
+    Photosensor.instance = new Photosensor();
+    Climbers.instance = new Climbers();
+    PCMCompressor.instance = new PCMCompressor();
+    Limelight.instance = new Limelight();
+    PoseTracker.instance = new PoseTracker();
 
     // Sets up auto path
-    autoPath = new AutoPath(drivetrain, acquisition, photosensor, channel, shooter, crashbar);
+    autoPath = new AutoPath();
 
     // Sets up Control scheme chooser
     ShuffleboardUI.Overview.addControls(
@@ -69,12 +53,12 @@ public class RobotContainer {
     configureButtonBindings();
 
     ShuffleboardPublisher.setup(
-        nav, drivetrain, channel, acquisition, shooter, photosensor, compressor, limelight);
+        PoseTracker.instance.nav, Drivetrain.instance, Channel.instance, Acquisition.instance, Shooter.instance, Photosensor.instance, PCMCompressor.instance, Limelight.instance);
   }
 
   public void teleopInit() {
     // Sets default command for manual swerve. It is the only one right now
-    drivetrain.setDefaultCommand(new ManualSwerve(drivetrain));
+    Drivetrain.instance.setDefaultCommand(new ManualSwerve());
   }
 
   /**
@@ -88,36 +72,36 @@ public class RobotContainer {
     // Command to kill robot
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getKillAuto())
         .whileTrue(
-            new KillSpecified(drivetrain, acquisition, channel, shooter, crashbar, climbers));
+            new KillSpecified(Drivetrain.instance, Acquisition.instance, Channel.instance, Shooter.instance, Crashbar.instance, Climbers.instance));
 
     // Command to kill compressor
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getKillCompressor())
-        .onTrue(new InstantCommand(compressor::disable))
-        .onFalse(new InstantCommand(compressor::enable))
+        .onTrue(new InstantCommand(PCMCompressor.instance::disable))
+        .onFalse(new InstantCommand(PCMCompressor.instance::enable))
         .onTrue(new InstantCommand(() -> ShuffleboardUI.Overview.getControl().vibrate(1)))
         .onFalse(new InstantCommand(() -> ShuffleboardUI.Overview.getControl().vibrate(0)));
 
     // Notes triggers
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getAcquire())
-        .toggleOnTrue(new AcquireSmart(acquisition, channel, photosensor, shooter));
+        .toggleOnTrue(new AcquireSmart());
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getShootSpeaker())
-        .toggleOnTrue(new ShootSpeaker(channel, shooter));
+        .toggleOnTrue(new ShootSpeaker());
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getShootAmp())
-        .toggleOnTrue(new ShootAmp(channel, shooter, crashbar));
+        .toggleOnTrue(new ShootAmp());
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getReverse())
-        .whileTrue(new ManualReverse(acquisition, channel));
+        .whileTrue(new ManualReverse());
 
     // Manual triggers
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualShootAmp())
-        .toggleOnTrue(new ManualShooter(shooter, Shooter.ShooterStates.AMP));
+        .toggleOnTrue(new ManualShooter(Shooter.ShooterStates.AMP));
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualShootSpeaker())
-        .toggleOnTrue(new ManualShooter(shooter, Shooter.ShooterStates.SPEAKER));
+        .toggleOnTrue(new ManualShooter(Shooter.ShooterStates.SPEAKER));
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualCrashbar())
-        .toggleOnTrue(new ManualCrashbar(crashbar));
+        .toggleOnTrue(new ManualCrashbar());
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualChannel())
-        .whileTrue(new ManualChannel(channel));
+        .whileTrue(new ManualChannel());
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getManualClimbers())
-        .toggleOnTrue(new ManualClimbers(climbers));
+        .toggleOnTrue(new ManualClimbers());
 
     // Reset pose trigger
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getPoseReset())
@@ -131,7 +115,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     if (autoCommand == null) {
-      autoCommand = new PlannedAuto(drivetrain, autoPath);
+      autoCommand = new PlannedAuto(autoPath);
     }
     return autoCommand;
   }
@@ -142,14 +126,14 @@ public class RobotContainer {
 
   /** frees up all hardware allocations */
   public void close() {
-    drivetrain.close();
-    channel.close();
-    acquisition.close();
-    shooter.close();
-    crashbar.close();
-    photosensor.close();
-    climbers.close();
-    compressor.close();
-    limelight.close();
+    Drivetrain.instance.close();
+    Channel.instance.close();
+    Acquisition.instance.close();
+    Shooter.instance.close();
+    Crashbar.instance.close();
+    Photosensor.instance.close();
+    Climbers.instance.close();
+    PCMCompressor.instance.close();
+    Limelight.instance.close();
   }
 }
