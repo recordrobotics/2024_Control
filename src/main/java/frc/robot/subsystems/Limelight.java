@@ -11,6 +11,7 @@ import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.SimpleMath;
 
 public class Limelight extends SubsystemBase implements ShuffleboardPublisher {
+  public static Limelight instance;
 
   private static final String name = "limelight";
   private int numTags = 0;

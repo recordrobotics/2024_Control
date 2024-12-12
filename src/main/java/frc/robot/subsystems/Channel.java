@@ -6,6 +6,8 @@ import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class Channel extends KillableSubsystem implements ShuffleboardPublisher {
+  public static Channel instance;
+
   private Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);
 
   public Channel() {

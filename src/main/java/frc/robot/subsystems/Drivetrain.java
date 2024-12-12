@@ -10,6 +10,8 @@ import frc.robot.utils.DriveCommandData;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends KillableSubsystem implements ShuffleboardPublisher {
+  public static Drivetrain instance;
+
   // Creates swerve module objects
   private final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
   private final SwerveModule m_frontRight = new SwerveModule(Constants.Swerve.frontRightConstants);
