@@ -53,7 +53,14 @@ public class RobotContainer {
     configureButtonBindings();
 
     ShuffleboardPublisher.setup(
-        PoseTracker.instance.nav, Drivetrain.instance, Channel.instance, Acquisition.instance, Shooter.instance, Photosensor.instance, PCMCompressor.instance, Limelight.instance);
+        PoseTracker.instance.nav,
+        Drivetrain.instance,
+        Channel.instance,
+        Acquisition.instance,
+        Shooter.instance,
+        Photosensor.instance,
+        PCMCompressor.instance,
+        Limelight.instance);
   }
 
   public void teleopInit() {
@@ -72,7 +79,13 @@ public class RobotContainer {
     // Command to kill robot
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getKillAuto())
         .whileTrue(
-            new KillSpecified(Drivetrain.instance, Acquisition.instance, Channel.instance, Shooter.instance, Crashbar.instance, Climbers.instance));
+            new KillSpecified(
+                Drivetrain.instance,
+                Acquisition.instance,
+                Channel.instance,
+                Shooter.instance,
+                Crashbar.instance,
+                Climbers.instance));
 
     // Command to kill compressor
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getKillCompressor())
