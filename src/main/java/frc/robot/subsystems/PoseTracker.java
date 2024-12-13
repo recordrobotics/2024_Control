@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.AutoLogOutput;
+
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,11 +22,12 @@ public class PoseTracker extends SubsystemBase {
   private final Limelight limelight;
 
   public PoseTracker(Drivetrain drivetrain, Limelight limelight) {
+    instance = this;
     this.drivetrain = drivetrain;
     this.limelight = limelight;
 
     nav.resetAngleAdjustment();
-
+    
     poseFilter =
         new SwerveDrivePoseEstimator(
             drivetrain.getKinematics(),
@@ -54,6 +57,7 @@ public class PoseTracker extends SubsystemBase {
     return drivetrain.getModulePositions();
   }
 
+  @AutoLogOutput(key = "Odometry/Robot")
   public Pose2d _getEstimatedPosition() {
     return poseFilter.getEstimatedPosition();
   }
@@ -78,7 +82,6 @@ public class PoseTracker extends SubsystemBase {
 
   // Singleton stuff
   // just static versions of the above methods to avoid .instance boilerplate
-
   public static Pose2d getEstimatedPosition() {
     return PoseTracker.instance._getEstimatedPosition();
   }

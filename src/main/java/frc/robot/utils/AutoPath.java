@@ -2,6 +2,8 @@ package frc.robot.utils;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.util.PathPlannerLogging;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
@@ -14,6 +16,7 @@ import frc.robot.commands.subroutines.PushSpeaker;
 import frc.robot.commands.subroutines.SetupAmp;
 import frc.robot.commands.subroutines.SetupSpeaker;
 import frc.robot.subsystems.*;
+import org.littletonrobotics.junction.Logger;
 
 public class AutoPath {
 
@@ -73,11 +76,13 @@ public class AutoPath {
                   false));
         },
 
-        // com.pathplanner.lib.util.HolonomicPathFollowerConfig for configuring the path following
+        // com.pathplanner.lib.util.HolonomicPathFollowerConfig for configuring the path
+        // following
         // commands
         Constants.Swerve.PathFollowerConfig,
 
-        // Boolean supplier that controls when the path will be mirrored for the red alliance
+        // Boolean supplier that controls when the path will be mirrored for the red
+        // alliance
         // This will flip the path being followed to the red side of the field.
         // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
         () -> {
@@ -90,5 +95,15 @@ public class AutoPath {
 
         // Reference to this subsystem to set requirements
         drivetrain);
+
+    PathPlannerLogging.setLogActivePathCallback(
+        (activePath) -> {
+          Logger.recordOutput(
+              "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
+        });
+    PathPlannerLogging.setLogTargetPoseCallback(
+        (targetPose) -> {
+          Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
+        });
   }
 }
