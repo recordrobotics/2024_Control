@@ -9,12 +9,10 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.utils.DriverStationUtils;
 import frc.robot.utils.ModuleConstants;
 import frc.robot.utils.ModuleConstants.MotorLocation;
@@ -58,7 +56,8 @@ public final class Constants {
     CenterChain(
         SimpleMath.MirrorLocation(Constants.FieldConstants.TEAM_BLUE_CENTER_CHAIN),
         Constants.FieldConstants.TEAM_BLUE_CENTER_CHAIN),
-  // SpeakerSideChain(SimpleMath.MirrorLocation(Constants.FieldConstants.TEAM_BLUE_SPEAKER_SIDE_CHAIN), Constants.FieldConstants.TEAM_BLUE_SPEAKER_SIDE_CHAIN),
+  // SpeakerSideChain(SimpleMath.MirrorLocation(Constants.FieldConstants.TEAM_BLUE_SPEAKER_SIDE_CHAIN),
+  // Constants.FieldConstants.TEAM_BLUE_SPEAKER_SIDE_CHAIN),
   // AmpSideChain(SimpleMath.MirrorLocation(Constants.FieldConstants.TEAM_BLUE_AMP_SIDE_CHAIN),
   // Constants.FieldConstants.TEAM_BLUE_AMP_SIDE_CHAIN),
   // FarSideChain(SimpleMath.MirrorLocation(Constants.FieldConstants.TEAM_BLUE_FAR_SIDE_CHAIN),
@@ -330,32 +329,14 @@ public final class Constants {
         ModuleConstants.fromConfig(MotorLocation.BackRight, MotorType.Kraken);
   }
 
-  public final class Vision {
+  public final class RobotState {
+    public static Mode getMode() {
+      return RobotBase.isReal() ? Mode.REAL : Mode.REPLAY;
+    }
 
-    public static final String cameraID = new String("photonvision");
-
-    // The offset from the center of the robot to the camera, and from facing exactly forward to the
-    // orientation of the camera.
-    public static final Transform3d robotToCam =
-        new Transform3d(
-            new Translation3d(Units.inchesToMeters(11), -1 * Units.inchesToMeters(9), 0.1725),
-            new Rotation3d(0, 0, 0));
-
-    public static final Transform3d[]
-        tagTransforms = { // april tags 1-8 in order. values contained are x, y, z, theta, in that
-      // order. x, y, z are distances in meters, theta is in radians.
-      new Transform3d(
-          new Translation3d(15.513558, 1.071626, 0.462788), new Rotation3d(0, 0, Math.PI)),
-      new Transform3d(
-          new Translation3d(15.513558, 2.748026, 0.462788), new Rotation3d(0, 0, Math.PI)),
-      new Transform3d(
-          new Translation3d(15.513558, 4.424426, 0.462788), new Rotation3d(0, 0, Math.PI)),
-      new Transform3d(
-          new Translation3d(16.178784, 6.749796, 0.695452), new Rotation3d(0, 0, Math.PI)),
-      new Transform3d(new Translation3d(0.36195, 6.749796, 0.695452), new Rotation3d(0, 0, 0)),
-      new Transform3d(new Translation3d(1.8415, 8.2042, 1.355852), new Rotation3d(0, 0, 4.71239)),
-      new Transform3d(new Translation3d(1.02743, 2.748026, 0.462788), new Rotation3d(0, 0, 0)),
-      new Transform3d(new Translation3d(1.02743, 1.071626, 0.462788), new Rotation3d(0, 0, 0))
-    };
+    public static enum Mode {
+      REAL,
+      REPLAY
+    }
   }
 }
