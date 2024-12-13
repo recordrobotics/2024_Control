@@ -5,7 +5,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterStates;
 
 public class ManualShooter extends Command {
-  
+
   private ShooterStates _state;
 
   public ManualShooter(ShooterStates state) {

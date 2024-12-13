@@ -25,37 +25,34 @@ public class AutoPath {
     NamedCommands.registerCommand("Stop", new InstantCommand(() -> Drivetrain.instance.kill()));
 
     // Acqire a note
-    NamedCommands.registerCommand(
-        "Acquire", new AcquireSmart(
-            Acquisition.instance, Channel.instance, Photosensor.instance, Shooter.instance));
+    NamedCommands.registerCommand("Acquire", new AcquireSmart());
 
     // Acqire a note stupidly (depreciated) (legacy)
-    NamedCommands.registerCommand("AcquireStupid", new Acquire(
-        Acquisition.instance, Channel.instance, Photosensor.instance));
+    NamedCommands.registerCommand(
+        "AcquireStupid", new Acquire(Acquisition.instance, Channel.instance, Photosensor.instance));
 
     // Turn acquisition and channel on
-    NamedCommands.registerCommand("AcquirePush", new PushAcquire(
-        Acquisition.instance, Channel.instance));
+    NamedCommands.registerCommand(
+        "AcquirePush", new PushAcquire(Acquisition.instance, Channel.instance));
 
     // Turn acquisition off and channel reverse for 0.3 seconds
-    NamedCommands.registerCommand("Retract", new RetractAcquire(
-        Acquisition.instance, Channel.instance));
+    NamedCommands.registerCommand(
+        "Retract", new RetractAcquire(Acquisition.instance, Channel.instance));
 
     // Assumes flywheel is already on and shoots
-    NamedCommands.registerCommand("PushSpeaker", new PushSpeaker(
-        Channel.instance, Shooter.instance));
+    NamedCommands.registerCommand(
+        "PushSpeaker", new PushSpeaker(Channel.instance, Shooter.instance));
 
     // Turns shooter on
-    NamedCommands.registerCommand("FlywheelSpeaker", new SetupSpeaker(
-        Shooter.instance));
+    NamedCommands.registerCommand("FlywheelSpeaker", new SetupSpeaker(Shooter.instance));
 
     // Assumes flywheel and crashbar are ready and shoots amp
-    NamedCommands.registerCommand("PushAmp", new PushAmp(
-        Channel.instance, Shooter.instance, Crashbar.instance));
+    NamedCommands.registerCommand(
+        "PushAmp", new PushAmp(Channel.instance, Shooter.instance, Crashbar.instance));
 
     // Prepare for PushAmp
-    NamedCommands.registerCommand("FlywheelAmp", new SetupAmp(
-        Shooter.instance, Crashbar.instance, true));
+    NamedCommands.registerCommand(
+        "FlywheelAmp", new SetupAmp(Shooter.instance, Crashbar.instance, true));
 
     // Configures auto builder
     AutoBuilder.configureHolonomic(
