@@ -16,18 +16,12 @@ public class PoseTracker extends SubsystemBase {
 
   private static SwerveDrivePoseEstimator poseFilter;
 
-  private final Drivetrain drivetrain;
-  private final Limelight limelight;
-
-  public PoseTracker(Drivetrain drivetrain, Limelight limelight) {
-    this.drivetrain = drivetrain;
-    this.limelight = limelight;
-
+  public PoseTracker() {
     nav.resetAngleAdjustment();
 
     poseFilter =
         new SwerveDrivePoseEstimator(
-            drivetrain.getKinematics(),
+            Drivetrain.instance.getKinematics(),
             nav.getAdjustedAngle(),
             getModulePositions(),
             ShuffleboardUI.Autonomous.getStartingLocation().getPose());
@@ -37,11 +31,11 @@ public class PoseTracker extends SubsystemBase {
   public void periodic() {
     poseFilter.update(nav.getAdjustedAngle(), getModulePositions());
     poseFilter.addVisionMeasurement(
-        limelight.getPoseEstimate().pose,
-        limelight.getPoseEstimate().timestampSeconds,
+        Limelight.instance.getPoseEstimate().pose,
+        Limelight.instance.getPoseEstimate().timestampSeconds,
         VecBuilder.fill(
-            limelight.getConfidence(),
-            limelight.getConfidence(),
+            Limelight.instance.getConfidence(),
+            Limelight.instance.getConfidence(),
             9999999) // big number to remove all influence of limelight pose rotation
         );
 
@@ -51,7 +45,7 @@ public class PoseTracker extends SubsystemBase {
   }
 
   private SwerveModulePosition[] getModulePositions() {
-    return drivetrain.getModulePositions();
+    return Drivetrain.instance.getModulePositions();
   }
 
   public Pose2d getEstimatedPosition() {

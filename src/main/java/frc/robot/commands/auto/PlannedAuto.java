@@ -10,11 +10,11 @@ import frc.robot.subsystems.PoseTracker;
 import frc.robot.utils.AutoPath;
 
 public class PlannedAuto extends SequentialCommandGroup {
-  public PlannedAuto(Drivetrain drivetrain, AutoPath autoPath) {
+  public PlannedAuto(AutoPath autoPath) {
     addCommands(
         new InstantCommand(() -> PoseTracker.instance.resetStartingPose()),
         new PathPlannerAuto(ShuffleboardUI.Autonomous.getAutoChooser()),
-        new InstantCommand(() -> drivetrain.kill()),
+        new InstantCommand(() -> Drivetrain.instance.kill()),
         new WaitCommand(0.1),
         new InstantCommand(() -> System.out.println("Auto End")));
   }

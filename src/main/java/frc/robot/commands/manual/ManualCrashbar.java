@@ -6,17 +6,14 @@ import frc.robot.subsystems.Crashbar.CrashbarStates;
 
 public class ManualCrashbar extends Command {
 
-  private Crashbar _crashbar;
-
-  public ManualCrashbar(Crashbar crashbar) {
-    _crashbar = crashbar;
-    addRequirements(crashbar);
+  public ManualCrashbar() {
+    addRequirements(Crashbar.instance);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    _crashbar.toggle(CrashbarStates.EXTENDED);
+    Crashbar.instance.toggle(CrashbarStates.EXTENDED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -26,7 +23,7 @@ public class ManualCrashbar extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    _crashbar.toggle(CrashbarStates.RETRACTED);
+    Crashbar.instance.toggle(CrashbarStates.RETRACTED);
   }
 
   // Returns true when the command should end.

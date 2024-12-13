@@ -13,15 +13,11 @@ import frc.robot.utils.DriveCommandData;
 /** An example command that uses an example subsystem. */
 public class ManualSwerve extends Command {
 
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private Drivetrain drivetrain;
-
   /**
    * @param drivetrain
    */
-  public ManualSwerve(Drivetrain drivetrain) {
-    this.drivetrain = drivetrain;
-    addRequirements(drivetrain);
+  public ManualSwerve() {
+    addRequirements(Drivetrain.instance);
   }
 
   // Called when the command is initially scheduled.
@@ -35,7 +31,7 @@ public class ManualSwerve extends Command {
     AbstractControl controls = ShuffleboardUI.Overview.getControl();
 
     DriveCommandData driveCommandData = controls.getDriveCommandData();
-    drivetrain.drive(driveCommandData);
+    Drivetrain.instance.drive(driveCommandData);
   }
 
   // Called once the command ends or is interrupted.

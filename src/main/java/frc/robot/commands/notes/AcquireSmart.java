@@ -15,11 +15,6 @@ import frc.robot.subsystems.Shooter.ShooterStates;
 
 public class AcquireSmart extends SequentialCommandGroup {
 
-  private static Acquisition _acquisition;
-  private static Channel _channel;
-  private static Photosensor _photosensor;
-  private static Shooter _shooter;
-
   /**
    * Command that acquires the note in a way that centers it within the channel.
    *
@@ -28,44 +23,38 @@ public class AcquireSmart extends SequentialCommandGroup {
    * @param photosensor
    * @param shooter
    */
-  public AcquireSmart(
-      Acquisition acquisition, Channel channel, Photosensor photosensor, Shooter shooter) {
-    _acquisition = acquisition;
-    _channel = channel;
-    _photosensor = photosensor;
-    _shooter = shooter;
+  public AcquireSmart() {
+  final Runnable killSpecified = () -> new KillSpecified(Acquisition.instance, Channel.instance, Shooter.instance);
 
-    final Runnable killSpecified = () -> new KillSpecified(_acquisition, _channel, _shooter);
-
-    addCommands(
-        // Reverse shooter to ensure note does not come out through the shooter
-        new InstantCommand(() -> _shooter.toggle(ShooterStates.REVERSE), _shooter)
-            .handleInterrupt(killSpecified),
-        // Turns acq and channel on to make the note move into the robot
-        new InstantCommand(() -> _acquisition.toggle(AcquisitionStates.IN), _acquisition)
-            .handleInterrupt(killSpecified),
-        new InstantCommand(() -> _channel.toggle(ChannelStates.SHOOT), _channel)
-            .handleInterrupt(killSpecified),
-        // Waits until photosensor
-        new WaitUntilCommand(() -> _photosensor.getDebouncedValue()),
-        // Turns acq off to prevent more notes from getting acquired
-        new InstantCommand(() -> _acquisition.toggle(AcquisitionStates.OFF), _acquisition)
-            .handleInterrupt(killSpecified),
-        // Waits until photosensor off, and then extra 0.15 seconds
-        // Wait until note moves fully into the shooter assembely, and then some
-        new WaitUntilCommand(() -> !_photosensor.getDebouncedValue())
-            .handleInterrupt(killSpecified),
-        new WaitCommand(0.15),
-        // Turns channel reverse to unsquish the note back to the middle of the channel
-        new InstantCommand(() -> _channel.toggle(ChannelStates.REVERSE), _channel)
-            .handleInterrupt(killSpecified),
-        // Waits until photosensor on, then toggle channel off
-        // This stops the note when it is centered in the channel
-        new WaitUntilCommand(() -> _photosensor.getDebouncedValue()).handleInterrupt(killSpecified),
-        new InstantCommand(() -> _channel.toggle(ChannelStates.OFF), _channel)
-            .handleInterrupt(killSpecified),
-        new InstantCommand(() -> _shooter.toggle(ShooterStates.OFF), _shooter)
-            .handleInterrupt(killSpecified));
+  addCommands(
+      // Reverse shooter to ensure note does not come out through the shooter
+      new InstantCommand(() -> Shooter.instance.toggle(ShooterStates.REVERSE), Shooter.instance)
+          .handleInterrupt(killSpecified),
+      // Turns acq and channel on to make the note move into the robot
+      new InstantCommand(() -> Acquisition.instance.toggle(AcquisitionStates.IN), Acquisition.instance)
+          .handleInterrupt(killSpecified),
+      new InstantCommand(() -> Channel.instance.toggle(ChannelStates.SHOOT), Channel.instance)
+          .handleInterrupt(killSpecified),
+      // Waits until photosensor
+      new WaitUntilCommand(() -> Photosensor.instance.getDebouncedValue()),
+      // Turns acq off to prevent more notes from getting acquired
+      new InstantCommand(() -> Acquisition.instance.toggle(AcquisitionStates.OFF), Acquisition.instance)
+          .handleInterrupt(killSpecified),
+      // Waits until photosensor off, and then extra 0.15 seconds
+      // Wait until note moves fully into the shooter assembly, and then some
+      new WaitUntilCommand(() -> !Photosensor.instance.getDebouncedValue())
+          .handleInterrupt(killSpecified),
+      new WaitCommand(0.15),
+      // Turns channel reverse to unsquish the note back to the middle of the channel
+      new InstantCommand(() -> Channel.instance.toggle(ChannelStates.REVERSE), Channel.instance)
+          .handleInterrupt(killSpecified),
+      // Waits until photosensor on, then toggle channel off
+      // This stops the note when it is centered in the channel
+      new WaitUntilCommand(() -> Photosensor.instance.getDebouncedValue()).handleInterrupt(killSpecified),
+      new InstantCommand(() -> Channel.instance.toggle(ChannelStates.OFF), Channel.instance)
+          .handleInterrupt(killSpecified),
+      new InstantCommand(() -> Shooter.instance.toggle(ShooterStates.OFF), Shooter.instance)
+          .handleInterrupt(killSpecified));
   }
 }
 // TODO: investigate what happens when interrupted

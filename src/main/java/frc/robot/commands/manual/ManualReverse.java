@@ -8,21 +8,16 @@ import frc.robot.subsystems.Channel.ChannelStates;
 
 public class ManualReverse extends Command {
 
-  private static Acquisition _acquisition;
-  private static Channel _channel;
-
-  public ManualReverse(Acquisition acquisition, Channel channel) {
-    _acquisition = acquisition;
-    _channel = channel;
-    addRequirements(acquisition);
-    addRequirements(channel);
+  public ManualReverse() {
+    addRequirements(Acquisition.instance);
+    addRequirements(Channel.instance);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    _acquisition.toggle(AcquisitionStates.REVERSE);
-    _channel.toggle(ChannelStates.REVERSE);
+    Acquisition.instance.toggle(AcquisitionStates.REVERSE);
+    Channel.instance.toggle(ChannelStates.REVERSE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,8 +27,8 @@ public class ManualReverse extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    _acquisition.toggle(AcquisitionStates.OFF);
-    _channel.toggle(ChannelStates.OFF);
+    Acquisition.instance.toggle(AcquisitionStates.OFF);
+    Channel.instance.toggle(ChannelStates.OFF);
   }
 
   // Returns true when the command should end.

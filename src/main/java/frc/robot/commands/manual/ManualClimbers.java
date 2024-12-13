@@ -6,17 +6,14 @@ import frc.robot.subsystems.Climbers.ClimberStates;
 
 public class ManualClimbers extends Command {
 
-  private Climbers _climbers;
-
-  public ManualClimbers(Climbers climbers) {
-    _climbers = climbers;
-    addRequirements(climbers);
+  public ManualClimbers() {
+    addRequirements(Climbers.instance);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    _climbers.toggle(ClimberStates.UP);
+    Climbers.instance.toggle(ClimberStates.UP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -26,7 +23,7 @@ public class ManualClimbers extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    _climbers.toggle(ClimberStates.DOWN);
+    Climbers.instance.toggle(ClimberStates.DOWN);
   }
 
   // Returns true when the command should end.

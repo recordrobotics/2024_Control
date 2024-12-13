@@ -17,43 +17,45 @@ import frc.robot.subsystems.*;
 
 public class AutoPath {
 
-  public AutoPath(
-      Drivetrain drivetrain,
-      Acquisition acquisition,
-      Photosensor photosensor,
-      Channel channel,
-      Shooter shooter,
-      Crashbar crashbar) {
+  public AutoPath() {
 
     // Registering named commands (so that the pathplanner can call them by name)
 
     // Stop the robot's movement
-    NamedCommands.registerCommand("Stop", new InstantCommand(() -> drivetrain.kill()));
+    NamedCommands.registerCommand("Stop", new InstantCommand(() -> Drivetrain.instance.kill()));
 
     // Acqire a note
     NamedCommands.registerCommand(
-        "Acquire", new AcquireSmart(acquisition, channel, photosensor, shooter));
+        "Acquire", new AcquireSmart(
+            Acquisition.instance, Channel.instance, Photosensor.instance, Shooter.instance));
 
     // Acqire a note stupidly (depreciated) (legacy)
-    NamedCommands.registerCommand("AcquireStupid", new Acquire(acquisition, channel, photosensor));
+    NamedCommands.registerCommand("AcquireStupid", new Acquire(
+        Acquisition.instance, Channel.instance, Photosensor.instance));
 
     // Turn acquisition and channel on
-    NamedCommands.registerCommand("AcquirePush", new PushAcquire(acquisition, channel));
+    NamedCommands.registerCommand("AcquirePush", new PushAcquire(
+        Acquisition.instance, Channel.instance));
 
     // Turn acquisition off and channel reverse for 0.3 seconds
-    NamedCommands.registerCommand("Retract", new RetractAcquire(acquisition, channel));
+    NamedCommands.registerCommand("Retract", new RetractAcquire(
+        Acquisition.instance, Channel.instance));
 
     // Assumes flywheel is already on and shoots
-    NamedCommands.registerCommand("PushSpeaker", new PushSpeaker(channel, shooter));
+    NamedCommands.registerCommand("PushSpeaker", new PushSpeaker(
+        Channel.instance, Shooter.instance));
 
     // Turns shooter on
-    NamedCommands.registerCommand("FlywheelSpeaker", new SetupSpeaker(shooter));
+    NamedCommands.registerCommand("FlywheelSpeaker", new SetupSpeaker(
+        Shooter.instance));
 
     // Assumes flywheel and crashbar are ready and shoots amp
-    NamedCommands.registerCommand("PushAmp", new PushAmp(channel, shooter, crashbar));
+    NamedCommands.registerCommand("PushAmp", new PushAmp(
+        Channel.instance, Shooter.instance, Crashbar.instance));
 
     // Prepare for PushAmp
-    NamedCommands.registerCommand("FlywheelAmp", new SetupAmp(shooter, crashbar, true));
+    NamedCommands.registerCommand("FlywheelAmp", new SetupAmp(
+        Shooter.instance, Crashbar.instance, true));
 
     // Configures auto builder
     AutoBuilder.configureHolonomic(
@@ -61,11 +63,11 @@ public class AutoPath {
         PoseTracker.instance
             ::setToPose, // Method to reset odometry (will be called if your auto has a starting
         // pose)
-        drivetrain::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        Drivetrain.instance::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
 
         // Method that will drive the robot given ROBOT RELATIVE speeds
         (speeds) -> {
-          drivetrain.drive(
+          Drivetrain.instance.drive(
               new DriveCommandData(
                   speeds.vxMetersPerSecond,
                   speeds.vyMetersPerSecond,
@@ -89,6 +91,6 @@ public class AutoPath {
         },
 
         // Reference to this subsystem to set requirements
-        drivetrain);
+        Drivetrain.instance);
   }
 }

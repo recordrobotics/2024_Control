@@ -10,10 +10,6 @@ import frc.robot.subsystems.Shooter;
 
 public class ShootAmp extends SequentialCommandGroup {
 
-  private static Channel _channel;
-  private static Shooter _shooter;
-  private static Crashbar _crashbar;
-
   /** Number of seconds it takes for the flywheel to spin up */
   private final double flywheelSpinupTime = 0.3;
 
@@ -29,17 +25,14 @@ public class ShootAmp extends SequentialCommandGroup {
    * @param channel
    * @param shooter
    */
-  public ShootAmp(Channel channel, Shooter shooter, Crashbar crashbar) {
-    _channel = channel;
-    _shooter = shooter;
-    _crashbar = crashbar;
-    addRequirements(channel);
-    addRequirements(shooter);
-    addRequirements(crashbar);
+  public ShootAmp() {
+    addRequirements(Channel.instance);
+    addRequirements(Shooter.instance);
+    addRequirements(Crashbar.instance);
 
     addCommands(
-        new SetupAmp(_shooter, _crashbar, true),
+        new SetupAmp(Shooter.instance, Crashbar.instance, true),
         new WaitCommand(Math.max(flywheelSpinupTime, crashbarExtendTime)),
-        new PushAmp(_channel, _shooter, _crashbar, shootTime));
+        new PushAmp(Channel.instance, Shooter.instance, Crashbar.instance, shootTime));
   }
 }
