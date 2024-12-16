@@ -6,12 +6,11 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.utils.DriveCommandData;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends KillableSubsystem implements ShuffleboardPublisher {
-  public static Drivetrain instance;
-
   // Creates swerve module objects
   private final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
   private final SwerveModule m_frontRight = new SwerveModule(Constants.Swerve.frontRightConstants);
@@ -54,7 +53,10 @@ public class Drivetrain extends KillableSubsystem implements ShuffleboardPublish
         m_kinematics.toSwerveModuleStates(
             fieldRelative
                 ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, rot, PoseTracker.instance.getEstimatedPosition().getRotation())
+                    xSpeed,
+                    ySpeed,
+                    rot,
+                    RobotContainer.poseTracker.getEstimatedPosition().getRotation())
                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
     // Desaturates wheel speeds

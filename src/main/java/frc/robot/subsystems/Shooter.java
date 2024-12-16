@@ -13,8 +13,6 @@ import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.simulation.CANSparkMaxWrapper;
 
 public class Shooter extends KillableSubsystem implements ShuffleboardPublisher {
-  public static Shooter instance;
-
   private CANSparkMaxWrapper flywheelL;
   private CANSparkMaxWrapper flywheelR;
 

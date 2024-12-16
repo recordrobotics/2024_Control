@@ -2,11 +2,9 @@ package frc.robot.commands.notes;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.RobotContainer;
 import frc.robot.commands.subroutines.PushAmp;
 import frc.robot.commands.subroutines.SetupAmp;
-import frc.robot.subsystems.Channel;
-import frc.robot.subsystems.Crashbar;
-import frc.robot.subsystems.Shooter;
 
 public class ShootAmp extends SequentialCommandGroup {
 
@@ -26,13 +24,14 @@ public class ShootAmp extends SequentialCommandGroup {
    * @param shooter
    */
   public ShootAmp() {
-    addRequirements(Channel.instance);
-    addRequirements(Shooter.instance);
-    addRequirements(Crashbar.instance);
+    addRequirements(RobotContainer.channel);
+    addRequirements(RobotContainer.shooter);
+    addRequirements(RobotContainer.crashbar);
 
     addCommands(
-        new SetupAmp(Shooter.instance, Crashbar.instance, true),
+        new SetupAmp(RobotContainer.shooter, RobotContainer.crashbar, true),
         new WaitCommand(Math.max(flywheelSpinupTime, crashbarExtendTime)),
-        new PushAmp(Channel.instance, Shooter.instance, Crashbar.instance, shootTime));
+        new PushAmp(
+            RobotContainer.channel, RobotContainer.shooter, RobotContainer.crashbar, shootTime));
   }
 }

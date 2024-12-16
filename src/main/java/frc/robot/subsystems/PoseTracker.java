@@ -7,11 +7,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class PoseTracker extends SubsystemBase {
-  public static PoseTracker instance;
-
   public final NavSensor nav = new NavSensor(); // TODO should be seperate subsystem or private
 
   private static SwerveDrivePoseEstimator poseFilter;
@@ -21,7 +20,7 @@ public class PoseTracker extends SubsystemBase {
 
     poseFilter =
         new SwerveDrivePoseEstimator(
-            Drivetrain.instance.getKinematics(),
+            RobotContainer.drivetrain.getKinematics(),
             nav.getAdjustedAngle(),
             getModulePositions(),
             ShuffleboardUI.Autonomous.getStartingLocation().getPose());
@@ -31,11 +30,11 @@ public class PoseTracker extends SubsystemBase {
   public void periodic() {
     poseFilter.update(nav.getAdjustedAngle(), getModulePositions());
     poseFilter.addVisionMeasurement(
-        Limelight.instance.getPoseEstimate().pose,
-        Limelight.instance.getPoseEstimate().timestampSeconds,
+        RobotContainer.limelight.getPoseEstimate().pose,
+        RobotContainer.limelight.getPoseEstimate().timestampSeconds,
         VecBuilder.fill(
-            Limelight.instance.getConfidence(),
-            Limelight.instance.getConfidence(),
+            RobotContainer.limelight.getConfidence(),
+            RobotContainer.limelight.getConfidence(),
             9999999) // big number to remove all influence of limelight pose rotation
         );
 
@@ -45,7 +44,7 @@ public class PoseTracker extends SubsystemBase {
   }
 
   private SwerveModulePosition[] getModulePositions() {
-    return Drivetrain.instance.getModulePositions();
+    return RobotContainer.drivetrain.getModulePositions();
   }
 
   public Pose2d getEstimatedPosition() {

@@ -6,10 +6,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class PCMCompressor extends SubsystemBase implements ShuffleboardPublisher {
-  public static PCMCompressor instance;
-
   private static final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-  private static boolean isDisabledManually = false;
+  public static boolean isDisabledManually = false;
 
   public PCMCompressor() {}
 

@@ -6,8 +6,6 @@ import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class Acquisition extends KillableSubsystem implements ShuffleboardPublisher {
-  public static Acquisition instance;
-
   private Spark acquisitionMotor = new Spark(RobotMap.Acquisition.ACQUISITION_MOTOR_ID);
   private static final double acquisitionDefaultSpeed = Constants.Acquisition.ACQUISITION_SPEED;
   private AcquisitionStates acquisitionState = AcquisitionStates.OFF;

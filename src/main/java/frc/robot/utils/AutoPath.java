@@ -5,6 +5,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.commands.notes.Acquire;
 import frc.robot.commands.notes.AcquireSmart;
 import frc.robot.commands.notes.PushAcquire;
@@ -13,7 +14,6 @@ import frc.robot.commands.subroutines.PushAmp;
 import frc.robot.commands.subroutines.PushSpeaker;
 import frc.robot.commands.subroutines.SetupAmp;
 import frc.robot.commands.subroutines.SetupSpeaker;
-import frc.robot.subsystems.*;
 
 public class AutoPath {
 
@@ -22,49 +22,54 @@ public class AutoPath {
     // Registering named commands (so that the pathplanner can call them by name)
 
     // Stop the robot's movement
-    NamedCommands.registerCommand("Stop", new InstantCommand(() -> Drivetrain.instance.kill()));
+    NamedCommands.registerCommand(
+        "Stop", new InstantCommand(() -> RobotContainer.drivetrain.kill()));
 
     // Acqire a note
     NamedCommands.registerCommand("Acquire", new AcquireSmart());
 
     // Acqire a note stupidly (depreciated) (legacy)
     NamedCommands.registerCommand(
-        "AcquireStupid", new Acquire(Acquisition.instance, Channel.instance, Photosensor.instance));
+        "AcquireStupid",
+        new Acquire(
+            RobotContainer.acquisition, RobotContainer.channel, RobotContainer.photosensor));
 
     // Turn acquisition and channel on
     NamedCommands.registerCommand(
-        "AcquirePush", new PushAcquire(Acquisition.instance, Channel.instance));
+        "AcquirePush", new PushAcquire(RobotContainer.acquisition, RobotContainer.channel));
 
     // Turn acquisition off and channel reverse for 0.3 seconds
     NamedCommands.registerCommand(
-        "Retract", new RetractAcquire(Acquisition.instance, Channel.instance));
+        "Retract", new RetractAcquire(RobotContainer.acquisition, RobotContainer.channel));
 
     // Assumes flywheel is already on and shoots
     NamedCommands.registerCommand(
-        "PushSpeaker", new PushSpeaker(Channel.instance, Shooter.instance));
+        "PushSpeaker", new PushSpeaker(RobotContainer.channel, RobotContainer.shooter));
 
     // Turns shooter on
-    NamedCommands.registerCommand("FlywheelSpeaker", new SetupSpeaker(Shooter.instance));
+    NamedCommands.registerCommand("FlywheelSpeaker", new SetupSpeaker(RobotContainer.shooter));
 
     // Assumes flywheel and crashbar are ready and shoots amp
     NamedCommands.registerCommand(
-        "PushAmp", new PushAmp(Channel.instance, Shooter.instance, Crashbar.instance));
+        "PushAmp",
+        new PushAmp(RobotContainer.channel, RobotContainer.shooter, RobotContainer.crashbar));
 
     // Prepare for PushAmp
     NamedCommands.registerCommand(
-        "FlywheelAmp", new SetupAmp(Shooter.instance, Crashbar.instance, true));
+        "FlywheelAmp", new SetupAmp(RobotContainer.shooter, RobotContainer.crashbar, true));
 
     // Configures auto builder
     AutoBuilder.configureHolonomic(
-        PoseTracker.instance::getEstimatedPosition, // Robot pose supplier
-        PoseTracker.instance
+        RobotContainer.poseTracker::getEstimatedPosition, // Robot pose supplier
+        RobotContainer.poseTracker
             ::setToPose, // Method to reset odometry (will be called if your auto has a starting
         // pose)
-        Drivetrain.instance::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        RobotContainer.drivetrain
+            ::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
 
         // Method that will drive the robot given ROBOT RELATIVE speeds
         (speeds) -> {
-          Drivetrain.instance.drive(
+          RobotContainer.drivetrain.drive(
               new DriveCommandData(
                   speeds.vxMetersPerSecond,
                   speeds.vyMetersPerSecond,
@@ -88,6 +93,6 @@ public class AutoPath {
         },
 
         // Reference to this subsystem to set requirements
-        Drivetrain.instance);
+        RobotContainer.drivetrain);
   }
 }

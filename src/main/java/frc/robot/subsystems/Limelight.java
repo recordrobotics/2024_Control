@@ -7,12 +7,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.PoseEstimate;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.SimpleMath;
 
 public class Limelight extends SubsystemBase implements ShuffleboardPublisher {
-  public static Limelight instance;
-
   private static final String name = "limelight";
   private int numTags = 0;
   private double confidence = 0;
@@ -34,7 +33,7 @@ public class Limelight extends SubsystemBase implements ShuffleboardPublisher {
     confidence = 0;
     LimelightHelpers.SetRobotOrientation(
         name,
-        PoseTracker.instance.getEstimatedPosition().getRotation().getDegrees(),
+        RobotContainer.poseTracker.getEstimatedPosition().getRotation().getDegrees(),
         0,
         0,
         0,
@@ -68,7 +67,7 @@ public class Limelight extends SubsystemBase implements ShuffleboardPublisher {
         && measurement
                 .pose
                 .getTranslation()
-                .getDistance(PoseTracker.instance.getEstimatedPosition().getTranslation())
+                .getDistance(RobotContainer.poseTracker.getEstimatedPosition().getTranslation())
             > 2) {
       confidence = 0;
     }

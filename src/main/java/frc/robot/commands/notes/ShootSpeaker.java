@@ -2,10 +2,9 @@ package frc.robot.commands.notes;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.RobotContainer;
 import frc.robot.commands.subroutines.PushSpeaker;
 import frc.robot.commands.subroutines.SetupSpeaker;
-import frc.robot.subsystems.Channel;
-import frc.robot.subsystems.Shooter;
 
 public class ShootSpeaker extends SequentialCommandGroup {
 
@@ -22,12 +21,12 @@ public class ShootSpeaker extends SequentialCommandGroup {
    * @param shooter
    */
   public ShootSpeaker() {
-    addRequirements(Channel.instance);
-    addRequirements(Shooter.instance);
+    addRequirements(RobotContainer.channel);
+    addRequirements(RobotContainer.shooter);
 
     addCommands(
-        new SetupSpeaker(Shooter.instance),
+        new SetupSpeaker(RobotContainer.shooter),
         new WaitCommand(flywheelSpinupTime),
-        new PushSpeaker(Channel.instance, Shooter.instance, shootTime));
+        new PushSpeaker(RobotContainer.channel, RobotContainer.shooter, shootTime));
   }
 }

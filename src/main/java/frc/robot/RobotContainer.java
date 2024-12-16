@@ -23,25 +23,24 @@ import frc.robot.utils.AutoPath;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  // Subsystems
+  public static final PoseTracker poseTracker = new PoseTracker();
+  public static final Drivetrain drivetrain = new Drivetrain();
+  public static final Channel channel = new Channel();
+  public static final Acquisition acquisition = new Acquisition();
+  public static final Shooter shooter = new Shooter();
+  public static final Climbers climbers = new Climbers();
+  public static final Crashbar crashbar = new Crashbar();
+  public static final Photosensor photosensor = new Photosensor();
+  public static final PCMCompressor pcmCompressor = new PCMCompressor();
+  public static final Limelight limelight = new Limelight();
+
   // Autonomous
   private final AutoPath autoPath;
   private Command autoCommand;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-
-    // Init subsystems
-    Drivetrain.instance = new Drivetrain();
-    Channel.instance = new Channel();
-    Acquisition.instance = new Acquisition();
-    Shooter.instance = new Shooter();
-    Crashbar.instance = new Crashbar();
-    Photosensor.instance = new Photosensor();
-    Climbers.instance = new Climbers();
-    PCMCompressor.instance = new PCMCompressor();
-    Limelight.instance = new Limelight();
-    PoseTracker.instance = new PoseTracker();
-
     // Sets up auto path
     autoPath = new AutoPath();
 
@@ -53,19 +52,19 @@ public class RobotContainer {
     configureButtonBindings();
 
     ShuffleboardPublisher.setup(
-        PoseTracker.instance.nav,
-        Drivetrain.instance,
-        Channel.instance,
-        Acquisition.instance,
-        Shooter.instance,
-        Photosensor.instance,
-        PCMCompressor.instance,
-        Limelight.instance);
+        poseTracker.nav,
+        drivetrain,
+        channel,
+        acquisition,
+        shooter,
+        photosensor,
+        pcmCompressor,
+        limelight);
   }
 
   public void teleopInit() {
     // Sets default command for manual swerve. It is the only one right now
-    Drivetrain.instance.setDefaultCommand(new ManualSwerve());
+    drivetrain.setDefaultCommand(new ManualSwerve());
   }
 
   /**
@@ -79,18 +78,12 @@ public class RobotContainer {
     // Command to kill robot
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getKillAuto())
         .whileTrue(
-            new KillSpecified(
-                Drivetrain.instance,
-                Acquisition.instance,
-                Channel.instance,
-                Shooter.instance,
-                Crashbar.instance,
-                Climbers.instance));
+            new KillSpecified(drivetrain, acquisition, channel, shooter, crashbar, climbers));
 
     // Command to kill compressor
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getKillCompressor())
-        .onTrue(new InstantCommand(PCMCompressor.instance::disable))
-        .onFalse(new InstantCommand(PCMCompressor.instance::enable))
+        .onTrue(new InstantCommand(pcmCompressor::disable))
+        .onFalse(new InstantCommand(pcmCompressor::enable))
         .onTrue(new InstantCommand(() -> ShuffleboardUI.Overview.getControl().vibrate(1)))
         .onFalse(new InstantCommand(() -> ShuffleboardUI.Overview.getControl().vibrate(0)));
 
@@ -118,7 +111,7 @@ public class RobotContainer {
 
     // Reset pose trigger
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getPoseReset())
-        .onTrue(new InstantCommand(PoseTracker.instance::resetDriverPose));
+        .onTrue(new InstantCommand(poseTracker::resetDriverPose));
   }
 
   /**
@@ -139,14 +132,14 @@ public class RobotContainer {
 
   /** frees up all hardware allocations */
   public void close() {
-    Drivetrain.instance.close();
-    Channel.instance.close();
-    Acquisition.instance.close();
-    Shooter.instance.close();
-    Crashbar.instance.close();
-    Photosensor.instance.close();
-    Climbers.instance.close();
-    PCMCompressor.instance.close();
-    Limelight.instance.close();
+    drivetrain.close();
+    channel.close();
+    acquisition.close();
+    shooter.close();
+    crashbar.close();
+    photosensor.close();
+    climbers.close();
+    pcmCompressor.close();
+    limelight.close();
   }
 }
