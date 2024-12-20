@@ -1,11 +1,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.KillableSubsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Killable;
 
 public class KillSpecified extends Command {
 
-  private KillableSubsystem[] _subsytems;
+  private Killable[] _subsytems;
   private Boolean _shouldContinuouslyExecute;
 
   /**
@@ -13,7 +14,7 @@ public class KillSpecified extends Command {
    *
    * @param subsystems
    */
-  public KillSpecified(KillableSubsystem... subsystems) {
+  public KillSpecified(Killable... subsystems) {
     this(false, subsystems);
   }
 
@@ -23,22 +24,29 @@ public class KillSpecified extends Command {
    * @param execute whether or not the command should run continuously
    * @param subsystems
    */
-  public KillSpecified(Boolean shouldContinuouslyExecute, KillableSubsystem... subsystems) {
-    addRequirements(subsystems);
+  public KillSpecified(Boolean shouldContinuouslyExecute, Killable... subsystems) {
+    
+    try {
+      addRequirements((SubsystemBase[]) subsystems);
+    } catch (ClassCastException e) {
+      // TODO: idk how logs
+      System.out.println("Only use this for subsystems");
+    }
+
     _subsytems = subsystems;
     _shouldContinuouslyExecute = shouldContinuouslyExecute;
   }
 
   @Override
   public void initialize() {
-    for (KillableSubsystem subsystem : _subsytems) {
+    for (Killable subsystem : _subsytems) {
       subsystem.kill();
     }
   }
 
   @Override
   public void execute() {
-    for (KillableSubsystem subsystem : _subsytems) {
+    for (Killable subsystem : _subsytems) {
       subsystem.kill();
     }
   }

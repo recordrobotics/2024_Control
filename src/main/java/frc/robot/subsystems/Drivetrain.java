@@ -4,13 +4,14 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.DriveCommandDataAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
 /** Represents a swerve drive style drivetrain. */
-public class Drivetrain extends KillableSubsystem implements ShuffleboardPublisher {
+public class Drivetrain extends SubsystemBase implements ShuffleboardPublisher, Killable, AutoCloseable {
   // Creates swerve module objects
   private final SwerveModule m_frontLeft = new SwerveModule(Constants.Swerve.frontLeftConstants);
   private final SwerveModule m_frontRight = new SwerveModule(Constants.Swerve.frontRightConstants);

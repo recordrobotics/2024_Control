@@ -1,11 +1,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
-public class Acquisition extends KillableSubsystem implements ShuffleboardPublisher {
+public class Acquisition extends SubsystemBase implements ShuffleboardPublisher, Killable, AutoCloseable {
   private Spark acquisitionMotor = new Spark(RobotMap.Acquisition.ACQUISITION_MOTOR_ID);
   private static final double acquisitionDefaultSpeed = Constants.Acquisition.ACQUISITION_SPEED;
   private AcquisitionStates acquisitionState = AcquisitionStates.OFF;
