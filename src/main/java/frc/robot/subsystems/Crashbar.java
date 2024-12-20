@@ -2,9 +2,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class Crashbar extends KillableSubsystem {
+public class Crashbar extends SubsystemBase implements Killable, AutoCloseable {
 
   // Creates solenoid
   private DoubleSolenoid solenoid =

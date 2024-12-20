@@ -33,8 +33,10 @@ public class RobotContainer {
   private final Acquisition acquisition;
   private final Channel channel;
   private final Photosensor photosensor;
+  private final PowerDistributionPanel pdp;
   private final PCMCompressor compressor;
   private final Limelight limelight;
+  private final PoseTracker poseTracker;
 
   // Autonomous
   private final AutoPath autoPath;
@@ -53,10 +55,11 @@ public class RobotContainer {
     photosensor = new Photosensor();
     climbers = new Climbers();
     compressor = new PCMCompressor();
+    pdp = new PowerDistributionPanel();
     limelight = new Limelight();
 
     // this is very cursed but it is less cursed than other ways to do it, so don't touch
-    PoseTracker.instance = new PoseTracker(drivetrain, limelight);
+    poseTracker = new PoseTracker(drivetrain, limelight);
 
     // Sets up auto path
     autoPath = new AutoPath(drivetrain, acquisition, photosensor, channel, shooter, crashbar);
@@ -150,6 +153,7 @@ public class RobotContainer {
     photosensor.close();
     climbers.close();
     compressor.close();
+    pdp.close();
     limelight.close();
   }
 }

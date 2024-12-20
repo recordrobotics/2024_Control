@@ -8,7 +8,8 @@ import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class NavSensor extends SubsystemBase implements ShuffleboardPublisher {
 
-  private static double period = 0.02;
+  private static double period =
+      0.02; // TODO: SIM and REPLAY mode run faster than 20ms - do something
 
   /**
    * The magnitude of a derivative of a vector is not equal to the derivative of a magnitude of a

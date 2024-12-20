@@ -190,7 +190,6 @@ public class SwerveModule implements ShuffleboardPublisher {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(SwerveModuleState desiredState) {
-
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState optimizedState =
         SwerveModuleState.optimize(desiredState, getTurnWheelRotation2d());

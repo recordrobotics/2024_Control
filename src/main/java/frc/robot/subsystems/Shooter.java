@@ -7,12 +7,13 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.simulation.CANSparkMaxWrapper;
 
-public class Shooter extends KillableSubsystem implements ShuffleboardPublisher {
+public class Shooter extends SubsystemBase implements ShuffleboardPublisher, Killable, AutoCloseable {
 
   private CANSparkMaxWrapper flywheelL;
   private CANSparkMaxWrapper flywheelR;

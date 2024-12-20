@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.shuffleboard.ShuffleboardUI;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 public class PoseTracker extends SubsystemBase {
   public static PoseTracker instance;
@@ -20,6 +21,7 @@ public class PoseTracker extends SubsystemBase {
   private final Limelight limelight;
 
   public PoseTracker(Drivetrain drivetrain, Limelight limelight) {
+    instance = this;
     this.drivetrain = drivetrain;
     this.limelight = limelight;
 
@@ -54,6 +56,7 @@ public class PoseTracker extends SubsystemBase {
     return drivetrain.getModulePositions();
   }
 
+  @AutoLogOutput(key = "Odometry/Robot")
   public Pose2d _getEstimatedPosition() {
     return poseFilter.getEstimatedPosition();
   }
@@ -78,7 +81,6 @@ public class PoseTracker extends SubsystemBase {
 
   // Singleton stuff
   // just static versions of the above methods to avoid .instance boilerplate
-
   public static Pose2d getEstimatedPosition() {
     return PoseTracker.instance._getEstimatedPosition();
   }

@@ -1,11 +1,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
-public class Channel extends KillableSubsystem implements ShuffleboardPublisher {
+public class Channel extends SubsystemBase implements ShuffleboardPublisher, Killable, AutoCloseable {
   private Spark channelMotor = new Spark(RobotMap.Channel.CHANNEL_MOTOR_ID);
 
   public Channel() {
